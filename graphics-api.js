@@ -48,8 +48,8 @@ class GraphicsAPI {
   }
 
   constructor(uuid) {
-    this.element = window['bezier-exmples'][uuid];
-    const canvas = (this.canvas = document.createElement("canvas"));
+    this.element = window[`bezier-exmples`][uuid];
+    const canvas = (this.canvas = document.createElement(`canvas`));
     canvas.style.border = `1px solid black`;
     this.setup();
     this.addListeners();
@@ -107,7 +107,7 @@ class GraphicsAPI {
   }
 
   setup() {
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext(`2d`);
   }
 
   draw() {
@@ -121,7 +121,7 @@ class GraphicsAPI {
   setSize(w, h) {
     this.canvas.width = w;
     this.canvas.height = h;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext(`2d`);
   }
 
   get POINTER() { return `default`; }

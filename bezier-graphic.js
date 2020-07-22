@@ -2,6 +2,20 @@ import { CustomElement } from "./custom-element.js";
 import { GraphicsAPI } from "./graphics-api.js";
 
 /**
+ * A simple "for programming code" element, for holding entire
+ * programs, rather than code snippets.
+ */
+class ProgramCode extends CustomElement {
+  constructor() {
+    super();
+    this.render();
+  }
+}
+
+CustomElement.register(ProgramCode);
+
+
+/**
  * Our custom element
  */
 class BezierGraphic extends CustomElement {
@@ -17,7 +31,7 @@ class BezierGraphic extends CustomElement {
   }
 
   setStyle() {
-    this._style = document.createElement("style");
+    this._style = document.createElement(`style`);
     this._style.textContent = `
       :host([hidden]) { display: none; }
       :host style { display: none; }
@@ -27,11 +41,11 @@ class BezierGraphic extends CustomElement {
   }
 
   parseSource() {
-    let codeElement = this.querySelector(`code`);
+    let codeElement = this.querySelector(`program-code`);
     let code = (codeElement ? codeElement : this).textContent;
 
     if (!codeElement) {
-      codeElement = document.createElement(`code`);
+      codeElement = document.createElement(`program-code`);
       codeElement.textContent = code;
       this.textContent = ``;
       this.append(codeElement);
@@ -87,8 +101,8 @@ class BezierGraphic extends CustomElement {
 
     // TODO: replace with proper UUID
     this.uuid = Date.now() + Math.random();
-    window["bezier-exmples"] = window["bezier-exmples"] || {};
-    window["bezier-exmples"][this.uuid] = this;
+    window[`bezier-exmples`] = window[`bezier-exmples`] || {};
+    window[`bezier-exmples`][this.uuid] = this;
 
     this.code = `
       (function() {
@@ -99,7 +113,7 @@ class BezierGraphic extends CustomElement {
       })();
     `;
 
-    this.script = document.createElement("script");
+    this.script = document.createElement(`script`);
     this.script.textContent = this.code;
 
     if (rerender) this.render();
@@ -124,7 +138,7 @@ class BezierGraphic extends CustomElement {
       this.code
         .split(`\n`)
         .map((l, pos) => `${pos + 1}: ${l}`)
-        .join("\n")
+        .join(`\n`)
     );
   }
 
@@ -138,7 +152,7 @@ class BezierGraphic extends CustomElement {
           1000
         );
         this.script.__inserted = true;
-        document.querySelector("head").appendChild(this.script);
+        document.querySelector(`head`).appendChild(this.script);
       }
     }
 

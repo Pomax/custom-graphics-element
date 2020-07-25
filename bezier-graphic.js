@@ -1,5 +1,6 @@
 import { CustomElement } from "./custom-element.js";
 import { GraphicsAPI } from "./graphics-api.js";
+import { INSTANCE_KEY } from "./keys.js";
 
 /**
  * A simple "for programming code" element, for holding entire
@@ -7,13 +8,12 @@ import { GraphicsAPI } from "./graphics-api.js";
  */
 class ProgramCode extends CustomElement {
   constructor() {
-    super();
+    super({ void: true });
     this.render();
   }
 }
 
 CustomElement.register(ProgramCode);
-
 
 /**
  * Our custom element
@@ -99,22 +99,24 @@ class BezierGraphic extends CustomElement {
       code = code.replace(re, `$1this.${name}$2`);
     });
 
-    // TODO: replace with proper UUID
-    this.uuid = Date.now() + Math.random();
-    window[`bezier-exmples`] = window[`bezier-exmples`] || {};
-    window[`bezier-exmples`][this.uuid] = this;
+    this.uid = `uid-${Date.now() + Math.random()}`.replace(`.`,``);
+    window[INSTANCE_KEY] = window[INSTANCE_KEY] || {};
+    window[INSTANCE_KEY][this.uid] = this;
 
     this.code = `
-      (function() {
-        class Example extends GraphicsAPI {
-          ${code}
-        }
-        new Example(${this.uuid});
-      })();
+      import { Point } from "./point.js";
+      import { Bezier } from "./bezier.js";
+
+      class Example extends GraphicsAPI {
+        ${code}
+      }
+
+      new Example('${this.uid}');
     `;
 
-    this.script = document.createElement(`script`);
-    this.script.textContent = this.code;
+    const script = this.script = document.createElement(`script`);
+    script.type = "module";
+    script.textContent = this.code;
 
     if (rerender) this.render();
   }
@@ -152,7 +154,8 @@ class BezierGraphic extends CustomElement {
           1000
         );
         this.script.__inserted = true;
-        document.querySelector(`head`).appendChild(this.script);
+        this.script.id = this.uid;
+        this._shadow.appendChild(this.script)
       }
     }
 

@@ -96,11 +96,13 @@ class CustomElement extends HTMLElement {
   }
 
   handleChildChanges(added, removed) {
-    NotImplemented(this, `handleChildChanges`);
+    if (!this._options.void)
+      NotImplemented(this, `handleChildChanges`);
   }
 
   handleAttributeChange(name, oldvalue) {
-    NotImplemented(this, `handleAttributeChange`);
+    if (!this._options.void)
+      NotImplemented(this, `handleAttributeChange`);
   }
 
   render() {

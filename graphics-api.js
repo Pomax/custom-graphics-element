@@ -1,4 +1,5 @@
 import { enrich } from "./enrich.js";
+import { INSTANCE_KEY } from "./keys.js";
 
 /**
  * Our Graphics API
@@ -47,8 +48,8 @@ class GraphicsAPI {
     return names.filter(v => priv.indexOf(v) < 0);
   }
 
-  constructor(uuid) {
-    this.element = window[`bezier-exmples`][uuid];
+  constructor(uid) {
+    this.element = window[INSTANCE_KEY][uid];
     const canvas = (this.canvas = document.createElement(`canvas`));
     canvas.style.border = `1px solid black`;
     this.setup();
@@ -158,6 +159,20 @@ class GraphicsAPI {
 
   drawPoint(x,y) {
     this.ctx.fillRect(x,y,2,2);
+  }
+
+  drawLine(x,y,v,w) {
+    this.ctx.beginPath();
+    this.ctx.moveTo(x,y);
+    this.ctx.lineTo(v,w);
+    this.ctx.stroke();
+  }
+
+  drawCircle(x,y,r) {
+    this.ctx.beginPath();
+    this.ctx.arc(x,y,r,0,this.TAU);
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 }
 

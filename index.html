@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Creating a &lt;bezier-graphic&gt; element.</title>
-    <script src="bezier.js" async defer></script>
     <script src="index.js" type="module" async defer></script>
     <link rel="shortcut icon" href="javascript:">
     <style>
@@ -108,6 +107,17 @@
             setFill(`grey`);
             this.points.forEach(p => drawPoint(p.x, p.y));
             drawCurve();
+            this.drawProjection();
+          }
+
+          drawProjection() {
+            if (this.projection && !this.nearPoint) {
+              setStroke(`#00000044`);
+              drawLine(mouseX, mouseY, this.projection.x, this.projection.y);
+              setStroke(`purple`);
+              drawCircle(mouseX, mouseY, 5);
+              drawCircle(this.projection.x, this.projection.y, 5);
+            }
           }
 
           onButtonEngaged() {
@@ -131,19 +141,20 @@
 
           onMouseMove() {
             if (mouseDown && this.currentPoint) {
-              this.points.push({
-                x: mouseX,
-                y: mouseY
-              });
-
-              if (this.currentPoint) {
-                this.currentPoint.x = mouseX;
-                this.currentPoint.y = mouseY;
-              }
-            } else {
-              const p = curve.getPointNear(mouseX, mouseY, 5);
-              setCursor(p ? HAND: POINTER);
+              this.currentPoint.x = mouseX;
+              this.currentPoint.y = mouseY;
+              curve.update();
             }
+
+            if (curve.getPointNear(mouseX, mouseY)) {
+              setCursor(HAND);
+              this.nearPoint = true;
+             } else {
+              setCursor(POINTER);
+              this.nearPoint = false;
+             }
+
+            this.projection = curve.getProjectionPoint(mouseX, mouseY);
             redraw();
           }
 

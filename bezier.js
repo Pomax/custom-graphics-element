@@ -9,6 +9,16 @@ function compute(t, a, b, c, d) {
   return a * mt3 + 3 * b * mt2 * t + 3 * c * mt * t2 + d * t3;
 }
 
+function computeDerivative(t, a, b, c, d) {
+  let mt = 1 - t,
+    t2 = t * t,
+    mt2 = mt * mt,
+    u = 3 * (a - b),
+    v = 3 * (b - c),
+    w = 3 * (c - d);
+  return u * mt2 + 2 * v * mt * t + w * t2;
+}
+
 /**
  * A canvas-aware Bezier curve class
  */
@@ -25,6 +35,10 @@ class Bezier {
     this.update();
   }
 
+  setContext(ctx) {
+    this.ctx = ctx;
+  }
+
   update() {
     this.buildLUT(25);
   }
@@ -38,13 +52,26 @@ class Bezier {
 
   get(t) {
     let p = this.points;
-    return new Point(
+    let ret = new Point(
       compute(t, p[0].x, p[1].x, p[2].x, p[3].x),
       compute(t, p[0].y, p[1].y, p[2].y, p[3].y)
     );
+    ret.t = t;
+    return ret;
   }
 
-  getPointNear(x, y, d = 5) {
+  getDerivative(t) {
+    let p = this.points;
+    let ret = new Point(
+      computeDerivative(t, p[0].x, p[1].x, p[2].x, p[3].x),
+      computeDerivative(t, p[0].y, p[1].y, p[2].y, p[3].y)
+    );
+    ret.t = t;
+    return ret;
+  }
+
+  getPointNear(point, d = 5) {
+    const { x, y } = point;
     const p = this.points;
     for (let i = 0, e = p.length; i < e; i++) {
       let dx = Math.abs(p[i].x - x);
@@ -55,7 +82,8 @@ class Bezier {
     }
   }
 
-  getProjectionPoint(x, y) {
+  getProjectionPoint(point) {
+    const { x, y } = point;
     // project this point onto the curve and return _that_ point
     const n = this.lut.length - 1,
       p = this.points;
@@ -69,60 +97,60 @@ class Bezier {
       d = p.dist(x, y);
       if (d < smallestDistance) {
         smallestDistance = d;
-        p.t = i/n;
+        p.t = i / n;
         closest = p;
       }
     });
 
     // fine check
-    for (let o = -0.1, t, np; o<=0.1; o+=0.01) {
-      t = closest.t + o;
-      if (t<0) continue;
-      if (t>1) continue;
+    for (let o = -0.1, t, np, st = closest.t; o <= 0.1; o += 0.005) {
+      t = st + o;
+      if (t < 0) continue;
+      if (t > 1) continue;
       np = new Point(
-        compute(closest.t + o, p[0].x, p[1].x, p[2].x, p[3].x),
-        compute(closest.t + o, p[0].y, p[1].y, p[2].y, p[3].y)
+        compute(t, p[0].x, p[1].x, p[2].x, p[3].x),
+        compute(t, p[0].y, p[1].y, p[2].y, p[3].y)
       );
       d = np.dist(x, y);
       if (d < smallestDistance) {
         smallestDistance = d;
         closest = np;
+        closest.t = t;
       }
     }
 
     return closest;
   }
 
-  draw(ctx) {
-    this.drawSkeleton(ctx);
+  drawCurve() {
+    const ctx = this.ctx;
     const p = this.points;
-    const w = ctx.lineWidth;
+    ctx.cacheStyle();
     ctx.lineWidth = 2;
     ctx.strokeStyle = `#333`;
     ctx.beginPath();
     ctx.moveTo(p[0].x, p[0].y);
     ctx.bezierCurveTo(p[1].x, p[1].y, p[2].x, p[2].y, p[3].x, p[3].y);
     ctx.stroke();
-    ctx.lineWidth = w;
-    this.drawPoints(ctx);
+    ctx.restoreStyle();
   }
 
-  drawPoints(ctx) {
-    const w = ctx.lineWidth;
+  drawPoints() {
+    const ctx = this.ctx;
+    ctx.cacheStyle();
     ctx.lineWidth = 2;
     ctx.strokeStyle = `#999`;
     const colors = [`red`, `green`, `blue`, `yellow`];
     this.points.forEach((p, i) => {
       ctx.fillStyle = colors[i];
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 5, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
+      p.draw(ctx);
     });
-    ctx.lineWidth = w;
+    ctx.restoreStyle();
   }
 
-  drawSkeleton(ctx) {
+  drawSkeleton() {
+    const ctx = this.ctx;
+    ctx.cacheStyle();
     const p = this.points;
     ctx.strokeStyle = `#555`;
     ctx.beginPath();
@@ -131,6 +159,21 @@ class Bezier {
     ctx.lineTo(p[2].x, p[2].y);
     ctx.lineTo(p[3].x, p[3].y);
     ctx.stroke();
+    ctx.restoreStyle();
+  }
+
+  drawNormals() {
+    const ctx = this.ctx;
+    ctx.cacheStyle();
+    this.lut.forEach((p) => {
+      let tp = this.getDerivative(p.t).normalize(20);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x - tp.y, p.y + tp.x);
+      ctx.strokeStyle = `#CC00FFCC`;
+      ctx.stroke();
+    });
+    ctx.restoreStyle();
   }
 }
 

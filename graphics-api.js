@@ -1,5 +1,22 @@
 import { enrich } from "./enrich.js";
-import { INSTANCE_KEY } from "./keys.js";
+import { Point } from "./point.js";
+import { Bezier } from "./bezier.js";
+
+function enhanceCtx(ctx) {
+  const styles = [];
+  ctx.cacheStyle = () => {
+    styles.push({
+      strokeStyle: ctx.strokeStyle,
+      fillStyle: ctx.fillStyle,
+      lineWidth: ctx.lineWidth
+    });
+  };
+  ctx.restoreStyle = () => {
+    const v = styles.pop();
+    Object.keys(v).forEach(k => ctx[k] = v[k]);
+  };
+  return ctx;
+}
 
 /**
  * Our Graphics API
@@ -30,13 +47,9 @@ class GraphicsAPI {
     ];
   }
 
-  static get publicProperties() {
+  static get constants() {
     return [
-      `mouseMove`,
-      `mouseDown`,
-      `mouseX`,
-      `mouseY`,
-      `curve`,
+      `mouse`,
       `POINTER`,
       `HAND`,
     ];
@@ -49,11 +62,12 @@ class GraphicsAPI {
   }
 
   constructor(uid) {
-    this.element = window[INSTANCE_KEY][uid];
+    this.element = window[uid];
+    delete window[uid];
     const canvas = (this.canvas = document.createElement(`canvas`));
     canvas.style.border = `1px solid black`;
-    this.setup();
     this.addListeners();
+    this.setup();
     this.draw();
   }
 
@@ -64,6 +78,7 @@ class GraphicsAPI {
   addListeners() {
     const canvas = this.canvas;
     this.element.setCanvas(this.canvas);
+    this.mouse = {};
 
     [`touchstart`, `mousedown`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => this.onMouseDown(evt))
@@ -87,32 +102,32 @@ class GraphicsAPI {
   }
 
   getMouseCoords(evt) {
-    this.mouseX = evt.offsetX;
-    this.mouseY = evt.offsetY;
+    this.mouse.x = evt.offsetX;
+    this.mouse.y = evt.offsetY;
   }
 
   onMouseDown(evt) {
-    this.mouseDown = true;
+    this.mouse.down = true;
     this.getMouseCoords(evt);
   }
 
   onMouseMove(evt) {
-    this.mouseMove = true;
+    this.mouse.move = true;
     this.getMouseCoords(evt);
   }
 
   onMouseUp(evt) {
-    this.mouseDown = false;
-    this.mouseMove = false;
+    this.mouse.down = false;
+    this.mouse.move = false;
     this.getMouseCoords(evt);
   }
 
   setup() {
-    this.ctx = this.canvas.getContext(`2d`);
+    this.ctx = enhanceCtx(this.canvas.getContext(`2d`));
   }
 
   draw() {
-    console.log(`draw`);
+    // console.log(`draw`);
   }
 
   redraw() {
@@ -121,8 +136,9 @@ class GraphicsAPI {
 
   setSize(w, h) {
     this.canvas.width = w;
+    this.canvas.style.width = `${w}px`;
     this.canvas.height = h;
-    this.ctx = this.canvas.getContext(`2d`);
+    this.ctx = enhanceCtx(this.canvas.getContext(`2d`));
   }
 
   get POINTER() { return `default`; }
@@ -142,6 +158,7 @@ class GraphicsAPI {
 
   setCurve(c) {
     this.curve = c;
+    this.curve.setContext(this.ctx);
   }
 
   clear(color = `transparent`) {
@@ -149,38 +166,27 @@ class GraphicsAPI {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawSkeleton() {
-    this.curve.drawSkeleton(this.ctx);
+  point(point) {
+    point.draw(this.ctx);
   }
 
-  drawCurve() {
-    this.curve.draw(this.ctx);
-  }
-
-  drawPoint(x,y) {
-    this.ctx.fillRect(x,y,2,2);
-  }
-
-  drawLine(x,y,v,w) {
+  line(p1, p2) {
     this.ctx.beginPath();
-    this.ctx.moveTo(x,y);
-    this.ctx.lineTo(v,w);
+    this.ctx.moveTo(p1.x, p1.y);
+    this.ctx.lineTo(p2.x, p2.y);
     this.ctx.stroke();
   }
 
-  drawCircle(x,y,r) {
+  circle(p,r) {
     this.ctx.beginPath();
-    this.ctx.arc(x,y,r,0,this.TAU);
+    this.ctx.arc(p.x,p.y,r,0,this.TAU);
     this.ctx.fill();
     this.ctx.stroke();
   }
+
+  text(str,x,y) {
+    this.ctx.fillText(str, x, y);
+  }
 }
 
-// TODO: I'm not a fan of this, but I don't know how to inject a script
-//       so that it'll run outside of "adding it to the <head>" which means
-//       the GraphicsAPI object needs to be accessible in global scope...
-if (!window.GraphicsAPI) {
-  window.GraphicsAPI = GraphicsAPI;
-}
-
-export { GraphicsAPI };
+export { GraphicsAPI, Bezier, Point };

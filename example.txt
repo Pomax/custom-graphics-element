@@ -1,0 +1,99 @@
+// ********************************************
+//   This example shows how to draw a simple
+//   Bezier curve, with interactive points.
+// ********************************************
+
+setup() {
+  setSize(400,200);
+  this.setupButton();
+  this.reset();
+}
+
+setupButton() {
+  let btn = find(`#reset`);
+  btn.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
+  btn.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
+
+  this.input = find(`input[type=text]`);
+}
+
+reset() {
+  setCurve(new Bezier(50,50, 150,150, 250,150, 350,50));
+  this.points = [];
+  this.currentPoint = this.projection = this.nearPoint = false;
+  this.currentColor = `#ccffc8`
+}
+
+draw() {
+  clear(this.currentColor);
+  setFill(`grey`);
+  this.points.forEach(p => p.draw());
+
+  this.curve.drawSkeleton();
+  this.curve.drawCurve();
+  this.curve.drawPoints();
+  this.curve.drawNormals();
+
+  this.drawProjection();
+  setFill(`grey`);
+  text('test', 10, 20);
+}
+
+drawProjection() {
+  if (this.projection && !this.nearPoint) {
+    setStroke(`#00000044`);
+    line(mouse, this.projection);
+    setStroke(`magenta`);
+    setFill(`cyan`);
+    circle(mouse, 5);
+    circle(this.projection, 5);
+
+    if (this.projection.t !== undefined) {
+      this.input.value = (this.projection.t).toFixed(3);
+    }
+  }
+}
+
+onButtonEngaged() {
+  this.reset();
+  this.currentColor = `#afe`;
+  redraw();
+}
+
+onButtonDisengaged() {
+  this.currentColor = `#efa`;
+  redraw();
+}
+
+onMouseDown() {
+  this.currentColor = `aquamarine`;
+  // Are we over a curve point?
+  const p = this.curve.getPointNear(mouse, 5);
+  if (p) this.currentPoint = p;
+  redraw();
+}
+
+onMouseMove() {
+  if (mouse.down && this.currentPoint) {
+    this.currentPoint.x = mouse.x;
+    this.currentPoint.y = mouse.y;
+    this.curve.update();
+  }
+
+  if (this.curve.getPointNear(mouse)) {
+    setCursor(HAND);
+    this.nearPoint = true;
+    } else {
+    setCursor(POINTER);
+    this.nearPoint = false;
+    }
+
+  this.projection = this.curve.getProjectionPoint(mouse);
+  redraw();
+}
+
+onMouseUp() {
+  this.currentColor = `peachpuff`;
+  this.currentPoint = undefined;
+  redraw();
+}

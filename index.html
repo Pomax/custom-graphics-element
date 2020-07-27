@@ -28,6 +28,7 @@
 
       h1 {
         font-variant: small-caps;
+        text-align: center;
       }
 
       h1 span {
@@ -58,17 +59,35 @@
         margin: 1em auto;
         justify-self: center;
       }
+      p {
+        text-align: justify;
+      }
     </style>
   </head>
 
   <body>
     <header>
-      <h1>Creating a <span>&lt;</span>bezier-graphic<span>&gt;</span> element.</h1>
+      <h1>Creating a <span>&lt;</span>bezier-graphic<span>&gt;</span> element</h1>
     </header>
 
     <main>
       <p>
-        The following interactive graphic is a single <code>&lt;bezier-graphic&gt;</code> element,
+        <bezier-graphic style="float:left; margin: 0; margin-right: 1em;" title="A non-interactive graphic element">
+          setup() {
+            setSize(200,200);
+            setCurve(new Bezier(70,140, 10,50, 190,50, 130,140));
+            this.currentColor = `#ccffc8`;
+          }
+
+          draw() {
+            clear(this.currentColor);
+            this.curve.drawSkeleton();
+            this.curve.drawCurve();
+            this.curve.drawPoints();
+          }
+        </bezier-graphic>
+        
+        The graphic on the left is a single <code>&lt;bezier-graphic&gt;</code> element,
         with code that you can view either by inspecting the DOM, or by viewing the page source (using
         cmd-U on Mac, and ctrl+U on everything else)). This means anyone can see what it does, and how
         it does that, which means anyone can learn by example. Granted, the code uses a
@@ -76,99 +95,16 @@
         JavaScript, but more general programming.
       </p>
 
-      <bezier-graphic title="An interactive graphic element">
-        <program-code>
-          // ********************************************
-          //   This example shows how to draw a simple
-          //   Bezier curve, with interactive points.
-          // ********************************************
-
-          setup() {
-            setSize(400,200);
-            this.setupButton();
-            this.reset();
-          }
-
-          setupButton() {
-            let btn = find(`#reset`);
-            btn.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
-            btn.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
-          }
-
-          reset() {
-            setCurve(new Bezier(50,50, 150,150, 250,150, 350,50));
-            setCurve(new Bezier(50,50, 150,150, 250,150, 350,50));
-            this.points = [];
-            this.currentColor = `#ccffc8`
-          }
-
-          draw() {
-            clear(this.currentColor);
-            setFill(`grey`);
-            this.points.forEach(p => drawPoint(p.x, p.y));
-            drawCurve();
-            this.drawProjection();
-          }
-
-          drawProjection() {
-            if (this.projection && !this.nearPoint) {
-              setStroke(`#00000044`);
-              drawLine(mouseX, mouseY, this.projection.x, this.projection.y);
-              setStroke(`purple`);
-              drawCircle(mouseX, mouseY, 5);
-              drawCircle(this.projection.x, this.projection.y, 5);
-            }
-          }
-
-          onButtonEngaged() {
-            this.reset();
-            this.currentColor = `#afe`;
-            redraw();
-          }
-
-          onButtonDisengaged() {
-            this.currentColor = `#efa`;
-            redraw();
-          }
-
-          onMouseDown() {
-            this.currentColor = `aquamarine`;
-            // Are we over a curve point?
-            const p = curve.getPointNear(mouseX, mouseY, 5);
-            if (p) this.currentPoint = p;
-            redraw();
-          }
-
-          onMouseMove() {
-            if (mouseDown && this.currentPoint) {
-              this.currentPoint.x = mouseX;
-              this.currentPoint.y = mouseY;
-              curve.update();
-            }
-
-            if (curve.getPointNear(mouseX, mouseY)) {
-              setCursor(HAND);
-              this.nearPoint = true;
-             } else {
-              setCursor(POINTER);
-              this.nearPoint = false;
-             }
-
-            this.projection = curve.getProjectionPoint(mouseX, mouseY);
-            redraw();
-          }
-
-          onMouseUp() {
-            this.currentColor = `peachpuff`;
-            this.currentPoint = undefined;
-            redraw();
-          }
-        </program-code>
-        <button id="reset">reset</button>
-      </bezier-graphic>
-
       <p>
-        And of course, to make things even more ridiculous, this is an educational element in the
+        <bezier-graphic style="float:right; margin: 0; margin-left: 1em;" title="An interactive graphic element">
+          <program-code src="example.txt"></program-code>
+          <label>t value: </label><input type="text" value="">
+          <button id="reset">reset</button>
+        </bezier-graphic>
+
+        And of course, interactivity is trivially added, as well as loading from a source file. Thankfully, 
+        the dev tools let you example source as well, so right click the image, pick "inspect element" and
+        then open the <code>src</code> link for the </code>to make things even more ridiculous, this is an educational element in the
         sense that if you open your dev tools, and you navigate to the <code>&lt;bezier-graphic&gt;</code> element,
         and you find its <code>&lt;program-code&gt;</code> element, you can change the program text. After while
         <em>your</em> code will be running. Want to mess around with the colors? Edit the source and

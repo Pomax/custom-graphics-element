@@ -26,7 +26,7 @@ function getElementTagName(cls) {
 class CustomElement extends HTMLElement {
   static register(cls) {
     if (!cls[REG_KEY]) {
-      const tagName = cls.tagName;
+      const tagName = cls.tagName || getElementTagName(cls);
       customElements.define(tagName, cls);
       cls[REG_KEY] = true;
       return customElements.whenDefined(tagName);
@@ -45,7 +45,10 @@ class CustomElement extends HTMLElement {
 
     const route = {
       childList: (record) => {
-        this.handleChildChanges(Array.from(record.addedNodes), Array.from(record.removedNodes));
+        this.handleChildChanges(
+          Array.from(record.addedNodes),
+          Array.from(record.removedNodes)
+        );
         this.render();
       },
       attributes: (record) => {
@@ -54,8 +57,10 @@ class CustomElement extends HTMLElement {
       },
     };
 
-    // Set up a mutation observer because the normal lifecycle
-    // functions are basically useless for DOM operations.
+    // Set up a mutation observer because there are no custom
+    // element lifecycle functions for changes to the childNodes
+    // nodelist.
+
     this._observer = new MutationObserver((records) => {
       if (this.isConnected) {
         records.forEach((record) => {
@@ -70,46 +75,45 @@ class CustomElement extends HTMLElement {
       attributes: true,
     });
 
-    // Set up a shadow DOM. Note that we're going to be using this
-    // *very little* because DOM manipulation should stay possible.
-    // Custom Elements should not be siloed magic black boxes.
+    // Set up an open shadow DOM, because the web is open,
+    // and hiding your internals is ridiculous.
 
     const shadowProps = {
       mode: `open`,
       delegatesFocus: !!this._options.focus,
     };
 
-    // Oh, and: don't you dare ever setting mode:closed, ever.
-    // Why are you even on the web, go write standalone software
-    // and get the hell off our global shared open platform
-    // if you want prevent folks from learning how your code works
-    // so they can control how much you get to do on their computer.
-
     this._shadow = this.attachShadow(shadowProps);
-    this._header = document.createElement(`header`);
-    this._main = document.createElement(`main`);
-    this._slot = document.createElement(`slot`);
-    this._main.append(this._slot);
-    this._footer = document.createElement(`footer`);
+    this._style = document.createElement(`style`);
+    this._style.textContent = this.getStyle();
+
+    if (this._options.header !== false)
+      this._header = document.createElement(`header`);
+    if (this._options.slot !== false && this._options.void !== true)
+      this._slot = document.createElement(`slot`);
+    if (this._options.footer !== false)
+      this._footer = document.createElement(`footer`);
 
     this.render();
   }
 
   handleChildChanges(added, removed) {
-    if (!this._options.void)
-      NotImplemented(this, `handleChildChanges`);
+    if (!this._options.void) NotImplemented(this, `handleChildChanges`);
   }
 
   handleAttributeChange(name, oldvalue) {
-    if (!this._options.void)
-      NotImplemented(this, `handleAttributeChange`);
+    NotImplemented(this, `handleAttributeChange`);
+  }
+
+  getStyle() {
+    return ``;
   }
 
   render() {
     this._shadow.innerHTML = ``;
-    if (this._style) this._shadow.append(this._style);
+    this._shadow.append(this._style);
     if (this._options.header !== false) this._shadow.append(this._header);
-    if (this._options.slot !== false) this._shadow.append(this._main);
+    if (this._options.slot !== false) this._shadow.append(this._slot);
     if (this._options.footer !== false) this._shadow.append(this._footer);
   }
 }

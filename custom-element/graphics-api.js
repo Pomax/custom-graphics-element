@@ -1,6 +1,6 @@
-import { enrich } from "./enrich.js";
-import { Point } from "./point.js";
-import { Bezier } from "./bezier.js";
+import { enrich } from "./lib/enrich.js";
+import { Point } from "./lib/point.js";
+import { Bezier } from "./lib/bezier.js";
 
 function enhanceCtx(ctx) {
   const styles = [];

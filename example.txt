@@ -3,6 +3,8 @@
 //   Bezier curve, with interactive points.
 // ********************************************
 
+let curve, btn, input;
+
 setup() {
   setSize(400,200);
   this.setupButton();
@@ -10,16 +12,15 @@ setup() {
 }
 
 setupButton() {
-  let btn = find(`#reset`);
+  input = find(`input[type=text]`);
+  btn = find(`#reset`);
   btn.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
   btn.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
-
-  this.input = find(`input[type=text]`);
 }
 
 reset() {
-  setCurve(new Bezier(50,50, 150,150, 250,150, 350,50));
-  this.points = [];
+  curve = this.curve = new Bezier(50,50, 150,150, 250,150, 350,50);
+  curve.setContext(this.ctx);
   this.currentPoint = this.projection = this.nearPoint = false;
   this.currentColor = `#ccffc8`
 }
@@ -27,7 +28,6 @@ reset() {
 draw() {
   clear(this.currentColor);
   setFill(`grey`);
-  this.points.forEach(p => p.draw());
 
   this.curve.drawSkeleton();
   this.curve.drawCurve();
@@ -49,7 +49,7 @@ drawProjection() {
     circle(this.projection, 5);
 
     if (this.projection.t !== undefined) {
-      this.input.value = (this.projection.t).toFixed(3);
+      input.value = (this.projection.t).toFixed(3);
     }
   }
 }

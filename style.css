@@ -1,0 +1,60 @@
+/* inlined because this is a trivial amount of data */
+html {
+  width: 100%;
+  height: 100%;
+  background: rgb(218, 228, 236);
+}
+
+body {
+  width: 800px;
+  margin: auto;
+  padding: 1em;
+  min-height: calc(100% - 2em);
+  background: white;
+  border: 10px solid #899fd5;
+  border-width: 0px 2px;
+  box-shadow: 0 0 14px #5b7ba6;
+  font-family: Arial;
+  font-size: 18px;
+}
+
+footer {
+  font-size: 0.8em;
+}
+
+h1 {
+  font-variant: small-caps;
+  text-align: center;
+}
+
+h1 span {
+  font-size: 0.6em;
+  vertical-align: 0.15em;
+  font-family: courier;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  color: red;
+}
+
+bezier-graphic {
+  display: none;
+}
+
+bezier-graphic:defined {
+  display: inline-block;
+  border: 1px solid grey;
+  padding: 0.5em;
+  margin: 1em auto;
+  justify-self: center;
+}
+p {
+  text-align: justify;
+}

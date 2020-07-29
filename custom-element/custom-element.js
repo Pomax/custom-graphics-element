@@ -41,6 +41,17 @@ class CustomElement extends HTMLElement {
   constructor(options = {}) {
     super();
 
+    if (!customElements.resolveScope) {
+      customElements.resolveScope = function(scope) {
+        try {
+          return scope.getRootNode().host;
+        } catch (e) {
+          console.warn(e);
+        }
+        return window;
+      }
+    }
+
     this._options = options;
 
     const route = {
@@ -93,7 +104,9 @@ class CustomElement extends HTMLElement {
       this._slot = document.createElement(`slot`);
     if (this._options.footer !== false)
       this._footer = document.createElement(`footer`);
+  }
 
+  connectedCallback() {
     this.render();
   }
 

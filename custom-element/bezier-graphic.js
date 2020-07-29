@@ -1,12 +1,55 @@
 import { CustomElement } from "./custom-element.js";
 import { GraphicsAPI } from "./graphics-api.js";
-import { INSTANCE_KEY } from "./keys.js";
+
+const MODULE_URL = import.meta.url;
+const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
 
 /**
  * A simple "for programming code" element, for holding entire
  * programs, rather than code snippets.
  */
 CustomElement.register(class ProgramCode extends HTMLElement {});
+
+
+/**
+ * Get all code that isn't contained in functions.
+ * We're going to regexp our way to flawed victory here.
+ */
+function getQuasiGlobalCode(code) {
+  const re = /\b[\w\W][^\s]*?\([^)]*\)[\r\n\s]*{/;
+  const cuts = [];
+  for(let result = code.match(re); result; result=code.match(re)) {
+    result = result[0];
+
+    let start = code.indexOf(result);
+    let end = start + result.length;
+    let depth = 0;
+    let slice = Array.from(code).slice(start + result.length);
+
+    slice.some((c,pos) => {
+      if (c === `{`) {
+        depth++;
+        return false;
+      }
+      if (c === `}`) {
+        if (depth > 0) {
+          depth--;
+          return false;
+        }
+        end += pos + 1;
+        return true;
+      }
+    });
+
+    let cut = code.slice(start, end);
+    cuts.push(cut);
+    code = code.replace(cut, ``);
+  }
+  return {
+    quasiGlobal: code,
+    classCode: cuts.join(`\n`)
+  };
+}
 
 /**
  * Our custom element
@@ -19,7 +62,6 @@ class BezierGraphic extends CustomElement {
       this.label = document.createElement(`label`);
       this.label.textContent = this.title;
     }
-    this.render();
   }
 
   getStyle() {
@@ -72,6 +114,10 @@ class BezierGraphic extends CustomElement {
       rerender = true;
     }
 
+    let split = getQuasiGlobalCode(code);
+    let quasiGlobal = split.quasiGlobal;
+    code = split.classCode;
+
     GraphicsAPI.superCallers.forEach((name) => {
       const re = new RegExp(
         `${name}\\(([^)]*)\\)[\\s\\r\\n]*{[\\s\\r\\n]*`,
@@ -86,8 +132,8 @@ class BezierGraphic extends CustomElement {
     });
 
     GraphicsAPI.methods.forEach((fn) => {
-      const re = new RegExp(`[^.]${fn}\\(`, `g`);
-      code = code.replace(re, `this.${fn}(`);
+      const re = new RegExp(`([\\s\\r\\n])${fn}\\(`, `g`);
+      code = code.replace(re, `$1this.${fn}(`);
     });
 
     GraphicsAPI.constants.forEach((name) => {
@@ -97,11 +143,13 @@ class BezierGraphic extends CustomElement {
 
     const mid = `${Math.random()}`.replace(`0.`,``),
         uid = `bg-uid-${Date.now()}-${mid}`;
-        
+
     window[uid] = this;
 
     this.code = `
-      import { GraphicsAPI, Bezier, Point } from "./graphics-api.js";
+      import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/graphics-api.js";
+
+      ${quasiGlobal}
 
       class Example extends GraphicsAPI {
         ${code}

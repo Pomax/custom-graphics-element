@@ -32,6 +32,7 @@ class Bezier {
         new Point(coords[6], coords[7]),
       ];
     }
+    this.ctx = false;
     this.update();
   }
 

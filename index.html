@@ -3,66 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>Creating a &lt;bezier-graphic&gt; element.</title>
-    <script src="index.js" type="module" async defer></script>
     <link rel="shortcut icon" href="javascript:">
-    <style>
-      /* inlined because this is a trivial amount of data */
-      html {
-        width: 100%;
-        height: 100%;
-        background: rgb(218, 228, 236);
-      }
-
-      body {
-        width: 800px;
-        margin: auto;
-        padding: 1em;
-        min-height: calc(100% - 2em);
-        background:white;
-        border: 10px solid #899fd5;
-        border-width: 0px 2px;
-        box-shadow: 0 0 14px #5b7ba6;
-        font-family: Arial;
-        font-size: 18px;
-      }
-
-      h1 {
-        font-variant: small-caps;
-        text-align: center;
-      }
-
-      h1 span {
-        font-size: 0.6em;
-        vertical-align: 0.15em;
-        font-family: courier;
-      }
-
-      main {
-        display: flex;
-        flex-direction: column;
-      }
-
-      code {
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-        color: red;
-      }
-
-      bezier-graphic {
-        display: none;
-      }
-
-      bezier-graphic:defined {
-        display: inline-block;
-        border: 1px solid grey;
-        padding: 0.5em;
-        margin: 1em auto;
-        justify-self: center;
-      }
-      p {
-        text-align: justify;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="custom-element/bezier-graphic.js" type="module" async defer></script>
+    <script src="index.js" type="module" async defer></script>
   </head>
 
   <body>
@@ -86,7 +30,7 @@
             this.curve.drawPoints();
           }
         </bezier-graphic>
-        
+
         The graphic on the left is a single <code>&lt;bezier-graphic&gt;</code> element,
         with code that you can view either by inspecting the DOM, or by viewing the page source (using
         cmd-U on Mac, and ctrl+U on everything else)). This means anyone can see what it does, and how
@@ -102,7 +46,7 @@
           <button id="reset">reset</button>
         </bezier-graphic>
 
-        And of course, interactivity is trivially added, as well as loading from a source file. Thankfully, 
+        And of course, interactivity is trivially added, as well as loading from a source file. Thankfully,
         the dev tools let you example source as well, so right click the image, pick "inspect element" and
         then open the <code>src</code> link for the </code>to make things even more ridiculous, this is an educational element in the
         sense that if you open your dev tools, and you navigate to the <code>&lt;bezier-graphic&gt;</code> element,
@@ -113,10 +57,18 @@
         things, too, but at least you'll get some error output that'll tell you where things are now
         going wrong. And hey, if things have gone <strong>completely</strong> wrong... just reload the page.
       </p>
+
+      <p>
+        -- Pomax
+      </p>
     </main>
 
     <footer>
-      <!-- no footer text -->
+      <p>
+        Find the code <a href="https://github.com/Pomax/custom-graphics-element">on Github</a>,
+        and find me on <a href="https://twitter.com/TheRealPomax">twitter</a> or
+        <a href="https://mastodon.social/users/TheRealPomax">Mastodon.social</a>
+      </p>
     </footer>
   </body>
 </html>

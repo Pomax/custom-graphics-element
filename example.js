@@ -12,37 +12,47 @@
 //
 // ***********************************************************************************
 
-// First, we declare a few "global" variables so that we don't need to use
-// code that has "this...." everywhere. There's nothing wrong with using
-// the "this." namespace, of course, but code sure is easier to read if not
-// every line starts with it!
 
-let curve, btn, input, mouse, currentPoint, projection, nearPoint, currentColor;
+/*
+  First, we declare a few "global" variables so that we don't need to use
+  code that has "this...." everywhere. There's nothing wrong with using
+  the "this." namespace, of course, but code sure is easier to read if not
+  every line starts with it!
+*/
+
+let bezierCurve,
+    resetButton,
+    currentTValue,
+    cursor,
+    currentPoint,
+    cursorProjection,
+    cursorNearPoint,
+    backgroundColor;
 
 /**
  * Then, the main entry point for our graphics: this function gets run automatically
  */
 setup() {
-  this.setupHTMLinteraction();
+  this.setupPageInteraction();
   this.reset();
-  mouse = this.mouse;
+  cursor = this.cursor;
 }
 
 /**
  * This function hooks into the additional HTML elements we added.
  */
-setupHTMLinteraction() {
+setupPageInteraction() {
   // this is the text field
-  input = find(`input[type=text]`);
+  currentTValue = find(`input[type=text]`);
 
   // and this is the reset button.
-  btn = find(`#reset`);
+  resetButton = find(`#reset`);
 
   // Note that anything that we get using find() and findAll() will have some
   // functions that you won't find on "normal" HTML elements, such as this
   // listen() function, which makes event binding a lot less code to write:
-  btn.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
-  btn.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
+  resetButton.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
+  resetButton.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
 }
 
 /**
@@ -52,13 +62,13 @@ setupHTMLinteraction() {
  */
 reset() {
   // Just like in the first example, we define a curve
-  curve = new Bezier(
+  bezierCurve = new Bezier(
     this,
     50,50, 150,150, 250,150, 350,50
   );
   // But we also make sure that some of the global variables has "safe" values.
-  currentPoint = projection = nearPoint = false;
-  currentColor = `#ccffc8`;
+  currentPoint = cursorProjection = cursorNearPoint = false;
+  backgroundColor = `#ccffc8`;
 }
 
 /**
@@ -67,14 +77,11 @@ reset() {
  */
 draw() {
   // First, we clear the canvas and set a background color.
-  clear(currentColor);
+  clear(backgroundColor);
 
   // Then, we draw the Bezier curve.
   setFill(`grey`);
-  curve.drawSkeleton();
-  curve.drawCurve();
-  curve.drawPoints();
-  curve.drawNormals();
+  this.drawCurve();
 
   // And then we draw a projection of the cursor's position
   // on the canvas, onto the Bezier curve.
@@ -87,37 +94,49 @@ draw() {
 
 /**
  * In order not to make draw() one giant function, we've put
+ * all the code for drawing a Bezier curve in a separate function.
+ */
+drawCurve() {
+  bezierCurve.drawSkeleton();
+  bezierCurve.drawCurve();
+  bezierCurve.drawPoints();
+  bezierCurve.drawNormals();
+}
+
+/**
+ * In order not to make draw() one giant function, we've put
  * all the code for projecting the cursor onto the Bezier curve
- * in this separate function.
+ * in a separate function.
  */
 drawProjection() {
   // Firstly, we only want to project the cursor if it's not
   // actually "over" (but really, near to) one of the Bezier
   // control points.
-  if (projection && !nearPoint) {
+  if (cursorProjection && !cursorNearPoint) {
     // We'll draw both the cursor and its project as circles,
     // connected by a straight line:
     setStroke(`#00000044`);
-    line(mouse, projection);
+    line(cursor, cursorProjection);
     setStroke(`magenta`);
     setFill(`cyan`);
-    circle(mouse, 5);
-    circle(projection, 5);
+    circle(cursor, 5);
+    circle(cursorProjection, 5);
 
     // And then we update the text field on the page with the
     // "t" value that is associated with our projection.
-    if (projection.t !== undefined) {
-      input.value = (projection.t).toFixed(3);
+    if (cursorProjection.t !== undefined) {
+      currentTValue.value = (cursorProjection.t).toFixed(3);
     }
   }
 }
 
 /**
- * This is an event handler for when someone pressed the "reset" button.
+ * This is an event handler for when someone pressed the "reset" button,
+ * which we've set to trigger up in setupHTMLinteraction(), above.
  */
 onButtonEngaged() {
   this.reset();
-  currentColor = `#afe`;
+  backgroundColor = `#afe`;
 
   // Note this "redraw()" call: the graphics API has no idea when things
   // have changed in a way that requires redrawing everything, so whenever
@@ -126,10 +145,11 @@ onButtonEngaged() {
 }
 
 /**
- * And this is the event handler for when they release the "reset" button.
+ * And this is the event handler for when they release the "reset" button,
+ * which we've set to trigger up in setupHTMLinteraction(), above.
  */
 onButtonDisengaged() {
-  currentColor = `#efa`;
+  backgroundColor = `#efa`;
   redraw();
 }
 
@@ -139,10 +159,10 @@ onButtonDisengaged() {
 onMouseDown() {
   // First, we set the color we want for the background to something that
   // lets us know it's the one for "mouse down".
-  currentColor = `aquamarine`;
+  backgroundColor = `aquamarine`;
 
   // Then, we check to see whether our cursor is over (or, near) a curve point.
-  const p = curve.getPointNear(mouse, 5);
+  const p = bezierCurve.getPointNear(cursor, 5);
   if (p) currentPoint = p;
 
   // And because we changed our color, we need to make sure to redraw.
@@ -156,32 +176,32 @@ onMouseMove() {
   // First, we check if they're actually click-dragging: we checked for the
   // mouse down even above, so if that's true *and* the mouse is moving, they
   // must be click-dragging.
-  //
-  // Then, if the are, *and* they were on (or near) a curve point before, then
-  // they should drag that point along with the cursor!
-  if (mouse.down && currentPoint) {
-    currentPoint.x = mouse.x;
-    currentPoint.y = mouse.y;
+  if (cursor.down && currentPoint) {
+    // If the are, *and* they were on (or near) a curve point before, then
+    // they're dragging that point along with the cursor!
+    currentPoint.x = cursor.x;
+    currentPoint.y = cursor.y;
+
     // Because Bezier curves are defined by their points, we need to make sure
     // to have the curve update itself after we change one of its points.
-    curve.update();
+    bezierCurve.update();
   }
 
   // Then, if the mouse if moving, we also want to make sure that people are
   // seeing a sensible cursor: a normal pointer most of the time, but a little
   // dragging hand if the cursor is close enough to a curve point that someone
   // would reasonably expect to be able to click-drag it around.
-  if (curve.getPointNear(mouse)) {
+  if (bezierCurve.getPointNear(cursor)) {
     setCursor(HAND);
-    nearPoint = true;
+    cursorNearPoint = true;
   } else {
     setCursor(POINTER);
-    nearPoint = false;
+    cursorNearPoint = false;
   }
 
   // And finally, get the curve to calculate the project of the mouse cursor
   // onto the curve, so we can draw that as part of our draw() code.
-  projection = curve.getProjectionPoint(mouse);
+  cursorProjection = bezierCurve.getProjectionPoint(cursor);
   redraw();
 }
 
@@ -190,7 +210,7 @@ onMouseMove() {
  */
 onMouseUp() {
   // For one, we set a super nice new background color!
-  currentColor = `peachpuff`;
+  backgroundColor = `peachpuff`;
 
   // But also, we make sure to tell our code that there is no longer
   // anything that someone might be trying to click-drag around.

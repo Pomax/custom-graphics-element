@@ -82,7 +82,7 @@ class GraphicsAPI {
     const element = this.element;
     element.setGraphic(this);
 
-    this.mouse = {};
+    this.cursor = {};
 
     [`touchstart`, `mousedown`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => this.onMouseDown(evt))
@@ -107,23 +107,23 @@ class GraphicsAPI {
   }
 
   getMouseCoords(evt) {
-    this.mouse.x = evt.offsetX;
-    this.mouse.y = evt.offsetY;
+    this.cursor.x = evt.offsetX;
+    this.cursor.y = evt.offsetY;
   }
 
   onMouseDown(evt) {
-    this.mouse.down = true;
+    this.cursor.down = true;
     this.getMouseCoords(evt);
   }
 
   onMouseMove(evt) {
-    this.mouse.move = true;
+    this.cursor.move = true;
     this.getMouseCoords(evt);
   }
 
   onMouseUp(evt) {
-    this.mouse.down = false;
-    this.mouse.move = false;
+    this.cursor.down = false;
+    this.cursor.move = false;
     this.getMouseCoords(evt);
   }
 

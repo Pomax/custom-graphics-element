@@ -23,7 +23,7 @@ function computeDerivative(t, a, b, c, d) {
  * A canvas-aware Bezier curve class
  */
 class Bezier {
-  constructor(...coords) {
+  constructor(apiInstance, ...coords) {
     if (coords.length === 8) {
       this.points = [
         new Point(coords[0], coords[1]),
@@ -32,12 +32,8 @@ class Bezier {
         new Point(coords[6], coords[7]),
       ];
     }
-    this.ctx = false;
+    this.ctx = apiInstance.ctx;
     this.update();
-  }
-
-  setContext(ctx) {
-    this.ctx = ctx;
   }
 
   update() {

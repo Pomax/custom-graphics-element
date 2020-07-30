@@ -1,45 +1,81 @@
-// ********************************************
-//   This example shows how to draw a simple
-//   Bezier curve, with interactive points.
-// ********************************************
+// ***********************************************************************************
+//   This example shows how to draw a simple  Bezier curve, with interactive points,
+//   showing the projection of the mouse cursor on the curve, as well as sending the
+//   "t" value of that projected point to the page as an text field's value.
+// ***********************************************************************************
+
+// First, we declare a few "global" variables so that we don't need to use
+// code that has "this...." everywhere. There's nothing wrong with using
+// the "this." namespace, of course, but code sure is easier to read if not
+// every line starts with it!
 
 let curve, btn, input, mouse, currentPoint, projection, nearPoint, currentColor;
 
+// Then, the main entry point for our graphics: this function gets run automatically
 setup() {
-  this.setupButton();
+  this.setupHTMLinteraction();
   this.reset();
   mouse = this.mouse;
 }
 
-setupButton() {
+// This function hooks into the additional HTML elements we added.
+setupHTMLinteraction() {
+  // this is the text field
   input = find(`input[type=text]`);
+
+  // and this is the reset button.
   btn = find(`#reset`);
+
+  // Note that anything that we get using find() and findAll() will have some
+  // functions that you won't find on "normal" HTML elements, such as this
+  // listen() function, which makes event binding a lot less code to write:
   btn.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
   btn.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
 }
 
+// Putting all the actual "setup" code in a function called "reset" means that
+// it can easily be called by any other code, without having to rerun the
+// setup() function, which we shouldn't ever be calling ourselves.
 reset() {
-  curve = new Bezier(50,50, 150,150, 250,150, 350,50);
-  curve.setContext(this.ctx);
+  // Just like in the first example, we define a curve
+  curve = new Bezier(
+    this,
+    50,50, 150,150, 250,150, 350,50
+  );
+  // But we also make sure that some of the global variables has "safe" values.
   currentPoint = projection = nearPoint = false;
   currentColor = `#ccffc8`;
 }
 
+// This is another big one: this function automatically gets called after
+// setup() completes, and is the function responsible for updating our canvas.
 draw() {
+  // First, we clear the canvas and set a background color.
   clear(currentColor);
-  setFill(`grey`);
 
+  // Then, we draw the Bezier curve.
+  setFill(`grey`);
   curve.drawSkeleton();
   curve.drawCurve();
   curve.drawPoints();
   curve.drawNormals();
 
+  // And then we draw a projection of the cursor's position
+  // on the canvas, onto the Bezier curve.
   this.drawProjection();
+
+  // And just because we can, we write "test" in the upper left.
   setFill(`grey`);
   text('test', 10, 20);
 }
 
+// In order not to make draw() one giant function, we've put
+// all the code for projecting the cursor onto the Bezier curve
+// in this separate function.
 drawProjection() {
+  // Firstly, we only want to project the cursor if it's not
+  // actually "over" (but really, near to) one of the Bezier
+  // control points.
   if (projection && !nearPoint) {
     setStroke(`#00000044`);
     line(mouse, projection);

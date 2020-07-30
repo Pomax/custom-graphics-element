@@ -163,11 +163,6 @@ class GraphicsAPI {
     this.ctx.strokeStyle = color;
   }
 
-  setCurve(c) {
-    this.curve = c;
-    this.curve.setContext(this.ctx);
-  }
-
   clear(color = `transparent`) {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);

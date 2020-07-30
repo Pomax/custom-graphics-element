@@ -1,5 +1,6 @@
 import { CustomElement } from "./custom-element.js";
 import { GraphicsAPI } from "./graphics-api.js";
+import splitCodeSections from "./lib/split-code-sections.js";
 
 const MODULE_URL = import.meta.url;
 const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
@@ -10,51 +11,10 @@ const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
  */
 CustomElement.register(class ProgramCode extends HTMLElement {});
 
-
-/**
- * Get all code that isn't contained in functions.
- * We're going to regexp our way to flawed victory here.
- */
-function getQuasiGlobalCode(code) {
-  const re = /\b[\w\W][^\s]*?\([^)]*\)[\r\n\s]*{/;
-  const cuts = [];
-  for(let result = code.match(re); result; result=code.match(re)) {
-    result = result[0];
-
-    let start = code.indexOf(result);
-    let end = start + result.length;
-    let depth = 0;
-    let slice = Array.from(code).slice(start + result.length);
-
-    slice.some((c,pos) => {
-      if (c === `{`) {
-        depth++;
-        return false;
-      }
-      if (c === `}`) {
-        if (depth > 0) {
-          depth--;
-          return false;
-        }
-        end += pos + 1;
-        return true;
-      }
-    });
-
-    let cut = code.slice(start, end);
-    cuts.push(cut);
-    code = code.replace(cut, ``);
-  }
-  return {
-    quasiGlobal: code,
-    classCode: cuts.join(`\n`)
-  };
-}
-
 /**
  * Our custom element
  */
-class BezierGraphic extends CustomElement {
+class GraphicsElement extends CustomElement {
   constructor() {
     super({ header: false, footer: false, focus: true });
     this.parseSource();
@@ -115,7 +75,7 @@ class BezierGraphic extends CustomElement {
       rerender = true;
     }
 
-    let split = getQuasiGlobalCode(code);
+    let split = splitCodeSections(code);
     let quasiGlobal = split.quasiGlobal;
     code = split.classCode;
 
@@ -229,6 +189,6 @@ class BezierGraphic extends CustomElement {
   }
 }
 
-CustomElement.register(BezierGraphic);
+CustomElement.register(GraphicsElement);
 
-export { BezierGraphic };
+export { GraphicsElement };

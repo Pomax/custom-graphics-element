@@ -39,9 +39,9 @@ main {
 }
 
 code {
-  font-family: "Courier New", Courier, monospace;
+  font-family: monospace;
   font-weight: bold;
-  color: red;
+  color: #8000ff;
 }
 
 bezier-graphic {
@@ -55,6 +55,9 @@ bezier-graphic:defined {
   margin: 1em auto;
   justify-self: center;
 }
+
 p {
+  clear: both;
   text-align: justify;
+  padding-top: 1em;
 }

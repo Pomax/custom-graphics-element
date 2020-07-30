@@ -16,9 +16,8 @@
 
     <main>
       <p>
-        <bezier-graphic style="float:left; margin: 0; margin-right: 1em;" title="A non-interactive graphic element">
+        <bezier-graphic style="float:left; margin: 0; margin-right: 1em;" title="A non-interactive graphic element" width="200" height="200">
           setup() {
-            setSize(200,200);
             setCurve(new Bezier(70,140, 10,50, 190,50, 130,140));
             this.currentColor = `#ccffc8`;
           }
@@ -40,7 +39,7 @@
       </p>
 
       <p>
-        <bezier-graphic style="float:right; margin: 0; margin-left: 1em;" title="An interactive graphic element">
+        <bezier-graphic style="float:right; margin: 0; margin-left: 1em;" title="An interactive graphic element" width="400" height="200">
           <program-code src="example.txt"></program-code>
           <label>t value: </label><input type="text" value="">
           <button id="reset">reset</button>

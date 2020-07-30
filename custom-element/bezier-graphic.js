@@ -75,6 +75,7 @@ class BezierGraphic extends CustomElement {
 
   async parseSource() {
     let codeElement = this.querySelector(`program-code`);
+
     let code = ``;
 
     if (codeElement) {
@@ -142,7 +143,9 @@ class BezierGraphic extends CustomElement {
     });
 
     const mid = `${Math.random()}`.replace(`0.`,``),
-        uid = `bg-uid-${Date.now()}-${mid}`;
+        uid = `bg-uid-${Date.now()}-${mid}`,
+        width = this.getAttribute(`width`, 200),
+        height = this.getAttribute(`height`, 200);
 
     window[uid] = this;
 
@@ -155,7 +158,7 @@ class BezierGraphic extends CustomElement {
         ${code}
       }
 
-      new Example('${uid}');
+      new Example('${uid}', ${width}, ${height});
     `;
 
     const script = this.script = document.createElement(`script`);
@@ -169,10 +172,26 @@ class BezierGraphic extends CustomElement {
     // console.log(`child change:`, added, removed);
   }
 
-  handleAttributeChange(name, oldValue) {
+  handleAttributeChange(name, oldValue, newValue) {
     if (name === `title`) {
       this.label.textContent = this.getAttribute(`title`);
     }
+    if (this.apiInstance) {
+      let instance = this.apiInstance;
+      if (name === `width`) {
+        instance.setSize(parseInt(newValue), false);
+        instance.redraw();
+      }
+      if (name === `height`) {
+        instance.setSize(false, parseInt(newValue));
+        instance.redraw();
+      }
+    }
+  }
+
+  setGraphic(apiInstance) {
+    this.apiInstance = apiInstance;
+    this.setCanvas(apiInstance.canvas);
   }
 
   setCanvas(canvas) {

@@ -49,9 +49,10 @@ class GraphicsAPI {
 
   static get constants() {
     return [
-      `mouse`,
       `POINTER`,
       `HAND`,
+      `PI`,
+      `TAU`,
     ];
   }
 
@@ -61,12 +62,13 @@ class GraphicsAPI {
     return names.filter(v => priv.indexOf(v) < 0);
   }
 
-  constructor(uid) {
+  constructor(uid, width=200, height=200) {
     this.element = window[uid];
     delete window[uid];
     const canvas = (this.canvas = document.createElement(`canvas`));
     canvas.style.border = `1px solid black`;
     this.addListeners();
+    this.setSize(width, height);
     this.setup();
     this.draw();
   }
@@ -77,7 +79,9 @@ class GraphicsAPI {
 
   addListeners() {
     const canvas = this.canvas;
-    this.element.setCanvas(this.canvas);
+    const element = this.element;
+    element.setGraphic(this);
+
     this.mouse = {};
 
     [`touchstart`, `mousedown`].forEach((evtName) =>
@@ -94,7 +98,8 @@ class GraphicsAPI {
   }
 
   find(qs) {
-    return enrich(this.element.querySelector(qs));
+    let e = this.element.querySelector(qs);
+    return e ? enrich(e) : e;
   }
 
   findAll(qs) {
@@ -123,7 +128,7 @@ class GraphicsAPI {
   }
 
   setup() {
-    this.ctx = enhanceCtx(this.canvas.getContext(`2d`));
+    // console.log(`setup`);
   }
 
   draw() {
@@ -135,9 +140,11 @@ class GraphicsAPI {
   }
 
   setSize(w, h) {
-    this.canvas.width = w;
-    this.canvas.style.width = `${w}px`;
-    this.canvas.height = h;
+    this.width = w || this.width;
+    this.height = h || this.height;
+    this.canvas.width = this.width;
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.height = this.height;
     this.ctx = enhanceCtx(this.canvas.getContext(`2d`));
   }
 

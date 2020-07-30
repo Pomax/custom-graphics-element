@@ -63,7 +63,7 @@ class CustomElement extends HTMLElement {
         this.render();
       },
       attributes: (record) => {
-        this.handleAttributeChange(record.attributeName, record.oldValue);
+        this.handleAttributeChange(record.attributeName, record.oldValue, this.getAttribute(record.attributeName));
         this.render();
       },
     };
@@ -114,7 +114,7 @@ class CustomElement extends HTMLElement {
     if (!this._options.void) NotImplemented(this, `handleChildChanges`);
   }
 
-  handleAttributeChange(name, oldvalue) {
+  handleAttributeChange(name, oldValue, newValue) {
     NotImplemented(this, `handleAttributeChange`);
   }
 

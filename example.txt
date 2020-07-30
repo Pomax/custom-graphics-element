@@ -3,12 +3,12 @@
 //   Bezier curve, with interactive points.
 // ********************************************
 
-let curve, btn, input;
+let curve, btn, input, mouse, currentPoint, projection, nearPoint, currentColor;
 
 setup() {
-  setSize(400,200);
   this.setupButton();
   this.reset();
+  mouse = this.mouse;
 }
 
 setupButton() {
@@ -19,20 +19,20 @@ setupButton() {
 }
 
 reset() {
-  curve = this.curve = new Bezier(50,50, 150,150, 250,150, 350,50);
+  curve = new Bezier(50,50, 150,150, 250,150, 350,50);
   curve.setContext(this.ctx);
-  this.currentPoint = this.projection = this.nearPoint = false;
-  this.currentColor = `#ccffc8`
+  currentPoint = projection = nearPoint = false;
+  currentColor = `#ccffc8`;
 }
 
 draw() {
-  clear(this.currentColor);
+  clear(currentColor);
   setFill(`grey`);
 
-  this.curve.drawSkeleton();
-  this.curve.drawCurve();
-  this.curve.drawPoints();
-  this.curve.drawNormals();
+  curve.drawSkeleton();
+  curve.drawCurve();
+  curve.drawPoints();
+  curve.drawNormals();
 
   this.drawProjection();
   setFill(`grey`);
@@ -40,60 +40,60 @@ draw() {
 }
 
 drawProjection() {
-  if (this.projection && !this.nearPoint) {
+  if (projection && !nearPoint) {
     setStroke(`#00000044`);
-    line(mouse, this.projection);
+    line(mouse, projection);
     setStroke(`magenta`);
     setFill(`cyan`);
     circle(mouse, 5);
-    circle(this.projection, 5);
+    circle(projection, 5);
 
-    if (this.projection.t !== undefined) {
-      input.value = (this.projection.t).toFixed(3);
+    if (projection.t !== undefined) {
+      input.value = (projection.t).toFixed(3);
     }
   }
 }
 
 onButtonEngaged() {
   this.reset();
-  this.currentColor = `#afe`;
+  currentColor = `#afe`;
   redraw();
 }
 
 onButtonDisengaged() {
-  this.currentColor = `#efa`;
+  currentColor = `#efa`;
   redraw();
 }
 
 onMouseDown() {
-  this.currentColor = `aquamarine`;
+  currentColor = `aquamarine`;
   // Are we over a curve point?
-  const p = this.curve.getPointNear(mouse, 5);
-  if (p) this.currentPoint = p;
+  const p = curve.getPointNear(mouse, 5);
+  if (p) currentPoint = p;
   redraw();
 }
 
 onMouseMove() {
-  if (mouse.down && this.currentPoint) {
-    this.currentPoint.x = mouse.x;
-    this.currentPoint.y = mouse.y;
-    this.curve.update();
+  if (mouse.down && currentPoint) {
+    currentPoint.x = mouse.x;
+    currentPoint.y = mouse.y;
+    curve.update();
   }
 
-  if (this.curve.getPointNear(mouse)) {
+  if (curve.getPointNear(mouse)) {
     setCursor(HAND);
-    this.nearPoint = true;
+    nearPoint = true;
     } else {
     setCursor(POINTER);
-    this.nearPoint = false;
+    nearPoint = false;
     }
 
-  this.projection = this.curve.getProjectionPoint(mouse);
+  projection = curve.getProjectionPoint(mouse);
   redraw();
 }
 
 onMouseUp() {
-  this.currentColor = `peachpuff`;
-  this.currentPoint = undefined;
+  currentColor = `peachpuff`;
+  currentPoint = undefined;
   redraw();
 }

@@ -2,33 +2,47 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Creating a &lt;graphics-element&gt; element.</title>
     <link rel="shortcut icon" href="javascript:">
-    <link rel="stylesheet" href="style.css">
+
+    <!--
+
+      Nice, you actually decided to keep under the hood! As you can see, it's remarkably
+      tidy, with only a single script getting loaded to take of teaching the browser how
+      the <graphics-element> custom element is supposed to work.
+
+      You may have heard of "React applications" (or "Angular" or "Vue"), and this is not
+      that. Things like React are, quite literally, javascript applications that use the
+      browser as their interface drawing library. If you were to try to run them with
+      Javascript turned off, you'd get an empty page. Not super great!
+
+      The <graphics-element> on this page, however, is a "normal" (and very cool) HTML
+      technology called "custom elements", and it's a way for people to invent their
+      own HTML elements that are supposed to work the same as any other HTML elements
+      you might be familiar with.
+
+      As such, if you have JS disabled, then you still get a perfectly normal page,
+      the custom elements just won't "do" anything, but everything else is still right
+      there for you to decide whether it looks like it'll be worth turning JS on again.
+
+    -->
+
+    <title>Creating a &lt;graphics-element&gt; element.</title>
+
+    <!--
+      This is the only script required to make sure our <graphics-element> will work:
+    -->
+
     <script src="custom-element/graphics-element.js" type="module" async defer></script>
+
+    <!--
+      And you may want to have a look at the style.css later, to see how it makes sure
+      that there is fallback content to show ont he page even when our <graphics-element>
+      hasn't been loaded, either because it's still in the process of loading, or because
+      someone is viewing the page with Javascript disabled.
+    -->
+
+    <link rel="stylesheet" href="style.css">
   </head>
-
-  <!--
-
-    Nice, you actually viewed this page source! As you can see, it's remarkably tidy,
-    with only a single script getting loaded to take of teaching the browser how the
-    <graphics-element> custom element is supposed to work.
-
-    You may have heard of "React applications" (or "Angular" or "Vue"), and this is not
-    that. Things like React are, quite literally, javascript applications that use the
-    browser as their interface drawing library. If you were to try to run them with
-    Javascript turned off, you'd get an empty page. Not super great!
-
-    The <graphics-element> on this page, however, is a "normal" (and very cool) HTML
-    technology called "custom elements", and it's a way for people to invent their
-    own HTML elements that are supposed to work the same as any other HTML elements
-    you might be familiar with.
-
-    As such, if you have JS disabled, then you still get a perfectly normal page,
-    the custom elements just won't "do" anything, but everything else is still right
-    there for you to decide whether it looks like it'll be worth turning JS on again.
-
-  -->
 
   <body>
     <header>
@@ -68,6 +82,7 @@
                 this.curve.drawPoints();
               }
             </program-code>
+
             <!--
               note that we still want to be able to show something even when Javascript
               is turned off (for whatever reason), we want to offer a fallback image.
@@ -78,10 +93,11 @@
 
               See the "styles.css" file for how we can make that happen!
             -->
-            <fallback>
+
+            <fallback-image>
               <img class="fallback" src="images/non-interactive.png">
               scripts are disabled, showing placeholder
-            </fallback>
+            </fallback-image>
           </graphics-element>
 
           The graphic on the left is a single <code>&lt;graphics-element&gt;</code> element,
@@ -121,10 +137,11 @@
             <!--
               And of course we want a fallback image here, too.
             -->
-            <fallback>
+
+            <fallback-image>
               <img class="fallback" src="images/interactive.png">
               scripts are disabled, showing placeholder
-            </fallback>
+            </fallback-image>
           </graphics-element>
 
           And of course, interactivity is trivially added, as well as loading from a source file. Thankfully,

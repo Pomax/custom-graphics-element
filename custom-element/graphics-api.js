@@ -2,12 +2,16 @@ import { enrich } from "./lib/enrich.js";
 import { Point } from "./lib/point.js";
 import { Bezier } from "./lib/bezier.js";
 
+// Outright kill off an event.
 function stop(evt) {
   evt.preventDefault();
   evt.stopPropagation();
 }
 
-function enhanceCtx(ctx) {
+// Ensure there are cacheStyle/restoreStyle functions
+// on the Canvas context, so that it's trivial to make
+// temporary changes.
+function enhanceContext(ctx) {
   const styles = [];
   ctx.cacheStyle = () => {
     styles.push({
@@ -69,6 +73,9 @@ class GraphicsAPI {
     return names.filter(v => priv.indexOf(v) < 0);
   }
 
+  /**
+   *
+   */
   constructor(uid, width=200, height=200) {
     this.element = window[uid];
     delete window[uid];
@@ -79,10 +86,9 @@ class GraphicsAPI {
     this.draw();
   }
 
-  get PI() { return 3.14159265358979; }
-
-  get TAU() { return 6.28318530717958 }
-
+  /**
+   *
+   */
   addListeners() {
     const canvas = this.canvas;
     const element = this.element;
@@ -113,20 +119,17 @@ class GraphicsAPI {
     );
   }
 
-  find(qs) {
-    let e = this.element.querySelector(qs);
-    return e ? enrich(e) : e;
-  }
-
-  findAll(qs) {
-    return Array.from(this.element.querySelectorAll(qs)).map(e => enrich(e));
-  }
-
+  /**
+   *
+   */
   getMouseCoords(evt) {
     this.cursor.x = evt.offsetX;
     this.cursor.y = evt.offsetY;
   }
 
+  /**
+   *
+   */
   onMouseDown(evt) {
     stop(evt);
     this.cursor.button = evt.button;
@@ -134,6 +137,9 @@ class GraphicsAPI {
     this.getMouseCoords(evt);
   }
 
+  /**
+   *
+   */
   onMouseMove(evt) {
     stop(evt);
     this.cursor.button = undefined;;
@@ -141,6 +147,9 @@ class GraphicsAPI {
     this.getMouseCoords(evt);
   }
 
+  /**
+   *
+   */
   onMouseUp(evt) {
     stop(evt);
     this.cursor.button = evt.button;
@@ -149,6 +158,9 @@ class GraphicsAPI {
     this.getMouseCoords(evt);
   }
 
+  /**
+   *
+   */
   safelyInterceptKey(evt) {
     // We don't want to interfere with the browser, so we're only
     // going to allow unmodified keys, or shift-modified keys.
@@ -157,6 +169,9 @@ class GraphicsAPI {
     }
   }
 
+  /**
+   *
+   */
   onKeyDown(evt) {
     this.safelyInterceptKey(evt);
     // FIXME: Known bug: this approach means that "shift + r + !shift + !r" leaves "R" set to true
@@ -164,6 +179,9 @@ class GraphicsAPI {
     this.keyboard.currentKey = evt.key;
   }
 
+  /**
+   *
+   */
   onKeyUp(evt) {
     this.safelyInterceptKey(evt);
     // FIXME: Known bug: this approach means that "shift + r + !shift + !r" leaves "R" set to true
@@ -171,35 +189,87 @@ class GraphicsAPI {
     this.keyboard.currentKey = evt.key;
   }
 
+  // ====================================
+  //
+  //      START OF THE GRAPHICS API
+  //
+  // ====================================
+
+
+  /**
+   * Constants
+   */
+
+  get PI() { return 3.14159265358979; }
+  get TAU() { return 6.28318530717958; }
+  get POINTER() { return `default`; }
+  get HAND() { return `pointer`; }
+
+  /**
+   * ...
+   */
   setup() {
     // console.log(`setup`);
   }
 
+  /**
+   * ...
+   */
   draw() {
     // console.log(`draw`);
   }
 
+  /**
+   * ...
+   */
   redraw() {
     this.draw();
   }
 
+  /**
+   * ...
+   */
+  find(qs) {
+    let e = this.element.querySelector(qs);
+    return e ? enrich(e) : e;
+  }
+
+  /**
+   * ...
+   */
+  findAll(qs) {
+    return Array.from(this.element.querySelectorAll(qs)).map(e => enrich(e));
+  }
+
+  /**
+   * ...
+   */
   setSize(w, h) {
     this.width = w || this.width;
     this.height = h || this.height;
     this.canvas.width = this.width;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.height = this.height;
-    this.ctx = enhanceCtx(this.canvas.getContext(`2d`));
+    this.ctx = enhanceContext(this.canvas.getContext(`2d`));
   }
 
+  /**
+   * ...
+   */
   setBorder(width=1, color=`black`) {
     this.canvas.style.border = `${width}px solid ${color}`;
   }
 
+  /**
+   * ...
+   */
   forceFocus() {
     this.canvas.focus();
   }
 
+  /**
+   * ...
+   */
   showFocus(show=true) {
     const canvas = this.canvas;
     if (show) {
@@ -218,30 +288,52 @@ class GraphicsAPI {
     }
   }
 
-  get POINTER() { return `default`; }
-  get HAND() { return `pointer`; }
-
+  /**
+   * ...
+   */
   setCursor(type) {
     this.canvas.style.cursor = type;
   }
 
+  /**
+   * ...
+   */
   setFill(color) {
     this.ctx.fillStyle = color;
   }
 
+  /**
+   * ...
+   */
   setStroke(color) {
     this.ctx.strokeStyle = color;
   }
 
+  /**
+   * ...
+   */
+  setWidth(width) {
+    this.ctx.lineWidth = `${width}px`;
+  }
+
+  /**
+   * ...
+   */
   clear(color = `transparent`) {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
+  /**
+   * ...
+   */
   point(point) {
     point.draw(this.ctx);
   }
 
+  /**
+   * ...
+   */
   line(p1, p2) {
     this.ctx.beginPath();
     this.ctx.moveTo(p1.x, p1.y);
@@ -249,6 +341,9 @@ class GraphicsAPI {
     this.ctx.stroke();
   }
 
+  /**
+   * ...
+   */
   circle(p,r) {
     this.ctx.beginPath();
     this.ctx.arc(p.x,p.y,r,0,this.TAU);
@@ -256,6 +351,9 @@ class GraphicsAPI {
     this.ctx.stroke();
   }
 
+  /**
+   * ...
+   */
   text(str,x,y) {
     this.ctx.fillText(str, x, y);
   }

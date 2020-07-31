@@ -1,6 +1,7 @@
 import { CustomElement } from "./custom-element.js";
-import { GraphicsAPI } from "./graphics-api.js";
+
 import splitCodeSections from "./lib/split-code-sections.js";
+import performCodeSurgery from "./lib/perform-code-surgery.js";
 
 const MODULE_URL = import.meta.url;
 const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
@@ -17,126 +18,39 @@ CustomElement.register(class ProgramCode extends HTMLElement {});
 class GraphicsElement extends CustomElement {
   constructor() {
     super({ header: false, footer: false, focus: true });
-    this.parseSource();
+    this.loadSource();
     if (this.title) {
       this.label = document.createElement(`label`);
       this.label.textContent = this.title;
     }
   }
 
-  // TODO: document the "focus-css" attribute
-
+  /**
+   * part of the CustomElement API
+   */
   getStyle() {
+    // TODO: document the "focus-css" attribute
     return `
       :host([hidden]) { display: none; }
       :host style { display: none; }
       :host canvas { display: block; margin: auto; }
-      :host canvas:focus { ${this.getAttribute(`focus-css`) || `border: 1px solid red !important;`} }
+      :host canvas:focus { ${
+        this.getAttribute(`focus-css`) || `border: 1px solid red !important;`
+      } }
       :host label { display: block; font-style:italic; font-size: 0.9em; text-align: right; }
     `;
   }
 
-  async parseSource() {
-    let codeElement = this.querySelector(`program-code`);
-
-    let code = ``;
-
-    if (codeElement) {
-      let src = codeElement.getAttribute('src');
-      if (src) {
-        code = await fetch(src).then(response => response.text());
-      } else {
-        code = codeElement.textContent
-      }
-    } else { code = this.textContent; }
-
-    if (!codeElement) {
-      codeElement = document.createElement(`program-code`);
-      codeElement.textContent = code;
-      this.textContent = ``;
-      this.append(codeElement);
-    }
-
-    codeElement.setAttribute(`hidden`, `hidden`);
-
-    new MutationObserver((records) => {
-      this.rewriteAndInject(codeElement.textContent);
-    }).observe(codeElement, {
-      characterData: true,
-      attributes: false,
-      childList: true,
-      subtree: true
-    });
-
-    this.rewriteAndInject(code, true);
-  }
-
-  rewriteAndInject(code, rerender=false) {
-    if (this.script) {
-      if (this.script.parentNode) {
-        this.script.parentNode.removeChild(this.script);
-      }
-      this.canvas.parentNode.removeChild(this.canvas);
-      rerender = true;
-    }
-
-    let split = splitCodeSections(code);
-    let quasiGlobal = split.quasiGlobal;
-    code = split.classCode;
-
-    GraphicsAPI.superCallers.forEach((name) => {
-      const re = new RegExp(
-        `${name}\\(([^)]*)\\)[\\s\\r\\n]*{[\\s\\r\\n]*`,
-        `g`
-      );
-      code = code.replace(re, `${name}($1) { super.${name}($1);\n`);
-    });
-
-    GraphicsAPI.eventHandlers.forEach((name) => {
-      const re = new RegExp(`${name}\\(\\)[\\s\\r\\n]*{[\\s\\r\\n]*`, `g`);
-      code = code.replace(re, `${name}(evt) { super.${name}(evt);\n`);
-    });
-
-    GraphicsAPI.methods.forEach((fn) => {
-      const re = new RegExp(`([\\s\\r\\n])${fn}\\(`, `g`);
-      code = code.replace(re, `$1this.${fn}(`);
-    });
-
-    GraphicsAPI.constants.forEach((name) => {
-      const re = new RegExp(`(\\b)${name}(\\b)`, `g`);
-      code = code.replace(re, `$1this.${name}$2`);
-    });
-
-    const mid = `${Math.random()}`.replace(`0.`,``),
-        uid = `bg-uid-${Date.now()}-${mid}`,
-        width = this.getAttribute(`width`, 200),
-        height = this.getAttribute(`height`, 200);
-
-    window[uid] = this;
-
-    this.code = `
-      import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/graphics-api.js";
-
-      ${quasiGlobal}
-
-      class Example extends GraphicsAPI {
-        ${code}
-      }
-
-      new Example('${uid}', ${width}, ${height});
-    `;
-
-    const script = this.script = document.createElement(`script`);
-    script.type = "module";
-    script.textContent = this.code;
-
-    if (rerender) this.render();
-  }
-
+  /**
+   * part of the CustomElement API
+   */
   handleChildChanges(added, removed) {
     // console.log(`child change:`, added, removed);
   }
 
+  /**
+   * part of the CustomElement API
+   */
   handleAttributeChange(name, oldValue, newValue) {
     if (name === `title`) {
       this.label.textContent = this.getAttribute(`title`);
@@ -154,17 +68,120 @@ class GraphicsElement extends CustomElement {
     }
   }
 
+  /**
+   * Load the graphics code, either from a src URL, a <program-code> element, or .textContent
+   */
+  async loadSource() {
+    let codeElement = this.querySelector(`program-code`);
+
+    let code = ``;
+
+    if (codeElement) {
+      let src = codeElement.getAttribute("src");
+      if (src) {
+        code = await fetch(src).then((response) => response.text());
+      } else {
+        code = codeElement.textContent;
+      }
+    } else {
+      code = this.textContent;
+    }
+
+    if (!codeElement) {
+      codeElement = document.createElement(`program-code`);
+      codeElement.textContent = code;
+      this.textContent = ``;
+      this.append(codeElement);
+    }
+
+    codeElement.setAttribute(`hidden`, `hidden`);
+
+    new MutationObserver((_records) => {
+      // nornmally we don't want to completely recreate the shadow DOM
+      this.rewriteAndInject(codeElement.textContent);
+    }).observe(codeElement, {
+      characterData: true,
+      attributes: false,
+      childList: true,
+      subtree: true,
+    });
+
+    // But on the first pass, we do.
+    this.processSource(code, true);
+  }
+
+  /**
+   * Transform the graphics source code into global and class code.
+   */
+  processSource(code, rerender = false) {
+    if (this.script) {
+      if (this.script.parentNode) {
+        this.script.parentNode.removeChild(this.script);
+      }
+      this.canvas.parentNode.removeChild(this.canvas);
+      rerender = true;
+    }
+
+    const uid = `bg-uid-${Date.now()}-${`${Math.random()}`.replace(`0.`, ``)}`;
+    window[uid] = this;
+
+    const split = splitCodeSections(code);
+    const globalCode = split.quasiGlobal;
+    const classCode = performCodeSurgery(split.classCode);
+
+    this.setupCodeInjection(uid, globalCode, classCode, rerender);
+  }
+
+  /**
+   * Form the final, perfectly valid JS module code, and create the <script>
+   * element for it, to be inserted into the shadow DOM during render().
+   */
+  setupCodeInjection(uid, globalCode, classCode, rerender) {
+    const width = this.getAttribute(`width`, 200);
+    const height = this.getAttribute(`height`, 200);
+
+    this.code = `
+      import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/graphics-api.js";
+
+      ${globalCode}
+
+      class Example extends GraphicsAPI {
+        ${classCode}
+      }
+
+      new Example('${uid}', ${width}, ${height});
+    `;
+
+    const script = (this.script = document.createElement(`script`));
+    script.type = "module";
+    script.textContent = this.code;
+
+    if (rerender) this.render();
+  }
+
+  /**
+   * Hand the <graphics-element> a reference to the "Example" instance that it built.
+   */
   setGraphic(apiInstance) {
     this.apiInstance = apiInstance;
     this.setCanvas(apiInstance.canvas);
   }
 
+  /**
+   * Locally bind the Example's canvas, since it needs to get added to the shadow DOM.
+   */
   setCanvas(canvas) {
     this.canvas = canvas;
-    clearTimeout(this.insertionAttempt);
+    // If we get here, there were no source code errors: undo the scheduled error print.
+    clearTimeout(this.errorPrintTimeout);
     this.render();
   }
 
+  /**
+   * This is a helper to aid debugging, mostly because dev tools are not super
+   * great at pointing you to the right line for an injected script that it
+   * can't actually find anywhere in the document or shadow DOM...
+   */
   printCodeDueToError() {
     console.log(
       this.code
@@ -174,23 +191,28 @@ class GraphicsElement extends CustomElement {
     );
   }
 
+  /**
+   * Regenerate the shadow DOM content.
+   */
   render() {
     super.render();
 
     if (this.script) {
       if (!this.script.__inserted) {
-        this.insertionAttempt = setTimeout(
+        // Schedule an error print, which will get cleared if there
+        // were no source code errors.
+        this.errorPrintTimeout = setTimeout(
           () => this.printCodeDueToError(),
           1000
         );
         this.script.__inserted = true;
-        this._shadow.appendChild(this.script)
+        this._shadow.appendChild(this.script);
       }
     }
 
-    const p = this._slot.parentNode;
-    if (this.canvas) p.insertBefore(this.canvas, this._slot);
-    if (this.label) p.insertBefore(this.label, this._slot);
+    const slotParent = this._slot.parentNode;
+    if (this.canvas) slotParent.insertBefore(this.canvas, this._slot);
+    if (this.label) slotParent.insertBefore(this.label, this._slot);
   }
 }
 

@@ -29,7 +29,8 @@ let bezierCurve,
     backgroundColor;
 
 /**
- * Then, the main entry point for our graphics: this function gets run automatically
+ * Then, the main entry point for our graphics: this function gets run
+ * automatically once our <graphics-element> starts up.
  */
 setup() {
   setBorder(1);
@@ -40,7 +41,9 @@ setup() {
 }
 
 /**
- * This function hooks into the additional HTML elements we added.
+ * This is a function that helps keep setup() looking nice and tidy:
+ * it is responsible for hooking into the additional HTML elements
+ * that we added (the text field and button).
  */
 setupPageInteraction() {
   // this is the text field
@@ -50,16 +53,16 @@ setupPageInteraction() {
   resetButton = find(`#reset`);
 
   // Note that anything that we get using find() and findAll() will have some
-  // functions that you won't find on "normal" HTML elements, such as this
+  // functions that you won't "normally" find on HTML elements, such as this
   // listen() function, which makes event binding a lot less code to write:
-  resetButton.listen([`touchstart`, `mousedown`,`keydown`], () => this.onButtonEngaged());
-  resetButton.listen([`touchend`, `mouseup`,`keyup`], () => this.onButtonDisengaged());
+  resetButton.listen([`touchstart`, `mousedown`, `keydown`], () => this.onButtonEngaged());
+  resetButton.listen([`touchend`, `mouseup`, `keyup`], () => this.onButtonDisengaged());
 }
 
 /**
- * Putting all the actual "setup" code in a function called "reset" means that
- * it can easily be called by any other code, without having to rerun the
- * setup() function, which we shouldn't ever be calling ourselves.
+ * Putting all the "setup" code that describes the initial state of your
+ * graphic means that it can easily be called by any other code, without
+ * having to rerun the setup() function, which we never do.
  */
 reset() {
   // Just like in the first example, we define a curve
@@ -81,14 +84,13 @@ draw() {
   clear(backgroundColor);
 
   // Then, we draw the Bezier curve.
-  setFill(`grey`);
   this.drawCurve();
 
-  // And then we draw a projection of the cursor's position
-  // on the canvas, onto the Bezier curve.
+  // Then, we draw a projection of the cursor's position on the canvas,
+  // onto the Bezier curve.
   this.drawProjection();
 
-  // And just because we can, we write "test" in the upper left.
+  // And just because we can, we write the word "test" in the upper left.
   setFill(`grey`);
   text('test', 10, 20);
 }
@@ -98,6 +100,7 @@ draw() {
  * all the code for drawing a Bezier curve in a separate function.
  */
 drawCurve() {
+  setFill(`grey`);
   bezierCurve.drawSkeleton();
   bezierCurve.drawCurve();
   bezierCurve.drawPoints();
@@ -110,12 +113,10 @@ drawCurve() {
  * in a separate function.
  */
 drawProjection() {
-  // Firstly, we only want to project the cursor if it's not
-  // actually "over" (but really, near to) one of the Bezier
-  // control points.
+  // Firstly, we only want to project the cursor if it's not actually
+  // "over" (but really, near to) one of the Bezier control points.
   if (cursorProjection && !cursorNearPoint) {
-    // We'll draw both the cursor and its project as circles,
-    // connected by a straight line:
+    // We'll draw both the cursor and its project as circles, connected by a straight line:
     setStroke(`#00000044`);
     line(cursor, cursorProjection);
     setStroke(`magenta`);

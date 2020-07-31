@@ -52,19 +52,36 @@
             width="200"
             height="200"
           >
-            setup() {
-              this.curve = new Bezier(
-                this,
-                70,140, 10,50, 190,50, 130,140
-              );
-            }
+            <program-code>
+              setup() {
+                setBorder(1);
+                this.curve = new Bezier(
+                  this,
+                  70,140, 10,50, 190,50, 130,140
+                );
+              }
 
-            draw() {
-              clear(`#ccffc8`);
-              this.curve.drawSkeleton();
-              this.curve.drawCurve();
-              this.curve.drawPoints();
-            }
+              draw() {
+                clear(`#ccffc8`);
+                this.curve.drawSkeleton();
+                this.curve.drawCurve();
+                this.curve.drawPoints();
+              }
+            </program-code>
+            <!--
+              note that we still want to be able to show something even when Javascript
+              is turned off (for whatever reason), we want to offer a fallback image.
+
+              This means we need some CSS in place to ensure that when the <graphics-element>
+              tag is not defined, this image and accompanying text shows on the page,
+              but does not show if scritps are allowed and the <graphics-element> "works".
+
+              See the "styles.css" file for how we can make that happen!
+            -->
+            <fallback>
+              <img class="fallback" src="images/non-interactive.png">
+              scripts are disabled, showing placeholder
+            </fallback>
           </graphics-element>
 
           The graphic on the left is a single <code>&lt;graphics-element&gt;</code> element,
@@ -92,12 +109,22 @@
             height="200"
           >
             <program-code src="example.js"></program-code>
+
             <!--
               Your browser probably made that "example.js" attribute a clickable link:
               open it to see what the graphics code for this example looks like!
             -->
-            <label>t value: </label><input type="text" value="">
+
+            <label>"t" value: </label><input type="text" value="">
             <button id="reset">reset</button>
+
+            <!--
+              And of course we want a fallback image here, too.
+            -->
+            <fallback>
+              <img class="fallback" src="images/interactive.png">
+              scripts are disabled, showing placeholder
+            </fallback>
           </graphics-element>
 
           And of course, interactivity is trivially added, as well as loading from a source file. Thankfully,
@@ -113,7 +140,7 @@
         </p>
 
         <p>
-          -- Pomax
+          ― Pomax
         </p>
       </section>
 
@@ -122,57 +149,85 @@
       <section id=technical>
         <h1>The technical parts</h1>
 
+        <p>
+          Essentially, all of this works because the <code>&lt;graphics-element&gt;</code> takes code and uses
+          modern template strings syntax to insert that code into a modern JS class that extends a class called
+          <code>GraphicsAPI</code>. Once dropped in, creating an instance of this new class will through to the
+          GraphicsAPI's constructor, which builds a canvas and calls <code>setup()</code> and then <code>draw()</code>.
+        </p>
 
-        <ol>
-          <li>
-            There is a <code>GraphicsAPI</code> class that wraps a <code>&lt;canvas&gt;</code> element, with
-            an API that allows for calls that do things like setting the canvas context fill and stroke styles,
-            drawing lines, circles, etc. and having a knowledge of where the mouse is on that canvas.
-            However, it can't do anything on its own, and has empty <code>setup()</code> and <code>draw()</code>
-            functions (similar to the Processing programmign language) and is intended to be subclassed, with
-            that subclass implementing "what should happen" based on those two master functions.
-          </li>
-          <li>
-            The magic happens in the <code>&lt;graphics-element&gt;</code> element. This ingests code either as
-            plain textContent, or if there is one, its <code>&lt;program-code&gt;</code> child's <code>src</code>
-            attribute.
-          </li>
-          <li>
-            That code gets then gets rewritten to a JS module, which imports the GraphicsAPI, and declares itself
-            as extending that class: <code>class Example extends GraphicsApi { ... }</code>. All the "global" code
-            gets injected outside the class definition itself, and all the functional code gets injected into the
-            class body.
-          </li>
-          <li>
-            Because there is nothing in the custom elements spec that allows scripts to know "which element" they
-            are running for, even when they get inserted into a custom element's shadow DOM, some trickery has to
-            happen: when the code gets parsed, the <code>&lt;graphics-element&gt;</code> element generates a universal
-            id and sets <code>window[uid] = this</code> so that it can be found by <em>any</em> JS that has access
-            to the <code>window</code> scope. It then adds one final line to the rewritten code, which invokes
-            the <code>Example</code> with that uid as its argument. It then creates a new <code>&lt;script&gt;</code>
-            element, sets its type to <code>module</code> and its <code>textContent</code> to the rewritten code,
-            and then appends that to the shadow DOM. This causes the script to run.
-          </li>
-          <li>
-            The <code>Example</code> class has no explicit constructor, so when it runs, it falls through to the
-            <code>GraphicsAPI</code> constructor, which gets the reference to its "owner" element using
-            <code>this.element = window[uid]</code>, and then removes that global binding again, as nothing
-            else should ever need to access it during the life of the page (using <code>delete window[uid]</code>).
-          </li>
-          <li>
-            What the <code>GraphicsAPI</code> class <em>does</em> have, though, is its own query selector functions,
-            called <code>find()</code> and <code>findAll</code> which searches the owning element's DOM tree,
-            which means that graphics code can find and interact with normal on-page content as long as it's
-            a child of the <code>&lt;graphics-element&gt;</code> element. You can see this when you view-source
-            this page and look at the second example: it has an <code>input</code> and <code>button</code> element
-            that get hooked up to the graphics code as it gets run.
-          <li>
-            Once all that is done, as far as the browser knows, it simply got asked to run an ES module that builds
-            an on-page canvas, and interacts with that canvas the same way any other normal page JS does.
-          </li>
-        </ol>
+        <p>
+          Of course, some tricks are necessary to make that work: the GraphicsElement code has some naive,
+          but rather functional, code that splits up graphics code into "global" code (like imports, and
+          global <code>let</code> and <code>const</code>) and "class" code (essentially anthing that
+          is a function will end up as class code). This is then injected into simple class scaffolding,
+          with a the GraphicsElement's own URL determined by examining <code>import.meta</code>:
+        </p>
+
+        <pre>const MODULE_URL = import.meta.url;
+const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf('/'));
+
+const uid = `ge-uid-${Date.now()}-${Math.random()}`;
+window[uid] = this;
+
+const width = this.getAttribute(`width`) || 200;
+const height = this.getAttribute(`height`) || 200;
+
+code = `
+  import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/graphics-api.js";
+
+  ${globalCode}
+
+  class Example extends GraphicsAPI {
+    ${classCode}
+  }
+
+  new Example("${uid}", ${width}, ${height});
+`;</pre>
+
+        <p>
+          This is then injected as a <code>&lt;script type="module"&gt;</code> into the shadow DOM, which
+          causes the script to be executed, ending in the <code>new Example(...)</code> call that kicks
+          off the actual running of graphics on a canvas.
+        </p>
+
+        <p>
+          One downside of modern custom elements is that there is nothing in the spec that allows scripts
+          to know "which element" they are running for when they get inserted into a custom element's shadow DOM,
+          and even though "plain" code can check <code>document.currentScript</code>, that property gets
+          intentionally set to <code>null</code> when you're loading a module, which we are. So: the only way
+          for us to learn which on-page element we should be talking to for script purposes is to temporarily
+          pollute the global scope, by creating that <code>window[uid]=this</code> binding, and then inserting
+          that same uid into the script itself, allowing it to access <code>window[uid]</code> once it gets
+          executed. And then, for good housekeeping, that binding gets deleted immediately upon starting the
+          script, but it's still a bit of an unfortunate hack:
+        </p>
+
+        <pre>class GraphicsAPI {
+  ...
+  constructor(uid, width=200, height=200) {
+    this.element = window[uid];
+    delete window[uid];
+    this.canvas = document.createElement(`canvas`);
+    this.setSize(width, height);
+    this.addListeners();
+    this.setup();
+    this.draw();
+  }
+  ...
+}</pre>
+
+      <p>
+        Of course, without a list of what the GraphicsAPI supports, it's hard to write your own code against it,
+        so there will be some API documentation in due time - for now, the focus is still on making sure this
+        meets the needs of <a href="https://pomax.github.io/bezierinfo">The Primeron Bezier Curves</a> as part
+        of an effort to remove React from that codebase, because right now that's a web app, when it should
+        really be a web page, instead. Just because you have JS disabled, should not mean you can't read it.
+      </p>
       </section>
     </main>
+
+    <hr>
 
     <footer>
       <p>

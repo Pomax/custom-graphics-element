@@ -12,7 +12,6 @@
 //
 // ***********************************************************************************
 
-
 /*
   First, we declare a few "global" variables so that we don't need to use
   code that has "this...." everywhere. There's nothing wrong with using
@@ -33,6 +32,8 @@ let bezierCurve,
  * Then, the main entry point for our graphics: this function gets run automatically
  */
 setup() {
+  setBorder(1);
+  showFocus();
   this.setupPageInteraction();
   this.reset();
   cursor = this.cursor;

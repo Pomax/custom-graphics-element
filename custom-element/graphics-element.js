@@ -24,12 +24,15 @@ class GraphicsElement extends CustomElement {
     }
   }
 
+  // TODO: document the "focus-css" attribute
+
   getStyle() {
     return `
       :host([hidden]) { display: none; }
       :host style { display: none; }
       :host canvas { display: block; margin: auto; }
-      :host label { display: block; font-style:italic; font-size: 0.9em; text-align: right;}
+      :host canvas:focus { ${this.getAttribute(`focus-css`) || `border: 1px solid red !important;`} }
+      :host label { display: block; font-style:italic; font-size: 0.9em; text-align: right; }
     `;
   }
 
@@ -40,10 +43,12 @@ class GraphicsElement extends CustomElement {
 
     if (codeElement) {
       let src = codeElement.getAttribute('src');
-      code = await fetch(src).then(response => response.text());
-    } else {
-      code = (codeElement ? codeElement : this).textContent;
-    }
+      if (src) {
+        code = await fetch(src).then(response => response.text());
+      } else {
+        code = codeElement.textContent
+      }
+    } else { code = this.textContent; }
 
     if (!codeElement) {
       codeElement = document.createElement(`program-code`);

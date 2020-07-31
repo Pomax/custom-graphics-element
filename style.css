@@ -1,4 +1,3 @@
-/* inlined because this is a trivial amount of data */
 html {
   width: 100%;
   height: 100%;
@@ -19,6 +18,7 @@ body {
 }
 
 footer {
+  margin-top: 2em;
   font-size: 0.8em;
 }
 
@@ -44,20 +44,64 @@ code {
   color: #8000ff;
 }
 
-bezier-graphic {
-  display: none;
-}
-
-bezier-graphic:defined {
-  display: inline-block;
-  border: 1px solid grey;
-  padding: 0.5em;
-  margin: 1em auto;
-  justify-self: center;
+pre {
+  font-size: 80%;
+  font-weight: bold;
+  color: #4d1486;
+  border: 1px solid black;
+  padding: 5px;
+  width: 90%;
+  margin: auto;
 }
 
 p {
-  clear: both;
+  overflow: auto;
   text-align: justify;
-  padding-top: 1em;
+}
+
+hr {
+  border: 1px solid rgb(137, 159, 213);
+  width: 85%;
+  margin: 1.5em auto;
+}
+
+
+
+/*
+  Let's look at how we can give the <graphics-element> a decent look,
+  but also how we can make sure that the <fallback> content only shows
+  when the <graphics-element> isn't actually defined, because scripts
+  are disabled (or blocked!).
+*/
+
+graphics-element {
+  border: 1px solid grey;
+}
+
+graphics-element:defined {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 1em auto;
+  justify-self: center;
+  font-size: revert;
+  text-align: revert;
+}
+
+graphics-element:not(:defined) > * {
+  display: none;
+}
+
+graphics-element:not(:defined) fallback {
+  display: block;
+  font-size: 60%;
+  text-align: center;
+  padding-bottom: 0.2em;
+}
+
+graphics-element:defined fallback {
+  display: none;
+}
+
+graphics-element fallback > img {
+  display: block;
 }

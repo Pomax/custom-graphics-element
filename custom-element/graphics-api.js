@@ -206,43 +206,7 @@ class GraphicsAPI {
   get HAND() { return `pointer`; }
 
   /**
-   * ...
-   */
-  setup() {
-    // console.log(`setup`);
-  }
-
-  /**
-   * ...
-   */
-  draw() {
-    // console.log(`draw`);
-  }
-
-  /**
-   * ...
-   */
-  redraw() {
-    this.draw();
-  }
-
-  /**
-   * ...
-   */
-  find(qs) {
-    let e = this.element.querySelector(qs);
-    return e ? enrich(e) : e;
-  }
-
-  /**
-   * ...
-   */
-  findAll(qs) {
-    return Array.from(this.element.querySelectorAll(qs)).map(e => enrich(e));
-  }
-
-  /**
-   * ...
+   * This function is critical in correctly sizing the canvas.
    */
   setSize(w, h) {
     this.width = w || this.width;
@@ -254,21 +218,64 @@ class GraphicsAPI {
   }
 
   /**
-   * ...
+   * This is the main entry point.
    */
-  setBorder(width=1, color=`black`) {
-    this.canvas.style.border = `${width}px solid ${color}`;
+  setup() {
+    // console.log(`setup`);
   }
 
   /**
-   * ...
+   * This is the draw (loop) function.
+   */
+  draw() {
+    // console.log(`draw`);
+  }
+
+  /**
+   * This is most a safety function, to
+   * prevent direct calls to draw().. it might
+   * disappear.
+   */
+  redraw() {
+    this.draw();
+  }
+
+  /**
+   * custom element scoped querySelector
+   */
+  find(qs) {
+    let e = this.element.querySelector(qs);
+    return e ? enrich(e) : e;
+  }
+
+  /**
+   * custom element scoped querySelectorAll
+   */
+  findAll(qs) {
+    return Array.from(this.element.querySelectorAll(qs)).map(e => enrich(e));
+  }
+
+  /**
+   * Set a (CSS) border on the canvas
+   */
+  setBorder(width=1, color=`black`) {
+    if (width === false ) {
+      this.canvas.style.border = `none`;
+    } else {
+      this.canvas.style.border = `${width}px solid ${color}`;
+    }
+  }
+
+  /**
+   * Force the browser to .focus() on the canvas, as focus
+   * from custom elements is ... unreliable?
    */
   forceFocus() {
     this.canvas.focus();
   }
 
   /**
-   * ...
+   * Determine whether or not the canva should be focussed when interacted with.
    */
   showFocus(show=true) {
     const canvas = this.canvas;
@@ -289,35 +296,35 @@ class GraphicsAPI {
   }
 
   /**
-   * ...
+   * Set the cursor type while the cursor is over the canvas
    */
   setCursor(type) {
     this.canvas.style.cursor = type;
   }
 
   /**
-   * ...
+   * Set the context fillStyle
    */
   setFill(color) {
     this.ctx.fillStyle = color;
   }
 
   /**
-   * ...
+   * Set the context strokeStyle
    */
   setStroke(color) {
     this.ctx.strokeStyle = color;
   }
 
   /**
-   * ...
+   * Set the context lineWidth
    */
   setWidth(width) {
     this.ctx.lineWidth = `${width}px`;
   }
 
   /**
-   * ...
+   * Reset the canvas bitmap to a uniform color.
    */
   clear(color = `transparent`) {
     this.ctx.fillStyle = color;
@@ -325,14 +332,14 @@ class GraphicsAPI {
   }
 
   /**
-   * ...
+   * Draw a Point (or {x,y,z?} conformant) object on the canvas
    */
   point(point) {
     point.draw(this.ctx);
   }
 
   /**
-   * ...
+   * Draw a line between two Points
    */
   line(p1, p2) {
     this.ctx.beginPath();
@@ -342,7 +349,7 @@ class GraphicsAPI {
   }
 
   /**
-   * ...
+   * Draw a circle around a Point
    */
   circle(p,r) {
     this.ctx.beginPath();
@@ -352,7 +359,7 @@ class GraphicsAPI {
   }
 
   /**
-   * ...
+   * Draw text on the canvas
    */
   text(str,x,y) {
     this.ctx.fillText(str, x, y);

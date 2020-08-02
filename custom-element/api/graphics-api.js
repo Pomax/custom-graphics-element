@@ -7,6 +7,10 @@ import { Bezier } from "../lib/types/bezier.js";
  * Our Graphics API, which is the "public" side of the API.
  */
 class GraphicsAPI extends BaseAPI {
+  static get constants() {
+    return [`POINTER`, `HAND`, `PI`, `TAU`];
+  }
+
   get PI() {
     return 3.14159265358979;
   }

@@ -19,13 +19,9 @@ class BaseAPI {
     return [`onMouseDown`, `onMouseMove`, `onMouseUp`, `onKeyDown`, `onKeyUp`];
   }
 
-  static get constants() {
-    return [`POINTER`, `HAND`, `PI`, `TAU`];
-  }
-
   static get methods() {
     const priv = this.privateMethods;
-    const names = Object.getOwnPropertyNames(this.prototype);
+    const names = Object.getOwnPropertyNames(this.prototype).concat([`showFocus`, `redraw`]);
     return names.filter((v) => priv.indexOf(v) < 0);
   }
 

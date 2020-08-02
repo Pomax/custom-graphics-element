@@ -152,10 +152,10 @@ class GraphicsElement extends CustomElement {
       new Example('${uid}', ${width}, ${height});
     `;
 
+    const url = URL.createObjectURL(new Blob([this.code], {type: `text/javascript`}));
     const script = (this.script = document.createElement(`script`));
     script.type = "module";
-    script.textContent = this.code;
-
+    script.src = url;
     if (rerender) this.render();
   }
 

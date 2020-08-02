@@ -67,19 +67,18 @@
             height="200"
           >
             <program-code>
+              let curve;
+
               setup() {
                 setBorder(1);
-                this.curve = new Bezier(
-                  this,
-                  70,140, 10,50, 190,50, 130,140
-                );
+                curve = new Bezier(this, 70,140, 10,50, 190,50, 130,140);
               }
 
               draw() {
                 clear(`#ccffc8`);
-                this.curve.drawSkeleton();
-                this.curve.drawCurve();
-                this.curve.drawPoints();
+                curve.drawSkeleton();
+                curve.drawCurve();
+                curve.drawPoints();
               }
             </program-code>
 

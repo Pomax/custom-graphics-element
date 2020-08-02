@@ -84,7 +84,7 @@ draw() {
   clear(backgroundColor);
 
   // Then, we draw a simple grid
-  setStroke(`#ccc`);
+  setStroke(`#ddd`);
   this.drawGrid();
 
   // Then, our  the Bezier curve.

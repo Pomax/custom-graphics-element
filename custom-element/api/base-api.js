@@ -21,7 +21,7 @@ class BaseAPI {
 
   static get methods() {
     const priv = this.privateMethods;
-    const names = Object.getOwnPropertyNames(this.prototype).concat([`showFocus`, `redraw`]);
+    const names = Object.getOwnPropertyNames(this.prototype).concat([`setSize`, `showFocus`, `redraw`]);
     return names.filter((v) => priv.indexOf(v) < 0);
   }
 

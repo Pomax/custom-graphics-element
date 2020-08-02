@@ -1,4 +1,6 @@
 function enrich(element) {
+  if (!element) return element;
+
   element.__listeners = {};
 
   element.listen = function (evtNames, handler) {

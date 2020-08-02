@@ -33,7 +33,7 @@ class GraphicsElement extends CustomElement {
     return `
       :host([hidden]) { display: none; }
       :host style { display: none; }
-      :host canvas { display: block; margin: auto; }
+      :host canvas { display: block; margin: auto; border-radius: 0; }
       :host canvas:focus { ${
         this.getAttribute(`focus-css`) || `border: 1px solid red !important;`
       } }
@@ -141,7 +141,7 @@ class GraphicsElement extends CustomElement {
     const height = this.getAttribute(`height`, 200);
 
     this.code = `
-      import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/graphics-api.js";
+      import { GraphicsAPI, Bezier, Point } from "${MODULE_PATH}/api/graphics-api.js";
 
       ${globalCode}
 

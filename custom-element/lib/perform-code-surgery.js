@@ -1,4 +1,4 @@
-import { GraphicsAPI } from "../graphics-api.js";
+import { GraphicsAPI } from "../api/graphics-api.js";
 
 export default function performCodeSurgery(code) {
 

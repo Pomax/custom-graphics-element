@@ -242,12 +242,25 @@ class GraphicsAPI extends BaseAPI {
    * Curve draw function, which assumes Bezier coordinates
    */
   drawBezier(ctx, points) {
-    console.log(points);
     for (let i = 0, e = points.length; i < e; i+=3) {
       let [p1, p2, p3] = points.slice(i, i + 3);
       ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
     }
   }
+
+  /**
+   * convenient grid drawing function
+   */
+  drawGrid(division=20) {
+    for(let x=(division/2)|0; x<this.width; x+=division) {
+      this.line({x,y:0}, {x,y:this.height});
+    }
+    for(let y=(division/2)|0; y<this.height; y+=division) {
+      this.line({x:0,y}, {x:this.width,y});
+    }
+  }
+
+  // TODO: add in transform functions (translate, rotate, scale, skew)
 }
 
 export { GraphicsAPI, Bezier, Point };

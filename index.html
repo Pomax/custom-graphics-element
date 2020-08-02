@@ -71,11 +71,13 @@
 
               setup() {
                 setBorder(1);
+                setStroke(`#ccc`);
                 curve = new Bezier(this, 70,140, 10,50, 190,50, 130,140);
               }
 
               draw() {
                 clear(`#ccffc8`);
+                this.drawGrid();
                 curve.drawSkeleton();
                 curve.drawCurve();
                 curve.drawPoints();

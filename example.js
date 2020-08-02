@@ -83,7 +83,11 @@ draw() {
   // First, we clear the canvas and set a background color.
   clear(backgroundColor);
 
-  // Then, we draw the Bezier curve.
+  // Then, we draw a simple grid
+  setStroke(`#ccc`);
+  this.drawGrid();
+
+  // Then, our  the Bezier curve.
   this.drawCurve();
 
   // Then, we draw a projection of the cursor's position on the canvas,

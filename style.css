@@ -1,15 +1,28 @@
+h1, h2, h3, h4 {
+  clear: both;
+}
+
+graphics-element {
+  float: right;
+  margin-left: 2em;
+}
+
 .slider-wrapper {
   width: 100%;
 }
+
 .slider-wrapper tr {
   display: flex;
 }
+
 .slider-wrapper td {
   flex: 0 0 auto;
 }
+
 .slider-wrapper td:nth-child(2) {
   flex: 1 1 auto;
 }
+
 .slider-wrapper td:nth-child(2) input {
   width: 100%;
 }

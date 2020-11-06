@@ -1,4 +1,4 @@
-<a href="https://pomax.github.io/custom-graphics-element/">Live sitere here</a>
+[<a href="https://pomax.github.io/custom-graphics-element/">visit the live site here</a>]
 
 <script type="module" src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
 <link rel="stylesheet" href="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.css">

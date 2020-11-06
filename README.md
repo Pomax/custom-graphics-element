@@ -6,7 +6,7 @@
 
 # The `<graphics-element>` custom HTML element
 
-<graphics-element title="A simple example graphic?" width="275" height="275" src="example.js"></graphics-element>
+<graphics-element title="A simple example graphic?" width="275" height="275" src="example.js" data-type="cubic"></graphics-element>
 
 What if you could just write graphics sketches on the web, similar to the old Processing.js (a JS port of [Processing](https://processing.org), the visual programming language, that was archived back in December of 2018), directly writing your graphics code as part of your HTML (similar to including an inline script), or by linking to a "main" source file by using a `src` attribute on an HTML element (similar to including a script the normal modern way)?
 

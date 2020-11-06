@@ -2,20 +2,15 @@ const REG_KEY = `registered as custom element`;
 
 // helper function
 function NotImplemented(instance, fname) {
-  console.warn(
-    `missing implementation for ${fname}(...data) in ${instance.__proto__.constructor.name}`
-  );
+  console.warn(`missing implementation for ${fname}(...data) in ${instance.__proto__.constructor.name}`);
 }
 
 // helper function for turning "ClassName" into "class-name"
 function getElementTagName(cls) {
-  return cls.prototype.constructor.name.replace(
-    /([A-Z])([a-z])/g,
-    (a, b, c, d) => {
-      const r = `${b.toLowerCase()}${c}`;
-      return d > 0 ? `-${r}` : r;
-    }
-  );
+  return cls.prototype.constructor.name.replace(/([A-Z])([a-z])/g, (a, b, c, d) => {
+    const r = `${b.toLowerCase()}${c}`;
+    return d > 0 ? `-${r}` : r;
+  });
 }
 
 /**
@@ -42,24 +37,21 @@ class CustomElement extends HTMLElement {
     super();
 
     if (!customElements.resolveScope) {
-      customElements.resolveScope = function(scope) {
+      customElements.resolveScope = function (scope) {
         try {
           return scope.getRootNode().host;
         } catch (e) {
           console.warn(e);
         }
         return window;
-      }
+      };
     }
 
     this._options = options;
 
     const route = {
       childList: (record) => {
-        this.handleChildChanges(
-          Array.from(record.addedNodes),
-          Array.from(record.removedNodes)
-        );
+        this.handleChildChanges(Array.from(record.addedNodes), Array.from(record.removedNodes));
         this.render();
       },
       attributes: (record) => {
@@ -89,21 +81,15 @@ class CustomElement extends HTMLElement {
     // Set up an open shadow DOM, because the web is open,
     // and hiding your internals is ridiculous.
 
-    const shadowProps = {
-      mode: `open`,
-      delegatesFocus: !!this._options.focus,
-    };
+    const shadowProps = { mode: `open` };
 
     this._shadow = this.attachShadow(shadowProps);
     this._style = document.createElement(`style`);
     this._style.textContent = this.getStyle();
 
-    if (this._options.header !== false)
-      this._header = document.createElement(`header`);
-    if (this._options.slot !== false && this._options.void !== true)
-      this._slot = document.createElement(`slot`);
-    if (this._options.footer !== false)
-      this._footer = document.createElement(`footer`);
+    if (this._options.header !== false) this._header = document.createElement(`header`);
+    if (this._options.slot !== false && this._options.void !== true) this._slot = document.createElement(`slot`);
+    if (this._options.footer !== false) this._footer = document.createElement(`footer`);
   }
 
   connectedCallback() {

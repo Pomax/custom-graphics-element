@@ -5,7 +5,7 @@ setup() {
     curve = (type === `quadratic`) ? Bezier.defaultQuadratic(this) : Bezier.defaultCubic(this);
     curve.points.forEach(p => p.y -= 20);
     setMovable(curve.points);
-    setSlider(`.slide-control`, `position`, 0.5);
+    addSlider(`.slide-control`, `position`, 0, 1, 0.01, 0.5);
 }
 
 

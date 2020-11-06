@@ -1,3 +1,5 @@
+[<a href="https://pomax.github.io/custom-graphics-element/">visit the live site here</a>]
+
 <script type="module" src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
 <link rel="stylesheet" href="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.css">
 <link rel="stylesheet" href="style.css">
@@ -9,6 +11,8 @@
 What if you could just write graphics sketches on the web, similar to the old Processing.js (a JS port of [Processing](https://processing.org), the visual programming language, that was archived back in December of 2018), directly writing your graphics code as part of your HTML (similar to including an inline script), or by linking to a "main" source file by using a `src` attribute on an HTML element (similar to including a script the normal modern way)?
 
 Thanks to JS having kicked into higher gear since 2015 when it comes to features, and the web APIs having gotten much richer, this is now entirely possible... so if that's something you want to use on your webpages: maybe the `<graphics-element>` element is for you!
+
+- [Pomax](https://twitter.com/TheRealPomax)
 
 ## Table of Contents
 

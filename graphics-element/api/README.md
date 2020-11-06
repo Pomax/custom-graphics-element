@@ -1,169 +1,4 @@
-<script src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
-<link rel="stylesheet" href="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.css">
-<link rel="stylesheet" href="style.css">
-
-# The `<graphics-element>` custom HTML element
-
-What if you could just write graphics sketches on the web, similar to the old Processing.js (a JS port of [Processing](https://processing.org), the visual programming language, that was archived back in December of 2018), directly writing your graphics code as part of your HTML (similar to including an inline script), or by linking to a "main" source file by using a `src` attribute on an HTML element (similar to including a script the normal modern way)?
-
-<graphics-element title="A simple example graphic?" width="200" height="200" src="example.js"></graphics-element>
-
-Thanks to JS having kicked into higher gear since 2015 when it comes to features, and the web APIs having gotten much richer, this is now entirely possible... so if that's something you want to use on your webpages: maybe the `<graphics-element>` element is for you!
-
-## Table of Contents
-
-**About the `<graphics-element>`**
-
-- [Introduction](#introduction)
-- [how to make this work on your own site](#how-to-make-this-work-on-own-site)
-- [the `<graphics-element>` element](#the-graphics-element-element)
-  - [Specifying code directly](#specifying-code-directly)
-  - [Specifying code using the `<program-code>` element](#specifying-code-using-the-program-code-element)
-  - [Specifying code using the `src` attribute](#specifying-code-using-the-src-attribute)
-- [the `<program-code>` element](#the-program-code-element)
-- [the `<fallback-image>` element](#the-fallback-image-element)
-
-**Writing graphics code**
-
-- [The basics](#the-basics)
-- [User-initiated events](#user-initiated-events)
-  - [touch/mouse events](#touch-mouse-events)
-  - [keyboard events](#keyboard-events)
-- [Controllable parameters](#controllable-parameters)
-  - [Using fixed startup parameters](#using-fixed-startup-parameters)
-  - [Using dynamic value sliders](#using-dynamic-value-sliders)
-    - [in code](#in-code)
-    - [from HTML](#from-html)
-- [Movable points](#movable-points)
-
-**API Documentation**
-
-- [Global constants](#global-constants)
-- [Instance properties](#instance-properties)
-- [General functions](#general-functions)
-- [Maths functions](#maths-functions)
-- [Property functions](#property-functions)
-- [Coordinate transform function](#coordinate-transform-function)
-- [Drawing functions](#drawing-functions)
-- [Shape drawing functions](#shape-drawing-functions)
-- Built-in Object types
-  - [Shape](#shape)
-  - [Vector](#vector)
-  - [Matrix](#matrix)
-  - [Bezier](#bezier)
-  - [BSpline](#bspline)
-
----
-
-
-## Introduction
-
-### How to make this work on your own site
-
-[Download the graphics-element packages](https://github.com/Pomax/custom-graphics-element/archive/master.zip) and copy the `graphics-element` dir into whatever you keep your page/site's javascript files. Then simply have the following `<script>` tag in your HTML:
-
-```html
-<script src="/.../graphics-element/graphics-element.js" async></script>
-```
-
-You can put this anywhere in your HTML because of that [async](https://developer.mozilla.org/docs/Web/HTML/Element/script#attr-async) attribute, but the normal spot would be somewhere inside your `<head>` section.
-
-Additionally, there is a convenience stylesheet that you can load so you don't have to write your own "what to show when the graphics-element is not quite yet defined, when to hide the fallback-image, etc.":
-
-```html
-<link rel="stylesheet" href="/.../graphics-element/graphics-element.css" async></script>
-```
-
-
-### The `<graphics-element>` element
-
-The `<graphics-element>` element is similar to the `<img>` element, having the following HTML syntax:
-
-```html
-<graphics-element title="..." width="..." height="..." src="...">
-  ...
-</graphics-element>
-```
-
-In addition to the standard attributes, there are also two attributes that you won't need unless you care about localizing your content (which, hopefully, you do!):
-
-```html
-<graphics-element title="..." width="..." height="..." src="..." viewSource="コードを読む" reset="リセット">
-  ...
-</graphics-element>
-```
-
-This is typically useful if you generate your HTML using a locale-aware templating language, e.g.:
-
-```html
-<graphics-element ... viewSource={{ 'view source' | localize }}" reset="{{ 'reset' | localize }}">
-  ...
-</graphics-element>
-```
-
-#### Specifying code directly
-
-You can specify graphics code directly as content for the `<graphics-element>` if you just want to get straight to business:
-
-```html
-<graphics-element ...>
-  let curve;
-
-  setup() {
-    curve = Bezier.create(this, 0,0, 100,100, 200,0);
-    setMovable(curve.points);
-  }
-
-  draw() {
-    clear(`white`)
-    curve.drawCurve();
-  }
-</graphics-element>
-```
-
-#### Specifying code using the `<program-code>` element
-
-You can also wrap your code in a `<program-code>` element, which you will have to do if you intend to put any other HTML inside your `<graphics-element>`.
-
-```html
-<graphics-element ...>
-  <program-code>
-    setup() {
-      ...
-    }
-
-    ...
-  </program-code>
-</graphics-element>
-```
-
-#### Specifying code using the `src` attribute
-
-Of course, the most "webbish" way to load code is to use the `src` attribute:
-
-```html
-<graphics-element ... src="./my-code.js"></graphics-element>
-```
-
-For convenience, code uses the `.js` extension, but the `<graphics-element>` technically doesn't care what extension you use. The only reason `.js` is recommended is because your code will get dropped into a modern JS class that `extends Example`, after which it gets run directly.
-
-
-### The `<fallback-image>` element
-
-One of the annoying things about the modern web is that a lot of content has to load on a page, with already rendered content moving around as the rest loads in. It is the worst. That's why you can also specify a fallback image that gets used not just when JS is disabled by your users (a very safe practice, if you're not using browser extensions that disable JS by default so you can whitelist what should be allowed to run, you probably want to install one) but also for as long as it takes the browser to load in the `<graphics-element>` definition.
-
-```html
-<graphics-element title="An interactive graphic element" width="400" height="200" src="example.js">
-  <fallback-image>
-    <img class="fallback" src="images/interactive.png" width="400" height="200">
-    scripts are disabled, showing placeholder
-  </fallback-image>
-</graphics-element>
-```
-
-This allows the browser to "preallocate" the space required on the page for your graphic, while also having meaningful content on the page rather than just "an empty space".
-
-## The basics
+# The Graphics API
 
 Graphics code is bootstrapped and drawn uses two "master" functions:
 
@@ -366,7 +201,7 @@ Note that while it might seem that `<input>` elements can be made fully self-des
 
 ## Movable points
 
-An important part of the Graphics API is showing shapes that are controlled or defined by coordinates, and so there are special functions for marking points as "movable" - that is, these points can be click/touch-dragged around a graphic. To fascilitate this, the following functions can be used:
+An important part of the Graphics API is showing shapes that are controlled or defined by coordinates, and as there are special functions for marking points as "movable" - that is, these points can be click/touch-dragged around a graphic. To fascilitate this, the following functions can be used:
 
 - `setMovable(points, ...)` takes one or more arrays of points, and marks all points as "being movable", such that if the cursor activates at an x/y coordinate near one of these, that point gets assigned to `this.currentPoint`, as well as being automatically moved around as you drag the cursor around on the sketch.
 - `resetMovable()` will clear the list of movable points.
@@ -392,26 +227,26 @@ The following is the list of API functions that can be used to draw... whatever 
 - `RIGHT` "right"
 
 
-### Instance properties
+### Instance propeties
 
-- `this.currentPoint` whatever point thec cursor is currently close enough to to interact with
-- `this.currentShape` the currently active shape. **warning:** this value gets reset any time `start()` is used, so it is recommended to cache the current shape using `saveShape()` instead of directly referencing `this.currentShape`.
-- `this.cursor` represents the current mouse/touch cursor state
-- `this.frame` the current frame (i.e. the number of times `draw()` has run)
+- `this.width` the width of the graphic
 - `this.height` the height of the graphic
-- `this.keyboard` the current keyboard state
+- `this.frame` the current frame (i.e. the number of times `draw()` has run)
 - `this.panelWidth` the width of a single panel in the graphic, only meaningful in conjunction with `setPanelWidth` (see below)
 - `this.parameters` the collection of externally passed parameters (via HTML: `data-...` attributes, via JS: a key/value object)
-- `this.width` the width of the graphic
+- `this.cursor` represents the current mouse/touch cursor state
+- `this.currentPoint` whatever point thec cursor is currently close enough to to interact with
+- `this.keyboard` the current keyboard state
+- `this.currentShape` the currently active shape. **warning:** this value gets reset any time `start()` is used, so it is recommended to cache the current shape using `saveShape()` instead of directly referencing `this.currentShape`.
 
 
 ### General functions
 
+- `setSize(width,height)` explicitly resizes the canvas. **warning:** this will reset all color, transform, etc. properties to their default values.
+- `setPanelCount(int)` use this in `setup()` to let the API know that this graphic is technically a number of "separate" panels of content, setting `this.panelWidth` to `width`/`panelcount`.
+- `toDataURL()` returns the graphic as PNG image, encoded as a data URL.
 - `find(qs)` find an HTML elements in the `<graphics-element>` DOM tree, using a query selector
 - `findAll(qs)` find all HTML elements that match the provided querySelector. **note:** unlike the DOM API, this function returns a plain array.
-- `setPanelCount(int)` use this in `setup()` to let the API know that this graphic is technically a number of "separate" panels of content, setting `this.panelWidth` to `width`/`panelcount`.
-- `setSize(width,height)` explicitly resizes the canvas. **warning:** this will reset all color, transform, etc. properties to their default values.
-- `toDataURL()` returns the graphic as PNG image, encoded as a data URL.
 
 
 ### Maths functions
@@ -425,12 +260,12 @@ The following is the list of API functions that can be used to draw... whatever 
 - `cos(v)` cosine
 - `dist(x1, y1, x2, y2)` the euclidean distance between (x1,y1) and (x2,y2)
 - `floor(v)` round any fractional number to an integer by discarding its fractional part
-- `map(v, fromStart, fromEnd, toStart, toEnd, constrain = false)` compute a value on an interval [fromStart,fromEnd] to its corresponding value on the interval [toStart,toEnd], with optional constraining to that new interval.
+- `map(v, fromStart, fromEnd, toStrart, toEnd, constrain = false)` compute a value on an interval [fromStart,fromEnd] to its corresponding value on the interval [toStart,toEnd], with optional constraining to that new interval.
 - `max(...v)` find the highest number in two or more numbers
 - `min(...v)` find the lowest number in two or more numbers
 - `random()` generate a random value between 0 (inclusive) and 1 (exclusive)
-- `random(a,b)` generate a random value between `a` (inclusive) and `b` (exclusive)
 - `random(v)` generate a random value between 0 (inclusive) and `v` (exclusive)
+- `random(a,b)` generate a random value between `a` (inclusive) and `b` (exclusive)
 - `round(v)` round any fractional number by applying `ceil` for any number with fractional part >= 0.5, and `floor` for any number with fractional part < 0.5.
 - `sin(v)` sine
 - `sqrt(v)` square root
@@ -438,26 +273,26 @@ The following is the list of API functions that can be used to draw... whatever 
 
 ### Property functions
 
-- `noColor()` set both stroke and fill color to "transparent"
-- `noFill()` set the fill color to "transparent"
-- `noGrid()` do not draw a background grid
-- `noLineDash()` do not use line dashing for strokes
-- `noShadow()` do not use shape shadows
-- `noStroke()` set the stroke color to "transparent"
-- `noTextStroke()` disable text outline
 - `setBorder(width = 1, color = "black")` set the canvas border width and color
 - `setColor(color)` set the color for both shape stroke and fill
+- `noColor()` set both stroke and fill color to "transparent"
 - `setCursor(type)` set the CSS cursor type. `POINTER`, `HAND`, and `CROSS` constants are provided, other values must be supplied as string.
 - `setFill(color)` set the fill color
+- `noFill()` set the fill color to "transparent"
 - `setFont(font)` set the text font, using [CSS font syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/font)
 - `setFontFamily(name)` set the font to be used, by name
 - `setFontSize(px)` set the font size in pixels
 - `setFontWeight(val)` set the font weight in CSS weight units
 - `setGrid(size, color)` set the background grid's spacing and line coloring
+- `noGrid()` do not draw a background grid
 - `setLineDash(...values)` set the interval values for [dashed lines](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash)
+- `noLineDash()` do not use line dashing for strokes
 - `setShadow(color, px)` set the color and blur distance for drawing shape shadows
+- `noShadow()` do not use shape shadows
 - `setStroke(color)` set the stroke color
+- `noStroke()` set the stroke color to "transparent"
 - `setTextStroke(color, weight)` set the text outline stroke color and width (in pixels)
+- `noTextStroke()` disable text outline
 - `setWidth()` reset the stroke width to be 1 pixel wide
 - `setWidth(width)` set the stroke width to a custom value, in pixels
 
@@ -559,7 +394,7 @@ The `Matrix` class represents an `N`x`M` matrix, with minimal standard API:
 - `multiply(other)` return a new `Matrix` representing the right-multiplication of this matrix with some other matrix
 - `invert()` return a new `Matrix` representing the inverse of this matrix, or `undefined` if no inverse exists
 - `transpose()` return a new `Matrix` representing the transpose of this matrix
-
+...
 
 ### Bezier
 
@@ -584,7 +419,7 @@ The extended API in addition to these static functions are:
 
 ### BSpline
 
-The `BSpline` class represents a generic [B-spline](https://en.wikipedia.org/wiki/B-spline) curve, with a minimal API:
+The `BSpline` class represents a generaic [B-spline](https://en.wikipedia.org/wiki/B-spline) curve, with a minimal API:
 
 - **`new BSpline(apiInstance, points)`** constructs a B-spline controlled by a points array in which each element may be either of the form `{x: ..., y: ...}` or a numerical tuple `[x,y]`. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
 - `getLUT(count)` returns an array of `count` coordinates of the form `{x:...,y:...}`, representing a polygonal approximation of this `BSpline`.

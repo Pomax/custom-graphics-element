@@ -1,4 +1,4 @@
-<script src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
+<script type="module" src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
 <link rel="stylesheet" href="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.css">
 <link rel="stylesheet" href="style.css">
 
@@ -63,7 +63,7 @@ Thanks to JS having kicked into higher gear since 2015 when it comes to features
 [Download the graphics-element packages](https://github.com/Pomax/custom-graphics-element/archive/master.zip) and copy the `graphics-element` dir into whatever you keep your page/site's javascript files. Then simply have the following `<script>` tag in your HTML:
 
 ```html
-<script src="/.../graphics-element/graphics-element.js" async></script>
+<script type="module" src="/.../graphics-element/graphics-element.js" async></script>
 ```
 
 You can put this anywhere in your HTML because of that [async](https://developer.mozilla.org/docs/Web/HTML/Element/script#attr-async) attribute, but the normal spot would be somewhere inside your `<head>` section.

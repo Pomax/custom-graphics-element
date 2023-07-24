@@ -12,7 +12,7 @@ What if you could just write graphics sketches on the web, similar to the old Pr
 
 Thanks to JS having kicked into higher gear since 2015 when it comes to features, and the web APIs having gotten much richer, this is now entirely possible... so if that's something you want to use on your webpages: maybe the `<graphics-element>` element is for you!
 
-- [Pomax](https://twitter.com/TheRealPomax)
+- [Pomax](https://mastodon.social/@TheRealPomax)
 
 ## Table of Contents
 

@@ -1,9 +1,5 @@
 [<a href="https://pomax.github.io/custom-graphics-element/">visit the live site here</a>]
 
-<script type="module" src="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.js"></script>
-<link rel="stylesheet" href="https://pomax.github.io/custom-graphics-element/graphics-element/graphics-element.css">
-<link rel="stylesheet" href="style.css">
-
 # The `<graphics-element>` custom HTML element
 
 <graphics-element title="A simple example graphic?" width="275" height="275" src="example.js" data-type="cubic"></graphics-element>

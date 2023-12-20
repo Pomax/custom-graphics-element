@@ -1,0 +1,14 @@
+{
+  "name": "custom-graphics-element",
+  "version": "1.0.0",
+  "description": "[<a href=\"https://pomax.github.io/custom-graphics-element/\">visit the live site here</a>]",
+  "main": "example.js",
+  "scripts": {
+    "test": "serve --cors"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

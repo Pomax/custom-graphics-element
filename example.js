@@ -1,84 +1,117 @@
-let curve, utils = Bezier.getUtils();
+const F = 1;
+const { abs } = Math;
 
-setup() {
-    const type = this.parameters.type ?? `quadratic`;
-    curve = (type === `quadratic`) ? Bezier.defaultQuadratic(this) : Bezier.defaultCubic(this);
-    curve.points.forEach(p => p.y -= 20);
-    setMovable(curve.points);
-    addSlider(`.slide-control`, `position`, 0, 1, 0.01, 0.5);
+const target = 100;
+
+function constrain(v, a, b) {
+  return v < a ? a : v > b ? b : v;
 }
 
+class PID {
+  constructor(p, i, d, maxErrors = 50) {
+    this.kp = p;
+    this.ki = i;
+    this.kd = d;
+    this.I = 0;
+    this.lastError = false;
+    this.errors = [];
+    this.maxErrors = maxErrors;
+  }
 
-/**
- * The master draw function for the `projection` sketches
- */
-draw() {
+  getRecommendation(current, target) {
+    if (this.lastError === false) {
+      this.lastError = current;
+    }
+    const { kp, ki, kd, errors, maxErrors } = this;
+    const error = target - current;
+    const akp = error / 10 < 1 ? (error / 10) ** 2 : 1;
+    const P = kp * akp * error;
+    errors.push(error);
+    const I = (ki * errors.reduce((t, e) => t + e, 0)) / errors.length;
+    const D = kd * (error - this.lastError);
+    this.lastError = error;
+    while (errors.length > maxErrors) errors.shift();
+    return P + I + D;
+  }
+}
+
+const graphics = {
+  /**
+   *the master setup function
+   */
+  setup() {
+    addSlider(`.slide-control`, `maxErrors`, 1, 1000, 1, 100);
+    addSlider(`.slide-control`, `kp`, 0, 0.5, 0.001, 0.05);
+    addSlider(`.slide-control`, `ki`, -0.3, 0.3, 0.001, -0.03);
+    addSlider(`.slide-control`, `kd`, 0, 20, 0.01, 10);
+  },
+
+  /**
+   * The master draw function
+   */
+  draw() {
     clear();
-    curve.drawSkeleton();
-    curve.drawCurve();
-    curve.drawPoints();
 
-    const t = this.position;
-    const p = curve.get(t);
+    const { width, height } = this;
+    const f = 2;
+    const h = height / f;
 
-    setStroke(`black`);
-    circle(p.x, p.y, 2);
+    // our zero axis
+    this.setStroke(`black`);
+    this.line(0, h, width, h);
 
-    // find the A/B/C values as described in the section text
-    const hull = curve.drawStruts(t, `lightblue`);
-    let A, B, C;
+    // our target
+    this.setStroke(`blue`);
+    this.line(0, height - (h + target / f), width, height - (h + target / f));
 
-    setStroke(`lightgrey`);
-    if(hull.length === 6) {
-        A = curve.points[1];
-        B = hull[5];
-        let p1 = curve.points[0];
-        let p2 = curve.points[2];
-        C = utils.lli4(A, B, p1, p2);
-        line(p1.x, p1.y, p2.x, p2.y);
-    } else if(hull.length === 10) {
-        A = hull[5];
-        B = hull[9];
-        let p1 = curve.points[0];
-        let p2 = curve.points[3];
-        C = utils.lli4(A, B, p1, p2);
-        line(p1.x, p1.y, p2.x, p2.y);
+    const data = this.generatePIDcurve();
+
+    // input curve
+    this.noFill();
+    this.setStroke(`red`);
+    this.start();
+    data.forEach(([x, y]) => this.vertex(x / F, height - (h + y / f)));
+    this.end();
+
+    // output curve
+    this.noFill();
+    this.setStroke(`green`);
+    this.start();
+    data.forEach(([x, _, y]) => this.vertex(x / F, height - (h + y / f)));
+    this.end();
+  },
+
+  generatePIDcurve() {
+    const { kp, ki, kd, maxErrors } = this;
+    const pid = new PID(kp, ki, kd, maxErrors);
+    const v = new Vector(0, 0, 0);
+
+    const update = (u) => {
+      // use .y as inertial force
+      if (target - v.x < 10 && u < 0) {
+        v.y += u / 100;
+      } else if (v.x - target < 10 && u < 0) {
+        v.y += u / 100;
+      } else {
+        v.y += u / 100;
+      }
+      v.x = v.x + v.y;
+    };
+
+    let min = 0,
+      max = 0;
+    const data = [];
+    for (let i = 0; i < F * this.width; i++) {
+      const softTarget =
+        abs(target - v.x) < 20 ? target : v.x < target ? v.x + 20 : v.x - 20;
+      const output = pid.getRecommendation(v.x, softTarget);
+      update(output);
+      if (min > v.x) min = v.x;
+      if (max < v.x) max = v.x;
+      data.push([i, v.x, output]);
     }
-
-    this.drawABCdata(t, A, B, C, hull);
-}
-
-drawABCdata(t, A, B, C, hull) {
-    // show the lines between the A/B/C values
-    setStroke(`#00FF00`);
-    line(A.x, A.y, B.x, B.y);
-    setStroke(`red`);
-    line(B.x, B.y, C.x, C.y);
-    setStroke(`black`);
-    circle(C.x, C.y, 3);
-
-    // with their associated labels
-    setFill(`black`);
-    text(`Using t = ${t.toFixed(2)}`, this.width/2, 10, CENTER);
-
-    setTextStroke(`white`, 4);
-    text(`A`, 10 + A.x, A.y);
-    text(`B`, 10 + B.x, B.y);
-    text(`C`, 10 + C.x, C.y);
-
-    if(curve.order === 2) {
-        text(`e1`, hull[3].x, hull[3].y+3, CENTER);
-        text(`e2`, hull[4].x, hull[4].y+3, CENTER);
-    } else {
-        text(`e1`, hull[7].x, hull[7].y+3, CENTER);
-        text(`e2`, hull[8].x, hull[8].y+3, CENTER);
-        text(`v1`, hull[4].x, hull[4].y+3, CENTER);
-        text(`v2`, hull[6].x, hull[6].y+3, CENTER);
-    }
-
-    // and show the distance ratio, which we see does not change irrespective of whether A/B/C change.
-    const d1 = dist(A.x, A.y, B.x, B.y);
-    const d2 = dist(B.x, B.y, C.x, C.y);
-    const ratio = d1/d2;
-    text(`d1 = A-B: ${d1.toFixed(2)}, d2 = B-C: ${d2.toFixed(2)}, d1/d2: ${ratio.toFixed(4)}`, 10, this.height-7);
-}
+    data.min = min;
+    data.max = max;
+    return data;
+  },
+};

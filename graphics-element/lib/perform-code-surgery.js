@@ -2,11 +2,9 @@ import { GraphicsAPI } from "../api/graphics-api.js";
 
 export default function performCodeSurgery(code) {
   // 0. strip out superfluous whitespace
-
   code = code.replace(/\r?\n(\r?\n)+/, `\n`);
 
   // 1. ensure that anything that needs to run by first calling its super function, does so.
-
   GraphicsAPI.superCallers.forEach((name) => {
     const re = new RegExp(`${name}\\(([^)]*)\\)[\\s\\r\\n]*{[\\s\\r\\n]*`, `g`);
     code = code.replace(re, `${name}($1) { super.${name}($1);\n`);

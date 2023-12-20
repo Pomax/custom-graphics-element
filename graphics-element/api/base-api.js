@@ -6,7 +6,14 @@
  */
 class BaseAPI {
   static get privateMethods() {
-    return [`constructor`, `createHatchPatterns`, `addListeners`, `getCursorCoords`].concat(this.superCallers).concat(this.eventHandlers);
+    return [
+      `constructor`,
+      `createHatchPatterns`,
+      `addListeners`,
+      `getCursorCoords`,
+    ]
+      .concat(this.superCallers)
+      .concat(this.eventHandlers);
   }
 
   static get superCallers() {
@@ -19,7 +26,10 @@ class BaseAPI {
 
   static get methods() {
     const priv = this.privateMethods;
-    const names = Object.getOwnPropertyNames(this.prototype).concat([`setSize`, `redraw`]);
+    const names = Object.getOwnPropertyNames(this.prototype).concat([
+      `setSize`,
+      `redraw`,
+    ]);
     return names.filter((v) => priv.indexOf(v) < 0);
   }
 
@@ -79,6 +89,7 @@ class BaseAPI {
     this.currentPoint = false;
     this.frame = 0;
     this.setup();
+    this.__ready_to_draw = true;
     this.draw();
   }
 
@@ -96,7 +107,9 @@ class BaseAPI {
 
     const root = typeof document !== "undefined" ? document : canvas;
 
-    [`touchstart`, `mousedown`].forEach((evtName) => canvas.addEventListener(evtName, (evt) => this.onMouseDown(evt)));
+    [`touchstart`, `mousedown`].forEach((evtName) =>
+      canvas.addEventListener(evtName, (evt) => this.onMouseDown(evt))
+    );
 
     [`touchmove`, `mousemove`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => {
@@ -111,13 +124,19 @@ class BaseAPI {
       })
     );
 
-    [`touchend`, `mouseup`].forEach((evtName) => root.addEventListener(evtName, (evt) => this.onMouseUp(evt)));
+    [`touchend`, `mouseup`].forEach((evtName) =>
+      root.addEventListener(evtName, (evt) => this.onMouseUp(evt))
+    );
 
     this.keyboard = {};
 
-    [`keydown`].forEach((evtName) => canvas.addEventListener(evtName, (evt) => this.onKeyDown(evt)));
+    [`keydown`].forEach((evtName) =>
+      canvas.addEventListener(evtName, (evt) => this.onKeyDown(evt))
+    );
 
-    [`keyup`].forEach((evtName) => canvas.addEventListener(evtName, (evt) => this.onKeyUp(evt)));
+    [`keyup`].forEach((evtName) =>
+      canvas.addEventListener(evtName, (evt) => this.onKeyUp(evt))
+    );
   }
 
   stopEvent(evt) {
@@ -219,6 +238,8 @@ class BaseAPI {
   setSize(w, h) {
     this.width = w || this.width;
     this.height = h || this.height;
+    this.element.style.setProperty(`--width`, this.width);
+    this.element.style.setProperty(`--height`, this.height);
     if (!this.preSized) {
       this.canvas.width = this.width;
       this.canvas.style.width = `${this.width}px`;
@@ -244,6 +265,7 @@ class BaseAPI {
    * This is the draw (loop) function.
    */
   draw() {
+    if (!this.__ready_to_draw) return;
     this.frame++;
     // console.log(`draw`);
   }
@@ -254,6 +276,7 @@ class BaseAPI {
    * disappear.
    */
   redraw() {
+    if (!this.__ready_to_draw) return;
     this.redrawing = true;
     this.draw();
     this.redrawing = false;

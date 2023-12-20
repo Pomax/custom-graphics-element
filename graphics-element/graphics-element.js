@@ -45,14 +45,24 @@ class GraphicsElement extends CustomElement {
 
     this.originalHTML = this.outerHTML;
 
-    // Do we load immediately?
+    this.label = document.createElement(`label`);
+    if (!this.title) this.title = ``;
+    this.label.textContent = this.title;
+    this.style.display = `inline-block`;
+    this.style.width = `calc(1px * var(--width))`;
+    this.style.height = `calc(1px * var(--height))`;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    // set our CSSS size
+    this.style.setProperty(`--width`, this.getAttribute(`width`));
+    this.style.setProperty(`--height`, this.getAttribute(`height`));
+    // then, do we load immediately?
     if (isInViewport(this)) {
       this.loadSource();
-    }
-
-    // Or do we load later, once we've been scrolled into view?
-    else {
-      let fallback = this.querySelector(`img`);
+    } else {
+      // if we don't, wait until we're in view
       new IntersectionObserver(
         (entries, observer) =>
           entries.forEach((entry) => {
@@ -62,12 +72,8 @@ class GraphicsElement extends CustomElement {
             }
           }),
         { threshold: 0.1, rootMargin: `${window.innerHeight}px` }
-      ).observe(fallback);
+      ).observe(this);
     }
-
-    this.label = document.createElement(`label`);
-    if (!this.title) this.title = ``;
-    this.label.textContent = this.title;
   }
 
   /**
@@ -121,7 +127,9 @@ class GraphicsElement extends CustomElement {
     debugLog(`loading ${this.getAttribute(`src`)}`);
 
     if (!IMPORT_GLOBALS_FROM_GRAPHICS_API) {
-      const importStatement = (await fetch(`${MODULE_PATH}/api/graphics-api.js`).then((r) => r.text()))
+      const importStatement = (
+        await fetch(`${MODULE_PATH}/api/graphics-api.js`).then((r) => r.text())
+      )
         .match(/(export { [^}]+ })/)[0]
         .replace(`export`, `import`);
       IMPORT_GLOBALS_FROM_GRAPHICS_API = `${importStatement} from "${MODULE_PATH}/api/graphics-api.js"`;
@@ -150,6 +158,15 @@ class GraphicsElement extends CustomElement {
       }
     }
 
+    // remove the "JS object shell"
+    const pos = code.indexOf(`const graphics`);
+    const global = code.substring(0, pos);
+    code = code.substring(pos);
+    code = code.replace(/\s*const graphics\s*=\s*{/, ``);
+    code = code.replaceAll(/\n(  )+\},\n/g, `\n}`, pos); // FIXME: this is super brittle, and should really use a tokenizer/DFA
+    code = code.substring(0, code.lastIndexOf(`}`));
+    code = code;
+
     if (!codeElement) {
       codeElement = document.createElement(`program-code`);
       codeElement.textContent = code;
@@ -169,13 +186,13 @@ class GraphicsElement extends CustomElement {
     });
 
     // But on the first pass, we do.
-    this.processSource(src, code, true);
+    this.processSource(src, global, code, true);
   }
 
   /**
    * Transform the graphics source code into global and class code.
    */
-  processSource(src, code, rerender = false) {
+  processSource(src, global, code, rerender = false) {
     if (this.script) {
       if (this.script.parentNode) {
         this.script.parentNode.removeChild(this.script);
@@ -184,7 +201,10 @@ class GraphicsElement extends CustomElement {
       rerender = true;
     }
 
-    const uid = (this.uid = `bg-uid-${Date.now()}-${`${Math.random()}`.replace(`0.`, ``)}`);
+    const uid = (this.uid = `bg-uid-${Date.now()}-${`${Math.random()}`.replace(
+      `0.`,
+      ``
+    )}`);
     window[uid] = this;
 
     // Step 1: fix the imports. This is ... a bit of work.
@@ -208,7 +228,7 @@ class GraphicsElement extends CustomElement {
 
     // Then, step 2: split up the code into "global" vs. "class" code.
     const split = splitCodeSections(code);
-    const globalCode = split.quasiGlobal;
+    const globalCode = global + `\n` + split.quasiGlobal;
     const classCode = performCodeSurgery(split.classCode);
 
     this.setupCodeInjection(src, uid, globalCode, classCode, rerender);
@@ -219,8 +239,8 @@ class GraphicsElement extends CustomElement {
    * element for it, to be inserted into the shadow DOM during render().
    */
   setupCodeInjection(src, uid, globalCode, classCode, rerender) {
-    const width = this.getAttribute(`width`, 200);
-    const height = this.getAttribute(`height`, 200);
+    const width = this.getAttribute(`width`) || 400;
+    const height = this.getAttribute(`height`) || 200;
 
     this.code = `
       /**
@@ -240,7 +260,9 @@ class GraphicsElement extends CustomElement {
 
     const script = (this.script = document.createElement(`script`));
     script.type = "module";
-    script.src = `data:application/javascript;charset=utf-8,${encodeURIComponent(this.code)}`;
+    script.src = `data:application/javascript;charset=utf-8,${encodeURIComponent(
+      this.code
+    )}`;
 
     if (rerender) this.render();
   }
@@ -254,11 +276,8 @@ class GraphicsElement extends CustomElement {
     offDOM.style.display = `none`;
     offDOM.innerHTML = this.originalHTML;
     const newElement = offDOM.querySelector(`graphics-element`);
-    newElement.addEventListener(`load`, () => {
-      parent.replaceChild(newElement, this);
-      document.body.removeChild(offDOM);
-    });
-    document.body.appendChild(offDOM);
+
+    parent.replaceChild(newElement, this);
   }
 
   /**
@@ -317,7 +336,10 @@ class GraphicsElement extends CustomElement {
       if (!this.script.__inserted) {
         // Schedule an error print, which will get cleared if there
         // were no source code errors.
-        this.errorPrintTimeout = setTimeout(() => this.printCodeDueToError(), 1000);
+        this.errorPrintTimeout = setTimeout(
+          () => this.printCodeDueToError(),
+          1000
+        );
         this.script.__inserted = true;
         this._shadow.appendChild(this.script);
       }
@@ -358,7 +380,6 @@ GraphicsElement.DEBUG = false;
 // debugging should be behind a flag
 function debugLog(...data) {
   if (GraphicsElement.DEBUG) {
-    console.log(...data);
   }
 }
 

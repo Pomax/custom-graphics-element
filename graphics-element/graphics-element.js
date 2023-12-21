@@ -33,14 +33,6 @@ function isInViewport(e) {
 CustomElement.register(class ProgramCode extends HTMLElement {});
 
 /**
- * One-time inject our CSS, otherwise things will look bleh.
- */
-const link = document.createElement(`link`);
-link.rel = `stylesheet`;
-link.href = import.meta.url.replace(`.js`, `.css`);
-document.head.append(link);
-
-/**
  * Our custom element
  */
 class GraphicsElement extends CustomElement {
@@ -55,9 +47,6 @@ class GraphicsElement extends CustomElement {
     this.label = document.createElement(`label`);
     if (!this.title) this.title = ``;
     this.label.textContent = this.title;
-    // this.style.display = `inline-block`;
-    // this.style.width = `calc(1px * var(--width))`;
-    // this.style.height = `calc(1px * var(--height))`;
   }
 
   connectedCallback() {

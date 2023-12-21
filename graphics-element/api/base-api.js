@@ -145,6 +145,7 @@ class BaseAPI {
    *
    */
   setCursorCoords(evt) {
+    if (evt.type !== `mousemove`) console.log(`set cursor:`, evt);
     this.cursor.x = evt.offsetX;
     this.cursor.y = evt.offsetY;
   }

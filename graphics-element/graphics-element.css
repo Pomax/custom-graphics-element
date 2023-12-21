@@ -82,7 +82,7 @@ graphics-element {
     }
   }
 
-  & table.slider-wrapper {    
+  & table.slider-wrapper {
     & td:nth-child(2) {
       font-size: 0.6em;
       text-align: center;

@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>let's do some graphics</title>
     <script
       src="graphics-element/graphics-element.js"
       type="module"
       async
     ></script>
-    <link ref="stylesheet" href="graphics-element/graphics-element.css" />
+    <link rel="stylesheet" href="graphics-element/graphics-element.css" />
   </head>
   <body>
+    <h1>on-page graphics</h1>
+
+    <p>
+      Let's embed an interactive graphic right onto the page, using the magic of
+      a custom element.
+    </p>
+
     <graphics-element
-      title="an example"
-      width="500"
-      height="300"
-      src="./example.js"
+      title="an example using a PID controller"
+      src="./pid-example.js"
     ></graphics-element>
+
+    <p>
+      Of course, that's only slider-based interaction, how about actual
+      interaction?
+    </p>
+
+    <graphics-element
+      title="an example with interactive points"
+      src="./point-example.js"
+    ></graphics-element>
+
+    <p>And that's fine, but what about if we also animate our graphics?</p>
+
+    <graphics-element
+      title="an example with a play button"
+      src="./animated-example.js"
+      ><button>play</button></graphics-element
+    >
   </body>
 </html>

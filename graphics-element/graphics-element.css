@@ -5,6 +5,7 @@
   are disabled (or blocked!).
 */
 graphics-element {
+  display: block;
   border: 1px solid grey;
 
   /*
@@ -78,6 +79,24 @@ graphics-element {
     */
     & fallback-image.loaded {
       display: none;
+    }
+  }
+
+  & table.slider-wrapper {    
+    & td:nth-child(2) {
+      font-size: 0.6em;
+      text-align: center;
+      vertical-align: middle;
+      padding-left: 1em;
+    }
+    & td:nth-child(4) {
+      font-size: 0.6em;
+      text-align: center;
+      vertical-align: middle;
+      padding-right: 1em;
+    }
+    & td:nth-child(5) {
+      text-align: center;
     }
   }
 }

@@ -4,8 +4,17 @@ export default function impartSliderLogic(GraphicsAPI) {
   /**
    * Dynamically add a slider
    */
-  GraphicsAPI.prototype.addSlider = function addSlider(classes, propname, min, max, step, value, transform) {
+  GraphicsAPI.prototype.addSlider = function addSlider(propname, options = {}) {
     if (this.element) {
+      const {
+        min = 0,
+        max = 1,
+        step = 1,
+        value = 0,
+        classes = `slider`,
+        transform = (v) => v,
+      } = options;
+
       let slider = create(`input`);
       slider.type = `range`;
       slider.min = min;
@@ -27,7 +36,13 @@ export default function impartSliderLogic(GraphicsAPI) {
    * @param {*} step
    * @param {*} value
    */
-  GraphicsAPI.prototype.updateSlider = function updateSlider(propname, min, max, step, value) {
+  GraphicsAPI.prototype.updateSlider = function updateSlider(
+    propname,
+    min,
+    max,
+    step,
+    value
+  ) {
     let slider = this._sliders[propname];
 
     if (!slider) {
@@ -49,7 +64,12 @@ export default function impartSliderLogic(GraphicsAPI) {
    * @param {float} initial the initial value for this property.
    * @param {boolean} redraw whether or not to redraw after updating the value from the slider.
    */
-  GraphicsAPI.prototype.setSlider = function setSlider(qs, propname, initial, transform) {
+  GraphicsAPI.prototype.setSlider = function setSlider(
+    qs,
+    propname,
+    initial,
+    transform
+  ) {
     if (propname !== false && typeof this[propname] !== `undefined`) {
       throw new Error(`this.${propname} already exists: cannot bind slider.`);
     }
@@ -83,8 +103,13 @@ export default function impartSliderLogic(GraphicsAPI) {
       let td = create(`td`);
       let label = create(`label`);
       label.classList.add(`slider-label`);
-      label.innerHTML = propLabel;
+      label.textContent = propLabel;
       td.append(label);
+      tr.append(td);
+
+      td = create(`td`);
+      td.classList.add(`slider-min`);
+      td.textContent = slider.min;
       tr.append(td);
 
       td = create(`td`);
@@ -94,9 +119,13 @@ export default function impartSliderLogic(GraphicsAPI) {
       tr.append(td);
 
       td = create(`td`);
+      td.classList.add(`slider-max`);
+      td.textContent = slider.max;
+      tr.append(td);
+
+      td = create(`td`);
       let valueField = create(`label`);
       valueField.classList.add(`slider-value`);
-      valueField.textContent;
       td.append(valueField);
       tr.append(td);
 
@@ -111,7 +140,9 @@ export default function impartSliderLogic(GraphicsAPI) {
     }
 
     let step = slider.getAttribute(`step`) || "1";
-    let res = !step.includes(`.`) ? 0 : step.substring(step.indexOf(`.`) + 1).length;
+    let res = !step.includes(`.`)
+      ? 0
+      : step.substring(step.indexOf(`.`) + 1).length;
 
     slider.updateProperty = (evt) => {
       let value = parseFloat(slider.value);

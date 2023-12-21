@@ -48,16 +48,16 @@ class GraphicsElement extends CustomElement {
     this.label = document.createElement(`label`);
     if (!this.title) this.title = ``;
     this.label.textContent = this.title;
-    this.style.display = `inline-block`;
-    this.style.width = `calc(1px * var(--width))`;
-    this.style.height = `calc(1px * var(--height))`;
+    // this.style.display = `inline-block`;
+    // this.style.width = `calc(1px * var(--width))`;
+    // this.style.height = `calc(1px * var(--height))`;
   }
 
   connectedCallback() {
     super.connectedCallback();
     // set our CSSS size
-    this.style.setProperty(`--width`, this.getAttribute(`width`));
-    this.style.setProperty(`--height`, this.getAttribute(`height`));
+    // this.style.setProperty(`--width`, this.getAttribute(`width`));
+    // this.style.setProperty(`--height`, this.getAttribute(`height`));
     // then, do we load immediately?
     if (isInViewport(this)) {
       this.loadSource();
@@ -159,13 +159,32 @@ class GraphicsElement extends CustomElement {
     }
 
     // remove the "JS object shell"
-    const pos = code.indexOf(`const graphics`);
-    const global = code.substring(0, pos);
+    const pos = code.indexOf(`function setup()`);
+    let global = code.substring(0, pos);
     code = code.substring(pos);
-    code = code.replace(/\s*const graphics\s*=\s*{/, ``);
-    code = code.replaceAll(/\n(  )+\},\n/g, `\n}`, pos); // FIXME: this is super brittle, and should really use a tokenizer/DFA
-    code = code.substring(0, code.lastIndexOf(`}`));
-    code = code;
+    let match = true;
+    while (match) {
+      match = code.match(/\n?\s*function\s+(\S+)\(/);
+      if (!match) break;
+      // FIXME: this is pretty brittle, and really needs a tokenizer/DFA instead
+      code = code.replace(/\n?\s*function\s+(\S+)\(/, `\n$1(`);
+      const fname = match[1];
+      code = code.replaceAll(
+        new RegExp(`([^.\n])${fname}`, `g`),
+        `$1this.${fname}`
+      );
+    }
+
+    // fix imports so they become absolute URLs - relative urls won't work for data: sources
+    let loc = window.location.href;
+    if (loc.match(/\/[^.]+\.[^\/]+$/)) {
+      loc = loc.substring(0, loc.lastIndexOf(`/`));
+    }
+
+    global = global.replaceAll(
+      /import (.+) from\s*['"]([^'"]+)['"];/g,
+      `import $1 from "${loc}$2"`
+    );
 
     if (!codeElement) {
       codeElement = document.createElement(`program-code`);

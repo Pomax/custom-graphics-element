@@ -18,13 +18,35 @@ let CURRENT_CURSOR = `pointer`;
  * Our Graphics API, which is the "public" side of the API.
  */
 class GraphicsAPI extends BaseAPI {
+  #setupComplete = false;
+  playing = false;
+  frame = 0;
+
   static get constants() {
-    return [`POINTER`, `HAND`, `PI`, `TAU`, `POLYGON`, `CURVE`, `BEZIER`, `CENTER`, `LEFT`, `RIGHT`];
+    return [
+      `POINTER`,
+      `HAND`,
+      `PI`,
+      `TAU`,
+      `POLYGON`,
+      `CURVE`,
+      `BEZIER`,
+      `CENTER`,
+      `LEFT`,
+      `RIGHT`,
+    ];
   }
 
   draw() {
+    const now = performance.now();
+    this.frameTime = now - this.__lastFrameTime;
+    this.__lastFrameTime = now;
     CURRENT_HUE = 0;
     super.draw();
+    if (this.playing) {
+      requestAnimationFrame(() => this.draw());
+    }
+    this.frame++;
   }
 
   get PI() {
@@ -70,16 +92,21 @@ class GraphicsAPI extends BaseAPI {
     // as well as for "what it was the previous cursor event"
     this.cursor.last = { x: this.cursor.x, y: this.cursor.y };
 
-    const cdist = evt.targetTouches ? TOUCH_PRECISION_ZONE : MOUSE_PRECISION_ZONE;
+    const cdist = evt.targetTouches
+      ? TOUCH_PRECISION_ZONE
+      : MOUSE_PRECISION_ZONE;
 
     for (let i = 0, e = this.movable.length, p, d; i < e; i++) {
       p = this.movable[i];
       d = new Vector(p).dist(this.cursor);
-      if (d <= cdist) {
+      const r = p.r || p.radius || cdist;
+      if (d <= r) {
         this.currentPoint = p;
+        this.cursor.pd = { x: this.cursor.x - p.x, y: this.cursor.y - p.y };
         break;
       }
     }
+    this.redraw();
   }
 
   onMouseMove(evt) {
@@ -102,22 +129,26 @@ class GraphicsAPI extends BaseAPI {
 
     // Are we dragging a movable point around?
     if (this.currentPoint) {
-      this.currentPoint.x = this.cursor.x;
-      this.currentPoint.y = this.cursor.y;
+      this.currentPoint.x = this.cursor.x - this.cursor.pd.x;
+      this.currentPoint.y = this.cursor.y - this.cursor.pd.y;
     } else {
+      let hit = false;
       for (let i = 0, e = this.movable.length, p; i < e; i++) {
         p = this.movable[i];
-        if (new Vector(p).dist(this.cursor) <= 5) {
+        const r = p.r || p.radius || 5;
+        if (new Vector(p).dist(this.cursor) <= r) {
           if (this.canvas.style.cursor !== `none`) {
             this.setCursor(this.HAND);
           }
-          return; // NOTE: this is a return, not a break!
+          hit = true;
+          break;
         }
       }
-      if (this.canvas.style.cursor !== `none`) {
+      if (!hit && this.canvas.style.cursor !== `none`) {
         this.setCursor(this.POINTER);
       }
     }
+    this.redraw();
   }
 
   onMouseUp(evt) {
@@ -126,20 +157,23 @@ class GraphicsAPI extends BaseAPI {
     delete this.cursor.last;
     delete this.cursor.diff;
     this.currentPoint = false;
+    this.redraw();
   }
 
   setup() {
     super.setup();
+    this.__setupComplete = true;
     this.setGrid(20, `#F0F0F0`);
   }
 
-  resetMovable(...allpoints) {
-    this.movable.splice(0, this.movable.length);
-    if (allpoints) this.setMovable(...allpoints);
+  setMovable(points) {
+    if (!points.forEach) points = [points];
+    points.forEach((p) => this.movable.push(p));
   }
 
-  setMovable(...allpoints) {
-    allpoints.forEach((points) => points.forEach((p) => this.movable.push(p)));
+  resetMovable(points) {
+    this.movable.splice(0, this.movable.length);
+    if (points) this.setMovable(points);
   }
 
   /**
@@ -307,7 +341,6 @@ class GraphicsAPI extends BaseAPI {
     this.showCursor();
   }
 
-
   /**
    * Get a random color
    */
@@ -320,7 +353,6 @@ class GraphicsAPI extends BaseAPI {
    * Set the context fillStyle
    */
   setFill(color) {
-    if (color === false) color = `transparent`;
     this.ctx.fillStyle = color;
   }
 
@@ -328,14 +360,13 @@ class GraphicsAPI extends BaseAPI {
    * Convenience alias
    */
   noFill() {
-    this.setFill(false);
+    this.setFill(`transparent`);
   }
 
   /**
    * Set the context strokeStyle
    */
   setStroke(color) {
-    if (color === false) color = `transparent`;
     this.ctx.strokeStyle = color;
   }
 
@@ -343,7 +374,7 @@ class GraphicsAPI extends BaseAPI {
    * Convenience alias
    */
   noStroke() {
-    this.setStroke(false);
+    this.setStroke(`transparent`);
   }
 
   /**
@@ -367,7 +398,7 @@ class GraphicsAPI extends BaseAPI {
    */
   setTextStroke(color, weight) {
     this.textStroke = color;
-    this.strokeWeight = weight;
+    this.setStrokeWeight(weight);
   }
 
   /**
@@ -375,7 +406,7 @@ class GraphicsAPI extends BaseAPI {
    */
   noTextStroke() {
     this.textStroke = false;
-    this.strokeWeight = false;
+    this.setStrokeWeight(weight);
   }
 
   /**
@@ -424,7 +455,8 @@ class GraphicsAPI extends BaseAPI {
   }
 
   setFont(font) {
-    font = font || `${this.font.weight} ${this.font.size}px ${this.font.family}`;
+    font =
+      font || `${this.font.weight} ${this.font.size}px ${this.font.family}`;
     this.ctx.font = font;
   }
 
@@ -625,7 +657,9 @@ class GraphicsAPI extends BaseAPI {
     this.ctx.beginPath();
     let { x, y } = this.currentShape.first;
     this.ctx.moveTo(x, y);
-    this.currentShape.segments.forEach((s) => this[`draw${s.type}`](s.points, s.factor));
+    this.currentShape.segments.forEach((s) =>
+      this[`draw${s.type}`](s.points, s.factor)
+    );
     if (close) this.ctx.closePath();
     this.ctx.fill();
     this.ctx.stroke();
@@ -642,7 +676,13 @@ class GraphicsAPI extends BaseAPI {
    * Polygon draw function
    */
   drawPolygon(points) {
-    points.forEach((p) => this.ctx.lineTo(p.x, p.y));
+    const [first, ...rest] = points;
+    if (!first) return;
+    this.ctx.beginPath();
+    this.ctx.moveTo(first.x, first.y);
+    rest.forEach((p) => this.ctx.lineTo(p.x, p.y));
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   /**
@@ -735,15 +775,8 @@ class GraphicsAPI extends BaseAPI {
     return Math.round(v);
   }
 
-  random(a, b) {
-    if (a === undefined) {
-      a = 0;
-      b = 1;
-    } else if (b === undefined) {
-      b = a;
-      a = 0;
-    }
-    return a + Math.random() * (b - a);
+  random(a = 0, b = 1) {
+    return a + (b - a) * Math.random();
   }
 
   abs(v) {
@@ -803,6 +836,27 @@ class GraphicsAPI extends BaseAPI {
     let dx = x1 - x2;
     let dy = y1 - y2;
     return this.sqrt(dx * dx + dy * dy);
+  }
+
+  play() {
+    if (this.playing) return;
+    this.playing = true;
+    if (this.__setupComplete) {
+      requestAnimationFrame(() => this.draw());
+    }
+  }
+
+  togglePlay() {
+    if (this.playing) {
+      this.pause();
+    } else {
+      this.play();
+    }
+    return this.playing;
+  }
+
+  pause() {
+    this.playing = false;
   }
 }
 

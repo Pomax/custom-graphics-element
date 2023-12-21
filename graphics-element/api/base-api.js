@@ -10,7 +10,7 @@ class BaseAPI {
       `constructor`,
       `createHatchPatterns`,
       `addListeners`,
-      `getCursorCoords`,
+      `setCursorCoords`,
     ]
       .concat(this.superCallers)
       .concat(this.eventHandlers);
@@ -88,8 +88,10 @@ class BaseAPI {
     this.setSize(width, height);
     this.currentPoint = false;
     this.frame = 0;
+    const now = performance.now();
     this.setup();
     this.__ready_to_draw = true;
+    this.__lastFrameTime = now;
     this.draw();
   }
 
@@ -149,25 +151,9 @@ class BaseAPI {
   /**
    *
    */
-  getCursorCoords(evt) {
-    const left = evt.target.offsetLeft,
-      top = evt.target.offsetTop;
-
-    let x, y;
-
-    if (evt.targetTouches) {
-      const touch = evt.targetTouches;
-      for (let i = 0; i < touch.length; i++) {
-        if (!touch[i] || !touch[i].pageX) continue;
-        x = touch[i].pageX - left;
-        y = touch[i].pageY - top;
-      }
-    } else {
-      x = evt.pageX - left;
-      y = evt.pageY - top;
-    }
-    this.cursor.x = x;
-    this.cursor.y = y;
+  setCursorCoords(evt) {
+    this.cursor.x = evt.offsetX;
+    this.cursor.y = evt.offsetY;
   }
 
   /**
@@ -176,7 +162,7 @@ class BaseAPI {
   onMouseDown(evt) {
     this.stopEvent(evt);
     this.cursor.down = true;
-    this.getCursorCoords(evt);
+    this.setCursorCoords(evt);
   }
 
   /**
@@ -185,7 +171,7 @@ class BaseAPI {
   onMouseMove(evt) {
     this.stopEvent(evt);
     this.cursor.move = true;
-    this.getCursorCoords(evt);
+    this.setCursorCoords(evt);
   }
 
   /**
@@ -277,9 +263,11 @@ class BaseAPI {
    */
   redraw() {
     if (!this.__ready_to_draw) return;
-    this.redrawing = true;
-    this.draw();
-    this.redrawing = false;
+    if (!this.playing && !this.redrawing) {
+      this.redrawing = true;
+      this.draw();
+      this.redrawing = false;
+    }
   }
 }
 

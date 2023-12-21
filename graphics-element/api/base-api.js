@@ -116,13 +116,6 @@ class BaseAPI {
     [`touchmove`, `mousemove`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => {
         this.onMouseMove(evt);
-        // Force a redraw only if there are movable points,
-        // and there is a current point bound, but only if
-        // the subclass didn't already call redraw() as part
-        // of its own mouseMove handling.
-        if (this.movable.length && this.currentPoint && !this.redrawing) {
-          this.redraw();
-        }
       })
     );
 
@@ -170,7 +163,6 @@ class BaseAPI {
    */
   onMouseMove(evt) {
     this.stopEvent(evt);
-    this.cursor.move = true;
     this.setCursorCoords(evt);
   }
 
@@ -180,7 +172,6 @@ class BaseAPI {
   onMouseUp(evt) {
     this.stopEvent(evt);
     this.cursor.down = false;
-    this.cursor.move = false;
   }
 
   /**

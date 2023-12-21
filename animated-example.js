@@ -6,10 +6,18 @@ let a = 0;
 function setup() {
   setSize(500, 300);
   const playButton = find(`button`);
-  playButton.addEventListener(`click`, ({ target }) => {
-    target.textContent = togglePlay() ? `pause` : `play`;
+  [`click`, `touchstart`].forEach((evtName) => {
+    playButton.addEventListener(
+      evtName,
+      (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.target.textContent = togglePlay() ? `pause` : `play`;
+      },
+      { passive: false }
+    );
+    this.canvas.addEventListener(evtName, () => playButton.click());
   });
-  this.canvas.addEventListener(`click`, () => playButton.click());
 }
 
 /**
@@ -31,13 +39,22 @@ function draw() {
   circle(w, h, 100);
   line(0, h, width, h);
   line(w, 0, w, height);
+  [a, a + PI].forEach((angle) => {
+    renderIdentities(w, h, angle, true);
+    renderIdentities(w, h, angle, false);
+  });
+  a += 0.002;
+}
+
+function renderIdentities(w, h, a, flipped) {
+  if (flipped) a = PI - a;
 
   const x = w + 100 * cos(a);
   const y = h + 100 * sin(a);
   const sec = 100 / cos(a);
   const cosec = 100 / sin(a);
 
-  setFill(`#F006`);
+  setFill(`#55F3`);
   noStroke();
   start();
   vertex(0, 0);
@@ -66,6 +83,4 @@ function draw() {
   line(w, h, w + sec, h);
   setStroke(`gold`);
   line(w, h, w, h + cosec);
-
-  a += 0.002;
 }

@@ -106,6 +106,7 @@ class GraphicsAPI extends BaseAPI {
         break;
       }
     }
+
     this.redraw();
   }
 
@@ -148,7 +149,14 @@ class GraphicsAPI extends BaseAPI {
         this.setCursor(this.POINTER);
       }
     }
-    this.redraw();
+
+    // Force a redraw only if there are movable points,
+    // and there is a current point bound, but only if
+    // the subclass didn't already call redraw() as part
+    // of its own mouseMove handling.
+    if (this.movable.length && this.currentPoint && !this.redrawing) {
+      this.redraw();
+    }
   }
 
   onMouseUp(evt) {
@@ -157,7 +165,6 @@ class GraphicsAPI extends BaseAPI {
     delete this.cursor.last;
     delete this.cursor.diff;
     this.currentPoint = false;
-    this.redraw();
   }
 
   setup() {

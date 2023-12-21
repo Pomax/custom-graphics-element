@@ -9,13 +9,60 @@
       async
     ></script>
     <link rel="stylesheet" href="graphics-element/graphics-element.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>on-page graphics</h1>
+    <h1>Putting (interactive) graphics on a web page</h1>
 
     <p>
-      Let's embed an interactive graphic right onto the page, using the magic of
-      a custom element.
+      Once up on a time I was involved in
+      <a href="http://processingjs.org">Processing.js</a>, a JS port (as best as
+      we could do at a time before ES6) of the
+      <a href="https://processing.org">Processing language</a>, a visual
+      programming language that, to this day, I will whip out whenever I need to
+      do some quick trig. And as much as I know why Processing.js is now an
+      archived project on github (because I was the one who archived it), I
+      still miss it, and I frequently write web pages that would seriously
+      benefit from having some interactive graphics on the page. Sure, there's
+      <a href="https://p5js.org">P5.js</a> which answers the question "what if
+      the web was what it is today, back when the idea of Processing was born",
+      but it's not the same. For me, at least. It's a completely different API,
+      with a very different "feel", if that makes sense.
+    </p>
+
+    <p>
+      My most graphics-intensive website is my
+      <a href="https://pomax.github.io/bezierinfo">Primer on Bezier curves</a>,
+      and that ended up being enough work that I wrote a special graphics
+      element for it, that allowed me to write "Processing-ish" code that it
+      would server-side render the first frame as placeholder image for, and
+      then PWA-style load the real graphic on top of for interactive goodness.
+      So what if... I turn that into a web component? Just something you stick
+      on a page as a &lt;graphics-element src="..."&gt;&lt;/graphics-element&gt;
+      and then you just write your visual thing using a Processing-like flavour
+      of JS, with some magic sprinkled in so you're not writing "this." all over
+      the place?
+    </p>
+
+    <p>
+      ...so, yeah, this is that. Let's put some interactive graphics right onto
+      the page, using the magic of a custom element. Here's one: it shows the
+      result of a
+      <a
+        href="https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller"
+        >PID controller</a
+      >
+      on an input signal, with the red curve being the input, and the green
+      curve being the adjustment the PID controller tries to effect at every
+      time step. The important thing in this function plot is that the red curve
+      isn't "static", we don't have an input, and output, and then we mix it:
+      the input and output at any given time <b>t</b>
+      <em>becomes the next input</em>. So it's a constant feedback loop. What
+      happens when we vary the Proportional, Integral, and Derivative factors?
     </p>
 
     <graphics-element
@@ -25,7 +72,16 @@
 
     <p>
       Of course, that's only slider-based interaction, how about actual
-      interaction?
+      interaction? The processing-like library that backs this doesn't require
+      you to write your own mouse/touch handling for things like "this point
+      should be click-draggable", you instead say which points can be moved
+      around, and done: they can now be moved around.
+    </p>
+
+    <p>
+      In fact, click that "view source" link. I want you to be able to see the
+      source code that makes cool things be cool. Because I want you to be able
+      to make cool things, too. Let's make the web cool again.
     </p>
 
     <graphics-element
@@ -33,12 +89,61 @@
       src="./point-example.js"
     ></graphics-element>
 
-    <p>And that's fine, but what about if we also animate our graphics?</p>
+    <p>
+      And make no mistake: that "view source" link is baked in. No pretending
+      that your graphics are somehow artisanal, bespoke, and super secret: this
+      is the web. Anyone can view the source code. It's what made the web great,
+      and it's what giant internet conglomerate coorporations literally want to
+      get rid of so they can call the shots. Sorry did I say "want"? I should
+      have used passed tense, because in many parts of the world they they
+      <em>actually succeeded in this already</em> and it's insane. Let's take
+      back the web.
+    </p>
+
+    <p>
+      Bit of a tangent, so let's get back to graphics elements: being able to
+      move things around is pretty sweet, but sometimes you just want to show
+      off an animation, and yeah: this can do that, too. Again, click the "view
+      source" link to see what's required, but other than the parts that
+      actually draw the funky bits, it's very little, and if you know JS already
+      , probably trivial.
+    </p>
 
     <graphics-element
       title="an example with a play button as well as tap-to-play"
       src="./animated-example.js"
       ><button>play</button></graphics-element
     >
+
+    <p>
+      This is the kind of thing I wish I had available back when I had to
+      archive Processing.js due to a lack of devs, and frankly, interest. The
+      need to make cool graphics hasn't gone away. Only the tools to let you do
+      so. So hopefully this tool enables at least <em>some</em> folks to make
+      <em>some</em> cool things that they otherwise wouldn't have.
+    </p>
+
+    <h2>How do I use this?</h2>
+
+    <p>
+      Still working on that because you probably just want a CDN link that you
+      can put on your own page, which doesn't exist (...yet?) so in the mean
+      time there's a
+      <a href="https://github.com/Pomax/custom-graphics-element">github repo</a
+      >.
+    </p>
+
+    <h2>How do I contact you</h2>
+
+    <p>
+      Either file an issue over on
+      <a href="https://github.com/Pomax/custom-graphics-element/issues"
+        >the issue tracker</a
+      >
+      or just send me a message on Mastodon, where I'm
+      <a href="https://mastodon.social/@TheRealPomax"
+        >@TheRealPomax on mastodon.social</a
+      >
+    </p>
   </body>
 </html>

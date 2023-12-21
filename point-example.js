@@ -27,10 +27,16 @@ function setup() {
  */
 function draw() {
   clear();
+
   noFill();
   setStroke(`black`);
   drawPolygon(points);
+
   setFill(`red`);
   noStroke();
   points.forEach((p) => p.draw());
+
+  noFill();
+  setStroke(`red`);
+  drawCatmullRom(points);
 }

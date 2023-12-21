@@ -703,29 +703,40 @@ class GraphicsAPI extends BaseAPI {
   /**
    * Curve draw function, which draws a CR curve as a series of Beziers
    */
-  drawCatmullRom(points, f) {
+  drawCatmullRom(points, T = 1) {
     // invent a virtual first and last point
     const f0 = points[0],
       f1 = points[1],
-      fn = f0.reflect(f1),
-      l1 = points[points.length - 2],
-      l0 = points[points.length - 1],
-      ln = l0.reflect(l1),
+      f2 = points[2],
+      fsm = new Vector(f0.x / 2 + f2.x / 2, f0.y / 2 + f2.y / 2),
+      f0r = new Vector(f0).reflect(f1),
+      fsr = fsm.reflect(f1),
+      fn = new Vector(f0r.x / 2 + fsr.x / 2, f0r.y / 2 + fsr.y / 2),
+      l2 = points.at(-3),
+      l1 = points.at(-2),
+      l0 = points.at(-1),
+      lsm = new Vector(l0.x / 2 + l2.x / 2, l0.y / 2 + l2.y / 2),
+      l0r = new Vector(l0).reflect(l1),
+      ln = new Vector(l0r.x / 2 + lsm.x / 2, l0r.y / 2 + lsm.y / 2),
       cpoints = [fn, ...points, ln];
 
     // four point sliding window over the segment
+    this.ctx.beginPath();
+    this.ctx.moveTo(cpoints[1].x, cpoints[1].y);
     for (let i = 0, e = cpoints.length - 3; i < e; i++) {
       let [c1, c2, c3, c4] = cpoints.slice(i, i + 4);
       let p2 = {
-        x: c2.x + (c3.x - c1.x) / (6 * f),
-        y: c2.y + (c3.y - c1.y) / (6 * f),
+        x: c2.x + (c3.x - c1.x) / (6 * T),
+        y: c2.y + (c3.y - c1.y) / (6 * T),
       };
       let p3 = {
-        x: c3.x - (c4.x - c2.x) / (6 * f),
-        y: c3.y - (c4.y - c2.y) / (6 * f),
+        x: c3.x - (c4.x - c2.x) / (6 * T),
+        y: c3.y - (c4.y - c2.y) / (6 * T),
       };
       this.ctx.bezierCurveTo(p2.x, p2.y, p3.x, p3.y, c3.x, c3.y);
     }
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   /**

@@ -77,46 +77,15 @@ class GraphicsElement extends CustomElement {
    */
   getStyle() {
     return `
-      :host([hidden]) {
-        display: none;
-      }
-      :host {
-        max-width: calc(2em + ${this.getAttribute(`width`)}px);
-        & style {
-          display: none;
-        }
-        & .top-title {
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-        }
-        & canvas {
-          touch-action: none;
-          position: relative;
-          z-index: 1;
-          display: block;
-          margin: auto;
-          border-radius: 0;
-          box-sizing: content-box !important;
-          border: 1px solid lightgrey;
-          &:focus {
-            border: 1px solid red;
-          }
-        }
-        & a.view-source {
-          font-size: 60%;
-          text-decoration: none;
-        }
-        & button.reset {
-          font-size: 0.5em;
-        }
-        & label {
-          display: block;
-          font-style: italic;
-          font-size: 0.9em;
-          text-align: right;
-        }
-      }
+      :host([hidden]) { display: none; }
+      :host { max-width: calc(2em + ${this.getAttribute(`width`)}px); }
+      :host style { display: none; }
+      :host .top-title { display: flex; flex-direction: row-reverse; justify-content: space-between; }
+      :host canvas { touch-action: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box!important; border: 1px solid lightgrey; }
+      :host canvas:focus { border: 1px solid red; }
+      :host a.view-source { font-size: 60%; text-decoration: none; }
+      :host button.reset { font-size: 0.5em; }
+      :host label { display: block; font-style:italic; font-size: 0.9em; text-align: right; }
     `;
   }
 

@@ -1,0 +1,13 @@
+:root,
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  max-width: 800px;
+  margin: 0 auto 2em auto;
+  font-family: Inter, sans-serif;
+  text-align: justify;
+}

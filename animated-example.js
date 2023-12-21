@@ -1,4 +1,4 @@
-let a = 0;
+let a = Math.PI / 2 + 0.01;
 const radius = 100;
 
 /**
@@ -7,18 +7,16 @@ const radius = 100;
 function setup() {
   setSize(500, 300);
   const playButton = find(`button`);
-  [`click`, `touchstart`].forEach((evtName) => {
-    playButton.addEventListener(
-      evtName,
-      (evt) => {
-        evt.stopPropagation();
-        evt.preventDefault();
-        evt.target.textContent = togglePlay() ? `pause` : `play`;
-      },
-      { passive: false }
-    );
-    this.canvas.addEventListener(evtName, () => playButton.click());
-  });
+  playButton.addEventListener(
+    `click`,
+    (evt) => {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.target.textContent = togglePlay() ? `pause` : `play`;
+    },
+    { passive: false }
+  );
+  this.canvas.addEventListener(`pointerdown`, () => playButton.click());
 }
 
 /**

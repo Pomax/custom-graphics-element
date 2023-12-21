@@ -109,17 +109,17 @@ class BaseAPI {
 
     const root = typeof document !== "undefined" ? document : canvas;
 
-    [`touchstart`, `mousedown`].forEach((evtName) =>
+    [`pointerdown`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => this.onMouseDown(evt))
     );
 
-    [`touchmove`, `mousemove`].forEach((evtName) =>
+    [`pointermove`].forEach((evtName) =>
       canvas.addEventListener(evtName, (evt) => {
         this.onMouseMove(evt);
       })
     );
 
-    [`touchend`, `mouseup`].forEach((evtName) =>
+    [`pointerup`].forEach((evtName) =>
       root.addEventListener(evtName, (evt) => this.onMouseUp(evt))
     );
 
@@ -145,7 +145,6 @@ class BaseAPI {
    *
    */
   setCursorCoords(evt) {
-    if (evt.type !== `mousemove`) console.log(`set cursor:`, evt);
     this.cursor.x = evt.offsetX;
     this.cursor.y = evt.offsetY;
   }

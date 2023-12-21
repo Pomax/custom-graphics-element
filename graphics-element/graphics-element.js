@@ -317,8 +317,7 @@ class GraphicsElement extends CustomElement {
     // browser landscape, so this is the best I can give you right now. I am more
     // disappointed about this than you will ever be.
     this.canvas.setAttribute(`tabindex`, `0`);
-    this.canvas.addEventListener(`touchstart`, (evt) => this.canvas.focus());
-    this.canvas.addEventListener(`mousedown`, (evt) => this.canvas.focus());
+    this.canvas.addEventListener(`pointerdown`, (evt) => this.canvas.focus());
     // If we get here, there were no source code errors: undo the scheduled error print.
     clearTimeout(this.errorPrintTimeout);
     this.render();

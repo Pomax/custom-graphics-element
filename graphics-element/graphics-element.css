@@ -7,7 +7,6 @@
 graphics-element {
   display: block;
   border: 1px solid grey;
-  touch-action: none;
 
   /*
     We can use the :defined pseudo-class to check whether a particular

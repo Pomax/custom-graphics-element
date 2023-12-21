@@ -112,6 +112,7 @@ class GraphicsAPI extends BaseAPI {
 
   onMouseMove(evt) {
     super.onMouseMove(evt);
+    console.log(evt.type);
 
     if (this.cursor.down) {
       // If we're click-dragging, or touch-moving, update the

@@ -606,6 +606,14 @@ class GraphicsAPI extends BaseAPI {
     this.ctx.strokeRect(x, y, w, h);
   }
 
+  triangle(x1, y1, x2, y2, x3, y3) {
+    this.start();
+    this.vertex(x1, y1);
+    this.vertex(x2, y2);
+    this.vertex(x3, y3);
+    this.end(true);
+  }
+
   /**
    * Draw a function plot from [start] to [end] in [steps] steps.
    * Returns the plot shape so that it can be cached for redrawing.
@@ -667,7 +675,7 @@ class GraphicsAPI extends BaseAPI {
     this.currentShape.segments.forEach((s) =>
       this[`draw${s.type}`](s.points, s.factor)
     );
-    if (close) this.ctx.closePath();
+    if (close) this.ctx.lineTo(x, y);
     this.ctx.fill();
     this.ctx.stroke();
   }

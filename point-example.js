@@ -19,6 +19,7 @@ function setup() {
   setSize(500, 300);
   for (let i = 50; i < 500; i += 100) points.push(new Point(this, i, 150));
   setMovable(points);
+  noGrid();
 }
 
 /**

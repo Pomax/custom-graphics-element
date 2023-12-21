@@ -28,7 +28,7 @@ class Shape {
   }
   vertex(p) {
     if (!this.first) this.first = p;
-    else this.currentSegment.add(p);
+    this.currentSegment.add(p);
   }
 }
 

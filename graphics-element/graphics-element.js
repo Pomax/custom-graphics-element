@@ -1,5 +1,4 @@
 import { CustomElement } from "./custom-element.js";
-
 import splitCodeSections from "./lib/split-code-sections.js";
 import performCodeSurgery from "./lib/perform-code-surgery.js";
 
@@ -32,6 +31,14 @@ function isInViewport(e) {
  * programs, rather than code snippets.
  */
 CustomElement.register(class ProgramCode extends HTMLElement {});
+
+/**
+ * One-time inject our CSS, otherwise things will look bleh.
+ */
+const link = document.createElement(`link`);
+link.rel = `stylesheet`;
+link.href = import.meta.url.replace(`.js`, `.css`);
+document.head.append(link);
 
 /**
  * Our custom element
@@ -295,7 +302,9 @@ class GraphicsElement extends CustomElement {
     offDOM.style.display = `none`;
     offDOM.innerHTML = this.originalHTML;
     const newElement = offDOM.querySelector(`graphics-element`);
-
+    // Make sure the new element is pre-sized correctly, so we don't get weird scrollbar behaviour.
+    newElement.style.width = getComputedStyle(this).getPropertyValue(`width`);
+    newElement.style.height = getComputedStyle(this).getPropertyValue(`height`);
     parent.replaceChild(newElement, this);
   }
 

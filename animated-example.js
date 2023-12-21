@@ -1,4 +1,5 @@
 let a = 0;
+const radius = 100;
 
 /**
  * The master setup function
@@ -36,7 +37,7 @@ function draw() {
   setStroke(`black`);
   const w = width / 2;
   const h = height / 2;
-  circle(w, h, 100);
+  circle(w, h, radius);
   line(0, h, width, h);
   line(w, 0, w, height);
   [a, a + PI].forEach((angle) => {
@@ -44,31 +45,41 @@ function draw() {
     renderIdentities(w, h, angle, false);
   });
   a += 0.002;
+
+  // "play" overlay
+  if (!this.playing) {
+    setFill(`#0002`);
+    rect(0, 0, width, height);
+    setStroke(`white`);
+    setFill(`black`);
+    triangle(w - 30, h - 30, w - 30, h + 30, w + 30, h);
+  }
 }
 
+/**
+ * Let's do some trigonometry!
+ * @param {*} w the graphics' center x
+ * @param {*} h the graphics' center y
+ * @param {*} a the angle at which we're going to do some trig
+ * @param {*} flipped
+ */
 function renderIdentities(w, h, a, flipped) {
   if (flipped) a = PI - a;
 
-  const x = w + 100 * cos(a);
-  const y = h + 100 * sin(a);
-  const sec = 100 / cos(a);
-  const cosec = 100 / sin(a);
+  const x = w + radius * cos(a);
+  const y = h + radius * sin(a);
+  const sec = radius / cos(a);
+  const cosec = radius / sin(a);
 
   setFill(`#55F3`);
   noStroke();
   start();
-  vertex(0, 0);
   vertex(w + sec, h);
   vertex(w, h);
   vertex(w, h + cosec);
   end(true);
 
-  setStroke(`black`);
-  line(w, h, x, y);
-
   setWidth(2);
-  setFill(`red`);
-  circle(x, y, 3);
   setStroke(`red`);
   line(x, y, x, h);
   setStroke(`green`);
@@ -83,4 +94,9 @@ function renderIdentities(w, h, a, flipped) {
   line(w, h, w + sec, h);
   setStroke(`gold`);
   line(w, h, w, h + cosec);
+
+  setStroke(`black`);
+  line(w, h, x, y);
+  setFill(`red`);
+  circle(x, y, 3);
 }

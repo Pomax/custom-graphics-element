@@ -112,7 +112,7 @@ class GraphicsAPI extends BaseAPI {
 
   onMouseMove(evt) {
     super.onMouseMove(evt);
-    const { pointertype: source } = evt;
+    const { pointerType: source } = evt;
 
     if (this.cursor.down) {
       // If we're click-dragging, or touch-moving, update the

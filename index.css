@@ -11,3 +11,11 @@ body {
   font-family: Inter, sans-serif;
   text-align: justify;
 }
+
+pre {
+  margin: 0;
+  padding: 1em;
+  background: #444;
+  color: #fffbea;
+  font-weight: bold;
+}

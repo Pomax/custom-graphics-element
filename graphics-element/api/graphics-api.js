@@ -112,7 +112,7 @@ class GraphicsAPI extends BaseAPI {
 
   onMouseMove(evt) {
     super.onMouseMove(evt);
-    console.log(evt.type);
+    const { pointertype: source } = evt;
 
     if (this.cursor.down) {
       // If we're click-dragging, or touch-moving, update the
@@ -137,7 +137,7 @@ class GraphicsAPI extends BaseAPI {
       let hit = false;
       for (let i = 0, e = this.movable.length, p; i < e; i++) {
         p = this.movable[i];
-        const r = p.r || p.radius || 5;
+        const r = source === `touch` ? 20 : p.r || p.radius || 5;
         if (new Vector(p).dist(this.cursor) <= r) {
           if (this.canvas.style.cursor !== `none`) {
             this.setCursor(this.HAND);

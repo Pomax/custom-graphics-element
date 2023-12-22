@@ -137,7 +137,9 @@ class GraphicsAPI extends BaseAPI {
       let hit = false;
       for (let i = 0, e = this.movable.length, p; i < e; i++) {
         p = this.movable[i];
-        const r = source === `touch` ? 20 : p.r || p.radius || 5;
+        // FIXME: when using touch, we kind of want "closest to touch coordinate"
+        //        rather than just the first hit. Be nice to solve that.
+        const r = source === `touch` ? 40 : p.r || p.radius || 5;
         if (new Vector(p).dist(this.cursor) <= r) {
           if (this.canvas.style.cursor !== `none`) {
             this.setCursor(this.HAND);

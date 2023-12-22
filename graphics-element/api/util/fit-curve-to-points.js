@@ -1,5 +1,5 @@
 import { Matrix } from "../types/matrix.js";
-import binomial from "./binomial.js";
+import { binomial } from "./binomial.js";
 
 /*
   We can form any basis matrix using a generative approach:

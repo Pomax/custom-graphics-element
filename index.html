@@ -3,17 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <title>let's do some graphics</title>
-    <script
-      src="graphics-element/graphics-element.js"
-      type="module"
-      async
-    ></script>
-    <link rel="stylesheet" href="graphics-element/graphics-element.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="index.css" />
+    <!-- the only HTML code we need to make sweet graphics work: -->
+    <script src="dist/graphics-element.js" type="module" async></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" />
   </head>
   <body>
     <h1>Putting (interactive) graphics on a web page</h1>
@@ -50,19 +47,29 @@
 
     <p>
       ...so, yeah, this is that. Let's put some interactive graphics right onto
-      the page, using the magic of a custom element. Here's one: it shows the
-      result of a
+      the page, using the magic of a custom element! In fact, right click on
+      This page and pick "view source": you'll just see a few
+      &lt;graphics-element&gt; entries, with normal "src" attributes for the
+      graphics that need to be shown.
+    </p>
+
+    <p>
+      In fact, here's one right now: it shows the result of a
       <a
         href="https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller"
         >PID controller</a
       >
-      on an input signal, with the red curve being the input, and the green
-      curve being the adjustment the PID controller tries to effect at every
-      time step. The important thing in this function plot is that the red curve
-      isn't "static", we don't have an input, and output, and then we mix it:
-      the input and output at any given time <b>t</b>
-      <em>becomes the next input</em>. So it's a constant feedback loop. What
-      happens when we vary the Proportional, Integral, and Derivative factors?
+      trying to get an input signal (in red) starting at 0 to reach the target
+      value 100 (in blue), by checking its current value, seeing how far off it
+      is from the target value, and then generating an output that we then use
+      as an update to our input. This means that on the very first run, it'll
+      see a difference of 100, and will say "I think you should add 100".
+      However, real world signals don't "teleport" form one value to another, so
+      it takes a little time for that change to kick in. By the next iteration
+      our input may only have risen by around 10, instead of 100. So the PID
+      controller goes "okay well I think you should update by 90 now that I'm
+      seeing 10 and the target is 100". And we keep running that feedback loop
+      forever (or in this case, for as wide as our graphics panel is).
     </p>
 
     <graphics-element
@@ -71,11 +78,26 @@
     ></graphics-element>
 
     <p>
-      Of course, that's only slider-based interaction, how about actual
-      interaction? The processing-like library that backs this doesn't require
-      you to write your own mouse/touch handling for things like "this point
-      should be click-draggable", you instead say which points can be moved
-      around, and done: they can now be moved around.
+      The "neat" thing about this is that it'll oscillate: by the time the input
+      value actually reaches 100, it's updating so much that it's going to
+      "overshoot" the target and now the PID controller's going to try to bring
+      the value back down to 100: we see the green PID recommendation curve
+      having maxima where the input is at its lowest and its highest, and a
+      recommendation of "no change" when the input is at 100, but because of how
+      the update feedback works, we'll never stabilize... unless we start the
+      accumulated error over time, or the speed at which the input changes, into
+      account. Those as the "I" and "D" terms in the name "PID", so if you slide
+      their sliders around, you'll see what effect that might have on how a
+      signal changes over time when controlled using PID ratios.
+    </p>
+
+    <p>
+      Of course, that's only "interactive graphics" by using HTML sliders, so
+      how about actual interaction? The processing-like library that backs this
+      doesn't require you to write your own mouse/touch handling for things like
+      "this point should be click-draggable", you instead say which points can
+      be moved around, and done: they can now be moved around. So let's look at
+      an example of that.
     </p>
 
     <p>
@@ -90,30 +112,35 @@
     ></graphics-element>
 
     <p>
-      And make no mistake: that "view source" link is baked in. No pretending
-      that your graphics are somehow artisanal, bespoke, and super secret: this
-      is the web. Anyone can view the source code. It's what made the web great,
-      and it's what giant internet conglomerate coorporations literally want to
-      get rid of so they can call the shots. Sorry did I say "want"? I should
-      have used passed tense, because in many parts of the world they they
-      <em>actually succeeded in this already</em> and it's insane. Let's take
-      back the web.
+      And yes, that "view source" link is baked into the graphics element
+      itself, so that you can always see the code that generates it. No
+      pretending that something you put on the web is somehow super secret:
+      everything you put on the web is public. That's the very nature of the
+      web. IT's what makes it so great: anyone can learn from anyone by looking
+      at how they did something.
     </p>
 
     <p>
-      Bit of a tangent, so let's get back to graphics elements: being able to
-      move things around is pretty sweet, but sometimes you just want to show
-      off an animation, and yeah: this can do that, too. Again, click the "view
-      source" link to see what's required, but other than the parts that
-      actually draw the funky bits, it's very little, and if you know JS already
-      , probably trivial.
+      So how about we take things a step further, and actually write a real
+      animation? Say, for example, visualising the trigonometric identities of a
+      point on a circle: its sine, cosine, tangent, secant, and cosecant values,
+      as we move points around?
     </p>
+
+    <p>Sounds good to me, let's go:</p>
 
     <graphics-element
       title="an example with a play button as well as tap-to-play"
       src="./animated-example.js"
       ><button>play</button></graphics-element
     >
+
+    <p>
+      And again, note how little code that needs if you click "view source". In
+      fact the bulk of the setup function is just plain JS that adds an event
+      listener and updates a text label. That's not even graphics-related,
+      that's just page-JS basics.
+    </p>
 
     <p>
       This is the kind of thing I wish I had available back when I had to

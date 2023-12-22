@@ -2,13 +2,33 @@ import { CustomElement } from "./custom-element.js";
 import splitCodeSections from "./lib/split-code-sections.js";
 import performCodeSurgery from "./lib/perform-code-surgery.js";
 
+import {
+  enrich,
+  Bezier,
+  BSpline,
+  Vector,
+  Matrix,
+  Shape,
+  binomial,
+  BaseAPI,
+  GraphicsAPI,
+  impartSliderLogic,
+} from "./api/graphics-api.js";
+export {
+  enrich,
+  Bezier,
+  BSpline,
+  Vector,
+  Matrix,
+  Shape,
+  binomial,
+  BaseAPI,
+  GraphicsAPI,
+  impartSliderLogic,
+};
+
 const MODULE_URL = import.meta.url;
 const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
-
-// Until global `await` gets added to JS, we need to declare this "constant"
-// using the `let` keyword instead, and then boostrap its value during the
-// `loadSource` call (using the standard if(undefined){assignvalue} pattern).
-let IMPORT_GLOBALS_FROM_GRAPHICS_API = undefined;
 
 // Really wish this was baked into the DOM API. Having to use an
 // IntersectionObserver with bounding box fallback is super dumb
@@ -122,19 +142,9 @@ class GraphicsElement extends CustomElement {
   async loadSource() {
     debugLog(`loading ${this.getAttribute(`src`)}`);
 
-    if (!IMPORT_GLOBALS_FROM_GRAPHICS_API) {
-      const importStatement = (
-        await fetch(`${MODULE_PATH}/api/graphics-api.js`).then((r) => r.text())
-      )
-        .match(/(export { [^}]+ })/)[0]
-        .replace(`export`, `import`);
-      IMPORT_GLOBALS_FROM_GRAPHICS_API = `${importStatement} from "${MODULE_PATH}/api/graphics-api.js"`;
-    }
-
     let src = false;
-    let codeElement = this.querySelector(`program-code`);
-
     let code = ``;
+    let codeElement = this.querySelector(`program-code`);
 
     if (codeElement) {
       src = codeElement.getAttribute("src");
@@ -262,7 +272,9 @@ class GraphicsElement extends CustomElement {
        * Program source: ${src}
        * Data attributes: ${JSON.stringify(this.dataset)}
        */
-      ${IMPORT_GLOBALS_FROM_GRAPHICS_API};
+      import { enrich, Bezier, BSpline, Vector, Matrix, Shape, binomial, BaseAPI, GraphicsAPI, impartSliderLogic } from "${
+        import.meta.url
+      }";
 
       ${globalCode}
 

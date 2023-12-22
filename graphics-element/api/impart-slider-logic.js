@@ -1,6 +1,6 @@
 import { create } from "../lib/create.js";
 
-export default function impartSliderLogic(GraphicsAPI) {
+export function impartSliderLogic(GraphicsAPI) {
   /**
    * Dynamically add a slider
    */

@@ -3,7 +3,7 @@ var binomialCoefficients = [[1], [1, 1]];
 /**
  * ... docs go here ...
  */
-function binomial(n, k) {
+export function binomial(n, k) {
   if (n === 0) return 1;
   var lut = binomialCoefficients;
   while (n >= lut.length) {
@@ -17,5 +17,3 @@ function binomial(n, k) {
   }
   return lut[n][k];
 }
-
-export default binomial;

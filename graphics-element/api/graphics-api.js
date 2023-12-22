@@ -4,9 +4,21 @@ import { BSpline } from "./types/bspline.js";
 import { Vector } from "./types/vector.js";
 import { Matrix } from "./types/matrix.js";
 import { Shape } from "./util/shape.js";
-import binomial from "./util/binomial.js";
+import { binomial } from "./util/binomial.js";
 import { BaseAPI } from "./base-api.js";
-import impartSliderLogic from "./impart-slider-logic.js";
+import { impartSliderLogic } from "./impart-slider-logic.js";
+
+export {
+  enrich,
+  Bezier,
+  BSpline,
+  Vector,
+  Matrix,
+  Shape,
+  binomial,
+  BaseAPI,
+  impartSliderLogic,
+};
 
 const MOUSE_PRECISION_ZONE = 5;
 const TOUCH_PRECISION_ZONE = 30;
@@ -17,7 +29,7 @@ let CURRENT_CURSOR = `pointer`;
 /**
  * Our Graphics API, which is the "public" side of the API.
  */
-class GraphicsAPI extends BaseAPI {
+export class GraphicsAPI extends BaseAPI {
   #setupComplete = false;
   playing = false;
   frame = 0;
@@ -896,5 +908,3 @@ class GraphicsAPI extends BaseAPI {
  * custom trait-adding functions like this...
  */
 impartSliderLogic(GraphicsAPI);
-
-export { GraphicsAPI, Bezier, BSpline, Vector, Matrix, Shape };

@@ -4,11 +4,18 @@
   "description": "[<a href=\"https://pomax.github.io/custom-graphics-element/\">visit the live site here</a>]",
   "main": "example.js",
   "scripts": {
-    "test": "serve --cors"
+    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist",
+    "esbuild": "esbuild graphics-element/graphics-element.js  --bundle --outfile=./dist/graphics-element.js --format=esm --minify --keep-names",
+    "test": "npm run build && run-p serve open",
+    "serve": "serve --cors",
+    "open": "open-cli \"http://localhost:3000\""
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "esbuild": "^0.19.10",
+    "npm-run-all": "^4.1.5",
+    "open-cli": "^8.0.0",
     "serve": "^14.2.1"
   }
 }

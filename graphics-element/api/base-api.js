@@ -114,9 +114,13 @@ class BaseAPI {
     );
 
     [`pointermove`].forEach((evtName) =>
-      canvas.addEventListener(evtName, (evt) => {
-        this.onMouseMove(evt);
-      })
+      canvas.addEventListener(
+        evtName,
+        (evt) => {
+          this.onMouseMove(evt);
+        },
+        { passive: false }
+      )
     );
 
     [`pointerup`].forEach((evtName) =>

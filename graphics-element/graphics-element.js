@@ -81,7 +81,7 @@ class GraphicsElement extends CustomElement {
       :host { max-width: calc(2em + ${this.getAttribute(`width`)}px); }
       :host style { display: none; }
       :host .top-title { display: flex; flex-direction: row-reverse; justify-content: space-between; }
-      :host canvas { user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box!important; border: 1px solid lightgrey; }
+      :host canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box!important; border: 1px solid lightgrey; }
       :host canvas:focus { border: 1px solid red; }
       :host a.view-source { font-size: 60%; text-decoration: none; }
       :host button.reset { font-size: 0.5em; }

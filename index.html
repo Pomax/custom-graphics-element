@@ -9,8 +9,12 @@
     />
     <link rel="stylesheet" href="index.css" />
     <!-- the only HTML code we need to make sweet graphics work: -->
-    <script src="dist/graphics-element.js" type="module" async></script>
-    <link rel="stylesheet" href="dist/graphics-element.css" />
+    <script
+      type="module"
+      src="dist/graphics-element.js"
+      async
+    ></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" async />
   </head>
   <body>
     <h1>Putting (interactive) graphics on a web page</h1>
@@ -153,11 +157,40 @@
     <h2>How do I use this?</h2>
 
     <p>
-      Still working on that because you probably just want a CDN link that you
-      can put on your own page, which doesn't exist (...yet?) so in the mean
-      time there's a
-      <a href="https://github.com/Pomax/custom-graphics-element">github repo</a
-      >.
+      All you need to do is grab the
+      <a
+        href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
+        download="graphics-element.js"
+        >graphics-element.js</a
+      >
+      and
+      <a
+        href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.css"
+        download="graphics-element.css"
+        >graphics-element.css</a
+      >
+      files and then just include them on your page Still working on that
+      because you probably just want a CDN link that you can put on your own
+      page:
+    </p>
+
+    <pre>
+  &lt;script type="module" src="graphics-element.js" async&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href="graphics-element.css" async /&gt;
+    </pre>
+
+    <p>
+      And that's it, you too can now add &lt;graphics-element&gt; to your page.
+    </p>
+
+    <h2>Okay but how do I <em>use</em> this? What functions do I call, etc?</h2>
+
+    <p>
+      I'm still working on that documentation, but in the mean time the
+      <a href="https://github.com/Pomax/custom-graphics-element/tree/main"
+        >project page on GitHub</a
+      >
+      has a whole bunch of information.
     </p>
 
     <h2>How do I contact you</h2>

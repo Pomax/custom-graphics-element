@@ -63,7 +63,7 @@ Thanks to JS having kicked into higher gear since 2015 when it comes to features
 [Download the graphics-element packages](https://github.com/Pomax/custom-graphics-element/archive/master.zip) and copy the `graphics-element` dir into whatever you keep your page/site's javascript files. Then simply have the following `<script>` tag in your HTML:
 
 ```html
-<script type="module" src="/.../graphics-element/graphics-element.js" async></script>
+<script type="module" src=".../graphics-element.js" async></script>
 ```
 
 You can put this anywhere in your HTML because of that [async](https://developer.mozilla.org/docs/Web/HTML/Element/script#attr-async) attribute, but the normal spot would be somewhere inside your `<head>` section.
@@ -71,7 +71,7 @@ You can put this anywhere in your HTML because of that [async](https://developer
 Additionally, there is a convenience stylesheet that you can load so you don't have to write your own "what to show when the graphics-element is not quite yet defined, when to hide the fallback-image, etc.":
 
 ```html
-<link rel="stylesheet" href="/.../graphics-element/graphics-element.css" async></script>
+<link rel="stylesheet" href=".../graphics-element.css" async></script>
 ```
 
 
@@ -109,12 +109,12 @@ You can specify graphics code directly as content for the `<graphics-element>` i
 <graphics-element ...>
   let curve;
 
-  setup() {
+  function setup() {
     curve = Bezier.create(this, 0,0, 100,100, 200,0);
     setMovable(curve.points);
   }
 
-  draw() {
+  function draw() {
     clear(`white`)
     curve.drawCurve();
   }
@@ -128,12 +128,13 @@ You can also wrap your code in a `<program-code>` element, which you will have t
 ```html
 <graphics-element ...>
   <program-code>
-    setup() {
+    function setup() {
       ...
     }
 
     ...
   </program-code>
+  <p>This paragraph is part of the graphics block.</p>
 </graphics-element>
 ```
 
@@ -142,10 +143,10 @@ You can also wrap your code in a `<program-code>` element, which you will have t
 Of course, the most "webbish" way to load code is to use the `src` attribute:
 
 ```html
-<graphics-element ... src="./my-code.js"></graphics-element>
+<graphics-element ... src="my-code.js"></graphics-element>
 ```
 
-For convenience, code uses the `.js` extension, but the `<graphics-element>` technically doesn't care what extension you use. The only reason `.js` is recommended is because your code will get dropped into a modern JS class that `extends Example`, after which it gets run directly.
+For convenience, code uses the `.js` extension, but the `<graphics-element>` technically doesn't care what extension you use. The only reason `.js` is recommended is because your code will get dropped into a modern JS class that `extends Example`, after which it gets run directly, and using `.js` will let your code editor of choice do proper syntax highlighting and auto-formatting.
 
 
 ### The `<fallback-image>` element
@@ -168,12 +169,12 @@ This allows the browser to "preallocate" the space required on the page for your
 Graphics code is bootstrapped and drawn uses two "master" functions:
 
 ```js
-setup() {
-    // initialisation code goes here
+function setup() {
+  // initialisation code goes here
 }
 
-draw() {
-    // drawing code goes here
+function draw() {
+  // drawing code goes here
 }
 ```
 
@@ -187,49 +188,49 @@ Note that neither of these functions are _required_: without a `setup()` functio
 
 Graphics code can react to touch/mouse, which can be handled using:
 
-- `onMouseDown()` triggered by mouse/touch start events.
-- `onMouseUp()` triggered by mouse/touch end events.
-- `onMouseMove()` triggered by moving the mouse/your finger.
+- `onMouseDown()` triggered by mouse down/touch start events.
+- `onMouseUp()` triggered by mouse up /touch end events.
+- `onMouseMove()` triggered by moving the mouse / your finger.
 
 Mouse event data can be accessed via the `this.cursor` property, which encodes:
 
 ```
 {
-    x: current event's screen x coordinate
-    y: current event's screen x coordinate
-    down: boolean signifying whether the cursor is engaged or not
-    mark: {x,y} coordinate object representing where mousedown occurred
-    last: {x,y} coordinate object representing where the cursor was "one event ago"
-    diff: {x,y} coordinate object representing the x/y difference between "now" and "one event ago",
-          with an additional `total` propert that is an {x,y} coordinate object representing the x/y
-          difference between "now" and the original mousedown event.
+  x: current event's screen x coordinate
+  y: current event's screen x coordinate
+  down: boolean signifying whether the cursor is engaged or not
+  mark: {x,y} coordinate object representing where mousedown occurred
+  last: {x,y} coordinate object representing where the cursor was "one event ago"
+  diff: {x,y} coordinate object representing the x/y difference between "now" and "one event ago",
+        with an additional `total` propert that is an {x,y} coordinate object representing the x/y
+        difference between "now" and the original mousedown event.
 }
 ```
 
 #### Example
 
 ```js
-setup() {
-    this.defaultBgColor = this.bgColor = `green`;
+function setup() {
+  this.defaultBgColor = this.bgColor = `green`;
 }
 
-draw() {
-    clear(this.bgColor);
+function draw() {
+  clear(this.bgColor);
 }
 
-onMouseDown() {
-    this.bgColor = `blue`;
-    redraw();
+function onMouseDown() {
+  this.bgColor = `blue`;
+  redraw();
 }
 
-onMouseMove() {
-    this.bgColor = `red`;
-    redraw();
+function onMouseMove() {
+  this.bgColor = `red`;
+  redraw();
 }
 
-onMouseUp() {
-    this.bgColor = this.defaultBgColor;
-    redraw();
+function onMouseUp() {
+  this.bgColor = this.defaultBgColor;
+  redraw();
 }
 ```
 
@@ -244,43 +245,45 @@ Keyboard event data can be accessed via the `this.keyboard` property, which enco
 
 ```
 {
-    currentKey: the name of the key associated with the current event
+  currentKey: the name of the key associated with the current event
 }
 ```
 
 Additionally, the `this.keyboard` property can be consulted for named keys to see if they are currently down or not, e.g. to check whether the up arrow is down or not:
 
 ```js
-draw() {
-    if (this.keyboard[`w`] && this.keyboard[`d`]) {
-        // move up-left
-    }
+function draw() {
+  if (this.keyboard[`w`] && this.keyboard[`d`]) {
+    // move up-left
+  }
 }
 ```
 
 #### Example
 
 ```js
-setup() {
-    this.y = this.height/2;
+let y;
+
+function setup() {
+  y = this.height / 2;
 }
 
-draw() {
-    clear();
-    setColor(`black`);
-    rect(0, this.y-1, this.width, 3);
+function draw() {
+  clear();
+  setColor(`black`);
+  rect(0, y - 1, this.width, 3);
 }
 
-onKeyDown() {
-    const key = this.keyboard.currentKey;
-    if (key === `ArrowUp`) {
-        y -= 5
-    }
-    if (key === `ArrowDown`) {
-        y += 5;
-    }
-    y = constrain(y, 0, this.height);
-    redraw();
+function onKeyDown() {
+  const key = this.keyboard.currentKey;
+  if (key === `ArrowUp`) {
+    y -= 5;
+  }
+  if (key === `ArrowDown`) {
+    y += 5;
+  }
+  y = constrain(y, 0, this.height);
+  redraw();
 }
 ```
 
@@ -315,62 +318,36 @@ If sliders may be dynamically required, the `addSlider` function can be used:
 
 ```js
 setup() {
-    addSlider(`rangeValue`, 0, 1, 0.001, 0.5);
+  addSlider(`rangeValue`, {
+    min:0,
+    max:1,
+    step:0.001,
+    value:0.5
+  });
 }
 
 draw() {
-    console.log(this.rangeValue);
+  console.log(this.rangeValue);
 }
 ```
 
-Its function signature is `addSlider(property name, min, max, step, initial value)`, in which the arguments represent:
+Its function signature is `addSlider(property name, {options})`, in which the options object may have the following properties:
 
-- `property name` a propertyname string that may start with `!`. If no `!` is used, the property name should follow the rules for variable names, as the property will be exposed as `this.propertyname` (e.g. is you use `rangeValue`, then `this.rangeValue` will exis and be kept up to date by the slider logic). If `!` is used, no `this.propertyname` will be be set up for use in your code. Regardless of whether `!` is used or not, the property name will also be displayed in the slider's UI.
-- `min` the minimum numerical value this variable will be able to take on
-- `max` the meximum numerical value this variable will be able to take on
-- `step` the value increase/decrease per step of the slider.
-- `initial value` the value that the associated variable will be assigned as part of the `addSlider` call.
-
-#### From HTML
-
-You can also "presupply" a graphic with sliders, if you know your graphic has a fixed number of dynamic variables. This uses the standard HTML `<input type="range">` element:
-
-```html
-<graphics-element src="..." data-propname="somevalue">
-    <input type="range" min="0" max="1" step="0.001" value="0.5" class="my-slider">
-</graphics-element>
-```
-
-With the graphic code using `setSlider` with a query selector to find your slider element and tie it to a variable:
-
-```js
-setup() {
-    setSlider(`.my-slider`, `rangeValue`, 0.5);
-}
-
-draw() {
-    console.log(this.rangeValue);
-}
-```
-
-Its function signature is `setSlider(query selector, property name, initial value)`, in which the arguments represent:
-
-- `query select` a CSS query selector for finding the right slider in your `<graphics-element>` tree. If you only have one slider then this query selector can simply be `input[type=range]`, but if you have multiple sliders it's a better idea to give each slider a CSS class that can be used to indentify it.
-- `property name` a propertyname string that may start with `!`. If no `!` is used, the property name should follow the rules for variable names, as the property will be exposed as `this.propertyname` (e.g. is you use `rangeValue`, then `this.rangeValue` will exis and be kept up to date by the slider logic). If `!` is used, no `this.propertyname` will be be set up for use in your code. Regardless of whether `!` is used or not, the property name will also be displayed in the slider's UI.
-- `initial value` the value that the associated variable will be assigned as part of the `addSlider` call.
-
-Note that while it might seem that `<input>` elements can be made fully self-descriptive for both the property name (using the `name` attribute) and initial value (using the `value` attribute), this code still needs to do the right thing even in the absence of an HTML page, and so the property name and initial value are explicitly required.
-
-**warning:** if you try to set up a slider for a property name that you have already defined, the code will throw a runtime error.
+- `min` the minimum numerical value this variable will be able to take on, defaults to 0 when omitted.
+- `max` the meximum numerical value this variable will be able to take on, defaults to 1 when omitted.
+- `step` the value increase/decrease per step of the slider, defaults to 1 when omitted.
+- `value` the value that the associated variable will be assigned as part of the `addSlider` call. defaults to 0 when omitted.
+- `classes` the CSS class string to set on this slider. defaults to `slider` when omitted.
+- `transform` a function of the form `(v) => some new value` that gets used to turn the value that the slider reads into a value that your pogram needs. For instance, if you use percentages you typically want the slider to show 0 through 100, but you want your program to use 0 through 1, so you'd pass `min:0, max:100, transform: v => v/100` to make that happen automatically.
 
 
 ## Movable points
 
 An important part of the Graphics API is showing shapes that are controlled or defined by coordinates, and so there are special functions for marking points as "movable" - that is, these points can be click/touch-dragged around a graphic. To fascilitate this, the following functions can be used:
 
-- `setMovable(points, ...)` takes one or more arrays of points, and marks all points as "being movable", such that if the cursor activates at an x/y coordinate near one of these, that point gets assigned to `this.currentPoint`, as well as being automatically moved around as you drag the cursor around on the sketch.
+- `setMovable(points)` takes one or more arrays of points, and marks all points as "being movable", such that if the cursor activates at an x/y coordinate near one of these, that point gets assigned to `this.currentPoint`, as well as being automatically moved around as you drag the cursor around on the sketch.
 - `resetMovable()` will clear the list of movable points.
-- `resetMovable(points, ...)` is the same as calling `resetMovable()` followed by `setMovable(points, ...)`.
+- `resetMovable(points)` is the same as calling `resetMovable()` followed by `setMovable(points, ...)`.
 
 
 ## The API
@@ -407,7 +384,7 @@ The following is the list of API functions that can be used to draw... whatever 
 
 ### General functions
 
-- `find(qs)` find an HTML elements in the `<graphics-element>` DOM tree, using a query selector
+- `find(qs)` find HTML elements inside the `<graphics-element>` DOM tree, using a query selector
 - `findAll(qs)` find all HTML elements that match the provided querySelector. **note:** unlike the DOM API, this function returns a plain array.
 - `setPanelCount(int)` use this in `setup()` to let the API know that this graphic is technically a number of "separate" panels of content, setting `this.panelWidth` to `width`/`panelcount`.
 - `setSize(width,height)` explicitly resizes the canvas. **warning:** this will reset all color, transform, etc. properties to their default values.
@@ -508,6 +485,7 @@ In addition to transformations, there are also two functions to allow you to map
 - `rect(x, y, w, h)` draw a rectangle from (x,y) with width `w` and height `h`
 - `redraw()` triggers a new draw loop. Use this instead of calling `draw()` directly when you wish to draw a new frame as part of event handling.
 - `text(str, x, y, alignment = LEFT)` place text, colored by the fill color, anchored to (x,y), with the type of anchoring determined by `alignemtn`. The alignment constants `LEFT`, `RIGHT`, and `CENTER` are available.
+- `triangle(x1,y1,x2,y2,x3,y3)` similar to rect, but for three points
 - `wedge(x, y, r, s, e)` similar to arc, but draw a full wedge
 
 #### Shape drawing functions
@@ -515,7 +493,7 @@ In addition to transformations, there are also two functions to allow you to map
 - `start(type = POLYGON, factor)` set up a new `Shape` as `this.currentShape` in preparation for receiving data. Types can be `POLYGON` (default), `CURVE` (Catmull-Rom), or `BEZIER`. If `CURVE` is specified, the `factor` indicates how loose or tight the resulting Catmull-Rom curve will be.
 - `segment(type, factor)` set up a new section of the shape. If left unspecified the `type` and `factor` are inherited from the current `Shape`.
 - `vertex(x, y)` add a point to the current `Shape`'s current segment.
-- `end(close = false)` draw the current `Shape`
+- `end(close = false)` draw the current `Shape`. If `close` is true then the code will try to close the currently open path
 - `saveShape()` returns the current shape for later reuse
 
 

@@ -169,12 +169,14 @@ class GraphicsElement extends CustomElement {
     let global = code.substring(0, pos);
     code = code.substring(pos);
     let match = true;
+    const offLimits = GraphicsAPI.privateMethods.concat(GraphicsAPI.methods);
     while (match) {
       match = code.match(/\n?\s*function\s+(\S+)\(/);
       if (!match) break;
       // FIXME: this is pretty brittle, and really needs a tokenizer/DFA instead
       code = code.replace(/\n?\s*function\s+(\S+)\(/, `\n$1(`);
       const fname = match[1];
+      if (offLimits.includes(fname)) continue;
       code = code.replaceAll(
         new RegExp(`([^.\n])${fname}`, `g`),
         `$1this.${fname}`

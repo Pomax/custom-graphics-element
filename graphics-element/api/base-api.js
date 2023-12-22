@@ -4,7 +4,7 @@
  *
  * Basically if it's not part of the "public" API, it's in this class.
  */
-class BaseAPI {
+export class BaseAPI {
   static get privateMethods() {
     return [
       `constructor`,
@@ -26,10 +26,9 @@ class BaseAPI {
 
   static get methods() {
     const priv = this.privateMethods;
-    const names = Object.getOwnPropertyNames(this.prototype).concat([
-      `setSize`,
-      `redraw`,
-    ]);
+    const names = [`setSize`, `redraw`].concat(
+      Object.getOwnPropertyNames(this.prototype)
+    );
     return names.filter((v) => priv.indexOf(v) < 0);
   }
 
@@ -265,5 +264,3 @@ class BaseAPI {
     }
   }
 }
-
-export { BaseAPI };

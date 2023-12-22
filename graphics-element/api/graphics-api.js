@@ -49,18 +49,6 @@ export class GraphicsAPI extends BaseAPI {
     ];
   }
 
-  draw() {
-    const now = performance.now();
-    this.frameTime = now - this.__lastFrameTime;
-    this.__lastFrameTime = now;
-    CURRENT_HUE = 0;
-    super.draw();
-    if (this.playing) {
-      requestAnimationFrame(() => this.draw());
-    }
-    this.frame++;
-  }
-
   get PI() {
     return 3.14159265358979;
   }
@@ -186,6 +174,18 @@ export class GraphicsAPI extends BaseAPI {
     super.setup();
     this.__setupComplete = true;
     this.setGrid(20, `#F0F0F0`);
+  }
+
+  draw() {
+    const now = performance.now();
+    this.frameTime = now - this.__lastFrameTime;
+    this.__lastFrameTime = now;
+    CURRENT_HUE = 0;
+    super.draw();
+    if (this.playing) {
+      requestAnimationFrame(() => this.draw());
+    }
+    this.frame++;
   }
 
   setMovable(points) {

@@ -3,19 +3,26 @@ html,
 body {
   margin: 0;
   padding: 0;
+  --bg: #444;
+  --fg: #fffbea;
+  background: var(--bg);
 }
 
 body {
+  padding: 2em;
   max-width: 800px;
-  margin: 0 auto 2em auto;
+  margin: -2em auto -2em auto;
   font-family: Inter, sans-serif;
   text-align: justify;
+  background: white;
+  border: 1px solid var(--fg);
+  border-width: 0 1px 0 1px;
 }
 
 pre {
   margin: 0;
   padding: 1em;
-  background: #444;
-  color: #fffbea;
+  background: var(--bg);
+  color: var(--fg);
   font-weight: bold;
 }

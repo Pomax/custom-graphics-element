@@ -17,10 +17,7 @@ Thanks to JS having kicked into higher gear since 2015 when it comes to features
 - [Introduction](#introduction)
 - [how to make this work on your own site](#how-to-make-this-work-on-own-site)
 - [the `<graphics-element>` element](#the-graphics-element-element)
-  - [Specifying code directly](#specifying-code-directly)
-  - [Specifying code using the `<program-code>` element](#specifying-code-using-the-program-code-element)
   - [Specifying code using the `src` attribute](#specifying-code-using-the-src-attribute)
-- [the `<program-code>` element](#the-program-code-element)
 - [the `<fallback-image>` element](#the-fallback-image-element)
 
 **Writing graphics code**
@@ -101,46 +98,9 @@ This is typically useful if you generate your HTML using a locale-aware templati
 </graphics-element>
 ```
 
-#### Specifying code directly
-
-You can specify graphics code directly as content for the `<graphics-element>` if you just want to get straight to business:
-
-```html
-<graphics-element ...>
-  let curve;
-
-  function setup() {
-    curve = Bezier.create(this, 0,0, 100,100, 200,0);
-    setMovable(curve.points);
-  }
-
-  function draw() {
-    clear(`white`)
-    curve.drawCurve();
-  }
-</graphics-element>
-```
-
-#### Specifying code using the `<program-code>` element
-
-You can also wrap your code in a `<program-code>` element, which you will have to do if you intend to put any other HTML inside your `<graphics-element>`.
-
-```html
-<graphics-element ...>
-  <program-code>
-    function setup() {
-      ...
-    }
-
-    ...
-  </program-code>
-  <p>This paragraph is part of the graphics block.</p>
-</graphics-element>
-```
-
 #### Specifying code using the `src` attribute
 
-Of course, the most "webbish" way to load code is to use the `src` attribute:
+In order to load code, we're going the most "webbish" way to point to an separate file, using the `src` attribute:
 
 ```html
 <graphics-element ... src="my-code.js"></graphics-element>

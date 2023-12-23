@@ -27,9 +27,6 @@ export {
   impartSliderLogic,
 };
 
-const MODULE_URL = import.meta.url;
-const MODULE_PATH = MODULE_URL.slice(0, MODULE_URL.lastIndexOf(`/`));
-
 // Really wish this was baked into the DOM API. Having to use an
 // IntersectionObserver with bounding box fallback is super dumb
 // from an authoring perspective.
@@ -45,12 +42,6 @@ function isInViewport(e) {
     b.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 }
-
-/**
- * A simple "for programming code" element, for holding entire
- * programs, rather than code snippets.
- */
-CustomElement.register(class ProgramCode extends HTMLElement {});
 
 /**
  * Our custom element
@@ -137,34 +128,18 @@ class GraphicsElement extends CustomElement {
   }
 
   /**
-   * Load the graphics code, either from a src URL, a <program-code> element, or .textContent
+   * Load the graphics code
    */
   async loadSource() {
     debugLog(`loading ${this.getAttribute(`src`)}`);
 
-    let src = false;
-    let code = ``;
-    let codeElement = this.querySelector(`program-code`);
-
-    if (codeElement) {
-      src = codeElement.getAttribute("src");
-      if (src) {
-        this.src = src;
-        code = await fetch(src).then((response) => response.text());
-      } else {
-        code = codeElement.textContent;
-      }
-    } else {
-      src = this.getAttribute("src");
-      if (src) {
-        this.src = src;
-        code = await fetch(src).then((response) => response.text());
-      } else {
-        code = this.textContent;
-      }
+    let src = (this.src = this.getAttribute("src"));
+    if (!src) {
+      throw new Error(`missing src attribute for graphics-element`);
     }
 
-    // remove the "JS object shell"
+    // split up the code in global vs "needs rewrites"
+    let code = await fetch(src).then((response) => response.text());
     const pos = code.indexOf(`function setup()`);
     let global = code.substring(0, pos);
     code = code.substring(pos);
@@ -193,24 +168,6 @@ class GraphicsElement extends CustomElement {
       /import (.+) from\s*['"]([^'"]+)['"];/g,
       `import $1 from "${loc}$2"`
     );
-
-    if (!codeElement) {
-      codeElement = document.createElement(`program-code`);
-      codeElement.textContent = code;
-      this.prepend(codeElement);
-    }
-
-    codeElement.setAttribute(`hidden`, `hidden`);
-
-    new MutationObserver((_records) => {
-      // nornmally we don't want to completely recreate the shadow DOM
-      this.processSource(src, codeElement.textContent);
-    }).observe(codeElement, {
-      characterData: true,
-      attributes: false,
-      childList: true,
-      subtree: true,
-    });
 
     // But on the first pass, we do.
     this.processSource(src, global, code, true);

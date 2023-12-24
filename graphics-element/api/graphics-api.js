@@ -30,10 +30,6 @@ let CURRENT_CURSOR = `pointer`;
  * Our Graphics API, which is the "public" side of the API.
  */
 export class GraphicsAPI extends BaseAPI {
-  #setupComplete = false;
-  playing = false;
-  frame = 0;
-
   static get constants() {
     return [
       `POINTER`,

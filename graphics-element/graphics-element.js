@@ -130,16 +130,20 @@ class GraphicsElement extends CustomElement {
   /**
    * Load the graphics code
    */
-  async loadSource() {
+  async loadSource(code) {
     debugLog(`loading ${this.getAttribute(`src`)}`);
 
     let src = (this.src = this.getAttribute("src"));
+
     if (!src) {
-      throw new Error(`missing src attribute for graphics-element`);
+      console.warn(`missing src attribute for graphics-element`);
+    } else {
+      code = await fetch(src).then((response) => response.text());
     }
 
+    if (!code) return console.warn(`no program loaded into graphics-element`);
+
     // split up the code in global vs "needs rewrites"
-    let code = await fetch(src).then((response) => response.text());
     const pos = code.indexOf(`function setup()`);
     let global = code.substring(0, pos);
     code = code.substring(pos);

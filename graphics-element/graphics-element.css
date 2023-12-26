@@ -85,20 +85,35 @@ graphics-element {
   }
 
   & table.slider-wrapper {
+    border-spacing: 0;
+    width: 100%;
+    padding: 0 1em;
+    & td:nth-child(1) {
+      font-feature-settings:"hist";
+    }
     & td:nth-child(2) {
-      font-size: 0.6em;
-      text-align: center;
+      font-size: 60%;
+      text-align: right;
       vertical-align: middle;
-      padding-left: 1em;
+      width: 2em;
     }
     & td:nth-child(4) {
-      font-size: 0.6em;
-      text-align: center;
+      font-size: 60%;
+      text-align: left;
       vertical-align: middle;
-      padding-right: 1em;
+      padding-left: 0.5em;
+      width: 2em;
     }
     & td:nth-child(5) {
+      width: 4em;
       text-align: center;
+      cursor: pointer;
+      & * {
+        cursor: pointer;
+      }
+    }
+    & td input[type="range"] {
+      width: 100%;
     }
   }
 }

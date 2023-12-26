@@ -322,7 +322,7 @@ export class GraphicsAPI extends BaseAPI {
    * Set a (CSS) border on the canvas
    */
   setBorder(width = 1, color = `black`) {
-    if (width === false) {
+    if (!width) {
       this.canvas.style.border = `none`;
     } else {
       this.canvas.style.border = `${width}px solid ${color}`;

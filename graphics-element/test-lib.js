@@ -1,4 +1,6 @@
 const {
+  abs,
+  sign,
   sin,
   cos,
   tan,
@@ -36,6 +38,8 @@ const csc = (v) => 1 / sin(v);
 const ctn = (v) => cos(v) / sin(v);
 const random = (a = 0, b = 1) => a + Math.random() * (b - a);
 const TAU = PI * 2;
+const huge = 1_000_000_000;
+const epsilon = Number.MIN_VALUE;
 
 const POINTER = `default`;
 const HAND = `pointer`;
@@ -79,6 +83,7 @@ let __current_cursor;
 let __current_hue;
 let __font;
 let __start_time;
+let __overlay;
 
 const find = (qs) => {
   return __canvas.parentNode?.querySelector(qs);
@@ -91,6 +96,7 @@ const findAll = (qs) => {
 const setSize = (w = 400, h = 200) => {
   width = __canvas.width = w;
   height = __canvas.height = h;
+  __element.style.maxWidth = `calc(2em + ${width}px`;
   __ctx = __canvas.getContext(`2d`);
   __draw();
 };
@@ -111,15 +117,20 @@ const reset = async (element) => {
   __current_cursor = `auto`;
   __current_hue = 0;
   __font = {
-    family: ``,
+    family: `sans-serif`,
     size: 16,
-    weight: `normal`,
+    weight: 400,
   };
   __start_time = Date.now();
+  __overlay = false;
 
   currentPoint = false;
   frame = 0;
   textStroke = `transparent`;
+
+  if (typeof getDescription !== `undefined`) {
+    setDescription(getDescription());
+  }
 
   // sizing
   const params = new URLSearchParams(import.meta.url.split(`?`)[1]);
@@ -150,7 +161,16 @@ const halt = () => {
   __font = undefined;
   __start_time = 0;
   clearSliders();
+  clearDescription();
   return { width, height };
+};
+
+const setDescription = (textHTML = false) => {
+  __element.setDescription(textHTML);
+};
+
+const clearDescription = () => {
+  setDescription(false);
 };
 
 const millis = () => {
@@ -167,7 +187,12 @@ const __draw = async () => {
     __drawing = true;
     frame++;
     resetTransform();
+    translate(-0.5, -0.5);
     if (typeof draw !== `undefined`) await draw();
+    if (__overlay) {
+      resetTransform();
+      image(__overlay, 0, 0, width, height);
+    }
     __drawing = false;
     if (__playing) requestAnimationFrame(() => __draw());
   }
@@ -180,11 +205,45 @@ const redraw = () => {
   __redrawing = false;
 };
 
+const copy = () => {
+  const copy = document.createElement(`canvas`);
+  copy.width = width;
+  copy.height = height;
+  const ctx = copy.getContext(`2d`);
+  ctx.drawImage(__canvas, 0, 0, width, height);
+  return copy;
+};
+
+const highlight = (color) => {
+  // FIXME: this should probably be HSL instead of RGB
+  if (__overlay) {
+    __overlay = false;
+    return redraw();
+  }
+  __overlay = copy();
+  const ctx = __overlay.getContext(`2d`);
+  const [_, r, g, b] = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const { data } = imageData;
+  for (let i = 0, masked; i < data.length; i += 4) {
+    masked =
+      abs(data[i + 0] - r) < 20 &&
+      abs(data[i + 1] - g) < 20 &&
+      abs(data[i + 2] - b) < 20;
+    data[i] = 0;
+    data[i + 1] = 254;
+    data[i + 2] = 124;
+    data[i + 3] = masked ? 255 : 0;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  redraw();
+};
+
 const clear = (color = `white`) => {
   save();
-  setStroke(color);
-  setFill(color);
-  rect(0, 0, width, height);
+  __canvas.style.background = color;
+  __canvas.width = width;
+  __ctx = __canvas.getContext(`2d`);
   if (__draw_grid) drawGrid();
   restore();
 };
@@ -301,6 +360,10 @@ const setMargin = (width = 0) => {
   __canvas.style.marginBottom = `${width}px`;
 };
 
+const color = (h = __current_hue, s = 50, l = 50, a = 1) => {
+  return `hsla(${h},${s}%,${l}%,${a})`;
+};
+
 const randomColor = (a = 1.0, cycle = true) => {
   if (cycle) __current_hue = (__current_hue + 73) % 360;
   return `hsla(${__current_hue},50%,50%,${a})`;
@@ -321,11 +384,15 @@ const drawGrid = () => {
   setLineWidth(0.5);
   noFill();
   setStroke(__grid_color);
-  for (let x = -0.5 + (__grid_spacing / 2) | 0; x < width; x += __grid_spacing) {
+  for (
+    let x = (-0.5 + __grid_spacing / 2) | 0;
+    x < width;
+    x += __grid_spacing
+  ) {
     line(x, 0, x, height);
   }
   for (
-    let y = -0.5 + (__grid_spacing / 2) | 0;
+    let y = (-0.5 + __grid_spacing / 2) | 0;
     y < height;
     y += __grid_spacing
   ) {
@@ -360,10 +427,6 @@ const setColor = (color) => {
   setStroke(color);
 };
 
-const setLineWidth = (width = 1) => {
-  __ctx.lineWidth = width;
-};
-
 const hideCursor = () => {
   __canvas.style.cursor = `none`;
 };
@@ -378,17 +441,20 @@ const setCursor = (type) => {
 };
 
 const noTextStroke = () => {
-  textStroke = false;
-  setStrokeWeight(weight);
+  setTextStroke(false, undefined);
 };
 
-const setTextStroke = (color, weight) => {
+const setTextStroke = (color, width) => {
   textStroke = color;
-  setStrokeWeight(weight);
+  setLineWidth(width);
 };
 
 const setTextAlign = (alignment) => {
   __ctx.textAlign = alignment;
+};
+
+const setLineWidth = (width = 1) => {
+  __ctx.lineWidth = width;
 };
 
 const noLineDash = () => {
@@ -443,9 +509,7 @@ const rotate = (angle = 0) => {
   __ctx.rotate(angle);
 };
 
-const scale = (x = 1, y = 1) => {
-  // NOTE: this turns y=0 into y=x, which is fine. Scaling by 0 is really silly =)
-  y = y ? y : x;
+const scale = (x = 1, y = x) => {
   __ctx.scale(x, y);
 };
 
@@ -496,7 +560,15 @@ const resetTransform = () => {
   __ctx.resetTransform();
 };
 
-const image = (img, x = 0, y = 0, w, h) => {
+const image = async (img, x = 0, y = 0, w, h) => {
+  if (typeof img === `string`) {
+    img = await new Promise((resolve, reject) => {
+      const tag = document.createElement(`img`);
+      tag.onload = () => resolve(tag);
+      tag.onerror = () => reject();
+      tag.src = img;
+    });
+  }
   __ctx.drawImage(img, x, y, w || img.width, h || img.height);
 };
 
@@ -562,19 +634,13 @@ const arc = (x, y, r, s = 0, e = TAU, wedge = false) => {
   end();
 };
 
-const plot = (
-  generator,
-  start = 0,
-  end = 1,
-  steps = 24,
-  xscale = 1,
-  yscale = 1
-) => {
-  const interval = end - start;
+const plot = (f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) => {
+  const interval = b - a;
   start();
-  for (let i = 0, e = steps - 1, v; i < steps; i++) {
-    v = generator(start + (interval * i) / e);
-    vertex(v.x * xscale, v.y * yscale);
+  for (let i = 0, e = steps - 1, x, y, v; i < steps; i++) {
+    x = a + interval * (i / e);
+    y = f(x);
+    vertex(x * xscale, y * yscale);
   }
   end();
 };

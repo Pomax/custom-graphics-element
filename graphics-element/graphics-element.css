@@ -88,8 +88,11 @@ graphics-element {
     border-spacing: 0;
     width: 100%;
     padding: 0 1em;
+    margin-top: 0.5em;
+    margin-bottom: -0.5em;
+
     & td:nth-child(1) {
-      font-feature-settings:"hist";
+      font-feature-settings: "hist";
     }
     & td:nth-child(2) {
       font-size: 60%;
@@ -115,5 +118,162 @@ graphics-element {
     & td input[type="range"] {
       width: 100%;
     }
+  }
+  & > p {
+    text-align: left;
+    padding: 0 1em;
+    font-family: sans-serif;
+    font-style: normal;
+
+    /* color tags. They're not real tags, but the browser couldn't care less */
+    & aliceblue { color: #f0f8ff; text-decoration: underline; cursor: pointer; }
+    & antiquewhite { color: #faebd7; text-decoration: underline; cursor: pointer; }
+    & aqua { color: #00ffff; text-decoration: underline; cursor: pointer; }
+    & aquamarine { color: #7fffd4; text-decoration: underline; cursor: pointer; }
+    & azure { color: #f0ffff; text-decoration: underline; cursor: pointer; }
+    & beige { color: #f5f5dc; text-decoration: underline; cursor: pointer; }
+    & bisque { color: #ffe4c4; text-decoration: underline; cursor: pointer; }
+    & black { color: #000000; text-decoration: underline; cursor: pointer; }
+    & blanchedalmond { color: #ffebcd; text-decoration: underline; cursor: pointer; }
+    & blue { color: #0000ff; text-decoration: underline; cursor: pointer; }
+    & blueviolet { color: #8a2be2; text-decoration: underline; cursor: pointer; }
+    & brown { color: #a52a2a; text-decoration: underline; cursor: pointer; }
+    & burlywood { color: #deb887; text-decoration: underline; cursor: pointer; }
+    & cadetblue { color: #5f9ea0; text-decoration: underline; cursor: pointer; }
+    & chartreuse { color: #7fff00; text-decoration: underline; cursor: pointer; }
+    & chocolate { color: #d2691e; text-decoration: underline; cursor: pointer; }
+    & coral { color: #ff7f50; text-decoration: underline; cursor: pointer; }
+    & cornflowerblue { color: #6495ed; text-decoration: underline; cursor: pointer; }
+    & cornsilk { color: #fff8dc; text-decoration: underline; cursor: pointer; }
+    & crimson { color: #dc143c; text-decoration: underline; cursor: pointer; }
+    & cyan { color: #00ffff; text-decoration: underline; cursor: pointer; }
+    & darkblue { color: #00008b; text-decoration: underline; cursor: pointer; }
+    & darkcyan { color: #008b8b; text-decoration: underline; cursor: pointer; }
+    & darkgoldenrod { color: #b8860b; text-decoration: underline; cursor: pointer; }
+    & darkgray { color: #a9a9a9; text-decoration: underline; cursor: pointer; }
+    & darkgreen { color: #006400; text-decoration: underline; cursor: pointer; }
+    & darkgrey { color: #a9a9a9; text-decoration: underline; cursor: pointer; }
+    & darkkhaki { color: #bdb76b; text-decoration: underline; cursor: pointer; }
+    & darkmagenta { color: #8b008b; text-decoration: underline; cursor: pointer; }
+    & darkolivegreen { color: #556b2f; text-decoration: underline; cursor: pointer; }
+    & darkorange { color: #ff8c00; text-decoration: underline; cursor: pointer; }
+    & darkorchid { color: #9932cc; text-decoration: underline; cursor: pointer; }
+    & darkred { color: #8b0000; text-decoration: underline; cursor: pointer; }
+    & darksalmon { color: #e9967a; text-decoration: underline; cursor: pointer; }
+    & darkseagreen { color: #8fbc8f; text-decoration: underline; cursor: pointer; }
+    & darkslateblue { color: #483d8b; text-decoration: underline; cursor: pointer; }
+    & darkslategray { color: #2f4f4f; text-decoration: underline; cursor: pointer; }
+    & darkslategrey { color: #2f4f4f; text-decoration: underline; cursor: pointer; }
+    & darkturquoise { color: #00ced1; text-decoration: underline; cursor: pointer; }
+    & darkviolet { color: #9400d3; text-decoration: underline; cursor: pointer; }
+    & deeppink { color: #ff1493; text-decoration: underline; cursor: pointer; }
+    & deepskyblue { color: #00bfff; text-decoration: underline; cursor: pointer; }
+    & dimgray { color: #696969; text-decoration: underline; cursor: pointer; }
+    & dimgrey { color: #696969; text-decoration: underline; cursor: pointer; }
+    & dodgerblue { color: #1e90ff; text-decoration: underline; cursor: pointer; }
+    & firebrick { color: #b22222; text-decoration: underline; cursor: pointer; }
+    & floralwhite { color: #fffaf0; text-decoration: underline; cursor: pointer; }
+    & forestgreen { color: #228b22; text-decoration: underline; cursor: pointer; }
+    & fuchsia { color: #ff00ff; text-decoration: underline; cursor: pointer; }
+    & gainsboro { color: #dcdcdc; text-decoration: underline; cursor: pointer; }
+    & ghostwhite { color: #f8f8ff; text-decoration: underline; cursor: pointer; }
+    & gold { color: #ffd700; text-decoration: underline; cursor: pointer; }
+    & goldenrod { color: #daa520; text-decoration: underline; cursor: pointer; }
+    & gray { color: #808080; text-decoration: underline; cursor: pointer; }
+    & green { color: #008000; text-decoration: underline; cursor: pointer; }
+    & greenyellow { color: #adff2f; text-decoration: underline; cursor: pointer; }
+    & grey { color: #808080; text-decoration: underline; cursor: pointer; }
+    & honeydew { color: #f0fff0; text-decoration: underline; cursor: pointer; }
+    & hotpink { color: #ff69b4; text-decoration: underline; cursor: pointer; }
+    & indianred { color: #cd5c5c; text-decoration: underline; cursor: pointer; }
+    & indigo { color: #4b0082; text-decoration: underline; cursor: pointer; }
+    & ivory { color: #fffff0; text-decoration: underline; cursor: pointer; }
+    & khaki { color: #f0e68c; text-decoration: underline; cursor: pointer; }
+    & lavender { color: #e6e6fa; text-decoration: underline; cursor: pointer; }
+    & lavenderblush { color: #fff0f5; text-decoration: underline; cursor: pointer; }
+    & lawngreen { color: #7cfc00; text-decoration: underline; cursor: pointer; }
+    & lemonchiffon { color: #fffacd; text-decoration: underline; cursor: pointer; }
+    & lightblue { color: #add8e6; text-decoration: underline; cursor: pointer; }
+    & lightcoral { color: #f08080; text-decoration: underline; cursor: pointer; }
+    & lightcyan { color: #e0ffff; text-decoration: underline; cursor: pointer; }
+    & lightgoldenrodyellow { color: #fafad2; text-decoration: underline; cursor: pointer; }
+    & lightgray { color: #d3d3d3; text-decoration: underline; cursor: pointer; }
+    & lightgreen { color: #90ee90; text-decoration: underline; cursor: pointer; }
+    & lightgrey { color: #d3d3d3; text-decoration: underline; cursor: pointer; }
+    & lightpink { color: #ffb6c1; text-decoration: underline; cursor: pointer; }
+    & lightsalmon { color: #ffa07a; text-decoration: underline; cursor: pointer; }
+    & lightseagreen { color: #20b2aa; text-decoration: underline; cursor: pointer; }
+    & lightskyblue { color: #87cefa; text-decoration: underline; cursor: pointer; }
+    & lightslategray { color: #778899; text-decoration: underline; cursor: pointer; }
+    & lightslategrey { color: #778899; text-decoration: underline; cursor: pointer; }
+    & lightsteelblue { color: #b0c4de; text-decoration: underline; cursor: pointer; }
+    & lightyellow { color: #ffffe0; text-decoration: underline; cursor: pointer; }
+    & lime { color: #00ff00; text-decoration: underline; cursor: pointer; }
+    & limegreen { color: #32cd32; text-decoration: underline; cursor: pointer; }
+    & linen { color: #faf0e6; text-decoration: underline; cursor: pointer; }
+    & magenta { color: #ff00ff; text-decoration: underline; cursor: pointer; }
+    & maroon { color: #800000; text-decoration: underline; cursor: pointer; }
+    & mediumaquamarine { color: #66cdaa; text-decoration: underline; cursor: pointer; }
+    & mediumblue { color: #0000cd; text-decoration: underline; cursor: pointer; }
+    & mediumorchid { color: #ba55d3; text-decoration: underline; cursor: pointer; }
+    & mediumpurple { color: #9370db; text-decoration: underline; cursor: pointer; }
+    & mediumseagreen { color: #3cb371; text-decoration: underline; cursor: pointer; }
+    & mediumslateblue { color: #7b68ee; text-decoration: underline; cursor: pointer; }
+    & mediumspringgreen { color: #00fa9a; text-decoration: underline; cursor: pointer; }
+    & mediumturquoise { color: #48d1cc; text-decoration: underline; cursor: pointer; }
+    & mediumvioletred { color: #c71585; text-decoration: underline; cursor: pointer; }
+    & midnightblue { color: #191970; text-decoration: underline; cursor: pointer; }
+    & mintcream { color: #f5fffa; text-decoration: underline; cursor: pointer; }
+    & mistyrose { color: #ffe4e1; text-decoration: underline; cursor: pointer; }
+    & moccasin { color: #ffe4b5; text-decoration: underline; cursor: pointer; }
+    & navajowhite { color: #ffdead; text-decoration: underline; cursor: pointer; }
+    & navy { color: #000080; text-decoration: underline; cursor: pointer; }
+    & oldlace { color: #fdf5e6; text-decoration: underline; cursor: pointer; }
+    & olive { color: #808000; text-decoration: underline; cursor: pointer; }
+    & olivedrab { color: #6b8e23; text-decoration: underline; cursor: pointer; }
+    & orange { color: #ffa500; text-decoration: underline; cursor: pointer; }
+    & orangered { color: #ff4500; text-decoration: underline; cursor: pointer; }
+    & orchid { color: #da70d6; text-decoration: underline; cursor: pointer; }
+    & palegoldenrod { color: #eee8aa; text-decoration: underline; cursor: pointer; }
+    & palegreen { color: #98fb98; text-decoration: underline; cursor: pointer; }
+    & paleturquoise { color: #afeeee; text-decoration: underline; cursor: pointer; }
+    & palevioletred { color: #db7093; text-decoration: underline; cursor: pointer; }
+    & papayawhip { color: #ffefd5; text-decoration: underline; cursor: pointer; }
+    & peachpuff { color: #ffdab9; text-decoration: underline; cursor: pointer; }
+    & peru { color: #cd853f; text-decoration: underline; cursor: pointer; }
+    & pink { color: #ffc0cb; text-decoration: underline; cursor: pointer; }
+    & plum { color: #dda0dd; text-decoration: underline; cursor: pointer; }
+    & powderblue { color: #b0e0e6; text-decoration: underline; cursor: pointer; }
+    & purple { color: #800080; text-decoration: underline; cursor: pointer; }
+    & rebeccapurple { color: #663399; text-decoration: underline; cursor: pointer; }
+    & red { color: #ff0000; text-decoration: underline; cursor: pointer; }
+    & rosybrown { color: #bc8f8f; text-decoration: underline; cursor: pointer; }
+    & royalblue { color: #4169e1; text-decoration: underline; cursor: pointer; }
+    & saddlebrown { color: #8b4513; text-decoration: underline; cursor: pointer; }
+    & salmon { color: #fa8072; text-decoration: underline; cursor: pointer; }
+    & sandybrown { color: #f4a460; text-decoration: underline; cursor: pointer; }
+    & seagreen { color: #2e8b57; text-decoration: underline; cursor: pointer; }
+    & seashell { color: #fff5ee; text-decoration: underline; cursor: pointer; }
+    & sienna { color: #a0522d; text-decoration: underline; cursor: pointer; }
+    & silver { color: #c0c0c0; text-decoration: underline; cursor: pointer; }
+    & skyblue { color: #87ceeb; text-decoration: underline; cursor: pointer; }
+    & slateblue { color: #6a5acd; text-decoration: underline; cursor: pointer; }
+    & slategray { color: #708090; text-decoration: underline; cursor: pointer; }
+    & slategrey { color: #708090; text-decoration: underline; cursor: pointer; }
+    & snow { color: #fffafa; text-decoration: underline; cursor: pointer; }
+    & springgreen { color: #00ff7f; text-decoration: underline; cursor: pointer; }
+    & steelblue { color: #4682b4; text-decoration: underline; cursor: pointer; }
+    & tan { color: #d2b48c; text-decoration: underline; cursor: pointer; }
+    & teal { color: #008080; text-decoration: underline; cursor: pointer; }
+    & thistle { color: #d8bfd8; text-decoration: underline; cursor: pointer; }
+    & tomato { color: #ff6347; text-decoration: underline; cursor: pointer; }
+    & transparent { color: transparent; text-decoration: underline; cursor: pointer; }
+    & turquoise { color: #40e0d0; text-decoration: underline; cursor: pointer; }
+    & violet { color: #ee82ee; text-decoration: underline; cursor: pointer; }
+    & wheat { color: #f5deb3; text-decoration: underline; cursor: pointer; }
+    & white { color: #ffffff; text-decoration: underline; cursor: pointer; }
+    & whitesmoke { color: #f5f5f5; text-decoration: underline; cursor: pointer; }
+    & yellow { color: #ffff00; text-decoration: underline; cursor: pointer; }
+    & yellowgreen { color: #9acd32; text-decoration: underline; cursor: pointer; }
   }
 }

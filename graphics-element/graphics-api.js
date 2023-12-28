@@ -83,7 +83,7 @@ let __current_cursor;
 let __current_hue;
 let __font;
 let __start_time;
-let __overlay;
+let __highlight_color;
 
 const find = (qs) => {
   return __canvas.parentNode?.querySelector(qs);
@@ -122,7 +122,7 @@ const reset = async (element) => {
     weight: 400,
   };
   __start_time = Date.now();
-  __overlay = false;
+  __highlight_color = false;
 
   currentPoint = false;
   frame = 0;
@@ -189,10 +189,6 @@ const __draw = async () => {
     resetTransform();
     translate(-0.5, -0.5);
     if (typeof draw !== `undefined`) await draw();
-    if (__overlay) {
-      resetTransform();
-      image(__overlay, 0, 0, width, height);
-    }
     __drawing = false;
     if (__playing) requestAnimationFrame(() => __draw());
   }
@@ -215,27 +211,7 @@ const copy = () => {
 };
 
 const highlight = (color) => {
-  // FIXME: this should probably be HSL instead of RGB
-  if (__overlay) {
-    __overlay = false;
-    return redraw();
-  }
-  __overlay = copy();
-  const ctx = __overlay.getContext(`2d`);
-  const [_, r, g, b] = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-  const imageData = ctx.getImageData(0, 0, width, height);
-  const { data } = imageData;
-  for (let i = 0, masked; i < data.length; i += 4) {
-    masked =
-      abs(data[i + 0] - r) < 20 &&
-      abs(data[i + 1] - g) < 20 &&
-      abs(data[i + 2] - b) < 20;
-    data[i] = 0;
-    data[i + 1] = 254;
-    data[i + 2] = 124;
-    data[i + 3] = masked ? 255 : 0;
-  }
-  ctx.putImageData(imageData, 0, 0);
+  __highlight_color = color;
   redraw();
 };
 
@@ -406,6 +382,9 @@ const noFill = () => {
 };
 
 const setFill = (color = `black`) => {
+  if (CSS_COLOR_MAP[color] === __highlight_color) {
+    color = `rgb(0,254,124)`;
+  }
   __ctx.fillStyle = color;
 };
 
@@ -414,6 +393,9 @@ const noStroke = () => {
 };
 
 const setStroke = (color = `black`) => {
+  if (CSS_COLOR_MAP[color] === __highlight_color) {
+    color = `rgb(0,254,124)`;
+  }
   __ctx.strokeStyle = color;
 };
 
@@ -573,6 +555,9 @@ const image = async (img, x = 0, y = 0, w, h) => {
 };
 
 const start = () => {
+  if (__ctx.lineWidth % 2 === 1) {
+    __ctx.translate(0.5, 0.5);
+  }
   __ctx.beginPath();
   __first = false;
 };
@@ -581,6 +566,9 @@ const end = (close = false) => {
   if (close) __ctx.closePath();
   __ctx.fill();
   __ctx.stroke();
+  if (__ctx.lineWidth % 2 === 1) {
+    __ctx.translate(-0.5, -0.5);
+  }
 };
 
 const vertex = (x, y) => {
@@ -631,6 +619,61 @@ const arc = (x, y, r, s = 0, e = TAU, wedge = false) => {
   if (wedge) __ctx.moveTo(x, y);
   __ctx.arc(x, y, r, s, e);
   if (wedge) __ctx.lineTo(x, y);
+  end();
+};
+
+const bezier = (points) => {
+  const [first, ...rest] = points;
+  start();
+  vertex(first.x, first.y);
+  for (let i = 0, e = rest.length; i < e; i += 3) {
+    let [p1, p2, p3] = rest.slice(i, i + 3);
+    if (p1 && p2 && p3) __ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+  }
+  end();
+};
+
+// draw a cardinal spline with virtual start and end point
+const spline = (points, virtual = true, tightness = 1, T = tightness) => {
+  let cpoints = points;
+  if (virtual) {
+    const f0 = points[0],
+      f1 = points[1],
+      f2 = points[2],
+      fsm = new Vector(f0.x / 2 + f2.x / 2, f0.y / 2 + f2.y / 2),
+      f0r = new Vector(f0).reflect(f1),
+      fsr = fsm.reflect(f1),
+      fn = new Vector(f0r.x / 2 + fsr.x / 2, f0r.y / 2 + fsr.y / 2),
+      l2 = points.at(-3),
+      l1 = points.at(-2),
+      l0 = points.at(-1),
+      lsm = new Vector(l0.x / 2 + l2.x / 2, l0.y / 2 + l2.y / 2),
+      l0r = new Vector(l0).reflect(l1),
+      ln = new Vector(l0r.x / 2 + lsm.x / 2, l0r.y / 2 + lsm.y / 2);
+    cpoints = [fn, ...points, ln];
+  }
+
+  // four point sliding window over the segment
+  start();
+  __ctx.moveTo(cpoints[1].x, cpoints[1].y);
+  for (let i = 0, e = cpoints.length - 3; i < e; i++) {
+    let [c1, c2, c3, c4] = cpoints.slice(i, i + 4);
+    let p2 = {
+      x: c2.x + (c3.x - c1.x) / (6 * T),
+      y: c2.y + (c3.y - c1.y) / (6 * T),
+    };
+    let p3 = {
+      x: c3.x - (c4.x - c2.x) / (6 * T),
+      y: c3.y - (c4.y - c2.y) / (6 * T),
+    };
+    __ctx.bezierCurveTo(p2.x, p2.y, p3.x, p3.y, c3.x, c3.y);
+  }
+  end();
+};
+
+const bspline = (points) => {
+  start();
+  new BSpline(points).getLUT().forEach((p) => vertex(p.x, p.y));
   end();
 };
 

@@ -4,10 +4,8 @@ import interpolate from "../util/interpolate-bspline.js";
 const DEGREE = 3;
 
 class BSpline {
-  constructor(apiInstance, points) {
-    this.api = apiInstance;
-    this.ctx = apiInstance.ctx;
-
+  constructor(points) {
+    this.points = points;
     // the spline library needs points in array format [x,y] rather than object format {x:..., y:...}
     this.points = points.map((v) => {
       if (v instanceof Array) return v;
@@ -15,7 +13,7 @@ class BSpline {
     });
   }
 
-  getLUT(count) {
+  getLUT(count = 100) {
     let c = count - 1;
     return [...new Array(count)].map((_, i) => {
       let p = interpolate(i / c, DEGREE, this.points, this.knots, this.weights);
@@ -47,7 +45,9 @@ class BSpline {
   }
 
   formUniformKnots() {
-    return (this.knots = [...new Array(this.points.length + DEGREE + 1)].map((_, i) => i));
+    return (this.knots = [...new Array(this.points.length + DEGREE + 1)].map(
+      (_, i) => i
+    ));
   }
 
   formWeights() {

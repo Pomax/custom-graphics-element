@@ -9,12 +9,8 @@
     />
     <link rel="stylesheet" href="index.css" />
     <!-- the only HTML code we need to make sweet graphics work: -->
-    <script
-      type="module"
-      src="graphics-element/graphics-element.js"
-      async
-    ></script>
-    <link rel="stylesheet" href="graphics-element/graphics-element.css" async />
+    <script type="module" src="dist/graphics-element.js" async></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" async />
   </head>
   <body>
     <h1>Putting (interactive) graphics on a web page</h1>
@@ -90,9 +86,9 @@
       recommendation of "no change" when the input is at 100, but because of how
       the update feedback works, we'll never stabilize... unless we take the
       accumulated error over time, or the speed at which the input changes, into
-      account. Those are the "I" and "D" terms in the name "PID", so if you slide
-      their sliders around, you'll see what effect that might have on how a
-      signal changes over time when controlled using PID ratios.
+      account. Those are the "I" and "D" terms in the name "PID", so if you
+      slide their sliders around, you'll see what effect that might have on how
+      a signal changes over time when controlled using PID ratios.
     </p>
 
     <p>
@@ -175,11 +171,11 @@
     </graphics-element>
 
     <p>
-      See all those color-underlined test? Mouse-over/tap them: you'll notice
-      that the correspondingly colored part of the graphic gets highlighted in
-      the loudest shade of mint. And don't want all those colours? Click the
-      remove button so you can more easily read the text, and click "reset" to
-      get the colours back!
+      See all those coloured terms in the text? Mouse-over or tap-and-hold them:
+      you'll notice that the correspondingly colored part of the graphic gets
+      highlighted in the loudest shade of mint. And don't want all those
+      colours? Click the remove button so you can more easily read the text, and
+      click "reset" to get the colours back!
     </p>
 
     <p>
@@ -198,16 +194,20 @@
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
         download="graphics-element.js"
         >graphics-element.js</a
+      >,
+      <a
+        href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
+        download="graphics-api.js"
+        >graphics-api.js</a
       >
-      and
+      (for now, I plan on bundling that in, too), and
       <a
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.css"
         download="graphics-element.css"
         >graphics-element.css</a
       >
-      files and then just include them on your page Still working on that
-      because you probably just want a CDN link that you can put on your own
-      page:
+      files, put them in a dir that your server can serve them from, and then
+      link the graphics-element JS and CSS files on your page:
     </p>
 
     <pre>

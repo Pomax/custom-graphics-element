@@ -705,12 +705,34 @@ const drawAxes = (hlabel, hs, he, vlabel, vs, ve) => {
   text(ve, vpos, height, RIGHT);
 };
 
-// event handling
+// pointer event handling
 
-const __pointerDown = (x, y) => {
-  console.log('hihuihuih')
+const __checkForCurrentPoint = (x, y, type) => {
+  const matches = [];
+  const matchPadding = type === `mouse` ? 10 : 30;
+  __movable_points.forEach((p) => {
+    let x2 = p[0] === undefined ? p.x : p[0];
+    let y2 = p[1] === undefined ? p.y : p[1];
+    const d = dist(x, y, x2, y2);
+    if (d < (p.r ? p.r : 0) + matchPadding) {
+      matches.push({ p, d });
+    }
+  });
+  currentPoint = false;
+  __canvas.style.cursor = `auto`;
+  if (matches.length) {
+    matches.sort((a, b) => a.d - b.d);
+    currentPoint = matches[0].p;
+    __canvas.style.cursor = `pointer`;
+  }
+};
+
+const __pointerDown = (x, y, type) => {
   pointer.down = true;
   pointer.mark = { x, y };
+  if (type !== `mouse`) {
+    __checkForCurrentPoint(x, y, type);
+  }
   if (currentPoint) {
     currentPoint._dx = currentPoint.x - x;
     currentPoint._dy = currentPoint.y - y;
@@ -718,9 +740,12 @@ const __pointerDown = (x, y) => {
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
-__canvas.addEventListener(`pointerdown`, ({ offsetX: x, offsetY: y }) => {
-  __pointerDown(x, y);
-});
+__canvas.addEventListener(
+  `pointerdown`,
+  ({ offsetX: x, offsetY: y, pointerType: type }) => {
+    __pointerDown(x, y, type);
+  }
+);
 
 const __pointerUp = (x, y) => {
   pointer.down = false;
@@ -751,23 +776,7 @@ const __pointerMove = (x, y, type) => {
   }
 
   if (!pointer.down) {
-    const matches = [];
-    const matchPadding = type === `mouse` ? 10 : 30;
-    __movable_points.forEach((p) => {
-      let x2 = p[0] === undefined ? p.x : p[0];
-      let y2 = p[1] === undefined ? p.y : p[1];
-      const d = dist(x, y, x2, y2);
-      if (d < (p.r ? p.r : 0) + matchPadding) {
-        matches.push({ p, d });
-      }
-    });
-    currentPoint = false;
-    __canvas.style.cursor = `auto`;
-    if (matches.length) {
-      matches.sort((a, b) => a.d - b.d);
-      currentPoint = matches[0].p;
-      __canvas.style.cursor = `pointer`;
-    }
+    __checkForCurrentPoint(x, y, type);
   }
 
   if (typeof pointerMove !== `undefined`) pointerMove(x, y);
@@ -789,6 +798,8 @@ const clearMovable = (newpoints) => {
     setMovable(newpoints);
   }
 };
+
+// key event handling
 
 const __safelyInterceptKey = (evt) => {
   // We don't want to interfere with the browser, so we're only

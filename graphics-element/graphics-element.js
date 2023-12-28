@@ -141,6 +141,16 @@ class GraphicsElement extends CustomElement {
       ` from "${dir(location.href)}/$1"`
     );
 
+    // inject size
+    const w = this.getAttribute(`width`);
+    const h = this.getAttribute(`height`);
+    if (w && h) {
+      userCode = userCode.replace(
+        `function setup() {`,
+        `function setup() {\n  setSize(${w}, ${h});`
+      );
+    }
+
     const module = base64(
       [
         `import { Bezier, BSpline, Point, Circle, Vector, Matrix, Shape, CSS_COLOR_MAP } from "${thisURL}";`,

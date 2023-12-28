@@ -5,7 +5,6 @@ let c, p;
  * ...
  */
 function setup() {
-  setSize(500, 200);
   setGrid(20, `black`);
   setBorder(1, `black`);
 

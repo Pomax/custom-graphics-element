@@ -732,3 +732,9 @@ graphics-element {
     }
   }
 }
+
+/* why does CSS nesting not work for this? */
+graphics-element[centered] {
+  display: block;
+  margin: 0 auto;
+}

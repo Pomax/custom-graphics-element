@@ -14,6 +14,7 @@ const POINTER = `default`;
 const RIGHT = `right`;
 const RTL = `rtl`;
 const TOP = `top`;
+const CONSTRAIN = true;
 
 const pointer = { x: -1, y: -1 };
 const keyboard = {};
@@ -57,19 +58,18 @@ const {
 } = Math;
 const { PI, E } = Math;
 const constrain = (v, s, e) => (v < s ? s : v > e ? e : v);
-const constrainMap = (v, s, e, ns, ne) => map(v, s, e, ns, ne, true);
 const csc = (v) => 1 / sin(v);
 const ctn = (v) => cos(v) / sin(v);
 const dist = (x1, y1, x2, y2) => ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
 const epsilon = Number.MIN_VALUE;
 const huge = 1_000_000_000;
 const log = (v) => ln(v) / ln(10);
-const map = (v, s, e, ns, ne, constrain = false) => {
+const map = (v, s, e, ns, ne, constrained = false) => {
   const i1 = e - s,
     i2 = ne - ns,
     p = v - s;
   let r = ns + (p * i2) / i1;
-  if (constrain) return this.constrain(r, ns, ne);
+  if (constrained) return constrain(r, ns, ne);
   return r;
 };
 const random = (a = 0, b = 1) => a + Math.random() * (b - a);
@@ -150,10 +150,6 @@ const reset = async (element) => {
   currentPoint = false;
   frame = 0;
   textStroke = `transparent`;
-
-  // sizing
-  const params = new URLSearchParams(import.meta.url.split(`?`)[1]);
-  setSize(params.get(`width`) ?? undefined, params.get(`height`) ?? undefined);
 
   // run setup
   await __setup();
@@ -626,6 +622,12 @@ const plot = (f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) => {
     y = f(x);
     vertex(x * xscale, y * yscale);
   }
+  end();
+};
+
+const plotData = (data, x, y) => {
+  start();
+  data.forEach((p) => vertex(p[x], p[y]));
   end();
 };
 

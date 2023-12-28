@@ -10,7 +10,6 @@ function setup() {
     points.push(new Point(i, 150));
   }
   setMovable(points);
-  noGrid();
   crisp(false);
 }
 
@@ -21,8 +20,8 @@ function draw() {
   clear();
 
   setStroke(`black`);
-  translate(30, 20);
-  axes(`x`, 0, width - 50, `y`, 0, height - 40);
+  translate(30, 30);
+  axes(`x`, 0, width - 40, `y`, 0, height - 40);
 
   noFill();
   setStroke(`black`);

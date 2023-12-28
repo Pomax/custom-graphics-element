@@ -5,7 +5,7 @@ const radius = 100;
  * The master setup function
  */
 function setup() {
-  setSize(500, 300);
+  setSize(780, 300);
   const playButton = find(`button.play`);
   playButton.addEventListener(
     `click`,

@@ -16,17 +16,15 @@ function setup() {
     },
     { passive: false }
   );
-  this.canvas.addEventListener(`pointerdown`, () => playButton.click());
 }
 
 /**
  * The master draw function
  */
 function draw() {
-  const { width, height } = this;
   clear();
-  setWidth(1);
-  if (this.playing) {
+  setLineWidth(1);
+  if (__playing) {
     setFill(`black`);
     text(`playing...`, 10.5, 10.5);
   }
@@ -45,7 +43,7 @@ function draw() {
   a += 0.002;
 
   // "play" overlay
-  if (!this.playing) {
+  if (!__playing) {
     setFill(`#0002`);
     rect(0, 0, width, height);
     setStroke(`white`);
@@ -77,7 +75,7 @@ function renderIdentities(w, h, a, flipped) {
   vertex(w, h + cosec);
   end(true);
 
-  setWidth(2);
+  setLineWidth(2);
   setStroke(`red`);
   line(x, y, x, h);
   setStroke(`green`);
@@ -97,4 +95,8 @@ function renderIdentities(w, h, a, flipped) {
   line(w, h, x, y);
   setFill(`red`);
   circle(x, y, 3);
+}
+
+function pointerDown() {
+  togglePlay();
 }

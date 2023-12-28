@@ -9,8 +9,12 @@
     />
     <link rel="stylesheet" href="index.css" />
     <!-- the only HTML code we need to make sweet graphics work: -->
-    <script type="module" src="dist/graphics-element.js" async></script>
-    <link rel="stylesheet" href="dist/graphics-element.css" async />
+    <script
+      type="module"
+      src="graphics-element/graphics-element.js"
+      async
+    ></script>
+    <link rel="stylesheet" href="graphics-element/graphics-element.css" async />
   </head>
   <body>
     <h1>Putting (interactive) graphics on a web page</h1>
@@ -140,6 +144,23 @@
       fact the bulk of the setup function is just plain JS that adds an event
       listener and updates a text label. That's not even graphics-related,
       that's just page-JS basics.
+    </p>
+
+    <p>In fact, let's take that one step further:</p>
+
+    <graphics-element
+      src="./trigonometry.js"
+      title="A trigonometric identity visualisation"
+      width="400"
+      height="200"
+    ></graphics-element>
+
+    <p>
+      See all those color-underlined test? Mouse-over/tap them: you'll notice
+      that the correspondingly colored part of the graphic gets highlighted in
+      the loudest shade of mint. And don't want all those colours? Click the
+      remove button so you can more easily read the text, and click "reset" to
+      get the colours back!
     </p>
 
     <p>

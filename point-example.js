@@ -1,15 +1,3 @@
-class Point {
-  constructor(api, x = 0, y = 0) {
-    this.api = api;
-    this.x = x;
-    this.y = y;
-  }
-  draw() {
-    const { api, x, y } = this;
-    api.circle(x, y, 5);
-  }
-}
-
 const points = [];
 
 /**
@@ -17,7 +5,9 @@ const points = [];
  */
 function setup() {
   setSize(500, 300);
-  for (let i = 50; i < 500; i += 100) points.push(new Point(this, i, 150));
+  for (let i = 50; i < 500; i += 100) {
+    points.push(new Point(i, 150));
+  }
   setMovable(points);
   noGrid();
 }
@@ -30,13 +20,24 @@ function draw() {
 
   noFill();
   setStroke(`black`);
-  drawPolygon(points);
+  start();
+  points.forEach((p) => vertex(p.x, p.y));
+  end();
 
   setFill(`red`);
   noStroke();
-  points.forEach((p) => p.draw());
+  points.forEach((p) => point(p.x, p.y));
 
   noFill();
   setStroke(`red`);
-  drawCatmullRom(points);
+  spline(points);
+
+  setStroke(`blue`);
+  bezier(points.slice(0, 4));
+
+  setStroke(`green`);
+  bezier(points.slice(1, 5));
+
+  setStroke(`gold`);
+  bspline(points);
 }

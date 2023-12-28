@@ -19,7 +19,6 @@ function setup() {
 function draw() {
   clear();
 
-  const { width, height } = this;
   const f = 2;
   const h = height / f;
 
@@ -53,8 +52,7 @@ function draw() {
  * @returns
  */
 function generatePIDcurve() {
-  const { kp, ki, kd, maxErrors } = this;
-  const pid = new PID(kp, ki, kd, maxErrors);
+  const pid = new PID(kp, ki, kd);
   const v = new Vector(0, 0, 0);
   v.update = (u) => {
     v.y += u / 100;
@@ -64,7 +62,7 @@ function generatePIDcurve() {
   let min = 0;
   let max = 0;
   const data = [];
-  for (let i = 0; i < F * this.width; i++) {
+  for (let i = 0; i < F * width; i++) {
     const output = pid.getRecommendation(v.x, target);
     v.update(output);
     if (min > v.x) min = v.x;

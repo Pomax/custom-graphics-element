@@ -49,8 +49,7 @@ function draw() {
   }
 }
 
-function pointerDown() {
-  const { x, y } = pointer;
-  console.log(x, y);
+function pointerDown(x, y) {
   ppt = new Point(x, y);
+  redraw();
 }

@@ -708,13 +708,14 @@ const drawAxes = (hlabel, hs, he, vlabel, vs, ve) => {
 // event handling
 
 const __pointerDown = (x, y) => {
+  console.log('hihuihuih')
   pointer.down = true;
   pointer.mark = { x, y };
   if (currentPoint) {
     currentPoint._dx = currentPoint.x - x;
     currentPoint._dy = currentPoint.y - y;
   }
-  if (typeof pointerDown !== `undefined`) pointerDown();
+  if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
 __canvas.addEventListener(`pointerdown`, ({ offsetX: x, offsetY: y }) => {
@@ -769,7 +770,7 @@ const __pointerMove = (x, y, type) => {
     }
   }
 
-  if (typeof pointerMove !== `undefined`) pointerMove();
+  if (typeof pointerMove !== `undefined`) pointerMove(x, y);
   if (pointMoved && !__playing) redraw();
 };
 

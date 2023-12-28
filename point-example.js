@@ -1,4 +1,5 @@
 const points = [];
+let ppt;
 
 /**
  * The master setup function
@@ -40,4 +41,16 @@ function draw() {
 
   setStroke(`purple`);
   bspline(points);
+
+  if (ppt) {
+    circle(ppt.x, ppt.y, 30);
+    circle(ppt.x, ppt.y, 20);
+    circle(ppt.x, ppt.y, 10);
+  }
+}
+
+function pointerDown() {
+  const { x, y } = pointer;
+  console.log(x, y);
+  ppt = new Point(x, y);
 }

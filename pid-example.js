@@ -33,6 +33,7 @@ function setup() {
   addSlider(`ki`, { min: -1, max: 1, step: 0.001, value: 0 });
   addSlider(`kd`, { max: 20, step: 0.01, value: 0 });
   noGrid();
+  crisp(false);
 }
 
 /**

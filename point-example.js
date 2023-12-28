@@ -38,6 +38,6 @@ function draw() {
   setStroke(`green`);
   bezier(points.slice(1, 5));
 
-  setStroke(`gold`);
+  setStroke(`purple`);
   bspline(points);
 }

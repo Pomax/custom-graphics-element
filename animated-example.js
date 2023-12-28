@@ -44,11 +44,11 @@ function draw() {
 
   // "play" overlay
   if (!__playing) {
-    setFill(`#0002`);
+    setFill(`#FFF9`);
     rect(0, 0, width, height);
     setStroke(`white`);
     setFill(`black`);
-    triangle(w - 30, h - 30, w - 30, h + 30, w + 30, h);
+    triangle(w - 20, h - 30, w - 20, h + 30, w + 40, h);
   }
 }
 

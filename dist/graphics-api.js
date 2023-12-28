@@ -128,6 +128,10 @@ const reset = async (element) => {
   frame = 0;
   textStroke = `transparent`;
 
+  if (typeof getDescription !== `undefined`) {
+    setDescription(getDescription());
+  }
+
   // sizing
   const params = new URLSearchParams(import.meta.url.split(`?`)[1]);
   setSize(params.get(`width`) ?? undefined, params.get(`height`) ?? undefined);
@@ -159,6 +163,14 @@ const halt = () => {
   clearSliders();
   clearDescription();
   return { width, height };
+};
+
+const setDescription = (textHTML = false) => {
+  __element.setDescription(textHTML);
+};
+
+const clearDescription = () => {
+  setDescription(false);
 };
 
 const millis = () => {

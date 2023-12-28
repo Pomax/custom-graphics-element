@@ -198,40 +198,46 @@ class GraphicsElement extends CustomElement {
     }
 
     if (this.label) slotParent.insertBefore(toptitle, this.canvas);
+
+    if (!this.crosslinked) {
+      this.crosslinked = true;
+      this.crosslink();
+    }
   }
 
-  setDescription(textHTML) {
-    if (textHTML === false) {
-      const p = this.querySelector(`p`);
-      if (p) this.removeChild(p);
-      return;
-    }
-    const p = document.createElement(`p`);
-    p.innerHTML = textHTML;
-    p.classList.add(`description`);
-    p.querySelectorAll(`*`).forEach((e) => {
-      if (!CSS_COLOR_NAMES.includes(e.tagName)) return;
-      let color;
-      e.addEventListener(`pointerenter`, () => {
-        color ??= getComputedStyle(e)[`-webkit-text-stroke-color`];
-        this.highlight(color);
-      });
-      e.addEventListener(`pointerleave`, () => this.highlight(false));
-    });
-    const disableColors = document.createElement(`button`);
-    disableColors.textContent = `remove colors`;
-    disableColors.classList.add(`remove-color`);
-    disableColors.addEventListener(`click`, () => {
+  crosslink() {
+    let addRemoveButton = false;
+
+    this.querySelectorAll(`p`).forEach((p) => {
       p.querySelectorAll(`*`).forEach((e) => {
-        if (CSS_COLOR_NAMES.includes(e.tagName)) {
-          e.outerHTML = `<span>${e.textContent}</span>`;
-          e.style.cursor = `auto`;
-        }
+        if (!CSS_COLOR_NAMES.includes(e.tagName)) return;
+        addRemoveButton = true;
+        let color;
+        e.addEventListener(`pointerenter`, () => {
+          color ??= getComputedStyle(e)[`-webkit-text-stroke-color`];
+          this.highlight(color);
+        });
+        e.addEventListener(`pointerleave`, () => this.highlight(false));
       });
-      p.removeChild(disableColors);
     });
-    p.append(disableColors);
-    this.append(p);
+
+    if (addRemoveButton) {
+      const disableColors = document.createElement(`button`);
+      disableColors.textContent = `remove colors`;
+      disableColors.classList.add(`remove-color`);
+      disableColors.addEventListener(`click`, () => {
+        this.querySelectorAll(`p`).forEach((p) => {
+          p.querySelectorAll(`*`).forEach((e) => {
+            if (CSS_COLOR_NAMES.includes(e.tagName)) {
+              e.outerHTML = `<span>${e.textContent}</span>`;
+              e.style.cursor = `auto`;
+            }
+          });
+        });
+        this.removeChild(disableColors);
+      });
+      this.append(disableColors);
+    }
   }
 }
 

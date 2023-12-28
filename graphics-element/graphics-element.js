@@ -1,35 +1,19 @@
 import { CustomElement } from "./custom-element.js";
-import splitCodeSections from "./lib/split-code-sections.js";
-import performCodeSurgery from "./lib/perform-code-surgery.js";
+import { Bezier } from "./api/types/bezier.js";
+import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
+import { BSpline } from "./api/types/bspline.js";
+import { Point, Circle } from "./api/types/point.js";
+import { Vector } from "./api/types/vector.js";
+import { Matrix } from "./api/types/matrix.js";
+import { Shape } from "./api/util/shape.js";
 
-import {
-  enrich,
-  Bezier,
-  BSpline,
-  Vector,
-  Matrix,
-  Shape,
-  binomial,
-  BaseAPI,
-  GraphicsAPI,
-  impartSliderLogic,
-} from "./api/graphics-api.js";
-export {
-  enrich,
-  Bezier,
-  BSpline,
-  Vector,
-  Matrix,
-  Shape,
-  binomial,
-  BaseAPI,
-  GraphicsAPI,
-  impartSliderLogic,
-};
+export { Bezier, BSpline, Point, Circle, Vector, Matrix, Shape, CSS_COLOR_MAP };
 
-// Really wish this was baked into the DOM API. Having to use an
-// IntersectionObserver with bounding box fallback is super dumb
-// from an authoring perspective.
+const thisURL = String(import.meta.url);
+const apiURL = thisURL.replace(`element.js`, `api.js`);
+const response = await fetch(apiURL);
+const libraryCode = await response.text();
+
 function isInViewport(e) {
   if (typeof window === `undefined`) return true;
   if (typeof document === `undefined`) return true;
@@ -43,29 +27,24 @@ function isInViewport(e) {
   );
 }
 
-/**
- * Our custom element
- */
 class GraphicsElement extends CustomElement {
-  /**
-   * Create an instance of this element
-   */
   constructor() {
-    super({ header: false, footer: false });
-
-    this.originalHTML = this.outerHTML;
-
+    super();
     this.label = document.createElement(`label`);
     if (!this.title) this.title = ``;
     this.label.textContent = this.title;
   }
 
+  handleAttributeChange(...args) {
+    // console.log(...args);
+  }
+
+  handleChildChanges(...args) {
+    // console.log(...args);
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    // set our CSSS size
-    // this.style.setProperty(`--width`, this.getAttribute(`width`));
-    // this.style.setProperty(`--height`, this.getAttribute(`height`));
-    // then, do we load immediately?
     if (isInViewport(this)) {
       this.loadSource();
     } else {
@@ -83,258 +62,114 @@ class GraphicsElement extends CustomElement {
     }
   }
 
-  /**
-   * part of the CustomElement API
-   */
   getStyle() {
     return `
-      :host([hidden]) { display: none; }
-      :host { max-width: calc(2em + ${this.getAttribute(`width`)}px); }
-      :host style { display: none; }
-      :host .top-title { display: flex; flex-direction: row-reverse; justify-content: space-between; }
-      :host canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box!important; border: 1px solid lightgrey; }
-      :host canvas:focus { border: 1px solid red; }
-      :host a.view-source { font-size: 60%; text-decoration: none; }
-      :host button.reset { font-size: 0.5em; }
-      :host label { display: block; font-style:italic; font-size: 0.9em; text-align: right; }
+      :host([hidden]) {
+        display: none;
+      }
+      :host style {
+        display: none;
+      }
+      :host .top-title {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+      }
+      :host canvas {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        touch-action: none;
+        user-select: none;
+        position: relative;
+        z-index: 1;
+        display: block;
+        margin: auto;
+        border-radius: 0;
+        box-sizing: content-box!important;
+        border: 1px solid lightgrey;
+      }
+      :host canvas:focus {
+        border: 1px solid red;
+      }
+      :host a.view-source {
+        font-size: 60%;
+        text-decoration: none;
+      }
+      :host button.reset {
+        font-size: 0.5em;
+        top: -0.35em;
+        position: relative;
+      }
+      :host label:not(:empty) {
+        display: block;
+        font-style:italic;
+        font-size: 0.9em;
+        text-align: right;
+        padding-right: 1em;
+        margin-top: 0.35em;
+      }
     `;
   }
 
-  /**
-   * part of the CustomElement API
-   */
-  handleChildChanges(added, removed) {
-    // debugLog(`child change:`, added, removed);
-  }
-
-  /**
-   * part of the CustomElement API
-   */
-  handleAttributeChange(name, oldValue, newValue) {
-    if (name === `title`) {
-      this.label.textContent = this.getAttribute(`title`);
-    }
-    if (this.apiInstance) {
-      let instance = this.apiInstance;
-      if (name === `width`) {
-        instance.setSize(parseInt(newValue), false);
-        instance.redraw();
-      }
-      if (name === `height`) {
-        instance.setSize(false, parseInt(newValue));
-        instance.redraw();
-      }
-    }
-  }
-
-  /**
-   * Load the graphics code
-   */
-  async loadSource(code) {
-    debugLog(`loading ${this.getAttribute(`src`)}`);
-
-    let src = (this.src = this.getAttribute("src"));
-
-    if (!src) {
-      console.warn(`missing src attribute for graphics-element`);
-    } else {
-      code = await fetch(src).then((response) => response.text());
+  async loadSource(width, height) {
+    // prevent DOM reflow on resets
+    if (width && height) {
+      this.style.width = width;
+      this.style.height = height;
     }
 
-    if (!code) return console.warn(`no program loaded into graphics-element`);
+    const src = this.getAttribute(`src`);
+    let userCode = await (await fetch(src)).text();
 
-    // split up the code in global vs "needs rewrites"
-    const pos = code.indexOf(`function setup()`);
-    let global = code.substring(0, pos);
-    code = code.substring(pos);
-    let match = true;
-    const offLimits = GraphicsAPI.privateMethods.concat(GraphicsAPI.methods);
-    while (match) {
-      match = code.match(/\n?\s*function\s+(\S+)\(/);
-      if (!match) break;
-      // FIXME: this is pretty brittle, and really needs a tokenizer/DFA instead
-      code = code.replace(/\n?\s*function\s+(\S+)\(/, `\n$1(`);
-      const fname = match[1];
-      if (offLimits.includes(fname)) continue;
-      code = code.replaceAll(
-        new RegExp(`([^.\n])${fname}`, `g`),
-        `$1this.${fname}`
-      );
+    // slider magic
+    const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`],\s*/g);
+    const varNames = [];
+    for (let m of matches) {
+      varNames.push(m[1]);
+      userCode = userCode.replace(m[0], m[0] + `(v) => (${m[1]} = v), `);
     }
 
-    // fix imports so they become absolute URLs - relative urls won't work for data: sources
-    let loc = window.location.href;
-    if (loc.match(/\/[^.]+\.[^\/]+$/)) {
-      loc = loc.substring(0, loc.lastIndexOf(`/`));
+    if (varNames.length) {
+      userCode = `let ` + varNames.join(`, `) + `;\n` + userCode;
     }
 
-    global = global.replaceAll(
-      /import (.+) from\s*['"]([^'"]+)['"];/g,
-      `import $1 from "${loc}$2"`
+    // fix imports
+    userCode = userCode.replaceAll(
+      / from ['"].([^'"]+)['"]/g,
+      ` from "${dir(location.href)}/$1"`
     );
 
-    // But on the first pass, we do.
-    this.processSource(src, global, code, true);
-  }
+    const module = base64(
+      [
+        `import { Bezier, BSpline, Point, Circle, Vector, Matrix, Shape, CSS_COLOR_MAP } from "${thisURL}";`,
+        userCode,
+        `const __randomId = "${Date.now()}";`, // ensures reloads work
+        libraryCode,
+        `export { reset as start, __canvas as canvas, halt, highlight }`,
+      ].join(`\n`)
+    );
 
-  /**
-   * Transform the graphics source code into global and class code.
-   */
-  processSource(src, global, code, rerender = false) {
-    if (this.script) {
-      if (this.script.parentNode) {
-        this.script.parentNode.removeChild(this.script);
+    import(`data:text/javascript;base64,${module}`).then((lib) => {
+      const { start, canvas, halt, highlight } = lib;
+      this.canvas = canvas;
+      this.halt = () => halt();
+      this.highlight = (color) => highlight(color);
+      this.render();
+      if (width && height) {
+        this.style.width = ``;
+        this.style.height = ``;
       }
-      this.canvas.parentNode.removeChild(this.canvas);
-      rerender = true;
-    }
-
-    const uid = (this.uid = `bg-uid-${Date.now()}-${`${Math.random()}`.replace(
-      `0.`,
-      ``
-    )}`);
-    window[uid] = this;
-
-    // Step 1: fix the imports. This is ... a bit of work.
-    let path;
-    let base = document.querySelector(`base`);
-    if (base) {
-      path = base.href;
-    } else {
-      let loc = window.location.toString();
-      path = loc.substring(0, loc.lastIndexOf(`/`) + 1);
-    }
-    let modulepath = `${path}${src}`;
-    let modulebase = modulepath.substring(0, modulepath.lastIndexOf(`/`) + 1);
-
-    // okay, I lied, it's actually quite a lot of work.
-    code = code.replace(/(import .+? from) "([^"]+)"/g, (_, main, group) => {
-      return `${main} "${modulebase}${group}"`;
+      start(this);
+      // Once we've rendered, and the sketch is running, we can send the "we're loaded" event
+      this.dispatchEvent(new CustomEvent(`load`));
+      if (this.onload) this.onload();
     });
-
-    this.linkableCode = code;
-
-    // Then, step 2: split up the code into "global" vs. "class" code.
-    const split = splitCodeSections(code);
-    const globalCode = global + `\n` + split.quasiGlobal;
-    const classCode = performCodeSurgery(split.classCode);
-
-    this.setupCodeInjection(src, uid, globalCode, classCode, rerender);
   }
 
-  /**
-   * Form the final, perfectly valid JS module code, and create the <script>
-   * element for it, to be inserted into the shadow DOM during render().
-   */
-  setupCodeInjection(src, uid, globalCode, classCode, rerender) {
-    const width = this.getAttribute(`width`) || 400;
-    const height = this.getAttribute(`height`) || 200;
-
-    this.code = `
-      /**
-       * Program source: ${src}
-       * Data attributes: ${JSON.stringify(this.dataset)}
-       */
-      import { enrich, Bezier, BSpline, Vector, Matrix, Shape, binomial, BaseAPI, GraphicsAPI, impartSliderLogic } from "${
-        import.meta.url
-      }";
-
-      ${globalCode}
-
-      class Example extends GraphicsAPI {
-        ${classCode}
-      }
-
-      new Example('${uid}', ${width}, ${height});
-    `;
-
-    const script = (this.script = document.createElement(`script`));
-    script.type = "module";
-    script.src = `data:application/javascript;charset=utf-8,${encodeURIComponent(
-      this.code
-    )}`;
-
-    if (rerender) this.render();
-  }
-
-  /**
-   * Reload this graphics element the brute force way.
-   */
-  async reset() {
-    const parent = this.parentNode;
-    const offDOM = document.createElement(`div`);
-    offDOM.style.display = `none`;
-    offDOM.innerHTML = this.originalHTML;
-    const newElement = offDOM.querySelector(`graphics-element`);
-    // Make sure the new element is pre-sized correctly, so we don't get weird scrollbar behaviour.
-    newElement.style.width = getComputedStyle(this).getPropertyValue(`width`);
-    newElement.style.height = getComputedStyle(this).getPropertyValue(`height`);
-    parent.replaceChild(newElement, this);
-  }
-
-  /**
-   * Hand the <graphics-element> a reference to the "Example" instance that it built.
-   */
-  setGraphic(apiInstance) {
-    this.apiInstance = apiInstance;
-    this.setCanvas(apiInstance.canvas);
-    // at this point we can remove our placeholder image for this element, too.
-    let fallback = this.querySelector(`fallback-image`);
-    if (fallback) this.removeChild(fallback);
-  }
-
-  /**
-   * Locally bind the Example's canvas, since it needs to get added to the shadow DOM.
-   */
-  setCanvas(canvas) {
-    this.canvas = canvas;
-    // Make sure focus works, Which is a CLUSTERFUCK OF BULLSHIT in the August, 2020,
-    // browser landscape, so this is the best I can give you right now. I am more
-    // disappointed about this than you will ever be.
-    this.canvas.setAttribute(`tabindex`, `0`);
-    this.canvas.addEventListener(`pointerdown`, (evt) => this.canvas.focus());
-    // If we get here, there were no source code errors: undo the scheduled error print.
-    clearTimeout(this.errorPrintTimeout);
-    this.render();
-    // Once we've rendered, we can send the "ready for use" signal.
-    this.dispatchEvent(new CustomEvent(`load`));
-    if (this.onload) {
-      this.onload();
-    }
-  }
-
-  /**
-   * This is a helper to aid debugging, mostly because dev tools are not super
-   * great at pointing you to the right line for an injected script that it
-   * can't actually find anywhere in the document or shadow DOM...
-   */
-  printCodeDueToError() {
-    debugLog(
-      this.code
-        .split(`\n`)
-        .map((l, pos) => `${pos + 1}: ${l}`)
-        .join(`\n`)
-    );
-  }
-
-  /**
-   * Regenerate the shadow DOM content.
-   */
   render() {
     super.render();
-
-    if (this.script) {
-      if (!this.script.__inserted) {
-        // Schedule an error print, which will get cleared if there
-        // were no source code errors.
-        this.errorPrintTimeout = setTimeout(
-          () => this.printCodeDueToError(),
-          1000
-        );
-        this.script.__inserted = true;
-        this._shadow.appendChild(this.script);
-      }
-    }
 
     const slotParent = this._slot.parentNode;
     if (this.canvas) slotParent.insertBefore(this.canvas, this._slot);
@@ -346,32 +181,83 @@ class GraphicsElement extends CustomElement {
     const r = document.createElement(`button`);
     r.classList.add(`reset`);
     r.textContent = this.getAttribute(`reset`) || `reset`;
-    r.addEventListener(`click`, () => this.reset());
+    r.addEventListener(`click`, () => {
+      const { width, height } = this.halt();
+      this.crosslinked = false;
+      this.querySelector(`button.remove-color`)?.remove();
+      this.loadSource(width, height);
+    });
     toptitle.append(r);
 
-    if (this.src) {
+    const src = this.getAttribute(`src`);
+    if (src) {
       const a = document.createElement(`a`);
       a.classList.add(`view-source`);
       a.textContent = this.getAttribute(`viewSource`) || `view source`;
-      a.href = this.src;
+      a.href = src;
       a.target = `_blank`;
       toptitle.append(a);
     }
 
     if (this.label) slotParent.insertBefore(toptitle, this.canvas);
+
+    this.crosslink();
   }
+
+  crosslink() {
+    if (this.crosslinked) return;
+    this.crosslinked = true;
+
+    let addRemoveButton = false;
+    this.querySelectorAll(`p`).forEach((p) => {
+      p.querySelectorAll(`*`).forEach((e) => {
+        if (!CSS_COLOR_NAMES.includes(e.tagName)) return;
+        addRemoveButton = true;
+        let color;
+        e.classList.remove(`calm`);
+        e.addEventListener(`pointerenter`, () => {
+          color ??= getComputedStyle(e)[`-webkit-text-stroke-color`];
+          this.highlight(color);
+        });
+        e.addEventListener(`pointerleave`, () => this.highlight(false));
+      });
+    });
+
+    if (addRemoveButton) {
+      const disableColors = document.createElement(`button`);
+      disableColors.textContent = `remove colors`;
+      disableColors.classList.add(`remove-color`);
+      disableColors.addEventListener(`click`, () => {
+        this.querySelectorAll(`p`).forEach((p) => {
+          p.querySelectorAll(`*`).forEach((e) => {
+            if (CSS_COLOR_NAMES.includes(e.tagName)) {
+              e.classList.add(`calm`);
+            }
+          });
+        });
+        disableColors.remove();
+      });
+      this.append(disableColors);
+    }
+  }
+}
+
+function base64(data) {
+  const bytes = new TextEncoder().encode(data);
+  const binString = String.fromCodePoint(...bytes);
+  return btoa(binString);
 }
 
 // Register our custom element
-CustomElement.register(GraphicsElement);
+await CustomElement.register(GraphicsElement);
 
-// static property to regular debugging
-GraphicsElement.DEBUG = false;
-
-// debugging should be behind a flag
-function debugLog(...data) {
-  if (GraphicsElement.DEBUG) {
+function dir(path) {
+  const regex = /^(.*)\/([^.]+(\.([^\/?#]+))+)(\?[^#]*)?(#.*)?$/;
+  const match = path.match(regex);
+  if (match !== null) {
+    const { [1]: dirname, [2]: file, [4]: ext } = match;
+    console.log(`URL is for a file "${file}", with extension "${ext}"`);
+    path = dirname;
   }
+  return path;
 }
-
-export { GraphicsElement };

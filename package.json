@@ -4,7 +4,7 @@
   "description": "[<a href=\"https://pomax.github.io/custom-graphics-element/\">visit the live site here</a>]",
   "main": "example.js",
   "scripts": {
-    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist",
+    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist && cp ./graphics-element/graphics-api.js dist",
     "esbuild": "esbuild graphics-element/graphics-element.js  --bundle --outfile=./dist/graphics-element.js --format=esm --minify --keep-names",
     "test": "npm run build && run-p serve open",
     "serve": "serve --cors",

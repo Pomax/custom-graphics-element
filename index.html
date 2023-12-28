@@ -84,11 +84,11 @@
       the value back down to 100: we see the green PID recommendation curve
       having maxima where the input is at its lowest and its highest, and a
       recommendation of "no change" when the input is at 100, but because of how
-      the update feedback works, we'll never stabilize... unless we start the
+      the update feedback works, we'll never stabilize... unless we take the
       accumulated error over time, or the speed at which the input changes, into
-      account. Those as the "I" and "D" terms in the name "PID", so if you slide
-      their sliders around, you'll see what effect that might have on how a
-      signal changes over time when controlled using PID ratios.
+      account. Those are the "I" and "D" terms in the name "PID", so if you
+      slide their sliders around, you'll see what effect that might have on how
+      a signal changes over time when controlled using PID ratios.
     </p>
 
     <p>
@@ -132,7 +132,7 @@
     <graphics-element
       title="an example with a play button as well as tap-to-play"
       src="./animated-example.js"
-      ><button>play</button></graphics-element
+      ><button class="play">play</button></graphics-element
     >
 
     <p>
@@ -140,6 +140,42 @@
       fact the bulk of the setup function is just plain JS that adds an event
       listener and updates a text label. That's not even graphics-related,
       that's just page-JS basics.
+    </p>
+
+    <p>In fact, let's take that one step further:</p>
+
+    <graphics-element
+      src="./trigonometry.js"
+      title="A trigonometric identity visualisation"
+      width="400"
+      height="200"
+    >
+      <p>
+        A point <b>P</b> at some <darkgreen>angle</darkgreen> on a circle has
+        several trigonometric identities. The
+        <midnightblue>hypotenuse</midnightblue> is the circle's radius, with the
+        <red>sine</red> and <blue>cosine</blue> being the point's projection
+        onto the y and x axes, respectively. From those, we get the
+        <mistyrose>"enclosing right triangle"</mistyrose> with the circle's
+        center as the right angle corner, the <darkblue>secant</darkblue> (which
+        is just <blue>1/cosine</blue>) as the x-axis corner, and the
+        <brown>cosecant</brown> (which is just <red>1/sine</red>) as the y-axis
+        corner. Additionally, the point "splits" the enclosing right triangle's
+        hypotenuse into two parts: one part, from <b>P</b> to the secant corner,
+        has length <orange>tangent</orange> (which is just
+        <red>sine</red>/<blue>cosine</blue>), and the other part, from
+        <b>P</b> to the cosecant corner, has length
+        <purple>cotangent</purple> (which is simply the inverse,
+        <blue>cosine</blue>/<red>sine</red>).
+      </p>
+    </graphics-element>
+
+    <p>
+      See all those coloured terms in the text? Mouse-over or tap-and-hold them:
+      you'll notice that the correspondingly colored part of the graphic gets
+      highlighted in the loudest shade of mint. And don't want all those
+      colours? Click the remove button so you can more easily read the text, and
+      click "reset" to get the colours back!
     </p>
 
     <p>
@@ -158,16 +194,20 @@
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
         download="graphics-element.js"
         >graphics-element.js</a
+      >,
+      <a
+        href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
+        download="graphics-api.js"
+        >graphics-api.js</a
       >
-      and
+      (for now, I plan on bundling that in, too), and
       <a
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.css"
         download="graphics-element.css"
         >graphics-element.css</a
       >
-      files and then just include them on your page Still working on that
-      because you probably just want a CDN link that you can put on your own
-      page:
+      files, put them in a dir that your server can serve them from, and then
+      link the graphics-element JS and CSS files on your page:
     </p>
 
     <pre>

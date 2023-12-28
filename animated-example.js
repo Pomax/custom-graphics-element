@@ -6,7 +6,7 @@ const radius = 100;
  */
 function setup() {
   setSize(500, 300);
-  const playButton = find(`button`);
+  const playButton = find(`button.play`);
   playButton.addEventListener(
     `click`,
     (evt) => {
@@ -16,17 +16,15 @@ function setup() {
     },
     { passive: false }
   );
-  this.canvas.addEventListener(`pointerdown`, () => playButton.click());
 }
 
 /**
  * The master draw function
  */
 function draw() {
-  const { width, height } = this;
   clear();
-  setWidth(1);
-  if (this.playing) {
+  setLineWidth(1);
+  if (__playing) {
     setFill(`black`);
     text(`playing...`, 10.5, 10.5);
   }
@@ -45,12 +43,12 @@ function draw() {
   a += 0.002;
 
   // "play" overlay
-  if (!this.playing) {
-    setFill(`#0002`);
+  if (!__playing) {
+    setFill(`#FFF9`);
     rect(0, 0, width, height);
     setStroke(`white`);
     setFill(`black`);
-    triangle(w - 30, h - 30, w - 30, h + 30, w + 30, h);
+    triangle(w - 20, h - 30, w - 20, h + 30, w + 40, h);
   }
 }
 
@@ -77,7 +75,7 @@ function renderIdentities(w, h, a, flipped) {
   vertex(w, h + cosec);
   end(true);
 
-  setWidth(2);
+  setLineWidth(2);
   setStroke(`red`);
   line(x, y, x, h);
   setStroke(`green`);
@@ -97,4 +95,8 @@ function renderIdentities(w, h, a, flipped) {
   line(w, h, x, y);
   setFill(`red`);
   circle(x, y, 3);
+}
+
+function pointerDown() {
+  togglePlay();
 }

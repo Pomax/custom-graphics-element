@@ -132,6 +132,11 @@ graphics-element {
     font-family: sans-serif;
     font-style: normal;
 
+    & *.calm {
+      -webkit-text-stroke: 0px transparent;
+      cursor: auto !important;
+    }
+
     /* color tags. They're not real tags, but the browser couldn't care less */
     & aliceblue {
       -webkit-text-stroke: 0.75px #f0f8ff;

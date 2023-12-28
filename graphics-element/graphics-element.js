@@ -183,6 +183,8 @@ class GraphicsElement extends CustomElement {
     r.textContent = this.getAttribute(`reset`) || `reset`;
     r.addEventListener(`click`, () => {
       const { width, height } = this.halt();
+      this.crosslinked = false;
+      this.querySelector(`button.remove-color`)?.remove();
       this.loadSource(width, height);
     });
     toptitle.append(r);
@@ -199,20 +201,20 @@ class GraphicsElement extends CustomElement {
 
     if (this.label) slotParent.insertBefore(toptitle, this.canvas);
 
-    if (!this.crosslinked) {
-      this.crosslinked = true;
-      this.crosslink();
-    }
+    this.crosslink();
   }
 
   crosslink() {
-    let addRemoveButton = false;
+    if (this.crosslinked) return;
+    this.crosslinked = true;
 
+    let addRemoveButton = false;
     this.querySelectorAll(`p`).forEach((p) => {
       p.querySelectorAll(`*`).forEach((e) => {
         if (!CSS_COLOR_NAMES.includes(e.tagName)) return;
         addRemoveButton = true;
         let color;
+        e.classList.remove(`calm`);
         e.addEventListener(`pointerenter`, () => {
           color ??= getComputedStyle(e)[`-webkit-text-stroke-color`];
           this.highlight(color);
@@ -229,12 +231,11 @@ class GraphicsElement extends CustomElement {
         this.querySelectorAll(`p`).forEach((p) => {
           p.querySelectorAll(`*`).forEach((e) => {
             if (CSS_COLOR_NAMES.includes(e.tagName)) {
-              e.outerHTML = `<span>${e.textContent}</span>`;
-              e.style.cursor = `auto`;
+              e.classList.add(`calm`);
             }
           });
         });
-        this.removeChild(disableColors);
+        disableColors.remove();
       });
       this.append(disableColors);
     }
@@ -242,7 +243,9 @@ class GraphicsElement extends CustomElement {
 }
 
 function base64(data) {
-  return btoa(data); // FIXME: switch this to utf-8
+  const bytes = new TextEncoder().encode(data);
+  const binString = String.fromCodePoint(...bytes);
+  return btoa(binString);
 }
 
 // Register our custom element

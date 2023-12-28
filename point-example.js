@@ -11,6 +11,7 @@ function setup() {
   }
   setMovable(points);
   noGrid();
+  crisp(false);
 }
 
 /**
@@ -18,6 +19,10 @@ function setup() {
  */
 function draw() {
   clear();
+
+  setStroke(`black`);
+  translate(30, 20);
+  axes(`x`, 0, width - 50, `y`, 0, height - 40);
 
   noFill();
   setStroke(`black`);

@@ -86,11 +86,11 @@ let __start_time;
 let __highlight_color;
 
 const find = (qs) => {
-  return __canvas.parentNode?.querySelector(qs);
+  return __element.parentNode?.querySelector(qs);
 };
 
 const findAll = (qs) => {
-  return __canvas.parentNode?.querySelectorAll(qs);
+  return __element.parentNode?.querySelectorAll(qs);
 };
 
 const setSize = (w = 400, h = 200) => {
@@ -307,6 +307,7 @@ const pause = () => {
 
 const togglePlay = () => {
   __playing ? pause() : play();
+  return __playing;
 };
 
 // TODO: panels, using off-screen canvas?

@@ -1,22 +1,3 @@
-// function getDescription() {
-//   return `
-//   A point <b>P</b> at some <darkgreen>angle</darkgreen> on a circle has several
-//   trigonometric identities. The <midnightblue>hypotenuse</midnightblue> is the
-//   circle's radius, with the <red>sine</red> and <blue>cosine</blue> being the
-//   point's projection onto the y and x axes, respectively. From those, we get the
-//   <mistyrose>"enclosing right triangle"</mistyrose> with the circle's center as
-//   the right angle corner, the <darkblue>secant</darkblue> (which is just
-//   <blue>1/cosine</blue>) as the x-axis corner, and the
-//   <brown>cosecant</brown> (which is just <red>1/sine</red>) as the y-axis corner.
-//   Additionally, the point "splits" the enclosing right triangle's hypotenuse into
-//   two parts: one part, from <b>P</b> to the secant corner, has length
-//   <orange>tangent</orange> (which is just <red>sine</red>/<blue>cosine</blue>),
-//   and the other part, from <b>P</b> to the cosecant corner, has length
-//   <purple>cotangent</purple> (which is simply the inverse,
-//   <blue>cosine</blue>/<red>sine</red>).
-//   `;
-// }
-
 // circle and point;
 let c, p;
 

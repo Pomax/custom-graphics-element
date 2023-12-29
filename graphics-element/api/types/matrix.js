@@ -10,13 +10,13 @@ function invert(M) {
   // (b) Multiply a row by a scalar
   // (c) Add 2 rows
 
-  //if the matrix isn't square: exit (error)
+  // if the matrix isn't square: exit (error)
   if (M.length !== M[0].length) {
     console.log("not square");
     return;
   }
 
-  //create the identity matrix (I), and a copy (C) of the original
+  // create the identity matrix (I), and a copy (C) of the original
   var i = 0,
     ii = 0,
     j = 0,

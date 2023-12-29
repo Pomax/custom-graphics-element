@@ -16,6 +16,7 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
   - [Movable entities](#movable-entities)
   - [Pointer handling](#pointer-handling)
   - [Keyboard handling](#keyboard-handling)
+  - [Linking guide text and graphics](#linking-guide-text-and-graphics)
 - [The graphics API](#the-grahpics-api)
   - [Maths](#maths)
   - [General globals](#general-globals)
@@ -58,6 +59,7 @@ Several globals exist to make your graphics life easier:
 
 - `width` - the width of your graphic, in pixels.
 - `height` - the height of your graphic, in pixels.
+- `playing` - a boolean indicating whether this graphic is currently running in animated mode or not.
 - `frame` - the current frame's number. Every time `draw` runs, this number will increase by 1.
 - `pointer` - an object representing the mouse/stylus/touch input "cursor"
 - `keyboard` - an object that tracks which keys are currently being pressed
@@ -152,6 +154,10 @@ function keyUp(key, shift, alt, ctrl, meta) {
 ```
 
 Note that there is no "key typed" handler, you get to decide whether down or up counts as "typing". There is a global `keyboard` object that tracks which keys are down: if a key is down, it will have a corresponding `keyboard[keyName]` entry, with its value being the `Date.now()` timestamp when the key got pressed. Once the key is released, its entry gets removed from `keyboard` (not just set to a falsey value).
+
+## Linking guide text and graphics
+
+The graphics element supports automatic highlighting of parts of your graphic by using color tags. For example, if you have a `` setStroke(`red`) `` in your graphics code, and you want the parts that are drawn in red to be highlight, you can add `<red>...</red>` to your graphics guide text. Now, whenever a user places their pointer (mouse, stylus, or touch) on that marked-up text, the corresponding color will get highlighted in the graphic. All named CSS colors are supported for this purpose.
 
 # The graphics API
 

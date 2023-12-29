@@ -89,6 +89,7 @@ let currentPoint;
 let frame;
 let height;
 let width;
+let playing;
 
 // "internal" vars
 
@@ -110,7 +111,6 @@ let __grid_color;
 let __grid_spacing;
 let __highlight_color;
 let __movable_points;
-let __playing;
 let __redrawing;
 let __start_time;
 let __style_stack;
@@ -147,13 +147,13 @@ const reset = async (element) => {
   __grid_spacing = 20;
   __highlight_color = false;
   __movable_points = [];
-  __playing = false;
   __redrawing = false;
   __start_time = Date.now();
   __style_stack = [];
   __textStroke = `transparent`;
 
   currentPoint = false;
+  playing = false;
   frame = 0;
   pointer.x = 0;
   pointer.y = 0;
@@ -171,10 +171,10 @@ const halt = () => {
   const style = getComputedStyle(__element);
   width = style.width;
   height = style.height;
+  playing = false;
   __canvas = undefined;
   __ctx = undefined;
   __finished_setup = false;
-  __playing = false;
   __drawing = true;
   __redrawing = true;
   __first = undefined;
@@ -200,7 +200,7 @@ const __draw = async () => {
     translate(-0.5, -0.5);
     if (typeof draw !== `undefined`) await draw();
     __drawing = false;
-    if (__playing) requestAnimationFrame(() => __draw());
+    if (playing) requestAnimationFrame(() => __draw());
   }
 };
 
@@ -296,7 +296,7 @@ const __pointerMove = (x, y) => {
       pointerDrag(x, y);
     }
   }
-  if (pointMoved && !__playing) redraw();
+  if (pointMoved && !playing) redraw();
 };
 
 __canvas.addEventListener(
@@ -377,7 +377,7 @@ const addSlider = (propLabel, assign, options) => {
   const update = ({ value }) => {
     valueField.textContent = value;
     assign(transform(parseFloat(value)));
-    if (!__playing) redraw();
+    if (!playing) redraw();
   };
 
   slider.addEventListener(`input`, ({ target }) => update(target));
@@ -464,11 +464,11 @@ const millis = () => {
 };
 
 const pause = () => {
-  __playing = false;
+  playing = false;
 };
 
 const play = () => {
-  __playing = true;
+  playing = true;
   __draw();
 };
 
@@ -505,8 +505,8 @@ const toDataURL = () => {
 };
 
 const togglePlay = () => {
-  __playing ? pause() : play();
-  return __playing;
+  playing ? pause() : play();
+  return playing;
 };
 
 // ---------- draw functions -------------

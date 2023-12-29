@@ -1,4 +1,5 @@
-let a = Math.PI / 2 + 0.01;
+// we're going to animate this graphic by varying an angle.
+let a = Math.PI / 2 + 0.001;
 const radius = 100;
 
 /**
@@ -23,12 +24,15 @@ function setup() {
  */
 function draw() {
   clear();
+
+  // If we're running animated, draw "playing" in the upper left corner.
   setLineWidth(1);
-  if (__playing) {
+  if (playing) {
     setFill(`black`);
     text(`playing...`, 10.5, 10.5);
   }
 
+  // Then, draw a unit circle and cross axes,
   noFill();
   setStroke(`black`);
   const w = width / 2;
@@ -36,14 +40,16 @@ function draw() {
   circle(w, h, radius);
   line(0, h, width, h);
   line(w, 0, w, height);
+
+  // Then draw the trig identities twice, as mirrors of each other
   [a, a + PI].forEach((angle) => {
     renderIdentities(w, h, angle, true);
     renderIdentities(w, h, angle, false);
   });
   a += 0.002;
 
-  // "play" overlay
-  if (!__playing) {
+  // Then, if we're *not* playing, draw a "play" overlay:
+  if (!playing) {
     setFill(`#FFF9`);
     rect(0, 0, width, height);
     setStroke(`white`);
@@ -62,37 +68,42 @@ function draw() {
 function renderIdentities(w, h, a, flipped) {
   if (flipped) a = PI - a;
 
+  // figure out where our point-on-the-unit-circle is
   const x = w + radius * cos(a);
   const y = h + radius * sin(a);
-  const sec = radius / cos(a);
-  const cosec = radius / sin(a);
+
+  const secant = radius * sec(a);
+  const cosecant = radius * csc(a);
 
   setFill(`#55F3`);
   noStroke();
   start();
-  vertex(w + sec, h);
+  vertex(w + secant, h);
   vertex(w, h);
-  vertex(w, h + cosec);
+  vertex(w, h + cosecant);
   end(true);
 
-  setLineWidth(2);
   setStroke(`red`);
   line(x, y, x, h);
+
   setStroke(`green`);
   line(x, y, w, y);
 
   setStroke(`orange`);
-  line(x, y, w + sec, h);
+  line(x, y, w + secant, h);
+
   setStroke(`purple`);
-  line(x, y, w, h + cosec);
+  line(x, y, w, h + cosecant);
 
   setStroke(`blue`);
   line(w, h, w + sec, h);
+
   setStroke(`gold`);
-  line(w, h, w, h + cosec);
+  line(x, y, w + secant, h);
 
   setStroke(`black`);
   line(w, h, x, y);
+
   setFill(`red`);
   circle(x, y, 3);
 }

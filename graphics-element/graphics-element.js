@@ -1,18 +1,27 @@
 import { CustomElement } from "./custom-element.js";
-import { Bezier } from "./api/types/bezier.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
 import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
-import { Shape } from "./api/util/shape.js";
 
-export { Bezier, BSpline, Point, Circle, Vector, Matrix, Shape, CSS_COLOR_MAP };
+export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
 
 const thisURL = String(import.meta.url);
 const apiURL = thisURL.replace(`element.js`, `api.js`);
 const response = await fetch(apiURL);
 const libraryCode = await response.text();
+
+function getURLbase(path) {
+  const regex = /^(.*)\/([^.]+(\.([^\/?#]+))+)(\?[^#]*)?(#.*)?$/;
+  const match = path.match(regex);
+  if (match !== null) {
+    const { [1]: dirname, [2]: file, [4]: ext } = match;
+    console.log(`URL is for a file "${file}", with extension "${ext}"`);
+    path = dirname;
+  }
+  return path;
+}
 
 function isInViewport(e) {
   if (typeof window === `undefined`) return true;
@@ -140,7 +149,7 @@ class GraphicsElement extends CustomElement {
     // fix imports
     userCode = userCode.replaceAll(
       / from ['"].([^'"]+)['"]/g,
-      ` from "${dir(location.href)}/$1"`
+      ` from "${getURLbase(location.href)}/$1"`
     );
 
     // inject size
@@ -155,10 +164,10 @@ class GraphicsElement extends CustomElement {
 
     const module = base64(
       [
-        `import { Bezier, BSpline, Point, Circle, Vector, Matrix, Shape, CSS_COLOR_MAP } from "${thisURL}";`,
-        userCode,
+        `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
+        userCode,
         `export { reset as start, __canvas as canvas, halt, highlight }`,
       ].join(`\n`)
     );
@@ -262,14 +271,3 @@ function base64(data) {
 
 // Register our custom element
 await CustomElement.register(GraphicsElement);
-
-function dir(path) {
-  const regex = /^(.*)\/([^.]+(\.([^\/?#]+))+)(\?[^#]*)?(#.*)?$/;
-  const match = path.match(regex);
-  if (match !== null) {
-    const { [1]: dirname, [2]: file, [4]: ext } = match;
-    console.log(`URL is for a file "${file}", with extension "${ext}"`);
-    path = dirname;
-  }
-  return path;
-}

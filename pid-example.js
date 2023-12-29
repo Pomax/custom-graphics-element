@@ -26,7 +26,7 @@ class PID {
 }
 
 /**
- * The master setup function
+ * The main setup function
  */
 function setup() {
   addSlider(`kp`, { step: 0.001, value: 0.5 });
@@ -36,7 +36,7 @@ function setup() {
 }
 
 /**
- * The master draw function
+ * The main draw function
  */
 function draw() {
   clear();

@@ -3,7 +3,7 @@ let a = Math.PI / 2 + 0.001;
 const radius = 100;
 
 /**
- * The master setup function
+ * The main setup function
  */
 function setup() {
   setSize(780, 300);
@@ -20,7 +20,7 @@ function setup() {
 }
 
 /**
- * The master draw function
+ * The main draw function
  */
 function draw() {
   clear();

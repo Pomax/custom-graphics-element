@@ -2,7 +2,7 @@ let hitCircle;
 const points = [];
 
 /**
- * The master setup function
+ * The main setup function
  */
 function setup() {
   setSize(500, 300);
@@ -13,7 +13,7 @@ function setup() {
 }
 
 /**
- * The master draw function
+ * The main draw function
  */
 function draw() {
   // clear the graphics pane and move the coordinate system

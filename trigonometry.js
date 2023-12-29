@@ -1,8 +1,7 @@
-// circle and point;
 let c, p;
 
 /**
- * ...
+ * The main setup function
  */
 function setup() {
   addSlider(`radius`, { min: 1, max: 200, step: 1, value: 130 });
@@ -26,7 +25,7 @@ function setup() {
 }
 
 /**
- * ...
+ * The main draw function
  */
 function draw() {
   clear(`#F8F6F2`);
@@ -62,6 +61,7 @@ function draw() {
   setFill(`lavender`);
   triangle(cx, cy, cx, p.y, p.x, cy);
 
+  // next, we draw our point and unit circle
   setFill(`black`);
   setStroke(`black`);
   setTextAlign(CENTER);
@@ -70,15 +70,16 @@ function draw() {
   noFill();
   setLineDash(5);
   circle(c.x, c.y, c.r);
-
-  setColor(`darkgreen`);
   noLineDash();
+
+  // then, the angle that we're using to draw our point
+  setColor(`darkgreen`);
   arc(cx, cy, 10, a, 0);
   setTextAlign(LEFT);
   const b = a + 0.5;
   text(`angle`, cx + 15 * cos(b), cy + 2 + 15 * sin(b));
 
-  noLineDash();
+  // Then we draw our projections from P to the x-axis and y-axis:
   setStroke(`grey`);
   setLineDash(3);
   line(cx, cy + radius * sin(a), p.x, p.y);
@@ -86,10 +87,12 @@ function draw() {
   line(cx, cy, p.x, p.y);
   noLineDash();
 
+  // Then, our sine/cosine hypotenuse
   setColor(`midnightblue`);
   line(p.x, cy, cx, p.y);
   text(`hypotenuse`, 4 + (cx + p.x) / 2, 2 + (cy + p.y) / 2);
 
+  // The cosine
   setColor(`blue`);
   const cosine = new Point(cx + radius * cos(a), cy);
   line(cx, cy, cosine.x, cosine.y);
@@ -97,6 +100,7 @@ function draw() {
   setTextAlign(RIGHT);
   text(`cosine`, cosine.x - 3, cy - 3);
 
+  // And sine
   setColor(`red`);
   const sine = new Point(cx, cy + radius * sin(a));
   line(cx, cy, sine.x, sine.y);
@@ -104,6 +108,7 @@ function draw() {
   setTextAlign(LEFT);
   text(`sine`, cx + 3, sine.y + 10);
 
+  // And secant
   setColor(`darkblue`);
   const secant = new Point(cx + radius * sec(a), cy);
   line(cx + radius * cos(a), cy, secant.x, secant.y);
@@ -113,6 +118,7 @@ function draw() {
   line(secant.x + 43, secant.y - 17, secant.x + 62, secant.y - 17);
   text(`1`, secant.x + 49, secant.y - 20);
 
+  // And cosecant
   setColor(`brown`);
   const cosecant = new Point(cx, cy + radius * csc(a));
   line(cx, cy + radius * sin(a), cosecant.x, cosecant.y);
@@ -120,11 +126,13 @@ function draw() {
   setTextAlign(LEFT);
   text(`cosecant`, cosecant.x + 3, cosecant.y - 3);
 
+  // And finally, the tangent
   setColor(`orange`);
   const t = tan(a) * radius;
   const tangent = new Point((p.x + secant.x) / 2, (p.y + secant.y) / 2);
   line(p.x, p.y, p.x + t * sin(a), p.y - t * cos(a));
 
+  // With a bit of "fancy math" typesetting...
   setTextAlign(CENTER);
   let ox = 15;
   let oy = -15;
@@ -139,11 +147,13 @@ function draw() {
   setTextAlign(LEFT);
   text(`= tangent`, 20 + ox + tangent.x, oy + tangent.y + 3);
 
+  // And cotangent
   setColor(`purple`);
   const ct = ctn(a) * radius;
   const cotangent = new Point((p.x + cosecant.x) / 2, (p.y + cosecant.y) / 2);
   line(p.x, p.y, p.x - ct * sin(a), p.y + ct * cos(a));
 
+  // Also with a bit of "fancy math" typesetting.
   setTextAlign(CENTER);
   ox = 25;
   oy = -15;

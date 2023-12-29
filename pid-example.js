@@ -41,9 +41,9 @@ function setup() {
 function draw() {
   clear();
 
+  // Move the coordinate system over a bit, so we can
+  // draw, and see, our axes:
   translate(30, 60);
-
-  // our zero axis
   setColor(`black`);
   axes(`x`, 0, width, `y`, 0, height);
 

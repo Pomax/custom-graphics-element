@@ -440,10 +440,6 @@ const copy = () => {
   return copy;
 };
 
-const crisp = (drawCrisp = true) => {
-  __canvas.classList.toggle(`crisp`, drawCrisp);
-};
-
 const color = (h = __current_hue, s = 50, l = 50, a = 1) => {
   return `hsla(${h},${s}%,${l}%,${a})`;
 };
@@ -794,6 +790,10 @@ const setBorder = (width = 1, color = `black`) => {
 const setColor = (color) => {
   setFill(color);
   setStroke(color);
+};
+
+const setCrisp = (enabled = true) => {
+  __canvas.classList.toggle(`crisp`, enabled);
 };
 
 const setCursor = (type) => {

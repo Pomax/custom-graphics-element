@@ -10,7 +10,6 @@ function setup() {
     points.push(new Point(i, 150));
   }
   setMovable(points);
-  crisp(false);
 }
 
 /**

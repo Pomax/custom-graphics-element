@@ -3,12 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <title>let's do some graphics</title>
-    <script
-      src="graphics-element/graphics-element.js"
-      type="module"
-      async
-    ></script>
-    <link rel="stylesheet" href="graphics-element/graphics-element.css" />
+    <script src="dist/graphics-element.js" type="module" async></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" />
     <script type="module" src="editor.js" async></script>
     <style>
       html,
@@ -35,7 +31,8 @@
     <table width="100%">
       <tr>
         <td>
-          <textarea id="input" rows="" cols="100">function setup() {
+          <textarea id="input" rows="" cols="100">
+function setup() {
   find(`button`).addEventListener(
     `click`,
     (evt) => {
@@ -49,7 +46,8 @@
 
 function draw() {
   clear(`pink`);
-}</textarea>
+}</textarea
+          >
         </td>
         <td>
           <graphics-element width="650" height="500">

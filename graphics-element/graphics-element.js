@@ -76,10 +76,6 @@ class GraphicsElement extends CustomElement {
         justify-content: space-between;
       }
       :host canvas {
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-crisp-edges;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
         touch-action: none;
         user-select: none;
         position: relative;
@@ -89,6 +85,12 @@ class GraphicsElement extends CustomElement {
         border-radius: 0;
         box-sizing: content-box!important;
         border: 1px solid lightgrey;
+      }
+      :host canvas.crisp {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
       }
       :host canvas:focus {
         border: 1px solid red;

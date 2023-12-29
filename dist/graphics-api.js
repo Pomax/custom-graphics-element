@@ -95,7 +95,6 @@ __canvas.addEventListener(`pointerdown`, () => __canvas.focus());
 let __ctx;
 let __current_cursor;
 let __current_hue;
-let __draw_crisp;
 let __draw_grid;
 let __drawing;
 let __element;
@@ -133,7 +132,6 @@ const reset = async (element) => {
   // default variable values
   __current_cursor = `auto`;
   __current_hue = 0;
-  __draw_crisp;
   __draw_grid = true;
   __drawing = false;
   __finished_setup = false;
@@ -443,7 +441,7 @@ const copy = () => {
 };
 
 const crisp = (drawCrisp = true) => {
-  __draw_crisp = drawCrisp;
+  __canvas.classList.toggle(`crisp`, drawCrisp);
 };
 
 const color = (h = __current_hue, s = 50, l = 50, a = 1) => {
@@ -568,7 +566,7 @@ const end = (close = false) => {
   if (close) __ctx.closePath();
   __ctx.fill();
   __ctx.stroke();
-  if (__draw_crisp && __ctx.lineWidth % 2 === 1) {
+  if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(-0.5, -0.5);
   }
 };
@@ -684,7 +682,7 @@ const spline = (points, virtual = true, tightness = 1, T = tightness) => {
 };
 
 const start = () => {
-  if (__draw_crisp && __ctx.lineWidth % 2 === 1) {
+  if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(0.5, 0.5);
   }
   __ctx.beginPath();

@@ -22,6 +22,7 @@ function setup() {
   // setZeroCoordinate(LOWER_LEFT);
   // setYDirection(UP);
 
+  setCrisp(true);
   noGrid();
   c = new Circle(width / 2, height / 2, radius);
   p = new Circle(width / 2, height / 2 - radius, 4);

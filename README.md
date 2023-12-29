@@ -1,531 +1,386 @@
-[<a href="https://pomax.github.io/custom-graphics-element/">visit the live site here</a>]
-
 # The `<graphics-element>` custom HTML element
 
 <graphics-element title="A simple example graphic?" width="275" height="275" src="example.js" data-type="cubic"></graphics-element>
 
-What if you could just write graphics sketches on the web, similar to the old Processing.js (a JS port of [Processing](https://processing.org), the visual programming language, that was archived back in December of 2018), directly writing your graphics code as part of your HTML (similar to including an inline script), or by linking to a "main" source file by using a `src` attribute on an HTML element (similar to including a script the normal modern way)?
+What if you could just put graphcics on your web page, or in your web app, by just writing graphics JavaScript code and then using a &lt;graphics-element src="..."&gt; the same way you'd put regular JavaScript on a page using a &lt;script&gt; tag? As it turns out, that's not a "what if", it's something that the modern web supports, so if that's something you want, or need: maybe the &lt;graphics-element&gt; is for you!
 
-Thanks to JS having kicked into higher gear since 2015 when it comes to features, and the web APIs having gotten much richer, this is now entirely possible... so if that's something you want to use on your webpages: maybe the `<graphics-element>` element is for you!
+The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> shows off a bunch of things you might want to use this for, if you need inspiration, but keep reading if you want to to know how to use this element yourself, and what API it supports.
 
-- [Pomax](https://mastodon.social/@TheRealPomax)
+— [Pomax](https://mastodon.social/@TheRealPomax)
 
-## Table of Contents
+# Table of Contents
 
-**About the `<graphics-element>`**
+- [Writing graphics source code](#writing-graphics-source-code)
+  - [Global variables](#global-variables)
+  - [Slider-based variables](#slider-based-variables)
+  - [Movable entities](#movable-entities)
+  - [Pointer handling](#pointer-handling)
+  - [Keyboard handling](#keyboard-handling)
+- [The graphics API](#the-grahpics-api)
+  - [Maths](#maths)
+  - [General globals](#general-globals)
+  - [General functions](#general=functions)
+  - [Drawing functions](#drawing-functions)
+  - [Transformation functions](#transformation-functions)
+  - [Setters](#setters)
+  - [No... functions](#no-functions)
 
-- [Introduction](#introduction)
-- [how to make this work on your own site](#how-to-make-this-work-on-own-site)
-- [the `<graphics-element>` element](#the-graphics-element-element)
-  - [Specifying code using the `src` attribute](#specifying-code-using-the-src-attribute)
-- [the `<fallback-image>` element](#the-fallback-image-element)
+# Writing graphics source code
 
-**Writing graphics code**
+The &lt;graphics-element&gt; tag supports the following attributes:
 
-- [The basics](#the-basics)
-- [User-initiated events](#user-initiated-events)
-  - [touch/mouse events](#touch-mouse-events)
-  - [keyboard events](#keyboard-events)
-- [Controllable parameters](#controllable-parameters)
-  - [Using fixed startup parameters](#using-fixed-startup-parameters)
-  - [Using dynamic value sliders](#using-dynamic-value-sliders)
-    - [in code](#in-code)
-    - [from HTML](#from-html)
-- [Movable points](#movable-points)
+- `title` - this is both the standard HTML title attribute, as well as the text that gets used as figure caption underneath your graphic.
+- `src` - this is the standard HTML attribute for indicating the source code for this element.
+- `width` - the (unitless) width for your graphic. This value is optional, but your graphics code must use `setSize` if omitted.
+- `height` - the (unitless) height for your graphic. This value is optional, but your graphics code must use `setSize` if omitted.
+- `centered` - an optional "valueless" attribute that will center your graphic on the page.
+- `float` - an optional attribute that takes values `left` or `right`, to float your graphic inside your other page content.
 
-**API Documentation**
-
-- [Global constants](#global-constants)
-- [Instance properties](#instance-properties)
-- [General functions](#general-functions)
-- [Maths functions](#maths-functions)
-- [Property functions](#property-functions)
-- [Coordinate transform function](#coordinate-transform-function)
-- [Drawing functions](#drawing-functions)
-- [Shape drawing functions](#shape-drawing-functions)
-- Built-in Object types
-  - [Shape](#shape)
-  - [Vector](#vector)
-  - [Matrix](#matrix)
-  - [Bezier](#bezier)
-  - [BSpline](#bspline)
-
----
-
-
-## Introduction
-
-### How to make this work on your own site
-
-[Download the graphics-element packages](https://github.com/Pomax/custom-graphics-element/archive/master.zip) and copy the `graphics-element` dir into whatever you keep your page/site's javascript files. Then simply have the following `<script>` tag in your HTML:
-
-```html
-<script type="module" src=".../graphics-element.js" async></script>
-```
-
-You can put this anywhere in your HTML because of that [async](https://developer.mozilla.org/docs/Web/HTML/Element/script#attr-async) attribute, but the normal spot would be somewhere inside your `<head>` section.
-
-Additionally, there is a convenience stylesheet that you can load so you don't have to write your own "what to show when the graphics-element is not quite yet defined, when to hide the fallback-image, etc.":
-
-```html
-<link rel="stylesheet" href=".../graphics-element.css" async></script>
-```
-
-
-### The `<graphics-element>` element
-
-The `<graphics-element>` element is similar to the `<img>` element, having the following HTML syntax:
-
-```html
-<graphics-element title="..." width="..." height="..." src="...">
-  ...
-</graphics-element>
-```
-
-In addition to the standard attributes, there are also two attributes that you won't need unless you care about localizing your content (which, hopefully, you do!):
-
-```html
-<graphics-element title="..." width="..." height="..." src="..." viewSource="コードを読む" reset="リセット">
-  ...
-</graphics-element>
-```
-
-This is typically useful if you generate your HTML using a locale-aware templating language, e.g.:
-
-```html
-<graphics-element ... viewSource={{ 'view source' | localize }}" reset="{{ 'reset' | localize }}">
-  ...
-</graphics-element>
-```
-
-#### Specifying code using the `src` attribute
-
-In order to load code, we're going the most "webbish" way to point to an separate file, using the `src` attribute:
-
-```html
-<graphics-element ... src="my-code.js"></graphics-element>
-```
-
-For convenience, code uses the `.js` extension, but the `<graphics-element>` technically doesn't care what extension you use. The only reason `.js` is recommended is because your code will get dropped into a modern JS class that `extends Example`, after which it gets run directly, and using `.js` will let your code editor of choice do proper syntax highlighting and auto-formatting.
-
-
-### The `<fallback-image>` element
-
-One of the annoying things about the modern web is that a lot of content has to load on a page, with already rendered content moving around as the rest loads in. It is the worst. That's why you can also specify a fallback image that gets used not just when JS is disabled by your users (a very safe practice, if you're not using browser extensions that disable JS by default so you can whitelist what should be allowed to run, you probably want to install one) but also for as long as it takes the browser to load in the `<graphics-element>` definition.
-
-```html
-<graphics-element title="An interactive graphic element" width="400" height="200" src="example.js">
-  <fallback-image>
-    <img class="fallback" src="images/interactive.png" width="400" height="200">
-    scripts are disabled, showing placeholder
-  </fallback-image>
-</graphics-element>
-```
-
-This allows the browser to "preallocate" the space required on the page for your graphic, while also having meaningful content on the page rather than just "an empty space".
-
-## The basics
-
-Graphics code is bootstrapped and drawn uses two "master" functions:
+Graphics source code uses standard JavaScript, with all graphics API functions available as globals. While the smallest source code is just an empty file, the recommended minimal code is:
 
 ```js
 function setup() {
-  // initialisation code goes here
+  setSize(123, 456);
 }
 
 function draw() {
-  // drawing code goes here
+  clear(`white`);
 }
 ```
 
-All code starts at `setup()`, automatically calling `draw()` after setup has been completed. Standard JS scoping applies, so any variable declared outside of `setup`/`draw` will be a "global" variable.
+Both of these functions are technically optional, but omitting them doesn't make a lot of sense: by default the &lt;graphics-element&gt; will first run `setup`, and will then run `draw`, once. The `setSize(width, height)` call is optional as long as you've specified the `width` and `height` attributes on the `<graphics-element>` tag itself, but must be present if you decide to omit them (and note that `setSize()` can be called at any time to resize your graphic).
 
-Note that neither of these functions are _required_: without a `setup()` function the code will just jump straight to `draw()`, and without a `draw()` function the code will simply not draw anything beyond the initial empty canvas.
+In order to simplify certain aspects of graphics programming, several pieces of key functionality have been baked into the code runner:
 
-## User-initiated events
+## Global variables
 
-### Touch/mouse events
+Several globals exist to make your graphics life easier:
 
-Graphics code can react to touch/mouse, which can be handled using:
+- `width` - the width of your graphic, in pixels.
+- `height` - the height of your graphic, in pixels.
+- `frame` - the current frame's number. Every time `draw` runs, this number will increase by 1.
+- `pointer` - an object representing the mouse/stylus/touch input "cursor"
+- `keyboard` - an object that tracks which keys are currently being pressed
+- `currentPoint` - when using movable points, this will represent the movable point under the pointer, if there is one.
 
-- `onMouseDown()` triggered by mouse down/touch start events.
-- `onMouseUp()` triggered by mouse up /touch end events.
-- `onMouseMove()` triggered by moving the mouse / your finger.
+## Slider-based variables
 
-Mouse event data can be accessed via the `this.cursor` property, which encodes:
-
-```
-{
-  x: current event's screen x coordinate
-  y: current event's screen x coordinate
-  down: boolean signifying whether the cursor is engaged or not
-  mark: {x,y} coordinate object representing where mousedown occurred
-  last: {x,y} coordinate object representing where the cursor was "one event ago"
-  diff: {x,y} coordinate object representing the x/y difference between "now" and "one event ago",
-        with an additional `total` propert that is an {x,y} coordinate object representing the x/y
-        difference between "now" and the original mousedown event.
-}
-```
-
-#### Example
+You can automatically declare slider-controlled variables, which adds a slider to the on-page graphics element box, and automatically creates a global variable for your code to use. For example, to declare a variable `radius` that can range from 0 to 1, with slider steps of 0.001 and a starting value of 0.5, you would use:
 
 ```js
 function setup() {
-  this.defaultBgColor = this.bgColor = `green`;
-}
-
-function draw() {
-  clear(this.bgColor);
-}
-
-function onMouseDown() {
-  this.bgColor = `blue`;
-  redraw();
-}
-
-function onMouseMove() {
-  this.bgColor = `red`;
-  redraw();
-}
-
-function onMouseUp() {
-  this.bgColor = this.defaultBgColor;
-  redraw();
+  addSlider(`radius`, { min: 0, max: 1, step: 0.001, value: 0.5 });
 }
 ```
 
-### Keyboard events
-
-Graphics code can also react to keyboard events, although this is a great way to make sure your code won't work for mobile devices, so it's better to use range sliders to keep things accessible. That said, they can be handled using:
-
-- `onKeyDown()` triggered by pressing a key
-- `onKeyUp()` triggered by releasing a key
-
-Keyboard event data can be accessed via the `this.keyboard` property, which encodes:
-
-```
-{
-  currentKey: the name of the key associated with the current event
-}
-```
-
-Additionally, the `this.keyboard` property can be consulted for named keys to see if they are currently down or not, e.g. to check whether the up arrow is down or not:
+After this, the `radius` variable will be globally available, so that this code will "just work":
 
 ```js
 function draw() {
-  if (this.keyboard[`w`] && this.keyboard[`d`]) {
-    // move up-left
-  }
+  circle(width / 2, height / 2, radius);
 }
 ```
 
-#### Example
+## Movable entities
+
+Rather than having to write your own click-drag logic, you can mark things as "movable" by calling `setMovable(...)`. This can either be `Point` instances, arrays containing `Point` instances, or instances of the `Shape` class. After marking them as movable, the API does the rest. When the pointer is over movable items it will change to the typically hand icon, and click dragging (or touch-dragging) will automatically update your thing's coordinates.
 
 ```js
-let y;
+const p;
 
 function setup() {
-  y = this.height / 2;
+  setSize(400, 400);
+  p = new Point(200, 200);
+  setMovable(p);
 }
 
 function draw() {
-  clear();
-  setColor(`black`);
-  rect(0, y - 1, this.width, 3);
-}
-
-function onKeyDown() {
-  const key = this.keyboard.currentKey;
-  if (key === `ArrowUp`) {
-    y -= 5;
-  }
-  if (key === `ArrowDown`) {
-    y += 5;
-  }
-  y = constrain(y, 0, this.height);
-  redraw();
+  clear(`#eee`);
+  setColor(`#444`);
+  point(p.x, p.y);
 }
 ```
 
-## Controllable parameters
+That's all the code we need: users can now click/tap/touch-drag our point around.
 
-Graphics code can be provided with outside values in two different ways.
+## Pointer handling
 
-### Using fixed startup parameters
-
-Graphics code can be passed fixed values from HTML using data attributes:
-
-```html
-<graphics-element src="..." data-propname="somevalue"></graphics-element>
-```
-
-which can be access on the code side using
+Graphics interaction is based on "the pointer", which is a unified handler for mouse, stylus, and touch handling, so you don't have to care whether your code runs on a desktop computer, a laptop, a tablet, a phone, or anything else. Event handling uses four functions:
 
 ```js
-this.parameters.propname;
+function pointerDown(x, y) {
+  // a mouse down, stylus down, or touch start at graphics coordinate x/y (not screen coordinate)
+}
+
+function pointerUp(x, y) {
+  // a mouse up, stylus up, or touch end at graphics coordinate x/y.
+}
+
+function pointerClick(x, y) {
+  // a shorthand function for a pointerdown followed by a pointerup on the same x/y coordinate
+}
+
+function pointerMove(x, y) {
+  // a mouse move/drag, stylus move/drag, or touch move/drag at graphics coordinate x/y.
+}
+
+function pointerDrag(x, y) {
+  // a shorthand function for a pointer move at some time after a pointer down, but before pointer up.
+}
 ```
 
-Note that `this.parameters` is a protected object. Properties of the parameters object can be updated by your code, but you cannot reassign `this.parameters` itself.
+In addition to this, there is the global `pointer` object that can be consulted in any of your code, with the following properties:
 
+- `x` - the current graphics x coordinate for the pointer
+- `y` - the current graphics y coordinate for the pointer
+- `down` - true/false based on whether the pointer is currently down or not.
+- `mark` - when the pointer is down, this is an object `{x, y}` representing where the pointer down event happened.
+- `drag` - whether we're currently dragging the pointer.
 
-### Using dynamic value sliders
+## Keyboard handling
 
-Graphics code has also be provided with dynamic values by using range sliders. There are two ways to do this: purely in code, or by tying the graphics code to HTML sliders.
-
-#### In code
-
-If sliders may be dynamically required, the `addSlider` function can be used:
+When focus is on the &lt;graphics-element&gt;, keyboard input will be sent into your graphics code, using the following functions:
 
 ```js
-setup() {
-  addSlider(`rangeValue`, {
-    min:0,
-    max:1,
-    step:0.001,
-    value:0.5
-  });
+function keyDown(key, shift, alt, ctrl, meta) {
+  // the "key" value is the key name being pressed, shift, alt, ctrl, and meta are boolean flags
 }
 
-draw() {
-  console.log(this.rangeValue);
+function keyUp(key, shift, alt, ctrl, meta) {
+  // as above
 }
 ```
 
-Its function signature is `addSlider(property name, {options})`, in which the options object may have the following properties:
+Note that there is no "key typed" handler, you get to decide whether down or up counts as "typing". There is a global `keyboard` object that tracks which keys are down: if a key is down, it will have a corresponding `keyboard[keyName]` entry, with its value being the `Date.now()` timestamp when the key got pressed. Once the key is released, its entry gets removed from `keyboard` (not just set to a falsey value).
 
-- `min` the minimum numerical value this variable will be able to take on, defaults to 0 when omitted.
-- `max` the meximum numerical value this variable will be able to take on, defaults to 1 when omitted.
-- `step` the value increase/decrease per step of the slider, defaults to 1 when omitted.
-- `value` the value that the associated variable will be assigned as part of the `addSlider` call. defaults to 0 when omitted.
-- `classes` the CSS class string to set on this slider. defaults to `slider` when omitted.
-- `transform` a function of the form `(v) => some new value` that gets used to turn the value that the slider reads into a value that your pogram needs. For instance, if you use percentages you typically want the slider to show 0 through 100, but you want your program to use 0 through 1, so you'd pass `min:0, max:100, transform: v => v/100` to make that happen automatically.
+# The graphics API
 
+The remainder of this document is the API documentation for all functions and constants that are avaible for writing cool graphics code with.
 
-## Movable points
+## Maths
 
-An important part of the Graphics API is showing shapes that are controlled or defined by coordinates, and so there are special functions for marking points as "movable" - that is, these points can be click/touch-dragged around a graphic. To fascilitate this, the following functions can be used:
+For convenience, (almost) all the `Math` properties are available as globals. Rather than list all of them, the ones you _don't_ get are:
 
-- `setMovable(points)` takes one or more arrays of points, and marks all points as "being movable", such that if the cursor activates at an x/y coordinate near one of these, that point gets assigned to `this.currentPoint`, as well as being automatically moved around as you drag the cursor around on the sketch.
-- `resetMovable()` will clear the list of movable points.
-- `resetMovable(points)` is the same as calling `resetMovable()` followed by `setMovable(points, ...)`.
+- the `LN2`, `LN10`, `LOG2E`, `LOG10E`, `SQRT1_2`, and `SQRT_2` values. You will never write code where having these derivative constants rather than using `lk(2)`, `ln(10)`, `log2(E)`, `log(E)`, `1**0.5` and `2**0.5` make the difference between a responsive, performant graphics element, and something unusable.
+- the `log1p` function: just use `ln(1+...)`, you don't need a separate function for this.
 
+Also, because JS got some things wrong, the natural logarithm is `ln()`, and the base-10 logarithm is `log()`.
 
-## The API
+Some missing functions have also been added:
 
-The following is the list of API functions that can be used to draw... whatever you like, really.
+- `constrain(v, s, e)` constrains a value `v` to the interval `[s, e]`.
+- `sec(v)` - the secant function
+- `csc(v)` - the cosecant function
+- `ctn(v)` - the cotangent function
+- `dist(x1, y1, x2, y2)` - the euclidean distance between two points.
+  ` map (v, s, e, ns, ne, constrained)` maps a value `v` from interval `[s,e]` to interval `[ns,ne]` instead. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to `[ns,ne]`.
+- `random(a, b)` - get a random value between `a` (inclusive) and `b` (exclusive). If `b` is omitted, this generates a random value between `0` and `a`, instead.
 
-### Global constants
+And some missing constants have been added:
 
-- `PI` 3.14159265358979
-- `TAU` 6.28318530717958
-- `POINTER` "default"
-- `HAND` "pointer"
-- `CROSS` "crosshair"
-- `POLYGON` Shape.POLYGON, "Polygon"
-- `CURVE` Shape.CURVE, "CatmullRom"
-- `BEZIER` Shape.BEZIER, "Bezier"
-- `CENTER` "center"
-- `LEFT` "left"
-- `RIGHT` "right"
+- `epsilon` - the smallest positive non-zero value permitted in JavaScript.
+- `huge` - the &lt;canvas&gt; equivalent of `Infinity`, as `line(-Infinity,0,Infinity,0)` will not work, but `line(-huge,0,huge,0)` will.
+- `TAU` - equal to 2π, because you constantly need this value when doing graphics programming.
 
+## General globals
 
-### Instance properties
+- `AUTO`
+- `ALPHABETIC` - used in vertical text alignment
+- `BOTTOM`
+- `BOTTOM_LEFT`
+- `BOTTOM_RIGHT`
+- `CENTER`
+- `CONSTRAIN` - used for the `constrain()` function
+- `CROSS` - used for changing the cursor
+- `END`
+- `HANGING` - used in vertical text alignment
+- `IDEOGRAPHIC` - used in vertical text alignment
+- `LEFT`
+- `LTR` - used for indicating text direction
+- `MIDDLE`
+- `POINTER` - used for changing the cursor
+- `RIGHT`
+- `RTL` - used for indicating text direction
+- `START`
+- `TOP`
+- `TOP_LEFT`
+- `TOP_RIGHT`
 
-- `this.currentPoint` whatever point thec cursor is currently close enough to to interact with
-- `this.currentShape` the currently active shape. **warning:** this value gets reset any time `start()` is used, so it is recommended to cache the current shape using `saveShape()` instead of directly referencing `this.currentShape`.
-- `this.cursor` represents the current mouse/touch cursor state
-- `this.frame` the current frame (i.e. the number of times `draw()` has run)
-- `this.height` the height of the graphic
-- `this.keyboard` the current keyboard state
-- `this.panelWidth` the width of a single panel in the graphic, only meaningful in conjunction with `setPanelWidth` (see below)
-- `this.parameters` the collection of externally passed parameters (via HTML: `data-...` attributes, via JS: a key/value object)
-- `this.width` the width of the graphic
+## General functions
 
+- `clearMovable()` - clears the list of movables, effectively disabling automatical click-dragging of things until you mark something as movable again.
 
-### General functions
+- `copy()` - gets a copy of the canvas in its current state for either use by other page code, or for use as the equivalent of an image in your own code.
 
-- `find(qs)` find HTML elements inside the `<graphics-element>` DOM tree, using a query selector
-- `findAll(qs)` find all HTML elements that match the provided querySelector. **note:** unlike the DOM API, this function returns a plain array.
-- `setPanelCount(int)` use this in `setup()` to let the API know that this graphic is technically a number of "separate" panels of content, setting `this.panelWidth` to `width`/`panelcount`.
-- `setSize(width,height)` explicitly resizes the canvas. **warning:** this will reset all color, transform, etc. properties to their default values.
-- `toDataURL()` returns the graphic as PNG image, encoded as a data URL.
+- `color(h=current heu, s=50, l=50, a=1)` - turn an HSLA coordinate into a canvas color. All arguments are optional, with `h` defaulting to "whatever the current internal hue value is" (starting at 0, and potentially changed by repeated calls to `randomColor`).
 
+- `highlight(color)` - This activates the "current highlight color" when using `color` as argument for `setColor`, `setFill`, and `setStroke` (the current highlight color can be changed using `setHighlightColor`). Use `false` as color to disable highlighting.
 
-### Maths functions
+- `millis()` -The number of milliseconds that have passed since this graphics element started running.
 
-- `abs(v)` get the absolute value
-- `approx(v1, v2, epsilon = 0.001)` check whether v1 differs from v2 by no more than `epsilon`
-- `atan2(dy, dx)` [atan2](https://en.wikipedia.org/wiki/Atan2)
-- `binomial(n, k)` get the binomial coefficient, i.e. "n choose k"
-- `ceil(v)` round any fractional number up to the next highest interger
-- `constrain(v, lowest, highest)` restrict a value in its lowest and highest value.
-- `cos(v)` cosine
-- `dist(x1, y1, x2, y2)` the euclidean distance between (x1,y1) and (x2,y2)
-- `floor(v)` round any fractional number to an integer by discarding its fractional part
-- `map(v, fromStart, fromEnd, toStart, toEnd, constrain = false)` compute a value on an interval [fromStart,fromEnd] to its corresponding value on the interval [toStart,toEnd], with optional constraining to that new interval.
-- `max(...v)` find the highest number in two or more numbers
-- `min(...v)` find the lowest number in two or more numbers
-- `random()` generate a random value between 0 (inclusive) and 1 (exclusive)
-- `random(a,b)` generate a random value between `a` (inclusive) and `b` (exclusive)
-- `random(v)` generate a random value between 0 (inclusive) and `v` (exclusive)
-- `round(v)` round any fractional number by applying `ceil` for any number with fractional part >= 0.5, and `floor` for any number with fractional part < 0.5.
-- `sin(v)` sine
-- `sqrt(v)` square root
-- `tan(v)` tangent
+- `pause()` - If the graphics element is running in animated mode, this will pause the animation.
 
-### Property functions
+- `play()` - If the graphics element is not running in animated mode, this will start running it in animated mode.
 
-- `noColor()` set both stroke and fill color to "transparent"
-- `noFill()` set the fill color to "transparent"
-- `noGrid()` do not draw a background grid
-- `noLineDash()` do not use line dashing for strokes
-- `noShadow()` do not use shape shadows
-- `noStroke()` set the stroke color to "transparent"
-- `noTextStroke()` disable text outline
-- `setBorder(width = 1, color = "black")` set the canvas border width and color
-- `setColor(color)` set the color for both shape stroke and fill
-- `setCursor(type)` set the CSS cursor type. `POINTER`, `HAND`, and `CROSS` constants are provided, other values must be supplied as string.
-- `setFill(color)` set the fill color
-- `setFont(font)` set the text font, using [CSS font syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/font)
-- `setFontFamily(name)` set the font to be used, by name
-- `setFontSize(px)` set the font size in pixels
-- `setFontWeight(val)` set the font weight in CSS weight units
-- `setGrid(size, color)` set the background grid's spacing and line coloring
-- `setLineDash(...values)` set the interval values for [dashed lines](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash)
-- `setShadow(color, px)` set the color and blur distance for drawing shape shadows
-- `setStroke(color)` set the stroke color
-- `setTextStroke(color, weight)` set the text outline stroke color and width (in pixels)
-- `setWidth()` reset the stroke width to be 1 pixel wide
-- `setWidth(width)` set the stroke width to a custom value, in pixels
+- `randomColor(a = 1.0, cycle = true)` - generate a random canvas color, optionally with explicit alpha value, and optionally with an instruction to either cycle the internal "current hue" value.
 
-For coloring purposes, there is also the `randomColor` function:
+- `setMovable(points)` - Mark one or more points as movable (see the section on movable entities above).
 
-- `randomColor()` returns a random, full opaque CSS color
-- `randomColor(opacity)` returns a random CSS color with the indicated opacity (in interval [0,1])
-- `randomColor(opacity, cycle=false)` if the second parameter is explicitly set to `false`, the random seed used to generate the random color will not be updated, and the resulting random color will be the same as when the function was previously called.
+- `restore()` - restores a previously saved graphics context.
 
-For temporary work, where you might want to change some properties and then revert to the previous state, there are two functions available:
+- `save()` - save the current graphics context. Use this in conjunction with `restore()` to effectively take a "snapshot" of the current transformation and styles, so you can change them to whatever they temporarily need to be, before calling `restore()` to get back to what they were at the time of your snapshot.
 
-- `save()` cache the current collection of properties. This uses a stack, with each call adding a new "snapshot" on the stack.
-- `restore()` restore the most recently cached state from the stack.
+- `toDataURL()` - turn the current graphic into a data-URL representing a PNG image
 
-### Coordinate transform function
+- `togglePlay()` - either run `pause()` or `play()`, depending on whether the graphics element is running in animated mode or not.
 
-- `rotate(angle)` rotate the coordinate system by `angle` (clockwise, in radians)
-- `scale(x, y)` scale the coordinate system by a factor of `x` horizontally, and `y` vertically
-- `translate(x, y)` move the coordinate system by `x` units horizontally, and `y` units vertically
-- `resetTransform()` reset the coordinate system to its default values
-- `transform(a,b,c,d,e,f)` transform the coordinate system by applying a transformation matrix to it. This matrix has the form:
+## Drawing functions
 
-```
-    | a b c |
-m = | d e f |
-    | 0 0 1 |
-```
+- `arc(x, y, r, s = 0, e = TAU, wedge = false)` - draw an arc centered on x/y, with radius `r`, start angle `s`, end angle `e`, and if the optional parameter `wedge` is true, draw the arc as a wedge instead.
 
-**note:** all transforms are with respect to (0,0) irrespective of where (0,0) has been moved to through successive transforms.
+- `axes(hLabel, hs, he, vLabel, vs,ve, hsLabel = false, heLabel = false, vsLabel = false, veLabel = false)` Draw a set of labeled axes, where:
 
-In addition to transformations, there are also two functions to allow you to map screen coordinates (e.g. cursor position) to their corresponding transformed coordinate, and vice versa, to allow for drawing/computing points in either coordinate system
+  - `hLabel` - is the text label for the horizontal axis
+  - `hs` - is the graphics x coordinate for the start of the axis
+  - `he` - is the graphics x coordinate for the end of the axis
+  - `vLabel` - is the text label for the vertical axis
+  - `vs` - is the graphics y coordinate for the start of the axis
+  - `ve` - is the graphics y coordinate for the end of the axis
+  - `hsLabel` - is a text label, placed at `hs`. If no label is specified, the value `hs` is used instead.
+  - `heLabel` - is a text label, placed at `he`. If no label is specified, the value `he` is used instead.
+  - `vsLabel` - is a text label, placed at `vs`. If no label is specified, the value `vs` is used instead.
+  - `veLabel` - is a text label, placed at `ve`. If no label is specified, the value `ve` is used instead.
 
-- `screenToWorld(x, y)` converts a screen coordinate (x,y) to its corresponding transformed coordinate system coordinate (x',y')
-- `worldToScreen(x, y)` converts a transformed coordinate system coordinate (x,y) to its corresponding screen coordinate (x', y')
+- `bezier(points)` - draw one or more connected cubic bezier curves. If `points` has length 4, one curve is drawn, if it has length `4+3n`, `n+1` curves will be draw, where each subsequent curve's starting point is the previous curve's end point.
 
-### Drawing functions
+- `bspline(points, open=true)` - draw a B-spline that either starts and end at the first and last point, or doesn't, based on whether `open` is true or false. If omitted, `open` will be true and the spline will start and end at the first and last point.
 
-- `arc(x, y, r, s, e)` draw a section of outline for a circle with radius `r` centered on (x,y), starting at angle `s` and ending at angle `e`.
-- `circle(x, y, r)`  draw a circle at (x,y) with radius `r`
-- `clear(color="white", preserveTransforms=false)` clears the graphics to a specific CSS background color, resetting the transform by default.
-- `drawAxes(hlabel, hs, he, vlabel, vs, ve, w, h)` draw a set of labelled axes, using `{hlabel, hs, he}` as horizontal label, with start marker `hs` and end marker `he`, and using `{vlabel, vs, ve}` as vertical label, with start marker `vs` and end marker `ve`
-- `drawGrid(division = 20)` draw a grid with the specified spacing, colored using the current stroke color
-- `drawShape(...shapes)` draw one or more saved full shapes (see below)
-- `image(img, x = 0, y = 0, w = auto, h = auto)` draw an image at some (x,y) coordinate, defaulting to (0,0), scaled to some width and height, defaulting to the native image dimensions
-- `line(x1, y1, x2, y2)` draw a line from (x1,y1) to (x2,y2)
-- `plot(fn, start = 0, end = 1, steps = 24, xscale = 1, yscale = 1)` plot a function defined by `fn` (which must take a single numerical input, and output an object of the form `{x:..., y:...}`) for inputs in the interval [start,end], at a resolution of `steps` steps, with the resulting values scaled by `xscale` horizontally, and `yscale` vertically. This function returns the plot as a `Shape` for later reuse.
-- `point(x, y)` draw a single point at (x,y)
-- `rect(x, y, w, h)` draw a rectangle from (x,y) with width `w` and height `h`
-- `redraw()` triggers a new draw loop. Use this instead of calling `draw()` directly when you wish to draw a new frame as part of event handling.
-- `text(str, x, y, alignment = LEFT)` place text, colored by the fill color, anchored to (x,y), with the type of anchoring determined by `alignemtn`. The alignment constants `LEFT`, `RIGHT`, and `CENTER` are available.
-- `triangle(x1,y1,x2,y2,x3,y3)` similar to rect, but for three points
-- `wedge(x, y, r, s, e)` similar to arc, but draw a full wedge
+- `circle(x, y, r)` - draw a circle at x/y with radius `r`
 
-#### Shape drawing functions
+- `clear(color = `white`)` - clear everything, setting the background to a specific color, or `white` if omitted.
 
-- `start(type = POLYGON, factor)` set up a new `Shape` as `this.currentShape` in preparation for receiving data. Types can be `POLYGON` (default), `CURVE` (Catmull-Rom), or `BEZIER`. If `CURVE` is specified, the `factor` indicates how loose or tight the resulting Catmull-Rom curve will be.
-- `segment(type, factor)` set up a new section of the shape. If left unspecified the `type` and `factor` are inherited from the current `Shape`.
-- `vertex(x, y)` add a point to the current `Shape`'s current segment.
-- `end(close = false)` draw the current `Shape`. If `close` is true then the code will try to close the currently open path
-- `saveShape()` returns the current shape for later reuse
+- `end(close = false)` - finalise a shape that you started drawing with `start()`.
 
+- `grid()` - draw a line grid using the spacing and color specified by `setGrid()`.
 
-## Built-in object types
+- `async image(img, x = 0, y = 0, w, h)` - draw an image either directly using `Image` or `Canvas`, or from URL when `img` is a string, with the top-left corner at x/y, and either explicit width and height, or "whatever the image says" when omitted. Note that this is an asynchronous function since drawing images from URL requires making a network request, and so you are given the choice to either "trust it'll happen" (generally a bad plan) or `await` this function call's completion.
 
-### Shape
+- `line(x1, y1, x2, y2)` - draw a line between two points.
 
-The `Shape` class reprents a drawable shape consisting of one or more polygonal, Catmull-Rom curve, or Bezier curve segments. It has a minimal API:
+- `plot(f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1)` - plot a function `y = f(x)` starting at `x=a`, ending at `x=b`, using `steps` steps, drawing with the x values optionally scaled by `xscale` and the y values optionally scaled by `yscale`.
 
-- **`new Shape(type, factor, points = [])`** construct a new `Shape` of the specified `type` (options are `Shape.POLYGON`, `Shape.CURVE` for Catmull-Rom curves, and `Shape.BEZIER` for Bezier curves), with the specified `factor` (used for Catmull-Rom curve tightness), and optional list of points to prepopulate the first shape segment.
-- `merge(other)` merge another `Shape`'s segments into this `Shape`
-- `copy()` returns a copy of this `Shape`
-- `newSegment(type, factor)` start a new segment in this `Shape` of the indicated type, with the indicated tightness factor.
-- `vertex(p)` add an on-shape coordinate (x,y) to this `Shape`. How this vertex contributes to the overall shape drawing depends on the current segment type.
+- `plotData(data, x, y)` - plot an array of data points, with the `x` and `y` values pulled from each data point as `point[x]` and `point[y]`. If a data point is an array, `x` and `y` should be numerical. If a data point is an object, `x` and `y` should be property name.
 
+- `point(x, y)` - draw a single point. This is equivalent to calling `circle(x, y, 3)`.
 
-### Vector
+- `rect(x, y, w, h)` - draw a rectangle with the top left corner at x/y and the indicate width and height.
 
-The `Vector` class represents a 2d/3d coordinate, with a minimal standard API:
+- `spline(points, virtual = true, tightness = 1)` - draw a [cardinal spline](https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline) through a series of points. If `virtual` is true, "fake points" will be invented to ensure that the cardinal spline starts and ends at the first and last point in `points`. If `tightness` is specified, the spline will be pulled "tigher" or "looser" across the points, depending on whether the value is greater or less than 1.
 
-- **`new Vector(x,y,z?) /  new Vector({x:,y:,z:}`** construct a new `Vector`
-- `vector.dist(other, y, z = 0)` calculate the distance to some other vector-as-coordinate
-- `vector.normalize(f)` return a new `Vector` representing a scaled copy of this vector, with length 1.0
-- `vector.getAngle()` get the angle between this vector and the x-axis.
-- `vector.reflect(other)` reflect this vector-as-coordinate over the line that some other vector lies on
-- `vector.add(other)` return a new `vector` representing the addition of some other vector to this vector
-- `vector.subtract(other)` return a new `vector` representing the subtraction of some other vector to this vector
-- `vector.scale(f = 1)` return a new `vector` representing the scaled version of this vector
+- `start()` - start a path drawing operation, which will not complete until `end()` is called.
 
+- `text(str, x, y, xalign, yalign)` - draw text with the text anchor at x/y, with optional x and y alignment,
 
-### Matrix
+- `triangle(x1, y1, x2, y2, x3, y3)` - draw a triangle defined by three points.
 
-The `Matrix` class represents an `N`x`M` matrix, with minimal standard API:
+- `vertex(x, y)` - add a polygonal vertex to the current path. Only use this after calling `start()`.
 
-- **`new Matrix(n,m,data?)`** construct a new `Matrix`. If `data` is provided, the matrix will be filled with that. **warning:** `data` is assumed to be `n` x `m`, but is **not** validated.
-- `setData(data)` **warning:** `data` is assumed to be `n` x `m`, but is **not** validated.
-- `get(i, j)` get the value at row `i` and column `j`
-- `set(i, j, value)` set the value at row `i` and column `j`
-- `row(i)` get the entire `i`th row as an array of values
-- `col(j)` get the entire `j`th column as a (flat) array of values
-- `multiply(other)` return a new `Matrix` representing the right-multiplication of this matrix with some other matrix
-- `invert()` return a new `Matrix` representing the inverse of this matrix, or `undefined` if no inverse exists
-- `transpose()` return a new `Matrix` representing the transpose of this matrix
+## Transformation functions
 
+These functions manipulate the coordinate system, which can greatly simplify, or greatly complicate, drawing things.
 
-### Bezier
+- `resetTransform()` - reset the
 
-The `Bezier` class is an instance of [bezier.js](https://pomax.github.io/bezierjs/) with all its API functions, extended for use on the canvas:
+- `restore()` - restore a previously saved graphics context
 
-- static `defaultQuadratic(apiInstance)` returns a new quadratic `Bezier` with preset coordinate values tailored to the Primer on Bezier Curves. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
-- static `defaultCubic(apiInstance)` returns a new cubic `Bezier` with preset coordinate values tailored to the Primer on Bezier Curves. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
-- static `fitCurveToPoints(apiInstance, points, tvalues)` returns a new `n`-dimensional `Bezier` that has been fit to the provided list of points, constrained to the provided `tvalues`, using MSE polygonal curve fitting. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
+- `rotate(angle)` - rotate the coordinate system around whatever is currently (0,0) by the specified angle in radians.
 
+- `save()` - save the current graphics context, including the transformations.
 
-The extended API in addition to these static functions are:
+- `scale(x = 1, y = x)` - scale the coordinate system relative to whatever is currently (0,0) by the indicated x and y factor. If `y` is omitted, it'll scale both dimensions equally.
 
-- **`new Bezier(apiInstance, ...coords)`** construct a new `Bezier` curve controlled by three or more points, either supplied as numerical arguments, or as point objects `{x:..., y:..., z?:...}` where `z` is optional. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
-- `project(x, y)` returns an `{x:..., y:...}` object representing the projection of some point (x,y) onto this curve.
-- `getPointNear(x, y, d = 5)` returns either `undefined`, or one of the `Bezier` curve's control points if the specified (x,y) coordinate is `d` or fewer pixels from a control point.
-- `drawCurve(color = #333)` draws this curve on the canvas, with optional custom color
-- `drawPoints(labels = true)` draws the curve's control points, with optional coordinate labels (defaulting to true)
-- `drawSkeleton(color = #555)` draws this curve's coordinate polygon, with optional custom color
-- `getStrutPoints(t)` get the list of points obtained through "de Casteljau" interpolation, for a given `t` value
-- `drawStruts(t, color = "black", showpoints = true)` draws this curve's "de Casteljau" points and lines, for a given `t` value, with optional custom color, and optional omission of the points if only the lines are required.
-- `drawBoundingBox(color = "black")` draw the axis-aligned bounding box for this `Bezier` curve with optional custom color
+- `screenToWorld(x, y)` - convert a screen coordinate (based on the "actual" x/y pixel on your screen) to the corresponding x/y value after taking the current coordinate transformation into account.
 
-### BSpline
+- `transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0)` - apply a coordinate transform direction rather than by using `rotate`, `scale`, and `translate` separately.
 
-The `BSpline` class represents a generic [B-spline](https://en.wikipedia.org/wiki/B-spline) curve, with a minimal API:
+- `translate(x = 0, y = 0)` - move the coordinate system horizontally by x and vertically by y.
 
-- **`new BSpline(apiInstance, points)`** constructs a B-spline controlled by a points array in which each element may be either of the form `{x: ..., y: ...}` or a numerical tuple `[x,y]`. The `apiInstance` must be a reference to a valid Graphics-API instance (typically thiat will simply be `this` in your code).
-- `getLUT(count)` returns an array of `count` coordinates of the form `{x:...,y:...}`, representing a polygonal approximation of this `BSpline`.
-- `formKnots(open = false)` set-and-return the list of B-spline knots using either the standard uniform interval spacing, or if `open` is set to `true`, special spacing to effect a B-spline that start and ends at the actual start and end coordinates. The knot array returned in this fashion is a live array, and updating its values **will** change the B-spline's shape.
-- `formUniformKnots()` set-and-return uniformaly spaced knot values. The knot array returned in this fashion is a live array, and updating its values **will** change the B-spline's shape.
-- `formWeights()` set-and-return the array of weights. These will all be uniformly initialized to 1, with the weight array returned being a live array, so that updating its values will change the B-spline's shape.
+- `worldToScreen(x, y)` - convert a world coordinate based on the current coordinate transformation to its corresponding "screen coordinate".
+
+## Setters
+
+There are a number of setting functions, some of which have corresponding "no..." functions (see the next section for those).
+
+- `setBorder(width = 1, color = black)` - set the border around the actual graphics pane.
+
+- `setColor(color)` - set both the current stroke and fill colors.
+
+- `setCrisp(enabled = true)` - either enable to disable anti-aliassing, to force "the crispest" (but not necessarily best looking) lines.
+
+- `setCursor(type)` - change the cursor to a specific icon:
+
+  - `AUTO` - use whatever the browser would otherwise use
+  - `CROSS` - use a cross-hair icon
+  - `POINTER` - use the "pointer" icon that is also used for clickable links
+  - use any other string found over on [the MDN cursor article](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) to set a cursor not covered by the above constants.
+
+- `setFill(color = black)` - Set the fill color to use until we change it. This is used both by "filled shapes" such as circles and triangles, as well as text (which is considered outline graphics to be filled with a color).
+
+- `setFont(font)` - set all aspects of the font to use for drawing text, using the CSS format for a combined font instruction.
+
+- `setFontFamily(name)` - set the current font family.
+
+- `setFontSize(size)` - set the current font size, with the size treated as number of pixels.
+
+- `setFontWeight(weight)` -set the current font weight, use a CSS weight number value.
+
+- `setGrid(spacing = 20, color = lightgrey)` - set the grid spacing and color to use when `grid()` is used.
+
+- `setHighlightColor(color)` - set the color that should be used as highlighting color.
+
+- `setLineDash(...values)` - set the [line dashing parameter](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash).
+
+- `setLineWidth(width = 1)` - set the "brush width" that is used for all stroking operations, in pixels.
+
+- `setStroke(color = black)` - Set the stroke color to use until we change it.
+
+- `setTextAlign(xalign, yalign = ALPHABETIC)` - set the horizontal and vertical align values to be used for drawing text, until we change it. If omitted, the vertical align will use "standard text alignment". Possible values are:
+
+  - xalign=`CENTER` - the text anchor is in the middle of the text. Text is placed evenly on either side.
+  - xalign=`END` - the text anchor is on the right for LTR text, and on the left for RTL text.
+  - xalign=`LEFT` - the text anchor is on the left side of the text. all text is to the right.
+  - xalign=`RIGHT` - the text anchor is on the right side of the text. All text is to the left.
+  - xalign=`START` - the text anchor is on the left for LTR text, and on the right for RTL text.
+
+  and
+
+  - yalign=`ALPHABETIC` - standard text alignment
+  - yalign=`BOTTOM` - the text is aligned to the bottom of the bounding box
+  - yalign=`HANGING` - relevant for Tibetan and other Indic scripts.
+  - yalign=`IDEOGRAPHIC` - relevant for ideographic CJKV text.
+  - yalign=`MIDDLE` - The vertical equivalent of "center".
+  - yalign=`TOP` - The text is aligned to the top of the typographic "em square".
+
+- `setTextDirection(dir = inherit)` - set the text direction to either `LTR` for left-to-write text, `RTL` for right-to-left text, or `inherit` for "whatever the context this &lt;graphics-element&gt; is used in is".
+
+- `setTextStroke(color, width)` - set the text stroke color and thickness (this only affects the "outline path" stroke for text, not the fill color).
+
+## No... functions
+
+These are the counterparts to (many of) the above setters.
+
+- `noBorder()` - turn off the border around the graphics pane.
+
+- `noColor()` - combined `noFill()` and `noStroke()`.
+
+- `noCursor()` - Turn off the cursor entirely. Note that this _turns off the cursor_ it does not set it to "whatever the page thinks it should be"!
+
+- `noFill()` - Don't color in any otherwise filled shapes.
+
+- `noGrid()` - Don't draw a grid.
+
+- `noLineDash()` - Use solid strokes.
+
+- `noStroke()` - Don't draw (out)lines.
+
+- `noTextStroke()` - Disable text stroke around text.

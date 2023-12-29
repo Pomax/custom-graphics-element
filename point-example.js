@@ -33,13 +33,13 @@ function draw() {
   points.forEach((p) => point(p.x, p.y));
 
   noFill();
-  setStroke(`red`);
+  setStroke(`green`);
   spline(points);
 
   setStroke(`blue`);
   bezier(points.slice(0, 4));
 
-  setStroke(`green`);
+  setStroke(`red`);
   bezier(points.slice(1, 5));
 
   setStroke(`purple`);

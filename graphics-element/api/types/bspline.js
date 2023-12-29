@@ -4,13 +4,15 @@ import interpolate from "../util/interpolate-bspline.js";
 const DEGREE = 3;
 
 class BSpline {
-  constructor(points) {
+  constructor(points, open = true) {
     this.points = points;
     // the spline library needs points in array format [x,y] rather than object format {x:..., y:...}
     this.points = points.map((v) => {
       if (v instanceof Array) return v;
       return [v.x, v.y];
     });
+    this.formKnots(open);
+    this.formWeights();
   }
 
   getLUT(count = 100) {

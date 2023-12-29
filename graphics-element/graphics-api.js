@@ -1,9 +1,14 @@
 // TODO: panels, using off-screen canvas?
 
 const ALPHABETIC = `alphabetic`;
+const AUTO = `auto`;
 const BOTTOM = `bottom`;
+const BOTTOM_LEFT = `botton-left`;
+const BOTTOM_RIGHT = `bottom-right`;
 const CENTER = `center`;
+const CONSTRAIN = true;
 const CROSS = `crosshair`;
+const END = `end`;
 const HAND = `pointer`;
 const HANGING = `hanging`;
 const IDEOGRAPHIC = `ideographic`;
@@ -13,10 +18,12 @@ const MIDDLE = `middle`;
 const POINTER = `default`;
 const RIGHT = `right`;
 const RTL = `rtl`;
+const START = `start`;
 const TOP = `top`;
-const CONSTRAIN = true;
+const TOP_LEFT = `top-left`;
+const TOP_RIGHT = `top-right`;
 
-const pointer = { x: -1, y: -1 };
+const pointer = { x: 0, y: 0 };
 const keyboard = {};
 
 // math functions and constants
@@ -41,8 +48,7 @@ const {
   hypot,
   imul,
   log: ln,
-  log10,
-  log1p,
+  log10: log,
   log2,
   max,
   min,
@@ -63,7 +69,6 @@ const ctn = (v) => cos(v) / sin(v);
 const dist = (x1, y1, x2, y2) => ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
 const epsilon = Number.MIN_VALUE;
 const huge = 1_000_000_000;
-const log = (v) => ln(v) / ln(10);
 const map = (v, s, e, ns, ne, constrained = false) => {
   const i1 = e - s,
     i2 = ne - ns,
@@ -72,7 +77,9 @@ const map = (v, s, e, ns, ne, constrained = false) => {
   if (constrained) return constrain(r, ns, ne);
   return r;
 };
-const random = (a = 0, b = 1) => a + Math.random() * (b - a);
+const random = (a = 0, b = 1) => {
+  a + Math.random() * (b - a);
+};
 const sec = (v) => 1 / cos(v);
 const TAU = PI * 2;
 
@@ -81,9 +88,6 @@ const TAU = PI * 2;
 let currentPoint;
 let frame;
 let height;
-let panelHeight;
-let panelWidth;
-let textStroke;
 let width;
 
 // "internal" vars
@@ -94,6 +98,7 @@ __canvas.addEventListener(`pointerdown`, () => __canvas.focus());
 
 let __ctx;
 let __current_cursor;
+let __current_highlight_color;
 let __current_hue;
 let __draw_grid;
 let __drawing;
@@ -109,6 +114,7 @@ let __playing;
 let __redrawing;
 let __start_time;
 let __style_stack;
+let __textStroke;
 
 const find = (qs) => {
   return __element.parentNode?.querySelector(qs);
@@ -131,6 +137,7 @@ const reset = async (element) => {
 
   // default variable values
   __current_cursor = `auto`;
+  __current_highlight_color = `rgb(0,254,124)`;
   __current_hue = 0;
   __draw_grid = true;
   __drawing = false;
@@ -144,10 +151,13 @@ const reset = async (element) => {
   __redrawing = false;
   __start_time = Date.now();
   __style_stack = [];
+  __textStroke = `transparent`;
 
   currentPoint = false;
   frame = 0;
-  textStroke = `transparent`;
+  pointer.x = 0;
+  pointer.y = 0;
+  Object.getOwnPropertyNames(keyboard).forEach((n) => delete keyboard[n]);
 
   // run setup
   await __setup();
@@ -201,7 +211,7 @@ const redraw = () => {
   __redrawing = false;
 };
 
-// ------------------ pointer  event handling ----------------------
+// ------------------ pointer helper ----------------------
 
 const __checkForCurrentPoint = (x, y, type) => {
   const matches = [];
@@ -223,12 +233,9 @@ const __checkForCurrentPoint = (x, y, type) => {
   }
 };
 
-const __pointerDown = (x, y, type) => {
-  pointer.down = true;
-  pointer.mark = { x, y };
-  if (type !== `mouse`) {
-    __checkForCurrentPoint(x, y, type);
-  }
+// --------------- pointer event handling -------------------
+
+const __pointerDown = (x, y) => {
   if (currentPoint) {
     currentPoint._dx = currentPoint.x - x;
     currentPoint._dy = currentPoint.y - y;
@@ -241,14 +248,17 @@ __canvas.addEventListener(
   ({ offsetX, offsetY, pointerType: type }) => {
     if (__finished_setup) {
       const { x, y } = screenToWorld(offsetX, offsetY);
-      __pointerDown(x, y, type);
+      Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
+      if (type !== `mouse`) {
+        __checkForCurrentPoint(x, y, type);
+      }
+      __pointerDown(x, y);
     }
   }
 );
 
 const __pointerUp = (x, y) => {
-  pointer.down = false;
-  if (typeof pointerUp !== `undefined`) pointerUp();
+  if (typeof pointerUp !== `undefined`) pointerUp(x, y);
   if (pointer.mark?.x === x && pointer.mark?.y === y) {
     if (typeof pointerClick !== `undefined`) pointerClick(x, y);
   }
@@ -259,15 +269,13 @@ __canvas.addEventListener(
   ({ offsetX, offsetY, pointerType: type }) => {
     if (__finished_setup) {
       const { x, y } = screenToWorld(offsetX, offsetY);
-      __pointerUp(x, y, type);
+      Object.assign(pointer, { x, y, type, down: false, mark: false });
+      __pointerUp(x, y);
     }
   }
 );
 
-const __pointerMove = (x, y, type) => {
-  pointer.x = x;
-  pointer.y = y;
-
+const __pointerMove = (x, y) => {
   let pointMoved = false;
   if (pointer.down && currentPoint) {
     if (currentPoint[0]) {
@@ -280,11 +288,14 @@ const __pointerMove = (x, y, type) => {
     pointMoved = true;
   }
 
-  if (!pointer.down) {
-    __checkForCurrentPoint(x, y, type);
+  if (typeof pointerMove !== `undefined`) {
+    pointerMove(x, y);
+    pointer.drag = false;
+    if (pointer.down && typeof pointerDrag !== `undefined`) {
+      pointer.drag = true;
+      pointerDrag(x, y);
+    }
   }
-
-  if (typeof pointerMove !== `undefined`) pointerMove(x, y);
   if (pointMoved && !__playing) redraw();
 };
 
@@ -293,7 +304,9 @@ __canvas.addEventListener(
   ({ offsetX, offsetY, pointerType: type }) => {
     if (__finished_setup) {
       const { x, y } = screenToWorld(offsetX, offsetY);
-      __pointerMove(x, y, type);
+      Object.assign(pointer, { x, y, type });
+      if (!pointer.down) __checkForCurrentPoint(x, y, type);
+      __pointerMove(x, y);
     }
   }
 );
@@ -317,7 +330,8 @@ const __safelyInterceptKey = (evt) => {
 
 const __keyDown = (key, shiftKey, altKey, ctrlKey, metaKey) => {
   keyboard[key] = Date.now();
-  if (typeof keyDown !== `undefined`) keyDown(key);
+  if (typeof keyDown !== `undefined`)
+    keyDown(key, shiftKey, altKey, ctrlKey, metaKey);
 };
 
 __canvas.addEventListener(`keydown`, (evt) => {
@@ -328,7 +342,8 @@ __canvas.addEventListener(`keydown`, (evt) => {
 
 const __keyUp = (key, shiftKey, altKey, ctrlKey, metaKey) => {
   delete keyboard[key];
-  if (typeof keyUp !== `undefined`) keyUp(key);
+  if (typeof keyUp !== `undefined`)
+    keyUp(key, shiftKey, altKey, ctrlKey, metaKey);
 };
 
 __canvas.addEventListener(`keyup`, (evt) => {
@@ -336,8 +351,6 @@ __canvas.addEventListener(`keyup`, (evt) => {
   const { key, shiftKey, altKey, ctrlKey, metaKey } = evt;
   if (__finished_setup) __keyUp(key, shiftKey, altKey, ctrlKey, metaKey);
 });
-
-// ================== API functions ======================
 
 // ---------------- slider functions ---------------------
 
@@ -424,11 +437,8 @@ const clearSliders = () => {
 
 // ---------- general functions -------------
 
-const clearMovable = (newPoints) => {
-  while (__movable_points.length) __movable_points.shift();
-  if (newPoints) {
-    setMovable(newPoints);
-  }
+const clearMovable = () => {
+  __movable_points.splice(0, __movable_points.length);
 };
 
 const copy = () => {
@@ -468,7 +478,15 @@ const randomColor = (a = 1.0, cycle = true) => {
 };
 
 const setMovable = (points) => {
-  __movable_points.push(...points);
+  // TODO: shapes
+  if (!points.forEach) {
+    points = [points];
+  }
+  points.forEach((p) => {
+    if (__movable_points.indexOf(p) === -1) {
+      __movable_points.push(p);
+    }
+  });
 };
 
 const restore = () => {
@@ -539,9 +557,9 @@ const bezier = (points) => {
   end();
 };
 
-const bspline = (points) => {
+const bspline = (points, open = true) => {
   start();
-  new BSpline(points).getLUT().forEach((p) => vertex(p.x, p.y));
+  new BSpline(points, open).getLUT().forEach((p) => vertex(p.x, p.y));
   end();
 };
 
@@ -691,8 +709,8 @@ const text = (str, x, y, xalign, yalign = `inherit`) => {
     setTextAlign(xalign, yalign);
   }
   __ctx.fillText(str, x, y);
-  if (textStroke) {
-    setStroke(textStroke);
+  if (__textStroke) {
+    setStroke(__textStroke);
     __ctx.strokeText(str, x, y);
   }
   restore();
@@ -798,12 +816,12 @@ const setCrisp = (enabled = true) => {
 
 const setCursor = (type) => {
   __current_cursor = type;
-  showCursor();
+  __canvas.style.cursor = __current_cursor;
 };
 
 const setFill = (color = `black`) => {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
-    color = `rgb(0,254,124)`;
+    color = __current_highlight_color;
   }
   __ctx.fillStyle = color;
 };
@@ -832,6 +850,10 @@ const setGrid = (spacing = 20, color = `lightgrey`) => {
   __grid_color = color;
 };
 
+const setHighlightColor = (color) => {
+  __current_highlight_color = color;
+};
+
 const setLineDash = (...values) => {
   __ctx.setLineDash(values);
 };
@@ -840,19 +862,9 @@ const setLineWidth = (width = 1) => {
   __ctx.lineWidth = width;
 };
 
-const setMargin = (width = 0) => {
-  __canvas.style.marginTop = `${width}px`;
-  __canvas.style.marginBottom = `${width}px`;
-};
-
-const setShadow = (color, px) => {
-  __ctx.shadowColor = color;
-  __ctx.shadowBlur = px;
-};
-
 const setStroke = (color = `black`) => {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
-    color = `rgb(0,254,124)`;
+    color = __current_highlight_color;
   }
   __ctx.strokeStyle = color;
 };
@@ -867,7 +879,7 @@ const setTextDirection = (dir = `inherit`) => {
 };
 
 const setTextStroke = (color, width) => {
-  textStroke = color;
+  __textStroke = color;
   setLineWidth(width);
 };
 

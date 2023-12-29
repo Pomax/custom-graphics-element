@@ -383,7 +383,7 @@ These are the counterparts to (many of) the above setters.
 
 - `noFill()` - Don't color in any otherwise filled shapes.
 
-- `noGrid()` - Don't draw a grid.
+- `noGrid()` - Don't automatically draw a grid as part of the draw cycle. Note that this does not "disable" the `grid()` function, it only turns off the automatic drawing of a grid that normally happens as part of the `draw()` call.
 
 - `noLineDash()` - Use solid strokes.
 

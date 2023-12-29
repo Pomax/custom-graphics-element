@@ -5,9 +5,6 @@ let c, p;
  * ...
  */
 function setup() {
-  setGrid(20, `black`);
-  setBorder(1, `black`);
-
   addSlider(`radius`, { min: 1, max: 200, step: 1, value: 130 });
   addSlider(`angle`, {
     max: ((1 / 2) * PI - 0.001).toFixed(3),
@@ -15,15 +12,15 @@ function setup() {
     value: 0.65,
   });
 
-  // todo: set up a persistent "initial transform", so that
-  //       we can set (0,0) to be the middle of the screen,
-  //       or the lower left, etc.
-  //
-  // setZeroCoordinate(LOWER_LEFT);
-  // setYDirection(UP);
-
-  setCrisp(true);
+  // set up the grid properties but don't draw the grid by default
+  setGrid(20, `black`);
   noGrid();
+
+  // give the pane a border and force anti-aliassing off
+  setBorder(1, `black`);
+  setCrisp(true);
+
+  // Then set up our "unit circle", and a point on that circle.
   c = new Circle(width / 2, height / 2, radius);
   p = new Circle(width / 2, height / 2 - radius, 4);
 }
@@ -33,32 +30,44 @@ function setup() {
  */
 function draw() {
   clear(`#F8F6F2`);
-  translate(-200, height / 2 - 10);
 
   const a = angle - PI / 2;
   const cx = width / 2;
   const cy = height / 2;
+  translate(-200, cy - 10);
 
+  // loosely base the text size on the circle's radius
   setFontSize(map(radius, 1, 200, 6, 12));
 
+  // draw some cross axes:
   setColor(`black`);
   setLineWidth(0.2);
   line(cx, -huge, cx, huge);
   line(-huge, cy, huge, cy);
   setLineWidth(1);
 
+  // Then make sure our unit circle and point are in the right place:
   c.r = radius;
   p.x = cx + radius * cos(a);
   p.y = cy + radius * sin(a);
 
+  // next, compute the "enclosing triangle" coordinates:
   const e1 = radius * sec(a);
   const e2 = radius * csc(a);
   noStroke();
   setFill(`mistyrose`);
   triangle(cx, cy, cx + e1, cy, cx, cy + e2);
 
-  noFill();
+  // then, our "sine/cosine" triangle
+  setFill(`lavender`);
+  triangle(cx, cy, cx, p.y, p.x, cy);
+
+  setFill(`black`);
   setStroke(`black`);
+  setTextAlign(CENTER);
+  text(`P`, p.x + 10, p.y - 10);
+  circle(p.x, p.y, p.r);
+  noFill();
   setLineDash(5);
   circle(c.x, c.y, c.r);
 
@@ -74,16 +83,12 @@ function draw() {
   setLineDash(3);
   line(cx, cy + radius * sin(a), p.x, p.y);
   line(cx + radius * cos(a), cy, p.x, p.y);
+  line(cx, cy, p.x, p.y);
   noLineDash();
 
   setColor(`midnightblue`);
-  circle(p.x, p.y, p.r);
-  line(cx, cy, p.x, p.y);
-  setTextAlign(CENTER);
-  text(`hypotenuse`, (cx + p.x) / 2, (cy + p.y) / 2);
-  text(`=`, (cx + p.x) / 2, (cy + p.y) / 2 + 15);
-  text(`radius`, (cx + p.x) / 2, (cy + p.y) / 2 + 30);
-  text(`P`, p.x + 10, p.y - 10);
+  line(p.x, cy, cx, p.y);
+  text(`hypotenuse`, 4 + (cx + p.x) / 2, 2 + (cy + p.y) / 2);
 
   setColor(`blue`);
   const cosine = new Point(cx + radius * cos(a), cy);

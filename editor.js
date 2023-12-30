@@ -9,7 +9,7 @@ input.addEventListener(`input`, ({ target }) => {
   const { value } = target;
   clearTimeout(runUpdate);
   runUpdate = setTimeout(() => {
-    graphics.loadSource(value);
+    graphics.loadSource(undefined, undefined, value);
     localStorage.setItem(`code`, value);
   }, 500);
 });
@@ -17,5 +17,5 @@ input.addEventListener(`input`, ({ target }) => {
 const code = localStorage.getItem(`code`);
 if (code) {
   input.value = code;
-  graphics.loadSource(code);
+  graphics.loadSource(undefined, undefined, code);
 }

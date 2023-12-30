@@ -124,15 +124,21 @@ class GraphicsElement extends CustomElement {
     `;
   }
 
-  async loadSource(width, height) {
+  async loadSource(width, height, userCode) {
     // prevent DOM reflow on resets
     if (width && height) {
       this.style.width = width;
       this.style.height = height;
     }
 
-    const src = this.getAttribute(`src`);
-    let userCode = await (await fetch(src)).text();
+    if (!userCode) {
+      const src = this.getAttribute(`src`);
+      if (src) {
+        userCode = await (await fetch(src)).text();
+      } else {
+        userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
+      }
+    }
 
     // slider magic
     const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`],\s*/g);

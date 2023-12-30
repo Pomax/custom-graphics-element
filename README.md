@@ -117,7 +117,7 @@ That's all the code we need: users can now click/tap/touch-drag our point around
 
 ## Pointer handling
 
-Graphics interaction is based on "the pointer", which is a unified handler for mouse, stylus, and touch handling, so you don't have to care whether your code runs on a desktop computer, a laptop, a tablet, a phone, or anything else. Event handling uses four functions:
+Graphics interaction is based on "the pointer", which is a unified handler for mouse, stylus, and touch handling, so you don't have to care whether your code runs on a desktop computer, a laptop, a tablet, a phone, or anything else. Event handling uses five functions:
 
 ```js
 function pointerDown(x, y) {
@@ -177,7 +177,7 @@ The remainder of this document is the API documentation for all functions and co
 
 For convenience, (almost) all the `Math` properties are available as globals. Rather than list all of them, the ones you _don't_ get are:
 
-- the `LN2`, `LN10`, `LOG2E`, `LOG10E`, `SQRT1_2`, and `SQRT_2` values. You will never write code where having these derivative constants rather than using `lk(2)`, `ln(10)`, `log2(E)`, `log(E)`, `1**0.5` and `2**0.5` make the difference between a responsive, performant graphics element, and something unusable.
+- the `LN2`, `LN10`, `LOG2E`, `LOG10E`, `SQRT1_2`, and `SQRT_2` values. You will never write code where having these derivative constants rather than using `ln(2)`, `ln(10)`, `log2(E)`, `log(E)`, `1**0.5` and `2**0.5` make the difference between a responsive, performant graphics element, and something unusable.
 - the `log1p` function: just use `ln(1+...)`, you don't need a separate function for this.
 
 Also, because JS got some things wrong, the natural logarithm is `ln()`, and the base-10 logarithm is `log()`.
@@ -189,7 +189,7 @@ Some missing functions have also been added:
 - `csc(v)` - the cosecant function
 - `ctn(v)` - the cotangent function
 - `dist(x1, y1, x2, y2)` - the euclidean distance between two points.
-  ` map (v, s, e, ns, ne, constrained)` maps a value `v` from interval `[s,e]` to interval `[ns,ne]` instead. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to `[ns,ne]`.
+- ` map (v, s, e, ns, ne, constrained)` maps a value `v` from interval `[s,e]` to interval `[ns,ne]` instead. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to `[ns,ne]`.
 - `random(a, b)` - get a random value between `a` (inclusive) and `b` (exclusive). If `b` is omitted, this generates a random value between `0` and `a`, instead.
 
 And some missing constants have been added:

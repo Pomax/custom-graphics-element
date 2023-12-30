@@ -5,7 +5,7 @@
   "description": "A custom HTML graphics element",
   "main": "dist/graphics-element.js",
   "scripts": {
-    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist && node inject-api.js",
+    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist && node finish-up.js && node update-html.js",
     "esbuild": "esbuild graphics-element/graphics-element.js  --bundle --outfile=./dist/graphics-element.js --format=esm --minify --keep-names --tree-shaking=false",
     "test": "npm run build && run-p serve open",
     "serve": "serve --cors",

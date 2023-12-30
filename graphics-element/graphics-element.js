@@ -4,34 +4,14 @@ import { BSpline } from "./api/types/bspline.js";
 import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
-import { base64, decode64 } from "./api/util/base64.js";
-
 export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
 
-function getURLbase(path) {
-  const regex = /^(.*)\/([^.]+(\.([^\/?#]+))+)(\?[^#]*)?(#.*)?$/;
-  const match = path.match(regex);
-  if (match !== null) {
-    const { [1]: dirname, [2]: file, [4]: ext } = match;
-    console.log(`URL is for a file "${file}", with extension "${ext}"`);
-    path = dirname;
-  }
-  return path;
-}
-
-function isInViewport(e) {
-  if (typeof window === `undefined`) return true;
-  if (typeof document === `undefined`) return true;
-
-  var b = e.getBoundingClientRect();
-  return (
-    b.top >= 0 &&
-    b.left >= 0 &&
-    b.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    b.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
-
+import {
+  base64,
+  decode64,
+  getURLbase,
+  isInViewport,
+} from "./api/util/utils.js";
 const thisURL = String(import.meta.url);
 const libraryCode = decode64(`THIS_IS_A_PLACEHOLDER`);
 

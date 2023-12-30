@@ -75,8 +75,9 @@ const map = (v, s, e, ns, ne, constrained = false) => {
   if (constrained) return constrain(r, ns, ne);
   return r;
 };
-const random = (a = 0, b = 1) => {
-  a + Math.random() * (b - a);
+const random = (a = 1, b) => {
+  if (b === undefined) return a * Math.random();
+  return a + Math.random() * (b - a);
 };
 const sec = (v) => 1 / cos(v);
 const TAU = PI * 2;

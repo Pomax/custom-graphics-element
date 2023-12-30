@@ -136,6 +136,7 @@ const reset = async (element) => {
   __element = element;
 
   // default variable values
+  __ctx = __canvas.getContext(`2d`);
   __current_cursor = `auto`;
   __current_highlight_color = `rgb(0,254,124)`;
   __current_hue = 0;

@@ -1,11 +1,24 @@
 import { CustomElement } from "./custom-element.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
+import {
+  CabinetProjector,
+  PerspectiveProjector,
+} from "./api/util/projector.js";
 import { BSpline } from "./api/types/bspline.js";
 import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
 
-export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
+export {
+  CabinetProjector,
+  PerspectiveProjector,
+  BSpline,
+  Point,
+  Circle,
+  Vector,
+  Matrix,
+  CSS_COLOR_MAP,
+};
 
 const thisURL = String(import.meta.url);
 const apiURL = thisURL.replace(`element.js`, `api.js`);
@@ -164,7 +177,7 @@ class GraphicsElement extends CustomElement {
 
     const module = base64(
       [
-        `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
+        `import { CabinetProjector, PerspectiveProjector, BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         userCode,

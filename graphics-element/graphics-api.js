@@ -206,6 +206,7 @@ const __draw = async () => {
 
 const redraw = () => {
   if (__redrawing) return;
+  if (playing) return;
   __redrawing = true;
   __draw();
   __redrawing = false;

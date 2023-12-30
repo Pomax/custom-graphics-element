@@ -18,6 +18,8 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
   - [Keyboard handling](#keyboard-handling)
   - [Linking guide text and graphics](#linking-guide-text-and-graphics)
   - [Spreading code over multiple source files](#spreading-code-over-multiple-source-files)
+    - [Overloading "parent" functions](#overloading-parent-functions)
+    - [Why use &lt;source&gt; to load code when JS imports exist?](#why-use-source-to-load-code-when-js-imports-exist)
 - [The graphics API](#the-graphics-api)
   - [Maths](#maths)
   - [General globals](#general-globals)
@@ -215,13 +217,26 @@ The &lt;graphics-element&gt; element allows you to specify _multiple_ source fil
 
 This will create a single source file, but allows you to split up your code in a way that lets you reuse the same code across multiple graphics elements with only the differences stored in each extra source file.
 
-Your additional sources **may contain setup and draw functions**, which will be run at the end of the main `setup()` and `draw()` functions, in the same order of your `<source>` elements.
+### Overloading "parent" functions
 
-(Note that this solution supports up to 5 additional source files. However, given that JS supports `import` statements you should not need that many. Ever. Really, if you find yourself using more than one, you're almost certainly already doing something wrong)
+Your additional sources **may contain additional setup() and draw() functions**, which will be run at the end of the main `setup()` and `draw()` functions, in the same order of your `<source>` elements.
+
+You cannot use this to "redeclare" any other function, though: if the main source file contains `function test() { ... }` and your additional source file also specifies `function test() { ... }`, then you'll see an error in your Developer Tools "console" tab along the lines of:
+
+```
+Uncaught (in promise) SyntaxError: redeclaration of function test
+note: Previously declared at line 123, column 45
+```
+
+### Why use &lt;source&gt; to load code when JS imports exist?
+
+The way additional sources are included _**fundamentally differs from the standard module import**_: JS imports are loaded in their own, isolated, scope and will _**not**_ have access to any of the graphics functions and constants, whereas code loaded through a `<source>` element _**will**_ have access to those.
+
+As such, if you need pure JS imports, use the `import` statement in your source code, but if you need something like a class that knows how to draw itself by calling graphics API functions, you can load that same code as a `<source>` and things will work just fine.
 
 # The graphics API
 
-The remainder of this document is the API documentation for all functions and constants that are avaible for writing cool graphics code with.
+The remainder of this document is the API documentation for all functions and constants that are available for writing cool graphics code with.
 
 ## Maths
 

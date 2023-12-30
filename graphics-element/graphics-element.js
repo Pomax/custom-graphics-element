@@ -114,6 +114,7 @@ class GraphicsElement extends CustomElement {
     }
 
     // Get the main user code
+    let addedCount = 0;
     if (!userCode) {
       if (this.userCode) {
         userCode = this.userCode;
@@ -128,7 +129,8 @@ class GraphicsElement extends CustomElement {
 
       // If there are `<source>` elements, load those in too
       let additionalSources = this.querySelectorAll(`source`);
-      if (additionalSources.length) {
+      addedCount = additionalSources.length;
+      if (addedCount > 0) {
         additionalSources = await Promise.all(
           Array.from(additionalSources).map((e) =>
             fetch(e.src).then((r) => r.text())
@@ -140,7 +142,16 @@ class GraphicsElement extends CustomElement {
             text
               .replace(`function setup()`, `function setup${pos + 1}()`)
               .replace(`function draw()`, `function draw${pos + 1}()`)
-          );
+          ) +
+          `\n` +
+          `function __more_setup() { ${[...new Array(addedCount)]
+            .map((_, pos) => `setup${pos + 1}();`)
+            .join(`\n`)} }` +
+          `\n` +
+          `function __more_draw() { ${[...new Array(addedCount)]
+            .map((_, pos) => `draw${pos + 1}();`)
+            .join(`\n`)} }` +
+          `\n`;
       }
     }
 
@@ -222,7 +233,7 @@ class GraphicsElement extends CustomElement {
       const { width, height } = this.halt();
       this.crosslinked = false;
       this.querySelector(`button.remove-color`)?.remove();
-      this.loadSource(width, height);
+      this.loadSource(width, height, this.userCode);
     });
     toptitle.append(r);
 

@@ -2,7 +2,7 @@
 
 <graphics-element title="A simple example graphic?" width="275" height="275" src="example.js" data-type="cubic"></graphics-element>
 
-What if you could just put graphcics on your web page, or in your web app, by just writing graphics JavaScript code and then using a &lt;graphics-element src="..."&gt; the same way you'd put regular JavaScript on a page using a &lt;script&gt; tag? As it turns out, that's not a "what if", it's something that the modern web supports, so if that's something you want, or need: maybe the &lt;graphics-element&gt; is for you!
+What if you could just put graphics on your web page, or in your web app, by just writing graphics JavaScript code and then using a &lt;graphics-element src="..."&gt; the same way you'd put regular JavaScript on a page using a &lt;script&gt; tag? As it turns out, that's not a "what if", it's something that the modern web supports, so if that's something you want, or need: maybe the &lt;graphics-element&gt; is for you!
 
 The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> shows off a bunch of things you might want to use this for, if you need inspiration, but keep reading if you want to to know how to use this element yourself, and what API it supports.
 
@@ -17,6 +17,7 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
   - [Pointer handling](#pointer-handling)
   - [Keyboard handling](#keyboard-handling)
   - [Linking guide text and graphics](#linking-guide-text-and-graphics)
+  - [Spreading code over multiple source files](#spreading-code-over-multiple-source-files)
 - [The graphics API](#the-grahpics-api)
   - [Maths](#maths)
   - [General globals](#general-globals)
@@ -167,7 +168,56 @@ Note that there is no "key typed" handler, you get to decide whether down or up 
 
 ## Linking guide text and graphics
 
-The graphics element supports automatic highlighting of parts of your graphic by using color tags. For example, if you have a `` setStroke(`red`) `` in your graphics code, and you want the parts that are drawn in red to be highlight, you can add `<red>...</red>` to your graphics guide text. Now, whenever a user places their pointer (mouse, stylus, or touch) on that marked-up text, the corresponding color will get highlighted in the graphic. All named CSS colors are supported for this purpose.
+The graphics element supports automatic highlighting of parts of your graphic by using color tags. For example, the following graphics code:
+
+```js
+function draw() {
+  setColor(`red`);
+  line(0, 0, width, height);
+  text(`the center of the universe`, width / 2, height / 2);
+}
+```
+
+can be combined with guide text that includes a highlighting tag for the corresponding color:
+
+```html
+<graphics-element title="..." src="...">
+  <p>Let's highlight <red>the universe</red>!</p>
+</graphics-element>
+```
+
+Now, whenever a user places their pointer (mouse, stylus, or touch) on that marked-up text, the corresponding color will get highlighted in the graphic. All [named CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) are supported for this purpose.
+
+## Spreading code over multiple source files
+
+The &lt;graphics-element&gt; element allows you to specify _multiple_ source files, with one "main "file indicated using the `src="..."` attribute, and additional sources through the use of the `<source>` element:
+
+```html
+<p>Let's look at the base case:</p>
+
+<graphics-element
+  title="multiple sources"
+  src="./base-code.js"
+></graphics-element>
+
+<p>We can extend this by using the standard approach:</p>
+
+<graphics-element title="established convention" src="./base-code.js">
+  <source src="variation-01.js" />
+</graphics-element>
+
+<p>But there's a more interesting way to tackle this:</p>
+
+<graphics-element title="a creative variation" src="./base-code.js">
+  <source src="variation-02.js" />
+</graphics-element>
+```
+
+This will create a single source file, but allows you to split up your code in a way that lets you reuse the same code across multiple graphics elements with only the differences stored in each extra source file.
+
+Your additional sources **may contain setup and draw functions**, which will be run at the end of the main `setup()` and `draw()` functions, in the same order of your `<source>` elements.
+
+(Note that this solution supports up to 5 additional source files. However, given that JS supports `import` statements you should not need that many. Ever. Really, if you find yourself using more than one, you're almost certainly already doing something wrong)
 
 # The graphics API
 

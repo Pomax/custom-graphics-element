@@ -6,10 +6,6 @@ const points = [];
  */
 function setup() {
   setSize(500, 300);
-  for (let i = 50; i < 500; i += 100) {
-    points.push(new Point(i, 150));
-  }
-  setMovable(points);
 }
 
 /**
@@ -53,17 +49,6 @@ function draw() {
   // Also  draw a cardinal spline through all our points!
   setStroke(`green`);
   spline(points);
-
-  // And since we have five points, let's draw the two
-  // bezier curves we can make with that:
-  setStroke(`blue`);
-  bezier(points.slice(0, 4));
-  setStroke(`red`);
-  bezier(points.slice(1, 5));
-
-  // As well as the B-spline based on those points:
-  setStroke(`purple`);
-  bspline(points);
 }
 
 // When someone clicks/touches the graphics pane,

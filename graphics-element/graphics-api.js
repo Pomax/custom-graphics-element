@@ -188,6 +188,13 @@ const halt = () => {
 
 const __setup = async () => {
   if (typeof setup !== `undefined`) await setup();
+  // If there was a module-equivalent of "window", we
+  // could just use a for loop. But there isn't.
+  if (typeof setup1 !== `undefined`) await setup1();
+  if (typeof setup2 !== `undefined`) await setup2();
+  if (typeof setup3 !== `undefined`) await setup3();
+  if (typeof setup4 !== `undefined`) await setup4();
+  if (typeof setup5 !== `undefined`) await setup5();
 };
 
 const __draw = async () => {
@@ -196,8 +203,13 @@ const __draw = async () => {
     __drawing = true;
     frame++;
     resetTransform();
-    translate(-0.5, -0.5);
     if (typeof draw !== `undefined`) await draw();
+    // Again, a for loop would be so much easier here.
+    if (typeof draw1 !== `undefined`) await draw1();
+    if (typeof draw2 !== `undefined`) await draw2();
+    if (typeof draw3 !== `undefined`) await draw3();
+    if (typeof draw4 !== `undefined`) await draw4();
+    if (typeof draw5 !== `undefined`) await draw5();
     __drawing = false;
     if (playing) requestAnimationFrame(() => __draw());
   }

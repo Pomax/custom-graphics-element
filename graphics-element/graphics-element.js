@@ -60,7 +60,7 @@ class GraphicsElement extends CustomElement {
       }
       :host .top-title {
         display: flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: space-between;
       }
       :host canvas {
@@ -87,6 +87,9 @@ class GraphicsElement extends CustomElement {
         font-size: 60%;
         text-decoration: none;
       }
+      :host a.view-source.plus {
+        padding-left: 0.5em;
+      }
       :host button.reset {
         font-size: 0.5em;
         top: -0.35em;
@@ -110,6 +113,7 @@ class GraphicsElement extends CustomElement {
       this.style.height = height;
     }
 
+    // Get the main user code
     if (!userCode) {
       if (this.userCode) {
         userCode = this.userCode;
@@ -121,8 +125,26 @@ class GraphicsElement extends CustomElement {
           userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
         }
       }
+
+      // If there are `<source>` elements, load those in too
+      let additionalSources = this.querySelectorAll(`source`);
+      if (additionalSources.length) {
+        additionalSources = await Promise.all(
+          Array.from(additionalSources).map((e) =>
+            fetch(e.src).then((r) => r.text())
+          )
+        );
+        userCode +=
+          `\n` +
+          additionalSources.map((text, pos) =>
+            text
+              .replace(`function setup()`, `function setup${pos + 1}()`)
+              .replace(`function draw()`, `function draw${pos + 1}()`)
+          );
+      }
     }
 
+    // bind the code for easier reloads
     this.userCode = userCode;
 
     // slider magic
@@ -189,6 +211,9 @@ class GraphicsElement extends CustomElement {
 
     const toptitle = document.createElement(`div`);
     toptitle.classList.add(`top-title`);
+    const sources = document.createElement(`span`);
+    sources.classList.add(`sources`);
+    toptitle.append(sources);
 
     const r = document.createElement(`button`);
     r.classList.add(`reset`);
@@ -208,7 +233,20 @@ class GraphicsElement extends CustomElement {
       a.textContent = this.getAttribute(`viewSource`) || `view source`;
       a.href = src;
       a.target = `_blank`;
-      toptitle.append(a);
+      sources.append(a);
+    }
+
+    let additionalSources = this.querySelectorAll(`source`);
+    if (additionalSources.length) {
+      additionalSources.forEach((e, pos) => {
+        const { src } = e;
+        const a = document.createElement(`a`);
+        a.classList.add(`view-source`, `plus`);
+        a.textContent = `[+${pos + 1}]`;
+        a.href = src;
+        a.target = `_blank`;
+        sources.append(a);
+      });
     }
 
     if (this.label) slotParent.insertBefore(toptitle, this.canvas);

@@ -114,18 +114,28 @@
     <graphics-element
       title="an example with interactive points"
       src="./point-example.js"
-      ><p>
+    >
+      <source src="add-points.js" type="graphics-code" />
+      <p>
         Click-drag (or touch-slide) points to move them around in our graphics
         pane, and reveal a bunch of curves that have been fit to our point
         collection (there's a polygon, two Bezier curves, a cardinal spline, and
         even a B-spline. Can you identify each?)
-      </p></graphics-element
-    >
+      </p>
+    </graphics-element>
 
     <p>
       In fact, click that "view source" link. I want you to be able to see the
       source code that makes cool things be cool. Because I want you to be able
-      to make cool things, too. Let's make the web cool again.
+      to make cool things, too. Let's make the web cool again. In fact, I want
+      you to be able to view and add <em>lots</em> of source, so you can add
+      more than one source file: if you view the page source for the above
+      element, you'll see that it has a &lt;source&gt; element in addition to
+      the main "src" attribute: this allows you to write graphics in a modular
+      way, where you have have one file that's just "the basics" and additional
+      files that add extra bits on top, like here, where we have the basics for
+      "drawing" points, and then we load a small extra script that "adds"
+      points.
     </p>
 
     <p>

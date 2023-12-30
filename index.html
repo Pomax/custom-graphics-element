@@ -221,25 +221,22 @@
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.js"
         download="graphics-element.js"
         >graphics-element.js</a
-      >,
-      <a
-        href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-api.js"
-        download="graphics-api.js"
-        >graphics-api.js</a
       >
-      (for now, I plan on bundling that in, too), and
+      and
       <a
         href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.css"
         download="graphics-element.css"
         >graphics-element.css</a
       >
       files, put them in a dir that your server can serve them from, and then
-      link the graphics-element JS and CSS files on your page:
+      link to the graphics-element JS and CSS files in the &lt;head&gt; of your page:
     </p>
 
-    <pre>
-&lt;script type="module" src="graphics-element.js" async&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="graphics-element.css" async /&gt;</pre
+    <pre>&lt;head&gt;
+  ...
+  &lt;script type="module" src="graphics-element.js" async&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href="graphics-element.css" async /&gt;
+&lt;/head&gt;</pre
     >
 
     <p>

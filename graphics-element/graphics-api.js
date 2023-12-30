@@ -1,5 +1,3 @@
-// TODO: panels, using off-screen canvas?
-
 const ALPHABETIC = `alphabetic`;
 const AUTO = `auto`;
 const BOTTOM = `bottom`;

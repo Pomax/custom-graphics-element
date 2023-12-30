@@ -4,13 +4,9 @@ import { BSpline } from "./api/types/bspline.js";
 import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
+import { base64, decode64 } from "./api/util/base64.js";
 
 export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
-
-const thisURL = String(import.meta.url);
-const apiURL = thisURL.replace(`element.js`, `api.js`);
-const response = await fetch(apiURL);
-const libraryCode = await response.text();
 
 function getURLbase(path) {
   const regex = /^(.*)\/([^.]+(\.([^\/?#]+))+)(\?[^#]*)?(#.*)?$/;
@@ -35,6 +31,9 @@ function isInViewport(e) {
     b.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 }
+
+const thisURL = String(import.meta.url);
+const libraryCode = decode64(`THIS_IS_A_PLACEHOLDER`);
 
 class GraphicsElement extends CustomElement {
   constructor() {
@@ -273,12 +272,6 @@ class GraphicsElement extends CustomElement {
       this.append(disableColors);
     }
   }
-}
-
-function base64(data) {
-  const bytes = new TextEncoder().encode(data);
-  const binString = String.fromCodePoint(...bytes);
-  return btoa(binString);
 }
 
 // Register our custom element

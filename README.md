@@ -18,7 +18,7 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
   - [Keyboard handling](#keyboard-handling)
   - [Linking guide text and graphics](#linking-guide-text-and-graphics)
   - [Spreading code over multiple source files](#spreading-code-over-multiple-source-files)
-- [The graphics API](#the-grahpics-api)
+- [The graphics API](#the-graphics-api)
   - [Maths](#maths)
   - [General globals](#general-globals)
   - [General functions](#general=functions)

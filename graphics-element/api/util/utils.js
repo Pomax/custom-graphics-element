@@ -15,7 +15,6 @@ export function getURLbase(path) {
   const match = path.match(regex);
   if (match !== null) {
     const { [1]: dirname, [2]: file, [4]: ext } = match;
-    console.log(`URL is for a file "${file}", with extension "${ext}"`);
     path = dirname;
   }
   return path;

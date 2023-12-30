@@ -91,6 +91,8 @@ function draw() {
 }
 ```
 
+For convenience, any variable that ends in a number will have that number shown using subscript styling, so a slider for `t1` will show "t<sub>1</sub>" rather than "t1" as its slider label, and any variable with `_` in it will subscript the part after the underscore, so that `k_p` becomes "k<sub>p</sub>" rather than "kp". Because your code doesn't care, but your users do, and subscripted variables are much nicer to look at.
+
 ## Movable entities
 
 Rather than having to write your own click-drag logic, you can mark things as "movable" by calling `setMovable(...)`. This can either be `Point` instances, arrays containing `Point` instances, or instances of the `Shape` class. After marking them as movable, the API does the rest. When the pointer is over movable items it will change to the typically hand icon, and click dragging (or touch-dragging) will automatically update your thing's coordinates.

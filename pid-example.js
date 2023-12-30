@@ -33,9 +33,9 @@ class PID {
  * The main setup function
  */
 function setup() {
-  addSlider(`kp`, { step: 0.001, value: 1 });
-  addSlider(`ki`, { min: -1, max: 1, step: 0.001, value: 0 });
-  addSlider(`kd`, { max: 20, step: 0.01, value: 0 });
+  addSlider(`k_p`, { step: 0.001, value: 1 });
+  addSlider(`k_i`, { min: -1, max: 1, step: 0.001, value: 0 });
+  addSlider(`k_d`, { max: 20, step: 0.01, value: 0 });
   noGrid();
 }
 
@@ -86,7 +86,7 @@ function generatePIDcurve() {
   };
 
   // Set up a new PID controller...
-  const pid = new PID(kp, ki, kd, true, 1);
+  const pid = new PID(k_p, k_i, k_d, true, 1);
 
   // Then run a feedback loop using that PID controller for
   // as many iterations as our graphic is pixels wide.

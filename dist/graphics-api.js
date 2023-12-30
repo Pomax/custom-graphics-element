@@ -393,7 +393,9 @@ const addSlider = (propLabel, assign, options) => {
   let td = create(`td`);
   let label = create(`label`);
   label.classList.add(`slider-label`);
-  label.innerHTML = propLabel.replaceAll(/(\d+)/g, `<sub>$1</sub>`);
+  label.innerHTML = propLabel
+    .replace(/_(.+)$/, `<sub>$1</sub>`)
+    .replace(/(\d+)/, `<sub>$1</sub>`);
   td.append(label);
   tr.append(td);
 

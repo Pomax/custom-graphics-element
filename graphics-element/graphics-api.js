@@ -132,7 +132,7 @@ const setSize = (w = 400, h = 200) => {
   __draw();
 };
 
-const reset = async (element) => {
+const reset = async (element = __element) => {
   __element = element;
 
   // default variable values

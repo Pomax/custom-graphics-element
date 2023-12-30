@@ -132,13 +132,19 @@ class GraphicsElement extends CustomElement {
     }
 
     if (!userCode) {
-      const src = this.getAttribute(`src`);
-      if (src) {
-        userCode = await (await fetch(src)).text();
+      if (this.userCode) {
+        userCode = this.userCode;
       } else {
-        userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
+        const src = this.getAttribute(`src`);
+        if (src) {
+          userCode = await (await fetch(src)).text();
+        } else {
+          userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
+        }
       }
     }
+
+    this.userCode = userCode;
 
     // slider magic
     const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`],\s*/g);

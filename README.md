@@ -37,6 +37,14 @@ The &lt;graphics-element&gt; tag supports the following attributes:
 - `centered` - an optional "valueless" attribute that will center your graphic on the page.
 - `float` - an optional attribute that takes values `left` or `right`, to float your graphic inside your other page content.
 
+Additionally, a &lt;graphics-element&gt; is just a normal HTML tag, and allows child content. This means that if you wish to add guide text, that's as easy as just adding a paragraph:
+
+```html
+<graphics-element title="an example" src="..." width="400" height="200">
+  <p>This guide text will render inside the graphics-element "box".</p>
+</graphics-element>
+```
+
 Graphics source code uses standard JavaScript, with all graphics API functions available as globals. While the smallest source code is just an empty file, the recommended minimal code is:
 
 ```js

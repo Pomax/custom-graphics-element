@@ -2,7 +2,7 @@
  * The JS code for a PID controller.
  */
 class PID {
-  constructor(p, i, d, maxErrorTerms = 50) {
+  constructor(p, i, d, maxErrorTerms = 50, fixedInterval = false) {
     this.kp = p;
     this.ki = i;
     this.kd = d;
@@ -10,16 +10,20 @@ class PID {
     this.I = 0;
     this.lastError = false;
     this.errors = [];
+    this.lastCall = false;
+    this.fixedInterval = fixedInterval;
   }
 
   getRecommendation(current, target) {
+    if (!this.lastCall) this.lastCall = Date.now();
+    const dt = this.fixedInterval || (Date.now() - this.lastCall) / 1000;
     const { kp, ki, kd, errors, maxErrorTerms } = this;
     const error = target - current;
-    const P = kp * error;
+    const P = (kp * error) / dt;
     errors.push(error);
     while (errors.length > maxErrorTerms) errors.shift();
-    const I = (ki * errors.reduce((t, e) => t + e, 0)) / errors.length;
-    const D = (this.lastError ? kd : 0) * (error - this.lastError);
+    let I = (ki * errors.reduce((t, e) => t + e, 0)) / (dt * errors.length);
+    const D = dt * (this.lastError ? kd : 0) * (error - this.lastError);
     this.lastError = error;
     return P + I + D;
   }
@@ -29,7 +33,7 @@ class PID {
  * The main setup function
  */
 function setup() {
-  addSlider(`kp`, { step: 0.001, value: 0.5 });
+  addSlider(`kp`, { step: 0.001, value: 1 });
   addSlider(`ki`, { min: -1, max: 1, step: 0.001, value: 0 });
   addSlider(`kd`, { max: 20, step: 0.01, value: 0 });
   noGrid();
@@ -43,7 +47,7 @@ function draw() {
 
   // Move the coordinate system over a bit, so we can
   // draw, and see, our axes:
-  translate(30, 60);
+  translate(30, 100);
   setColor(`black`);
   axes(`x`, 0, width, `y`, 0, height);
 
@@ -82,14 +86,14 @@ function generatePIDcurve() {
   };
 
   // Set up a new PID controller...
-  const pid = new PID(kp, ki, kd);
+  const pid = new PID(kp, ki, kd, true, 1);
 
   // Then run a feedback loop using that PID controller for
   // as many iterations as our graphic is pixels wide.
   const data = [];
   for (let t = 0; t < width; t++) {
     // We target zero first, and then after 50 iterations flip it to 100
-    const target = t < 50 ? 0 : 100;
+    const target = t < 50 ? 0 : t > width / 2 ? 50 : 100;
     const output = pid.getRecommendation(v.x, target);
     v.update(output);
     data.push([t, v.x, target, output]);

@@ -59,17 +59,23 @@
         href="https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller"
         >PID controller</a
       >
-      trying to get an input signal (in red) starting at 0 to reach the target
-      value 100 (in blue), by checking its current value, seeing how far off it
-      is from the target value, and then generating an output that we then use
-      as an update to our input. This means that on the very first run, it'll
-      see a difference of 100, and will say "I think you should add 100".
-      However, real world signals don't "teleport" form one value to another, so
-      it takes a little time for that change to kick in. By the next iteration
-      our input may only have risen by around 10, instead of 100. So the PID
-      controller goes "okay well I think you should update by 90 now that I'm
-      seeing 10 and the target is 100". And we keep running that feedback loop
-      forever (or in this case, for as wide as our graphics panel is).
+      trying to get an signal (in red) starting at 0 to reach the target value
+      100 (in blue), and then after a while, a target value of 50, by checking
+      the current signal value, seeing how far off it is from the target value,
+      and then generating an output that gets used to update "the thing that
+      generates the signal". This means that on the very first run, it doesn't
+      need to do anything, but the moment the target value jumps to 100, it'll
+      see a signal that's at 0, a target that's 100, and so finds a discrepancy
+      of 100. And so, it will go "I think you should add 100". However, real
+      world signals don't magically just "become a new value", so in order to
+      apply that change, we can only add a small amount to our signal, and then
+      on the next iteration the PID controller gets to check how far off we are
+      now, and what its recommended new change is. Say that by the next
+      iteration our input only have rose by around 10, instead of 100. In that
+      case, the PID controller goes "okay, well, I think you should update by 90
+      now that I'm seeing 10 and the target is 100". And we keep running that
+      feedback loop forever (or in this case, for as wide as our graphics panel
+      is).
     </p>
 
     <graphics-element
@@ -88,31 +94,39 @@
       having maxima where the input is at its lowest and its highest, and a
       recommendation of "no change" when the input is at 100, but because of how
       the update feedback works, we'll never stabilize... unless we take the
-      accumulated error over time, or the speed at which the input changes, into
-      account. Those are the "I" and "D" terms in the name "PID", so if you
+      accumulated error over time, or "the speed at which the input changes",
+      into account. Those are the "I" and "D" terms in the name "PID", so if you
       slide their sliders around, you'll see what effect that might have on how
-      a signal changes over time when controlled using PID ratios.
+      a signal changes over time when controlled using PID ratios. With a bit of
+      sliding, you might find something like P=0.5, I=0.4, and D=17, and now
+      we're in business.
     </p>
 
     <p>
-      Of course, that's only "interactive graphics" by using HTML sliders, so
-      how about actual interaction? The processing-like library that backs this
-      doesn't require you to write your own mouse/touch handling for things like
-      "this point should be click-draggable", you instead say which points can
-      be moved around, and done: they can now be moved around. So let's look at
-      an example of that.
+      Of course, this graphic is only "interactive" in the sense that you get to
+      move HTML sliders, so how about some actual interaction? The library that
+      backs the grahpics element doesn't require you to write your own
+      mouse/touch handling for things like "this point should be
+      click-draggable", you instead say which points can be moved around, and
+      done: they can now be moved around. So let's look at an example of that.
     </p>
+
+    <graphics-element
+      title="an example with interactive points"
+      src="./point-example.js"
+      ><p>
+        Click-drag (or touch-slide) points to move them around in our graphics
+        pane, and reveal a bunch of curves that have been fit to our point
+        collection (there's a polygon, two Bezier curves, a cardinal spline, and
+        even a B-spline. Can you identify each?)
+      </p></graphics-element
+    >
 
     <p>
       In fact, click that "view source" link. I want you to be able to see the
       source code that makes cool things be cool. Because I want you to be able
       to make cool things, too. Let's make the web cool again.
     </p>
-
-    <graphics-element
-      title="an example with interactive points"
-      src="./point-example.js"
-    ></graphics-element>
 
     <p>
       And yes, that "view source" link is baked into the graphics element

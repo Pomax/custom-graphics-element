@@ -25,14 +25,16 @@ function draw() {
   if (hitCircle) {
     const { x, y } = hitCircle;
     noFill();
-    setStroke(`red`);
+    setStroke(`#F002`);
     circle(x, y, 30);
+    setStroke(`#F008`);
     circle(x, y, 20);
+    setStroke(`#F00F`);
     circle(x, y, 10);
   }
 
   // then draw some axes
-  setStroke(`black`);
+  setColor(`black`);
   axes(`x`, 0, width - 40, `y`, 0, height - 40);
 
   // then draw the polygon that connects our points

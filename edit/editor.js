@@ -17,6 +17,12 @@ const graphics = document.querySelector(`graphics-element`);
 
 const demoCode = `let airplane;
 
+/**
+ * Create a little airplane class that looks barely
+ * like an airplane, but *acts* like one by having a
+ * speed and turn rate that determine how fast it can
+ * change heading when told to.
+ */
 class Airplane extends Circle {
 	speed = 0.5;
 	heading = -0.9;
@@ -70,10 +76,22 @@ class Airplane extends Circle {
 		return new Point(x1 + dx * t, y1 + dy * t);
 	}
 
+  // draw a little "stick figure" airplane
 	draw() {
 		const { x, y, r, heading: a } = this;
-		circle(x, y, r);
-		line(x, y, x + r * cos(a), y + r * sin(a));
+		save();
+		translate(x, y);
+		rotate(a);
+		setColor(\`black\`);
+		setLineWidth(3);
+		line(-10,0,10,0);
+		line(-10,-5,-10,5);
+		line(2,0,0,-12);
+		line(2,0,0,12);
+		setColor(\`blue\`);
+		setLineWidth(1);
+		line(0,0,this.speed * 100,0);
+		restore();
 	}
 }
 
@@ -81,16 +99,9 @@ let current = -1;
 const points = [];
 const trail = [];
 
-function addPoint(x, y) {
-	if (currentPoint) return;
-	const p = new Point(x, y);
-	setMovable(p);
-	points.push(p);
-	if (current === -1 && points.length === 1) {
-		current = 0;
-	}
-}
-
+/**
+ * Our program entry point.
+ */
 function setup() {
 	setSize(650, 500);
 	addButton(\`play\`, (button) => {
@@ -109,6 +120,9 @@ function setup() {
 	addPoint(146, 393);
 }
 
+/**
+ * The draw loop entry point.
+ */
 function draw() {
 	clear(\`#FFEFB0\`);
 
@@ -128,7 +142,6 @@ function draw() {
 		setStroke(\`green\`);
 		line(airplane.x, airplane.y, target.x, target.y);
 		setStroke(\`black\`);
-
 		if (playing) airplane.update(target);
 	}
 
@@ -140,7 +153,8 @@ function draw() {
 }
 
 /**
- * The meat and potatoes
+ * The meat and potatoes, where we can experiment with targeting algorithms.
+ * At its most basic, though (for demo purposes) we just target "the next point".
  */
 function getTarget() {
 	if (current < 0) return;
@@ -155,12 +169,27 @@ function getTarget() {
 	return target;
 }
 
+/**
+ * If we click on the graphic, place a new point.
+ */
 function pointerDown(x, y) {
 	addPoint(x, y);
+	redraw();
+}
+
+/**
+ * Adding a point also means checking to see if
+ * we now "have points at all". If so, we mark
+ * the first point as our current target.
+ */
+function addPoint(x, y) {
+	if (currentPoint) return;
+	const p = new Point(x, y);
+	setMovable(p);
+	points.push(p);
 	if (current === -1 && points.length === 1) {
 		current = 0;
 	}
-	redraw();
 }
 `;
 const savedCode = localStorage.getItem(`code`) || demoCode;

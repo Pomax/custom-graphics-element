@@ -158,6 +158,10 @@ const reset = async (element = __element) => {
   pointer.y = 0;
   Object.getOwnPropertyNames(keyboard).forEach((n) => delete keyboard[n]);
 
+  // make sure we don't double-generate these:
+  clearSliders();
+  clearButtons();
+
   // run setup
   await __setup();
   __finished_setup = true;

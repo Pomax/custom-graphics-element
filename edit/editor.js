@@ -132,6 +132,7 @@ function setup() {
   addPoint(482, 425);
   addPoint(319, 264);
   addPoint(146, 393);
+  current = 0;
 }
 
 /**
@@ -201,9 +202,6 @@ function addPoint(x, y) {
   const p = new Point(x, y);
   setMovable(p);
   points.push(p);
-  if (current === -1 && points.length === 1) {
-    current = 0;
-  }
 }
 `;
 const savedCode = localStorage.getItem(`code`) || demoCode;

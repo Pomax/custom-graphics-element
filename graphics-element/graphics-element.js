@@ -51,62 +51,20 @@ class GraphicsElement extends CustomElement {
   }
 
   getStyle() {
-    return `
-      :host([hidden]) {
-        display: none;
-      }
-      :host style {
-        display: none;
-      }
-      :host .top-title {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-      :host canvas {
-        touch-action: none;
-        user-select: none;
-        position: relative;
-        z-index: 1;
-        display: block;
-        margin: auto;
-        border-radius: 0;
-        box-sizing: content-box!important;
-        border: 1px solid lightgrey;
-      }
-      :host canvas.crisp {
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-crisp-edges;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-      }
-      :host canvas:focus {
-        border: 1px solid red;
-      }
-      :host a.view-source {
-        font-size: 60%;
-        text-decoration: none;
-      }
-      :host a.view-source.plus {
-        padding-left: 0.5em;
-      }
-      :host button.reset {
-        font-size: 0.5em;
-        top: -0.35em;
-        position: relative;
-      }
-      :host label:not(:empty) {
-        display: block;
-        font-style:italic;
-        font-size: 0.9em;
-        text-align: right;
-        padding-right: 1em;
-        margin-top: 0.35em;
-      }
-    `;
+    return `:host([hidden]) { display: none; }
+:host {
+style { display: none; }
+.top-title { display: flex; flex-direction: row; justify-content: space-between; }
+canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box !important; border: 1px solid lightgrey;
+&.crisp { image-rendering: -moz-crisp-edges; image-rendering: -webkit-crisp-edges; image-rendering: pixelated; image-rendering: crisp-edges; }
+&:focus { border: 1px solid red; }}
+a { &.view-source { font-size: 60%; text-decoration: none;
+&.plus { padding-left: 0.5em; }}}
+button.reset { font-size: 0.5em; top: -0.35em; position: relative; }
+label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }}`;
   }
 
-  async loadSource(width, height, userCode) {
+  async loadSource(userCode, width, height) {
     // prevent DOM reflow on resets
     if (width && height) {
       this.style.width = width;
@@ -159,11 +117,11 @@ class GraphicsElement extends CustomElement {
     this.userCode = userCode;
 
     // slider magic
-    const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`],\s*/g);
+    const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`]/g);
     const varNames = [];
     for (let m of matches) {
       varNames.push(m[1]);
-      userCode = userCode.replace(m[0], m[0] + `(v) => (${m[1]} = v), `);
+      userCode = userCode.replace(m[0], m[0] + `, (v) => (${m[1]} = v)`);
     }
 
     if (varNames.length) {
@@ -213,6 +171,13 @@ class GraphicsElement extends CustomElement {
     });
   }
 
+  reset(newCode) {
+    const { width, height } = this.halt();
+    this.crosslinked = false;
+    this.querySelector(`button.remove-color`)?.remove();
+    this.loadSource(newCode || this.userCode, width, height);
+  }
+
   render() {
     super.render();
 
@@ -229,12 +194,7 @@ class GraphicsElement extends CustomElement {
     const r = document.createElement(`button`);
     r.classList.add(`reset`);
     r.textContent = this.getAttribute(`reset`) || `reset`;
-    r.addEventListener(`click`, () => {
-      const { width, height } = this.halt();
-      this.crosslinked = false;
-      this.querySelector(`button.remove-color`)?.remove();
-      this.loadSource(width, height, this.userCode);
-    });
+    r.addEventListener(`click`, () => this.reset());
     toptitle.append(r);
 
     const src = this.getAttribute(`src`);

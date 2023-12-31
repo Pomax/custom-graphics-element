@@ -9,13 +9,13 @@ input.addEventListener(`input`, ({ target }) => {
   const { value } = target;
   clearTimeout(runUpdate);
   runUpdate = setTimeout(() => {
-    graphics.loadSource(undefined, undefined, value);
     localStorage.setItem(`code`, value);
+    graphics.reset(value);
   }, 500);
 });
 
 const code = localStorage.getItem(`code`);
 if (code) {
   input.value = code;
-  graphics.loadSource(undefined, undefined, code);
+  graphics.loadSource(code);
 }

@@ -72,8 +72,8 @@ Several globals exist to make your graphics life easier:
 - `height` - the height of your graphic, in pixels.
 - `playing` - a boolean indicating whether this graphic is currently running in animated mode or not.
 - `frame` - the current frame's number. Every time `draw` runs, this number will increase by 1.
-- `pointer` - an object representing the mouse/stylus/touch input "cursor"
-- `keyboard` - an object that tracks which keys are currently being pressed
+- `pointer` - an object representing the mouse/stylus/touch input "cursor" (see below).
+- `keyboard` - an object that tracks which keys are currently being pressed (see below).
 - `currentPoint` - when using movable points, this will represent the movable point under the pointer, if there is one.
 
 ## Slider-based variables
@@ -96,9 +96,32 @@ function draw() {
 
 For convenience, any variable that ends in a number will have that number shown using subscript styling, so a slider for `t1` will show "t<sub>1</sub>" rather than "t1" as its slider label, and any variable with `_` in it will subscript the part after the underscore, so that `k_p` becomes "k<sub>p</sub>" rather than "kp". Because your code doesn't care, but your users do, and subscripted variables are much nicer to look at.
 
+## Adding buttons
+
+Sometimes you want buttons to do things that you _could_ do with click handlers, but would be much nicer with a normal button. In those cases, you can use the `addButton` function:
+
+```js
+let p;
+
+function setup() {
+  addButton(`play`, (btn) => {
+    btn.textContent = togglePlay() ? `pause` : `play`;
+  });
+  p = new Point(width / 2, height / 2);
+}
+
+function draw() {
+  clear();
+  setColor(`black`);
+  point(p.x, p.y);
+  p.x += random(-2, 2);
+  p.y += random(-2, 2);
+}
+```
+
 ## Movable entities
 
-Rather than having to write your own click-drag logic, you can mark things as "movable" by calling `setMovable(...)`. This can either be `Point` instances, arrays containing `Point` instances, or instances of the `Shape` class. After marking them as movable, the API does the rest. When the pointer is over movable items it will change to the typically hand icon, and click dragging (or touch-dragging) will automatically update your thing's coordinates.
+Rather than having to write your own click-drag logic, you can mark things as "movable" by calling `setMovable(...)`. This can either be `Point` instances or an array of `Point` instances. After marking them as movable, the API does the rest. When the pointer is over movable points it will update the global `currentPoint` value and change to the typically pointing finger icon, with click-dragging (or touch-dragging) automatically updating your point's coordinates.
 
 ```js
 const p;
@@ -313,7 +336,7 @@ And some missing constants have been added:
 
 - `toDataURL()` - turn the current graphic into a data-URL representing a PNG image
 
-- `togglePlay()` - either run `pause()` or `play()`, depending on whether the graphics element is running in animated mode or not.
+- `togglePlay()` - either run `pause()` or `play()`, depending on whether the graphics element is running in animated mode or not. This returns the current play state as boolean.
 
 ## Drawing functions
 

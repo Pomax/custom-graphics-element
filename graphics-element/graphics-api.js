@@ -116,11 +116,11 @@ let __style_stack;
 let __textStroke;
 
 const find = (qs) => {
-  return __element.parentNode?.querySelector(qs);
+  return __element.querySelector(qs);
 };
 
 const findAll = (qs) => {
-  return __element.parentNode?.querySelectorAll(qs);
+  return __element.querySelectorAll(qs);
 };
 
 const setSize = (w = 400, h = 200) => {
@@ -183,6 +183,7 @@ const halt = () => {
   __font = undefined;
   __start_time = 0;
   clearSliders();
+  clearButtons();
   return { width, height };
 };
 
@@ -355,7 +356,7 @@ __canvas.addEventListener(`keyup`, (evt) => {
 
 // ---------------- slider functions ---------------------
 
-const addSlider = (propLabel, assign, options) => {
+const addSlider = (propLabel, assign, options = {}) => {
   const {
     min = 0,
     max = 1,
@@ -436,6 +437,20 @@ const addSlider = (propLabel, assign, options) => {
 const clearSliders = () => {
   const table = __element.querySelector(`table.slider-wrapper`);
   if (table) table.innerHTML = ``;
+};
+
+const addButton = (label, onClick) => {
+  const btn = document.createElement(`button`);
+  btn.classList.add(`graphics-element-button`);
+  btn.textContent = label;
+  btn.addEventListener(`click`, () => onClick(btn));
+  __element.prepend(btn);
+};
+
+const clearButtons = () => {
+  __element
+    .querySelectorAll(`button.graphics-element-button`)
+    .forEach((e) => e.remove());
 };
 
 // ---------- general functions -------------

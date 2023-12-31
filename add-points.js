@@ -7,7 +7,7 @@
  */
 function setup() {
   for (let i = 50; i < 500; i += 100) {
-    points.push(new Point(i, 150));
+    points.push(new Point(i - 20, 120));
   }
   setMovable(points);
 }

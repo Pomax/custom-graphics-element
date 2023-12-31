@@ -318,6 +318,10 @@ And some missing constants have been added:
 
 - `color(h=current heu, s=50, l=50, a=1)` - turn an HSLA coordinate into a canvas color. All arguments are optional, with `h` defaulting to "whatever the current internal hue value is" (starting at 0, and potentially changed by repeated calls to `randomColor`).
 
+- `find(qs)` - equivalent to querySelector(qs), scoped to the graphics element itself.
+
+- `findAll(qs)` - equivalent to querySelectorAll(qs), scoped to the graphics element itself.
+
 - `highlight(color)` - This activates the "current highlight color" when using `color` as argument for `setColor`, `setFill`, and `setStroke` (the current highlight color can be changed using `setHighlightColor`). Use `false` as color to disable highlighting.
 
 - `millis()` -The number of milliseconds that have passed since this graphics element started running.
@@ -329,6 +333,8 @@ And some missing constants have been added:
 - `randomColor(a = 1.0, cycle = true)` - generate a random canvas color, optionally with explicit alpha value, and optionally with an instruction to either cycle the internal "current hue" value.
 
 - `setMovable(points)` - Mark one or more points as movable (see the section on movable entities above).
+
+- `setSize(width, height)` - set the graphics pane dimensions. If a graphics element does not specify `width` or `height` as attributes, you'l want this to be your first instruction in `setup()`, but it can be (re)issued at any point during the life cycle of your graphics to resize it. (Note that this does not scale your graphics, it _only_ sets the dimensions of the graphics pane).
 
 - `restore()` - restores a previously saved graphics context.
 

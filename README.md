@@ -386,6 +386,15 @@ The following constants are available:
 
 ## General functions
 
+- `addButton(label, clickHandler)` - adds a button to the graphics element, below the graphic pane, with the provided label, calling `clickHandler(button)` every time the button is clicked. This function returns the `<button>`.
+
+- `addSlider(varName, options = {})` - adds a numerical range slider to the graphics element, below the graphic pane, automatically binding a global variable with the indicated name (this value as function argument must be a string). This function returns the range slider `<input>`. Valid options are:
+  - `min` - the minimum number, defaults to 0
+  - `max` - the maximum number, defaults to 1
+  - `step` - the step size, defaults to (max - min) / 10.
+  - `value` - the initial value, defaults to (max - min) / 2.
+  - `transform` - a value transformer that can be used to turn "the slider's value" into a different "variable assignment value". this must be a function of the form `value => <number>`.
+
 - `clearMovable()` - clears the list of movables, effectively disabling automatical click-dragging of things until you mark something as movable again.
 
 - `copy()` - gets a copy of the canvas in its current state for either use by other page code, or for use as the equivalent of an image in your own code.

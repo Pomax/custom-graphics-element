@@ -378,21 +378,26 @@ __canvas.addEventListener(`keyup`, (evt) => {
 // ---------------- slider functions ---------------------
 
 const addSlider = (propLabel, assign, options = {}) => {
-  const {
-    min = 0,
-    max = 1,
-    step = 1,
-    value = 0,
+  let {
+    min,
+    max,
+    step,
+    value,
     classes = `slider`,
     transform = (v) => v,
   } = options;
+
+  min = min === undefined ? 0 : min;
+  max = max === undefined ? 1 : max;
+  step = step === undefined ? (max - min) / 10 : step;
+  value = value === undefined ? (max - min) / 2 : value;
 
   // custom "rounding", purely for strings
   const round = (v, d = 4) => {
     v = `${v}`;
     const fs = v.indexOf(`.`);
     if (fs !== -1) {
-      let prec = 4 - fs > 0 ? 4 - fs : 0;
+      let prec = d - fs > 0 ? d - fs : 0;
       v = v.substring(0, fs + prec);
     }
     return v;
@@ -464,6 +469,7 @@ const addSlider = (propLabel, assign, options = {}) => {
   table.append(tr);
 
   update(slider);
+  return slider;
 };
 
 const clearSliders = () => {
@@ -477,6 +483,7 @@ const addButton = (label, onClick) => {
   btn.textContent = label;
   btn.addEventListener(`click`, () => onClick(btn));
   __element.prepend(btn);
+  return btn;
 };
 
 const clearButtons = () => {

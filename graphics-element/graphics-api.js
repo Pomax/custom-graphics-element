@@ -387,6 +387,17 @@ const addSlider = (propLabel, assign, options = {}) => {
     transform = (v) => v,
   } = options;
 
+  // custom "rounding", purely for strings
+  const round = (v, d = 4) => {
+    v = `${v}`;
+    const fs = v.indexOf(`.`);
+    if (fs !== -1) {
+      let prec = 4 - fs > 0 ? 4 - fs : 0;
+      v = v.substring(0, fs + prec);
+    }
+    return v;
+  };
+
   const create = (tag) => document.createElement(tag);
 
   let slider = create(`input`);
@@ -398,7 +409,7 @@ const addSlider = (propLabel, assign, options = {}) => {
   slider.setAttribute(`class`, classes);
 
   const update = ({ value }) => {
-    valueField.textContent = value;
+    valueField.textContent = round(value);
     assign(transform(parseFloat(value)));
     if (!playing) redraw();
   };
@@ -424,7 +435,7 @@ const addSlider = (propLabel, assign, options = {}) => {
 
   td = create(`td`);
   td.classList.add(`slider-min`);
-  td.textContent = slider.min;
+  td.textContent = round(slider.min);
   tr.append(td);
 
   td = create(`td`);
@@ -434,7 +445,7 @@ const addSlider = (propLabel, assign, options = {}) => {
 
   td = create(`td`);
   td.classList.add(`slider-max`);
-  td.textContent = slider.max;
+  td.textContent = round(slider.max);
   tr.append(td);
 
   td = create(`td`);

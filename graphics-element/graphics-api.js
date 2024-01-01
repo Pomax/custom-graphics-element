@@ -86,6 +86,7 @@ const TAU = PI * 2;
 
 let currentPoint;
 let frame;
+let frameDelta;
 let height;
 let width;
 let playing;
@@ -95,8 +96,8 @@ let playing;
 let __canvas = document.createElement(`canvas`);
 __canvas.tabIndex = 0;
 __canvas.addEventListener(`pointerdown`, () => __canvas.focus());
+let __ctx = __canvas.getContext(`2d`);
 
-let __ctx;
 let __current_cursor;
 let __current_highlight_color;
 let __current_hue;
@@ -114,6 +115,7 @@ let __redrawing;
 let __start_time;
 let __style_stack;
 let __textStroke;
+let __last_frame;
 
 const find = (qs) => {
   return __element.querySelector(qs);
@@ -121,14 +123,6 @@ const find = (qs) => {
 
 const findAll = (qs) => {
   return __element.querySelectorAll(qs);
-};
-
-const setSize = (w = 400, h = 200) => {
-  width = __canvas.width = w;
-  height = __canvas.height = h;
-  __element.style.maxWidth = `calc(2em + ${width}px`;
-  __ctx = __canvas.getContext(`2d`);
-  __draw();
 };
 
 const reset = async (element = __element) => {
@@ -167,13 +161,13 @@ const reset = async (element = __element) => {
   __finished_setup = true;
 
   // run first draw
+  __last_frame = Date.now();
   await __draw();
+
+  return { width, height };
 };
 
 const halt = () => {
-  const style = getComputedStyle(__element);
-  width = style.width;
-  height = style.height;
   playing = false;
   __canvas = undefined;
   __ctx = undefined;
@@ -188,23 +182,34 @@ const halt = () => {
   __start_time = 0;
   clearSliders();
   clearButtons();
-  return { width, height };
 };
 
 const __setup = async () => {
   if (typeof setup !== `undefined`) await setup();
   if (typeof __more_setup !== `undefined`) await __more_setup();
+  if (!width && !height) setSize();
+};
+
+const setSize = (w = 400, h = 200) => {
+  width = __canvas.width = w;
+  height = __canvas.height = h;
+  __element.style.maxWidth = `calc(2em + ${width}px`;
+  __ctx = __canvas.getContext(`2d`);
+  __draw();
 };
 
 const __draw = async () => {
   if (!__finished_setup) return;
   if (!__drawing) {
     __drawing = true;
+    const now = Date.now();
+    frameDelta = now - __last_frame;
     frame++;
     resetTransform();
     if (typeof draw !== `undefined`) await draw();
     if (typeof __more_draw !== `undefined`) await __more_draw();
     __drawing = false;
+    __last_frame = now;
     if (playing) requestAnimationFrame(() => __draw());
   }
 };

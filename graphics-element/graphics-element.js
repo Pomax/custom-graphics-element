@@ -64,11 +64,12 @@ button.reset { font-size: 0.5em; top: -0.35em; position: relative; }
 label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }}`;
   }
 
-  async loadSource(userCode, width, height) {
-    // prevent DOM reflow on resets
-    if (width && height) {
-      this.style.width = width;
-      this.style.height = height;
+  async loadSource(userCode, width = this.width, height = this.height) {
+    if (!width && !height) {
+      width = parseFloat(this.getAttribute(`width`));
+      height = parseFloat(this.getAttribute(`height`));
+      if (isNaN(width)) width = undefined;
+      if (isNaN(height)) height = undefined;
     }
 
     // Get the main user code
@@ -134,13 +135,19 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       ` from "${getURLbase(location.href)}/$1"`
     );
 
-    // inject size
-    const w = this.getAttribute(`width`);
-    const h = this.getAttribute(`height`);
-    if (w && h) {
+    // ensure there's always a setSize
+    if (!userCode.includes(`function setup()`)) {
+      userCode = `function setup() {\n}\n` + userCode;
+    }
+
+    if (!userCode.includes(`setSize(`)) {
+      let replacement = `setSize();`;
+      if (width && height) {
+        replacement = `setSize(${width}, ${height});`;
+      }
       userCode = userCode.replace(
         `function setup() {`,
-        `function setup() {\n  setSize(${w}, ${h});`
+        `function setup() {\n  ${replacement}`
       );
     }
 
@@ -154,17 +161,21 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       ].join(`\n`)
     );
 
-    import(`data:text/javascript;base64,${module}`).then((lib) => {
+    import(`data:text/javascript;base64,${module}`).then(async (lib) => {
       const { start, canvas, halt, highlight } = lib;
       this.canvas = canvas;
       this.halt = () => halt();
       this.highlight = (color) => highlight(color);
       this.render();
+      const { width, height } = await start(this);
       if (width && height) {
         this.style.width = ``;
         this.style.height = ``;
+        this.width = width;
+        this.height = height;
+        this.setAttribute(`width`, width);
+        this.setAttribute(`height`, height);
       }
-      start(this);
       // Once we've rendered, and the sketch is running, we can send the "we're loaded" event
       this.dispatchEvent(new CustomEvent(`load`));
       if (this.onload) this.onload();
@@ -172,10 +183,10 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
   }
 
   reset(newCode) {
-    const { width, height } = this.halt();
+    this.halt();
     this.crosslinked = false;
     this.querySelector(`button.remove-color`)?.remove();
-    this.loadSource(newCode || this.userCode, width, height);
+    this.loadSource(newCode || this.userCode, this.width, this.height);
   }
 
   render() {

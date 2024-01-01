@@ -72,6 +72,7 @@ Several globals exist to make your graphics life easier:
 - `height` - the height of your graphic, in pixels.
 - `playing` - a boolean indicating whether this graphic is currently running in animated mode or not.
 - `frame` - the current frame's number. Every time `draw` runs, this number will increase by 1.
+- `frameDelta` - the time in milliseconds since the previous frame finished drawing.
 - `pointer` - an object representing the mouse/stylus/touch input "cursor" (see below).
 - `keyboard` - an object that tracks which keys are currently being pressed (see below).
 - `currentPoint` - when using movable points, this will represent the movable point under the pointer, if there is one.
@@ -253,9 +254,67 @@ note: Previously declared at line 123, column 45
 
 ### Why use &lt;source&gt; to load code when JS imports exist?
 
-The way additional sources are included _**fundamentally differs from the standard module import**_: JS imports are loaded in their own, isolated, scope and will _**not**_ have access to any of the graphics functions and constants, whereas code loaded through a `<source>` element _**will**_ have access to those.
+The way additional sources are included _fundamentally_ differs from the standard module import mechanism: JS imports are loaded in their own, isolated, scope and _**will not**_ have access to any of the graphics functions and constants, whereas code loaded through a `<source>` element effectively gets packed up as a single bundle with the "main" graphics source code and so _**will**_ have access to all the graphics API functions.
 
-As such, if you need pure JS imports, use the `import` statement in your source code, but if you need something like a class that knows how to draw itself by calling graphics API functions, you can load that same code as a `<source>` and things will work just fine.
+As such, if you need pure JS code imported, use an `import` statement in your source code, but if you need something like a class that knows how to draw itself by calling graphics API functions, you can load that same code as a `<source>` and things will work just fine.
+
+As example, pure utility code that doesn't do any sort of drawing should always be imported:
+
+```js
+class PID {
+  constructor(p, i, d, ...) {
+    this.kp = p;
+    this.ki = i;
+    this.kd = d;
+    ...
+  }
+
+  getRecommendation(current, target) {
+    const error = target - current;
+    const P = (kp * error) / dt;
+    const I = ...
+    // ...
+    return P + I + D;
+  }
+}
+```
+
+Nothing in the above code has anything to do with drawing things, and is pure JS utility code. As such, we can simply import it directly:
+
+```js
+import { PID } from "./pid.js";
+
+let pid;
+
+function setup() {
+  pid = new PID(1, 0, 0);
+}
+
+// ...
+```
+
+However, the following kind of code should be a `<source>` inclusion:
+
+```js
+class Airplane extends Circle {
+  heading = 0;
+
+  constructor(x, y, heading) {
+    super(x, y, 100);
+    this.heading = heading;
+  }
+
+  draw() {
+    save();
+    translate(this.x, this.y);
+    rotate(this.heading);
+    line(0, 0, 20, 0);
+    restore();
+  }
+}
+```
+
+This code heavily relies on the graphics API, and so trying to `import` it will throw errors at runtime.
 
 # The graphics API
 
@@ -287,6 +346,19 @@ And some missing constants have been added:
 - `TAU` - equal to 2π, because you constantly need this value when doing graphics programming.
 
 ## General globals
+
+The following variables are available:
+
+- `width` - the width of your graphic, in pixels.
+- `height` - the height of your graphic, in pixels.
+- `playing` - a boolean indicating whether this graphic is currently running in animated mode or not.
+- `frame` - the current frame's number. Every time `draw` runs, this number will increase by 1.
+- `frameDelta` - the time in milliseconds since the previous frame finished drawing.
+- `pointer` - an object representing the mouse/stylus/touch input "cursor".
+- `keyboard` - an object that tracks which keys are currently being pressed.
+- `currentPoint` - when using movable points, this will represent the movable point under the pointer, if there is one.
+
+The following constants are available:
 
 - `AUTO`
 - `ALPHABETIC` - used in vertical text alignment

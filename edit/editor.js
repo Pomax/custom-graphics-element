@@ -25,15 +25,15 @@ const trail = [];
  */
 function setup() {
   setSize(650, 500);
-  addButton(`play`, (button) => {
-    button.textContent = togglePlay() ? `pause` : `play`;
+  addButton(\`play\`, (button) => {
+    button.textContent = togglePlay() ? \`pause\` : \`play\`;
   });
-  addButton(`reset`, () => {
+  addButton(\`reset\`, () => {
     points.splice(0, points.length);
     trail.splice(0, trail.length);
     reset();
   });
-  addSlider(`insideTarget`, { min: 1 / 6, max: 1, step: 1 / 6, value: 4 / 6 });
+  addSlider(\`insideTarget\`, { min: 1 / 6, max: 1, step: 1 / 6, value: 4 / 6 });
   noGrid();
 
   // Set up an "airplane" and a few points that define its flight path:
@@ -50,30 +50,30 @@ function setup() {
  * The draw loop entry point.
  */
 function draw() {
-  clear(`#FFEFB0`);
+  clear(\`#FFEFB0\`);
 
   noFill();
 
   // Draw the flight path
-  setStroke(`lightgrey`);
-  plotData(points, `x`, `y`);
+  setStroke(\`lightgrey\`);
+  plotData(points, \`x\`, \`y\`);
 
   // And the "where we've been so far" trail
-  setStroke(`blue`);
-  plotData(trail, `x`, `y`);
+  setStroke(\`blue\`);
+  plotData(trail, \`x\`, \`y\`);
 
   // And then draw each of the path points on top.
-  setStroke(`black`);
+  setStroke(\`black\`);
   points.forEach((p) => point(p.x, p.y));
 
   // Then: figure out which heading to fly our plane:
   const target = getTarget(airplane);
   if (target) {
     // Show the target we want to head towards
-    setColor(`magenta`);
+    setColor(\`magenta\`);
     line(airplane.x, airplane.y, target.x, target.y);
     circle(target.x, target.y, 3);
-    setStroke(`black`);
+    setStroke(\`black\`);
     if (playing) airplane.update(target);
   }
 
@@ -82,7 +82,7 @@ function draw() {
 
   // And then finally, draw the airplane in its current location
   noFill();
-  setStroke(`black`);
+  setStroke(\`black\`);
   airplane.draw();
 }
 
@@ -111,7 +111,7 @@ function getTarget(airplane) {
     i23 = airplane.project(p2.x, p2.y, p3.x, p3.y);
     if (i23) {
       // show this point
-      setColor(`red`);
+      setColor(\`red\`);
       point(i23.x, i23.y);
       setLineDash(4);
       line(airplane.x, airplane.y, i23.x, i23.y);
@@ -189,7 +189,7 @@ class Airplane extends Circle {
   draw() {
     const { x, y, r, heading: a, bank, turnRate } = this;
     noFill();
-    setStroke(`black`);
+    setStroke(\`black\`);
     circle(x, y, r);
     // by far the easiest way to draw a little stick figure
     // is to change the coordinate system instead of trying
@@ -199,7 +199,7 @@ class Airplane extends Circle {
     {
       translate(x, y);
       rotate(a);
-      setColor(`black`);
+      setColor(\`black\`);
       setLineWidth(3);
       line(-10, 0, 10, 0);
       line(-10, -5, -10, 5);
@@ -212,7 +212,7 @@ class Airplane extends Circle {
         line(0, 0, wingLength, 0);
       }
       restore();
-      setColor(`blue`);
+      setColor(\`blue\`);
       setLineWidth(1);
       line(0, 0, this.speed, 0);
     }

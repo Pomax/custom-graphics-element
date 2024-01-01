@@ -64,6 +64,12 @@ const { PI, E } = Math;
 const constrain = (v, s, e) => (v < s ? s : v > e ? e : v);
 const csc = (v) => 1 / sin(v);
 const ctn = (v) => cos(v) / sin(v);
+const degrees = (v, constrain) => {
+  const d = (v / PI) * 180;
+  if (!constrain) return d;
+  while (d < 0) d += 360;
+  return d % 360;
+};
 const dist = (x1, y1, x2, y2) => ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
 const epsilon = Number.MIN_VALUE;
 const huge = 1_000_000_000;
@@ -74,6 +80,12 @@ const map = (v, s, e, ns, ne, constrained = false) => {
   let r = ns + (p * i2) / i1;
   if (constrained) return constrain(r, ns, ne);
   return r;
+};
+const radians = (v) => {
+  const r = (v / 180) * PI;
+  if (!constrain) return r;
+  while (r < 0) r += TAU;
+  return r % TAU;
 };
 const random = (a = 1, b) => {
   if (b === undefined) return a * Math.random();

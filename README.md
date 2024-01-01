@@ -332,12 +332,14 @@ Also, because JS got some things wrong, the natural logarithm is `ln()`, and the
 Some missing functions have also been added:
 
 - `constrain(v, s, e)` constrains a value `v` to the interval `[s, e]`.
-- `sec(v)` - the secant function
+- `degrees(v, constrained=false)` - convert a value in radians to degrees. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to between 0 and 360.
+- `dist(x1, y1, x2, y2)` - the euclidean distance between two points.
 - `csc(v)` - the cosecant function
 - `ctn(v)` - the cotangent function
-- `dist(x1, y1, x2, y2)` - the euclidean distance between two points.
-- ` map (v, s, e, ns, ne, constrained)` maps a value `v` from interval `[s,e]` to interval `[ns,ne]` instead. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to `[ns,ne]`.
+- ` map (v, s, e, ns, ne, constrained=false)` maps a value `v` from interval `[s,e]` to interval `[ns,ne]` instead. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to `[ns,ne]`.
+- `radians(v, constrained=false)` - convert a value in degrees to radians. If `constrained` is set to the constant `CONSTRAIN`, the result will be constrained to between 0 and TAU.
 - `random(a, b)` - get a random value between `a` (inclusive) and `b` (exclusive). If `b` is omitted, this generates a random value between `0` and `a`, instead.
+- `sec(v)` - the secant function
 
 And some missing constants have been added:
 

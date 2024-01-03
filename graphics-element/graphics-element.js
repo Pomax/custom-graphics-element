@@ -18,9 +18,6 @@ const libraryCode = decode64(`THIS_IS_A_PLACEHOLDER`);
 class GraphicsElement extends CustomElement {
   constructor() {
     super();
-    this.label = document.createElement(`label`);
-    if (!this.title) this.title = ``;
-    this.label.textContent = this.title;
   }
 
   handleAttributeChange(...args) {
@@ -33,6 +30,11 @@ class GraphicsElement extends CustomElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    this.label = document.createElement(`label`);
+    if (!this.title) this.title = ``;
+    this.label.textContent = this.title;
+
     if (isInViewport(this)) {
       this.loadSource();
     } else {

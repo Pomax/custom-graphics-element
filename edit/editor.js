@@ -297,4 +297,11 @@ editor.onDidChangeModelContent(({ changes }) => {
 // And show either the demo code, or the localStorage stored code.
 await waitFor(() => typeof graphics.loadSource === `function`);
 graphics.loadSource(savedCode);
+
+// And show either the demo code, or the localStorage stored code.
+await waitFor(() => typeof graphics.loadSource === `function`);
+graphics.loadSource(savedCode);
+
+await waitFor(() => !!editor.getValue());
 editor.setValue(savedCode);
+

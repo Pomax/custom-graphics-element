@@ -65,7 +65,7 @@ const constrain = (v, s, e) => (v < s ? s : v > e ? e : v);
 const csc = (v) => 1 / sin(v);
 const ctn = (v) => cos(v) / sin(v);
 const degrees = (v, constrain) => {
-  const d = (v / PI) * 180;
+  let d = (v / PI) * 180;
   if (!constrain) return d;
   while (d < 0) d += 360;
   return d % 360;
@@ -82,7 +82,7 @@ const map = (v, s, e, ns, ne, constrained = false) => {
   return r;
 };
 const radians = (v) => {
-  const r = (v / 180) * PI;
+  let r = (v / 180) * PI;
   if (!constrain) return r;
   while (r < 0) r += TAU;
   return r % TAU;

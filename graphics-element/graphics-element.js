@@ -213,11 +213,11 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       ) +
       `\n` +
       `function __more_setup() { ${[...empty]
-        .map((_, pos) => `setup${pos + 1}();`)
+        .map((_, pos) => `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`)
         .join(`\n`)} }` +
       `\n` +
       `function __more_draw() { ${[...empty]
-        .map((_, pos) => `draw${pos + 1}();`)
+        .map((_, pos) => `if (typeof draw${pos + 1} !== \`undefined\`) draw${pos + 1}();`)
         .join(`\n`)} }` +
       `\n`
     );

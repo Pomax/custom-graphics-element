@@ -11,10 +11,6 @@ function waitFor(check) {
   });
 }
 
-console.log(`wait for graphics-element...`);
-await customElements.whenDefined(`graphics-element`);
-const graphics = document.querySelector(`graphics-element`);
-
 const demoCode = `let airplane;
 let current = -1;
 const points = [];
@@ -262,18 +258,22 @@ class Airplane extends Circle {
   }
 }
 `;
-const savedCode = localStorage.getItem(`code`) || demoCode;
 
-console.log(`wait for monaco...`);
+const userCode = localStorage.getItem(`code`) || demoCode;
+
+// console.log(`wait for monaco...`);
 await waitFor(() => typeof monaco !== `undefined`);
-console.log(`good to go.`);
+// console.log(`good to go.`);
 
 // Build the "VS Code" editor instance, without the VS Code parts.
-const editor = monaco.editor.create(document.getElementById(`editor`), {
-  value: ["function x() {", '\tconsole.log("Hello world!");', "}"].join("\n"),
+const editorParent = document.getElementById(`editor`);
+const editorOptions = {
+  value: userCode,
   language: "javascript",
   automaticLayout: true,
-});
+};
+
+const editor = monaco.editor.create(editorParent, editorOptions);
 
 // let's keep code nice and concise.
 editor.getModel().updateOptions({
@@ -281,6 +281,14 @@ editor.getModel().updateOptions({
   insertSpaces: true,
   tabSize: 2,
 });
+
+// console.log(`wait for graphics-element...`);
+await customElements.whenDefined(`graphics-element`);
+const graphics = document.querySelector(`graphics-element`);
+await waitFor(() => typeof graphics.loadSource === `function`);
+
+// load the code into the graphics element
+graphics.loadSource(userCode);
 
 // Add update debouncing, so we don't refresh on every keystroke.
 let runUpdate = -1;
@@ -293,15 +301,3 @@ editor.onDidChangeModelContent(({ changes }) => {
     graphics.reset(editorCode);
   }, 500);
 });
-
-// And show either the demo code, or the localStorage stored code.
-await waitFor(() => typeof graphics.loadSource === `function`);
-graphics.loadSource(savedCode);
-
-// And show either the demo code, or the localStorage stored code.
-await waitFor(() => typeof graphics.loadSource === `function`);
-graphics.loadSource(savedCode);
-
-await waitFor(() => !!editor.getValue());
-editor.setValue(savedCode);
-

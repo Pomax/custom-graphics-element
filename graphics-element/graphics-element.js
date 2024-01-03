@@ -51,8 +51,8 @@ class GraphicsElement extends CustomElement {
   }
 
   getStyle() {
-    return `:host([hidden]) { display: none; }
-:host {
+    return `
+:host([hidden]) { display: none; }
 style { display: none; }
 .top-title { display: flex; flex-direction: row; justify-content: space-between; }
 canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box !important; border: 1px solid lightgrey;
@@ -61,7 +61,8 @@ canvas { touch-action: none; user-select: none; position: relative; z-index: 1; 
 a { &.view-source { font-size: 60%; text-decoration: none;
 &.plus { padding-left: 0.5em; }}}
 button.reset { font-size: 0.5em; top: -0.35em; position: relative; }
-label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }}`;
+label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }
+`;
   }
 
   async loadSource(userCode, width = this.width, height = this.height) {
@@ -153,6 +154,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
 
     const module = base64(
       [
+        `"use strict";`,
         `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,

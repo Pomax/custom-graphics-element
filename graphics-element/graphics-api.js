@@ -196,6 +196,10 @@ const halt = () => {
   clearButtons();
 };
 
+const __getDescription = () => {
+  if (typeof getDescription !== `undefined`) return getDescription();
+};
+
 const __setup = async () => {
   if (typeof setup !== `undefined`) await setup();
   if (typeof __more_setup !== `undefined`) await __more_setup();

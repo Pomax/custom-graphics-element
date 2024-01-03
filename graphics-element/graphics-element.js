@@ -65,7 +65,12 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
 `;
   }
 
-  async loadSource(userCode, width = this.width, height = this.height) {
+  async loadSource(
+    userCode,
+    width = this.width,
+    height = this.height,
+    additionalSources
+  ) {
     if (!width && !height) {
       width = parseFloat(this.getAttribute(`width`));
       height = parseFloat(this.getAttribute(`height`));
@@ -74,7 +79,6 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     }
 
     // Get the main user code
-    let addedCount = 0;
     if (!userCode) {
       if (this.userCode) {
         userCode = this.userCode;
@@ -86,67 +90,62 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
           userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
         }
       }
+    }
+    this.userCode = userCode;
 
-      // If there are `<source>` elements, load those in too
-      let additionalSources = this.querySelectorAll(`source`);
-      addedCount = additionalSources.length;
-      if (addedCount > 0) {
+    // If there are `<source>` elements, load those in too
+    if (!additionalSources) {
+      if (this.additionalSources) {
+        additionalSources = this.additionalSources;
+      } else {
+        const sourceElements = this.querySelectorAll(`source`);
         additionalSources = await Promise.all(
-          Array.from(additionalSources).map((e) =>
+          Array.from(sourceElements).map((e) =>
             fetch(e.src).then((r) => r.text())
           )
         );
-        userCode +=
-          `\n` +
-          additionalSources.map((text, pos) =>
-            text
-              .replace(`function setup()`, `function setup${pos + 1}()`)
-              .replace(`function draw()`, `function draw${pos + 1}()`)
-          ) +
-          `\n` +
-          `function __more_setup() { ${[...new Array(addedCount)]
-            .map((_, pos) => `setup${pos + 1}();`)
-            .join(`\n`)} }` +
-          `\n` +
-          `function __more_draw() { ${[...new Array(addedCount)]
-            .map((_, pos) => `draw${pos + 1}();`)
-            .join(`\n`)} }` +
-          `\n`;
       }
     }
+    this.additionalSources = additionalSources;
 
-    // bind the code for easier reloads
-    this.userCode = userCode;
+    // Bundle our source code
+    let sourceCode = this.userCode;
+    if (this.additionalSources.length > 0) {
+      sourceCode = this.loadAdditionalSources(
+        this.userCode,
+        this.additionalSources
+      );
+    }
 
     // slider magic
-    const matches = userCode.matchAll(/addSlider\(['"`](.*)['"`]/g);
+    const matches = sourceCode.matchAll(/addSlider\(['"`](.*)['"`]/g);
     const varNames = [];
     for (let m of matches) {
       varNames.push(m[1]);
-      userCode = userCode.replace(m[0], m[0] + `, (v) => (${m[1]} = v)`);
+      sourceCode = sourceCode.replace(m[0], m[0] + `, (v) => (${m[1]} = v)`);
     }
 
     if (varNames.length) {
-      userCode = `let ` + varNames.join(`, `) + `;\n` + userCode;
+      sourceCode = `let ` + varNames.join(`, `) + `;\n` + sourceCode;
     }
 
     // fix imports
-    userCode = userCode.replaceAll(
+    sourceCode = sourceCode.replaceAll(
       / from ['"].([^'"]+)['"]/g,
       ` from "${getURLbase(location.href)}/$1"`
     );
 
     // ensure there's always a setSize
-    if (!userCode.includes(`function setup()`)) {
-      userCode = `function setup() {\n}\n` + userCode;
+    if (!sourceCode.includes(`function setup()`)) {
+      sourceCode = `function setup() {\n}\n` + sourceCode;
     }
 
-    if (!userCode.includes(`setSize(`)) {
+    if (!sourceCode.includes(`setSize(`)) {
       let replacement = `setSize();`;
       if (width && height) {
         replacement = `setSize(${width}, ${height});`;
       }
-      userCode = userCode.replace(
+      sourceCode = sourceCode.replace(
         `function setup() {`,
         `function setup() {\n  ${replacement}`
       );
@@ -158,18 +157,33 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
-        userCode,
-        `export { reset as start, __canvas as canvas, halt, highlight }`,
+        sourceCode,
+        `export { reset as start, __canvas as canvas, halt, highlight, __getDescription as getDescription }`,
       ].join(`\n`)
     );
 
     import(`data:text/javascript;base64,${module}`).then(async (lib) => {
-      const { start, canvas, halt, highlight } = lib;
+      const { start, canvas, halt, highlight, getDescription } = lib;
       this.canvas = canvas;
       this.halt = () => halt();
       this.highlight = (color) => highlight(color);
       this.render();
       const { width, height } = await start(this);
+      // If we don't have guide text, see if we need to set guide text from the code itself
+      if (this.querySelectorAll(`p`).length === 0) {
+        try {
+          const description = getDescription();
+          if (description) {
+            const doc = new DocumentFragment();
+            const div = document.createElement(`div`);
+            doc.append(div);
+            div.innerHTML = description;
+            [...div.children].forEach((c) => this.append(c));
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
       if (width && height) {
         this.style.width = ``;
         this.style.height = ``;
@@ -184,11 +198,39 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     });
   }
 
-  reset(newCode) {
-    this.halt();
+  loadAdditionalSources(userCode, additionalSources) {
+    if (!additionalSources) return userCode;
+    const empty = new Array(additionalSources.length);
+    return (
+      userCode +
+      `\n` +
+      additionalSources.map((text, pos) =>
+        text
+          .replace(`function setup()`, `function setup${pos + 1}()`)
+          .replace(`function draw()`, `function draw${pos + 1}()`)
+      ) +
+      `\n` +
+      `function __more_setup() { ${[...empty]
+        .map((_, pos) => `setup${pos + 1}();`)
+        .join(`\n`)} }` +
+      `\n` +
+      `function __more_draw() { ${[...empty]
+        .map((_, pos) => `draw${pos + 1}();`)
+        .join(`\n`)} }` +
+      `\n`
+    );
+  }
+
+  reset(newCode, additionalSources) {
+    if (this.halt) this.halt();
     this.crosslinked = false;
     this.querySelector(`button.remove-color`)?.remove();
-    this.loadSource(newCode || this.userCode, this.width, this.height);
+    this.loadSource(
+      newCode || this.userCode,
+      this.width,
+      this.height,
+      additionalSources || this.additionalSources
+    );
   }
 
   render() {

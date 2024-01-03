@@ -24,11 +24,37 @@
         flex: 1;
         max-width: calc(100% - 650px - 2em);
         min-height: 600px;
-        border: 1px solid grey;
+        & div.editor {
+          min-height: 600px;
+          border: 1px solid grey;
+        }
       }
       graphics-element {
+        position: sticky;
+        top: 0;
         width: 650px;
         margin-left: 1em;
+      }
+      graphics-element table.slider-wrapper {
+        background: #ececec;
+        margin-bottom: 0.25em;
+      }
+      button {
+        border-radius: 5px;
+        margin: 2px 5px;
+      }
+      button.active {
+        color: white;
+        background: darkgreen;
+        border: 2px solid green;
+        border-radius: 5px;
+        &:hover {
+          background: rgb(0, 50, 0);
+        }
+        &:active {
+          color: darkgreen;
+          background: white;
+        }
       }
     </style>
 
@@ -54,8 +80,24 @@
   </head>
   <body>
     <h3>
-      A simple code editor for testing &lt;graphics-element&gt; source code
+      A simple code editor for testing
+      <a href="..">&lt;graphics-element&gt;</a> source code
     </h3>
+    <span id="demos">
+      demos:
+      <button class="active" data-src="./flightpath.js">
+        flightpath navigation
+      </button>
+      <button data-src="../pid-example.js">PID controller tuning</button>
+      <button
+        data-src="../point-example.js"
+        data-extra-sources='["../add-points.js"]'
+      >
+        Curve plotting
+      </button>
+      <button data-src="../trigonometry.js">trigonometric identities</button>
+      <button data-src="./new-project.js">blank project</button>
+    </span>
     <main>
       <div id="editor"></div>
       <div id="graphics">

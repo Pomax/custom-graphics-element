@@ -291,7 +291,7 @@ const __pointerDown = (x, y) => {
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
-[`touchdown`, `mousedown`].forEach((type) => {
+[`touchstart`, `mousedown`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
       const { offsetX, offsetY } = __toPointerEvent(evt);
@@ -310,7 +310,7 @@ const __pointerUp = (x, y) => {
   }
 };
 
-[`touchup`, `mouseup`].forEach((type) => {
+[`touchend`, `mouseup`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
       const { offsetX, offsetY } = __toPointerEvent(evt);

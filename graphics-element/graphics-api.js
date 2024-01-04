@@ -242,7 +242,7 @@ const redraw = () => {
 
 const __checkForCurrentPoint = (x, y, type) => {
   const matches = [];
-  const matchPadding = type === `mouse` ? 10 : 30;
+  const matchPadding = type.includes(`mouse`) ? 10 : 30;
   __movable_points.forEach((p) => {
     let x2 = p[0] === undefined ? p.x : p[0];
     let y2 = p[1] === undefined ? p.y : p[1];
@@ -297,9 +297,7 @@ const __pointerDown = (x, y) => {
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
-      if (type !== `mouse`) {
-        __checkForCurrentPoint(x, y, type);
-      }
+      __checkForCurrentPoint(x, y, type);
       __pointerDown(x, y);
     }
   });

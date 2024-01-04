@@ -49,20 +49,21 @@
       My most graphics-intensive website is my
       <a href="https://pomax.github.io/bezierinfo">Primer on Bezier curves</a>,
       and that ended up being enough work that I wrote a special graphics
-      element for it, that allowed me to write "Processing-ish" code that it
-      would server-side render the first frame as placeholder image for, and
-      then PWA-style load the real graphic on top of for interactive goodness.
-      So what if... I turn that into a web component? Just something you stick
-      on a page as a &lt;graphics-element src="..."&gt;&lt;/graphics-element&gt;
-      and then you just write your visual thing using a Processing-like flavour
-      of JS, with some magic sprinkled in so you're not writing "this." all over
-      the place?
+      element for it, which allowed me to write "Processing-ish" code that could
+      render the first frame serverside, as a placeholder image, and would then
+      PWA-style load the real graphic on top of it if JS is enabled, for
+      interactive goodness. So what if I just... turn that into a web component
+      that anyone can use? Just something you stick on a page as a
+      &lt;graphics-element src="..."&gt;&lt;/graphics-element&gt; and then you
+      just write your visual thing using a Processing-like flavour of JS (with
+      some magic sprinkled in so you're not prefixing every single function call
+      with "<em>this.</em>") and stick that on the web for anyone to use?
     </p>
 
     <p>
       ...so, yeah, this is that. Let's put some interactive graphics right onto
       the page, using the magic of a custom element! In fact, right click on
-      This page and pick "view source": you'll just see a few
+      this page and pick "view source": you'll just see a few
       &lt;graphics-element&gt; entries, with normal "src" attributes for the
       graphics that need to be shown.
     </p>
@@ -73,23 +74,25 @@
         href="https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller"
         >PID controller</a
       >
-      trying to get an signal (in red) starting at 0 to reach the target value
-      100 (in blue), and then after a while, a target value of 50, by checking
-      the current signal value, seeing how far off it is from the target value,
-      and then generating an output that gets used to update "the thing that
-      generates the signal". This means that on the very first run, it doesn't
-      need to do anything, but the moment the target value jumps to 100, it'll
-      see a signal that's at 0, a target that's 100, and so finds a discrepancy
-      of 100. And so, it will go "I think you should add 100". However, real
-      world signals don't magically just "become a new value", so in order to
-      apply that change, we can only add a small amount to our signal, and then
-      on the next iteration the PID controller gets to check how far off we are
-      now, and what its recommended new change is. Say that by the next
-      iteration our input only have rose by around 10, instead of 100. In that
-      case, the PID controller goes "okay, well, I think you should update by 90
-      now that I'm seeing 10 and the target is 100". And we keep running that
-      feedback loop forever (or in this case, for as wide as our graphics panel
-      is).
+      trying to get a signal (in red) starting at 0 to reach the intended target
+      value 100 (in blue), and then a while later, a target value of 50. The way
+      it does that is by checking the "current signal value", seeing how far off
+      it is from the "desired target value", and then generating an output that
+      gets used to update whatever generates the signal. This means that on the
+      very first run, it doesn't need to do anything, but the moment the target
+      value jumps to 100, it'll see a signal that's at 0, a target that's at
+      100, and so it finds a discrepancy of 100. As a result, it will go "I
+      think you should add 100". However, real world signals generally don't
+      immediately change by large amounts (good luck getting your car from 0 to
+      100 in no seconds =D), so in order to apply that change we can only add a
+      small amount to our signal, and then on the next iteration the PID
+      controller gets to check how far off we are now, and what its recommended
+      new change is. Say that by the next iteration our input only managed to
+      rise to around 10, instead of all the way to 100. In that case, the PID
+      controller will go "okay, well, I think you should update by 90 now that
+      I'm seeing 10 and the target is 100". And we keep running that feedback
+      loop forever (or in this case, for as wide as our graphics panel is) to
+      ensure that "eventually" the signal matches the desired output.
     </p>
 
     <graphics-element
@@ -102,16 +105,16 @@
 
     <p>
       The "neat" thing about this is that it'll oscillate: by the time the input
-      value actually reaches 100, it's updating so much that it's going to
-      "overshoot" the target and now the PID controller's going to try to bring
-      the value back down to 100: we see the green PID recommendation curve
-      having maxima where the input is at its lowest and its highest, and a
-      recommendation of "no change" when the input is at 100, but because of how
-      the update feedback works, we'll never stabilize... unless we take the
-      accumulated error over time, or "the speed at which the input changes",
-      into account. Those are the "I" and "D" terms in the name "PID", so if you
-      slide their sliders around, you'll see what effect that might have on how
-      a signal changes over time when controlled using PID ratios. With a bit of
+      value actually reaches 100, it's applying such large updates that it's
+      going to "overshoot" the target, and now the PID controller is going to
+      try to bring the value back down to 100: we see the green PID
+      recommendation curve having maxima where the input is at its lowest and
+      its highest, and a recommendation of "no change" when the input is at 100,
+      but because of how the update feedback works, we'll never stabilize...
+      unless we take either the accumulated error over time (the "I" in PID),
+      the "speed at which the input changes" (the "D" in PID), or both into
+      account. If you slide the P, I, or D sliders around, you'll see what
+      effect that might have on how a signal changes over time. With a bit of
       sliding, you might find something like P=0.5, I=0.4, and D=17, and now
       we're in business.
     </p>
@@ -132,8 +135,8 @@
       <source src="add-points.js" type="graphics-code" />
       <p>
         Click-drag (or touch-slide) points to move them around in our graphics
-        pane, and reveal a bunch of curves that have been fit to our point
-        collection (there's a polygon, two Bezier curves, a cardinal spline, and
+        pane, to reveal a bunch of curves that have been fit to the collection
+        of points (there's a polygon, two Bezier curves, a cardinal spline, and
         even a B-spline. Can you identify each?)
       </p>
     </graphics-element>

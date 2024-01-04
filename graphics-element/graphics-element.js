@@ -35,8 +35,6 @@ class GraphicsElement extends CustomElement {
     if (!this.title) this.title = ``;
     this.label.textContent = this.title;
 
-    this.hasDescription = this.querySelector(`p`);
-
     if (isInViewport(this)) {
       this.loadSource();
     } else {
@@ -55,7 +53,8 @@ class GraphicsElement extends CustomElement {
   }
 
   getStyle() {
-    return `:host([hidden]) { display: none; }
+    return `
+:host([hidden]) { display: none; }
 style { display: none; }
 .top-title { display: flex; flex-direction: row; justify-content: space-between; }
 canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box !important; border: 1px solid lightgrey;
@@ -64,7 +63,8 @@ canvas { touch-action: none; user-select: none; position: relative; z-index: 1; 
 a { &.view-source { font-size: 60%; text-decoration: none;
 &.plus { padding-left: 0.5em; }}}
 button.reset { font-size: 0.5em; top: -0.35em; position: relative; }
-label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }`;
+label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-align: right; padding-right: 1em; margin-top: 0.35em; }
+`;
   }
 
   async loadSource(
@@ -172,7 +172,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       this.render();
       const { width, height } = await start(this);
       // If we don't have guide text, see if we need to set guide text from the code itself
-      if (!this.hasDescription) {
+      if (this.querySelectorAll(`p`).length === 0) {
         try {
           const description = getDescription();
           if (description) {
@@ -213,17 +213,11 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       ) +
       `\n` +
       `function __more_setup() { ${[...empty]
-        .map(
-          (_, pos) =>
-            `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`
-        )
+        .map((_, pos) => `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`)
         .join(`\n`)} }` +
       `\n` +
       `function __more_draw() { ${[...empty]
-        .map(
-          (_, pos) =>
-            `if (typeof draw${pos + 1} !== \`undefined\`) draw${pos + 1}();`
-        )
+        .map((_, pos) => `if (typeof draw${pos + 1} !== \`undefined\`) draw${pos + 1}();`)
         .join(`\n`)} }` +
       `\n`
     );
@@ -233,9 +227,6 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     if (this.halt) this.halt();
     this.crosslinked = false;
     this.querySelector(`button.remove-color`)?.remove();
-    if (!this.hasDescription) {
-      this.querySelectorAll(`p`).forEach((p) => p.remove());
-    }
     this.loadSource(
       newCode || this.userCode,
       this.width,

@@ -1,5 +1,5 @@
 // we're going to animate this graphic by varying an angle.
-let a = Math.PI / 2 + 0.001;
+let a = Math.PI / 2 + 0.0001;
 const radius = 100;
 let playButton;
 
@@ -40,7 +40,9 @@ function draw() {
     renderIdentities(w, h, angle, true);
     renderIdentities(w, h, angle, false);
   });
-  a += 0.002;
+
+  // add a quarter turn every 3 seconds
+  a += (PI / 2) * (frameDelta / 3000);
 
   // Then, if we're *not* playing, draw a "play" overlay:
   if (!playing) {

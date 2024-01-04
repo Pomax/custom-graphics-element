@@ -142,32 +142,35 @@
     </graphics-element>
 
     <p>
-      And click that "view source" link. I want you to be able to see the source
-      code that makes cool things be cool. Because I want you to be able to make
-      cool things, too. Let's make the web cool again. In fact, I want you to be
-      able to view and add <em>lots</em> of source, so you can add more than one
-      source file: if you view the page source for the above element, you'll see
-      that it has a &lt;source&gt; element in addition to the main "src"
-      attribute: this allows you to write graphics in a modular way, where you
-      have have one file that's just "the basics" and additional files that add
-      extra bits on top, like here, where we have the basics for "drawing"
-      points, and then we load a small extra script that "adds" points.
+      And click that "view source" link, as well as the "[+1]" link. I want you
+      to be able to see the source code that makes cool things be cool. Because
+      I want you to be able to make cool things, too. Let's make the web cool
+      again. In fact, I want you to be able to not just view source, but
+      comfortably work with "lots of code", so you can add more than one source
+      file: if you view the page source for the above element, you'll see that
+      it has a &lt;source&gt; element in addition to the main "src" attribute:
+      this allows you to write graphics in a modular way, where you have have
+      one file that's just "the basics" that lets you add additional files for
+      extra bits that are relevant to "this specific graphic". In this case, we
+      have some general code for drawing points, and then an extra bit of code
+      that specifies a bunch of points and adds Bezier and B-spline drawing.
     </p>
 
     <p>
-      And yes, that "view source" link is baked into the graphics element
-      itself, so that you can always see the code that generates it. No
-      pretending that something you put on the web is somehow super secret:
-      everything you put on the web is public. That's the very nature of the
-      web. It's what makes it so great: anyone can learn from anyone by looking
-      at how they did something.
+      And that "view source" link is baked into the graphics element itself, so
+      that you can always see what code generated the graphics you're looking
+      at. No pretending that something you put on the web is somehow super
+      secret: everything you put on the web is public. That's the very nature of
+      the web. It's what makes it so great: anyone can learn from anyone by
+      looking at how they did something.
     </p>
 
     <p>
       So how about we take things a step further, and actually write a real
       animation? Say, for example, visualising the trigonometric identities of a
-      point on a circle: its sine, cosine, tangent, secant, and cosecant values,
-      as we move points around?
+      point on a circle (its sine, cosine, tangent, secant, and cosecant values)
+      as we move points around, and then mirror that a few times so we get a
+      kaleidoscope going?
     </p>
 
     <p>Sounds good to me, let's go:</p>
@@ -178,7 +181,10 @@
     ></graphics-element>
 
     <p>
-      And again, note how little code that needs if you click "view source".
+      And again, if you click "view source" link you'll see that most of the
+      code is things that draw lines and set colors: we get to focus on the
+      parts that <em>matter</em> without having to bother with all the code that
+      we really don't want to have to care about.
     </p>
 
     <p>In fact, let's take that one step further:</p>
@@ -230,9 +236,10 @@
     <p>
       This is the kind of thing I wish I had available back when I had to
       archive Processing.js due to a lack of devs, and frankly, interest. The
-      need to make cool graphics hasn't gone away. Only the tools to let you do
-      so. So hopefully this tool enables at least <em>some</em> folks to make
-      <em>some</em> cool things that they otherwise wouldn't have.
+      need to make cool graphics hasn't gone away. Only the tools to let you
+      just easily put those on a page have. So hopefully this tool enables at
+      least <em>some</em> folks to make <em>some</em> cool things that they
+      otherwise wouldn't have. That's all we need: everything more is a bonus.
     </p>
 
     <h2>How do I use this?</h2>
@@ -254,8 +261,8 @@
     <pre>
 &lt;head&gt;
   ...
-  &lt;script type="module" src="graphics-element.js" async&gt;&lt;/script&gt;
-  &lt;link rel="stylesheet" href="graphics-element.css" async /&gt;
+  &lt;script type="module" src=".../graphics-element.js" async&gt;&lt;/script&gt;
+  &lt;link rel="stylesheet" href=".../graphics-element.css" async /&gt;
 &lt;/head&gt;</pre
     >
 

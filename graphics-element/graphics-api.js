@@ -270,19 +270,18 @@ const __pointerDown = (x, y) => {
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
-__canvas.addEventListener(
-  `pointerdown`,
-  ({ offsetX, offsetY, pointerType: type }) => {
-    if (__finished_setup) {
-      const { x, y } = screenToWorld(offsetX, offsetY);
-      Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
-      if (type !== `mouse`) {
-        __checkForCurrentPoint(x, y, type);
-      }
-      __pointerDown(x, y);
+__canvas.addEventListener(`pointerdown`, (evt) => {
+  console.log(evt);
+  const { offsetX, offsetY, pointerType: type } = evt;
+  if (__finished_setup) {
+    const { x, y } = screenToWorld(offsetX, offsetY);
+    Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
+    if (type !== `mouse`) {
+      __checkForCurrentPoint(x, y, type);
     }
+    __pointerDown(x, y);
   }
-);
+});
 
 const __pointerUp = (x, y) => {
   if (typeof pointerUp !== `undefined`) pointerUp(x, y);

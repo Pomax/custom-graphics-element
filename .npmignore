@@ -1,6 +1,7 @@
 node_modules
 graphics-element
 edit
+test
 .nojekyll
 add-points.js
 animated-example.js

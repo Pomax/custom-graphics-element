@@ -42,7 +42,7 @@ function draw() {
   });
 
   // add a quarter turn every 3 seconds
-  if (playing) {
+  if (playing && frameDelta < 50) {
     a += (PI / 2) * (frameDelta / 3000);
   }
 

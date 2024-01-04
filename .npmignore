@@ -1,13 +1,12 @@
 node_modules
 graphics-element
+edit
 .nojekyll
+add-points.js
 animated-example.js
-edit.html
-editor.js
 finish-up.js
 index.css
 index.html
 pid-example.js
 point-example.js
 trigonometry.js
-update-html.js

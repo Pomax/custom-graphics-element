@@ -238,7 +238,7 @@ const redraw = () => {
   __redrawing = false;
 };
 
-// ------------------ pointer helper ----------------------
+// ----------------- pointer helpers ---------------------
 
 const __checkForCurrentPoint = (x, y, type) => {
   const matches = [];
@@ -259,8 +259,6 @@ const __checkForCurrentPoint = (x, y, type) => {
     __canvas.style.cursor = `pointer`;
   }
 };
-
-// --------------- pointer event handling -------------------
 
 const __toPointerEvent = (evt) => {
   const { type, clientX, clientY } = evt;
@@ -283,6 +281,8 @@ const __toPointerEvent = (evt) => {
   return { offsetX: x - left, offsetY: y - top };
 };
 
+// --------------- pointer event handling -------------------
+
 const __pointerDown = (x, y) => {
   if (currentPoint) {
     currentPoint._dx = currentPoint.x - x;
@@ -291,9 +291,10 @@ const __pointerDown = (x, y) => {
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
-[`touchstart`, `mousedown`].forEach((type) => {
+[`pointerdown`, `mousedown`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
@@ -310,9 +311,10 @@ const __pointerUp = (x, y) => {
   }
 };
 
-[`touchend`, `mouseup`].forEach((type) => {
+[`pointerup`, `mouseup`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: false, mark: false });
@@ -345,9 +347,10 @@ const __pointerMove = (x, y) => {
   if (pointMoved && !playing) redraw();
 };
 
-[`touchmove`, `mousemove`].forEach((type) => {
+[`pointermove`, `mousemove`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type });

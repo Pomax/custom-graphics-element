@@ -57,7 +57,7 @@ class GraphicsElement extends CustomElement {
 :host([hidden]) { display: none; }
 style { display: none; }
 .top-title { display: flex; flex-direction: row; justify-content: space-between; }
-canvas { none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box !important; border: 1px solid lightgrey;
+canvas { touch-action: none; user-select: none; position: relative; z-index: 1; display: block; margin: auto; border-radius: 0; box-sizing: content-box !important; border: 1px solid lightgrey;
 &.crisp { image-rendering: -moz-crisp-edges; image-rendering: -webkit-crisp-edges; image-rendering: pixelated; image-rendering: crisp-edges; }
 &:focus { border: 1px solid red; }}
 a { &.view-source { font-size: 60%; text-decoration: none;

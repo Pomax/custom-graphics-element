@@ -243,7 +243,7 @@ const redraw = () => {
 const __checkForCurrentPoint = (x, y, type) => {
   const matches = [];
   const matchPadding = type.includes(`mouse`) ? 10 : 30;
-  __movable_points.forEach((p) => {
+  __movable_points.forEach((p, pos) => {
     let x2 = p[0] === undefined ? p.x : p[0];
     let y2 = p[1] === undefined ? p.y : p[1];
     const d = dist(x, y, x2, y2);
@@ -261,24 +261,17 @@ const __checkForCurrentPoint = (x, y, type) => {
 };
 
 const __toPointerEvent = (evt) => {
-  const { type, clientX, clientY } = evt;
-  const { left, top } = __canvas.getBoundingClientRect();
-
+  let pointer = evt;
   // Convert mouse or touch into generic pointer. Which we need
   // to do because Chrome on MacOS has decided to not generate
   // pointer events when there's a mouse. Thanks Google!
-  let x, y;
-  if (type.includes(`touch`)) {
-    const { touches, changedTouches } = e.originalEvent ?? e;
-    const touch = touches[0] ?? changedTouches[0];
-    x = touch.pageX;
-    y = touch.pageY;
-  } else if (type.includes(`mouse`)) {
-    x = clientX;
-    y = clientY;
+  if (evt.type.includes(`touch`)) {
+    const { touches, changedTouches } = evt.originalEvent ?? evt;
+    pointer = touches[0] ?? changedTouches[0];
   }
-
-  return { offsetX: x - left, offsetY: y - top };
+  const { clientX, clientY } = pointer;
+  const { left, top } = __canvas.getBoundingClientRect();
+  return { offsetX: clientX - left, offsetY: clientY - top };
 };
 
 // --------------- pointer event handling -------------------
@@ -291,10 +284,9 @@ const __pointerDown = (x, y) => {
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 };
 
-[`pointerdown`, `mousedown`].forEach((type) => {
+[`touchstart`, `mousedown`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
-      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
@@ -311,10 +303,9 @@ const __pointerUp = (x, y) => {
   }
 };
 
-[`pointerup`, `mouseup`].forEach((type) => {
+[`touchend`, `mouseup`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
-      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: false, mark: false });
@@ -347,10 +338,9 @@ const __pointerMove = (x, y) => {
   if (pointMoved && !playing) redraw();
 };
 
-[`pointermove`, `mousemove`].forEach((type) => {
+[`touchmove`, `mousemove`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
-      evt.preventDefault();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type });

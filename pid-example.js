@@ -1,32 +1,16 @@
 /**
- * The JS code for a PID controller.
+ * What does our program do?
  */
-class PID {
-  constructor(p, i, d, maxErrorTerms = 50, fixedInterval = false) {
-    this.kp = p;
-    this.ki = i;
-    this.kd = d;
-    this.maxErrorTerms = maxErrorTerms;
-    this.I = 0;
-    this.lastError = false;
-    this.errors = [];
-    this.lastCall = false;
-    this.fixedInterval = fixedInterval;
-  }
-
-  getRecommendation(current, target) {
-    if (!this.lastCall) this.lastCall = Date.now();
-    const dt = this.fixedInterval || (Date.now() - this.lastCall) / 1000;
-    const { kp, ki, kd, errors, maxErrorTerms } = this;
-    const error = target - current;
-    const P = (kp * error) / dt;
-    errors.push(error);
-    while (errors.length > maxErrorTerms) errors.shift();
-    let I = (ki * errors.reduce((t, e) => t + e, 0)) / (dt * errors.length);
-    const D = dt * (this.lastError ? kd : 0) * (error - this.lastError);
-    this.lastError = error;
-    return P + I + D;
-  }
+function getDescription() {
+  return `
+  <p>
+   Illustrating the effect of varying PID parameters. <b>P</b>roportional
+   values affect how quickly we try to change the controlled value,
+   <b>I</b>ntergral values affect how much more we correct based
+   on how much we're cumulatively off by over time, and <b>D</b>erivative
+   values affect how much we dampen our control over time.
+  </p>
+  `;
 }
 
 /**
@@ -47,7 +31,7 @@ function draw() {
 
   // Move the coordinate system over a bit, so we can
   // draw, and see, our axes:
-  translate(30, 100);
+  translate(30, height/2 - 50);
   setColor(`black`);
   axes(`x`, 0, width, `y`, 0, height);
 
@@ -99,4 +83,35 @@ function generatePIDcurve() {
     data.push([t, v.x, target, output]);
   }
   return data;
+}
+
+/**
+ * The JS code for a PID controller.
+ */
+class PID {
+  constructor(p, i, d, maxErrorTerms = 50, fixedInterval = false) {
+    this.kp = p;
+    this.ki = i;
+    this.kd = d;
+    this.maxErrorTerms = maxErrorTerms;
+    this.I = 0;
+    this.lastError = false;
+    this.errors = [];
+    this.lastCall = false;
+    this.fixedInterval = fixedInterval;
+  }
+
+  getRecommendation(current, target) {
+    if (!this.lastCall) this.lastCall = Date.now();
+    const dt = this.fixedInterval || (Date.now() - this.lastCall) / 1000;
+    const { kp, ki, kd, errors, maxErrorTerms } = this;
+    const error = target - current;
+    const P = (kp * error) / dt;
+    errors.push(error);
+    while (errors.length > maxErrorTerms) errors.shift();
+    let I = (ki * errors.reduce((t, e) => t + e, 0)) / (dt * errors.length);
+    const D = dt * (this.lastError ? kd : 0) * (error - this.lastError);
+    this.lastError = error;
+    return P + I + D;
+  }
 }

@@ -1,6 +1,34 @@
 let c, p;
 
 /**
+ * What does our code do?
+ */
+function getDescription() {
+  return `
+  <p>
+    A point <b>P</b> at some <darkgreen>angle</darkgreen> on a circle has
+    several trigonometric identities. The <red>sine</red> and
+    <blue>cosine</blue> are the projection of <b>P</b> onto the y and x
+    axes, respectively, and form two sides of
+    <lavender>a right angle triangle</lavender>, with a
+    <midnightblue>hypotenuse</midnightblue> that is equal to the circle's
+    radius. We also see an
+    <mistyrose>"enclosing right triangle"</mistyrose> with the circle's
+    center as the right angle corner, the point's
+    <darkblue>secant</darkblue> (which is just <blue>1/cosine</blue>) as
+    x-axis corner, and the point's <brown>cosecant</brown> (which is just
+    <red>1/sine</red>) as y-axis corner. Additionally, our point "splits"
+    the enclosing right triangle's hypotenuse into two parts: one part, from
+    <b>P</b> to the secant corner, has length
+    <orange>tangent</orange> (which is just
+    <red>sine</red>/<blue>cosine</blue>), and the other part, from
+    <b>P</b> to the cosecant corner, has length
+    <purple>cotangent</purple> (which is simply the inverse,
+    <blue>cosine</blue>/<red>sine</red>).
+  </p>
+  `;
+}
+/**
  * The main setup function
  */
 function setup() {

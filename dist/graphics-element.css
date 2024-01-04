@@ -131,6 +131,7 @@ graphics-element {
     padding: 0 1em;
     font-family: sans-serif;
     font-style: normal;
+    user-select: text;
 
     & *.calm {
       -webkit-text-stroke: 0px transparent;

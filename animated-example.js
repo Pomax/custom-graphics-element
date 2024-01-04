@@ -1,22 +1,16 @@
 // we're going to animate this graphic by varying an angle.
 let a = Math.PI / 2 + 0.001;
 const radius = 100;
+let playButton;
 
 /**
  * The main setup function
  */
 function setup() {
   setSize(780, 300);
-  const playButton = find(`button.play`);
-  playButton.addEventListener(
-    `click`,
-    (evt) => {
-      evt.stopPropagation();
-      evt.preventDefault();
-      evt.target.textContent = togglePlay() ? `pause` : `play`;
-    },
-    { passive: false }
-  );
+  playButton = addButton(`play`, (button) => {
+    button.textContent = togglePlay() ? `pause` : `play`;
+  });
 }
 
 /**
@@ -109,5 +103,5 @@ function renderIdentities(w, h, a, flipped) {
 }
 
 function pointerDown() {
-  togglePlay();
+  playButton.textContent = togglePlay() ? `pause` : `play`;
 }

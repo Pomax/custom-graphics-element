@@ -2,6 +2,20 @@ let hitCircle;
 const points = [];
 
 /**
+ * What does our program do?
+ */
+function getDescription() {
+  return `
+  <p>
+    Click-drag (or touch-slide) points to move them around in our graphics
+    pane, and reveal a bunch of curves that have been fit to our point
+    collection (there's a polygon, two Bezier curves, a cardinal spline, and
+    even a B-spline. Can you identify each?)
+  </p>
+  `;
+}
+
+/**
  * The main setup function
  */
 function setup() {

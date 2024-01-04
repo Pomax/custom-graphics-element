@@ -11,6 +11,12 @@
     <!-- the only HTML code we need to make sweet graphics work: -->
     <script type="module" src="dist/graphics-element.js" async></script>
     <link rel="stylesheet" href="dist/graphics-element.css" async />
+    <style>
+      graphics-element table.slider-wrapper {
+        background: #ececec;
+        margin-bottom: 0.25em;
+      }
+    </style>
   </head>
   <body>
     <h1>Putting (interactive) graphics on a web page</h1>
@@ -166,14 +172,10 @@
     <graphics-element
       title="an example with a play button as well as tap-to-play"
       src="./animated-example.js"
-      ><button class="play">play</button></graphics-element
-    >
+    ></graphics-element>
 
     <p>
-      And again, note how little code that needs if you click "view source". In
-      fact the bulk of the setup function is just plain JS that adds an event
-      listener and updates a text label. That's not even graphics-related,
-      that's just page-JS basics.
+      And again, note how little code that needs if you click "view source".
     </p>
 
     <p>In fact, let's take that one step further:</p>

@@ -287,6 +287,8 @@ const __pointerDown = (x, y) => {
 [`touchstart`, `mousedown`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
+      evt.stopPropagation();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
@@ -306,6 +308,8 @@ const __pointerUp = (x, y) => {
 [`touchend`, `mouseup`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
+      evt.stopPropagation();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: false, mark: false });
@@ -341,6 +345,8 @@ const __pointerMove = (x, y) => {
 [`touchmove`, `mousemove`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
     if (__finished_setup) {
+      evt.preventDefault();
+      evt.stopPropagation();
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type });

@@ -42,7 +42,9 @@ function draw() {
   });
 
   // add a quarter turn every 3 seconds
-  a += (PI / 2) * (frameDelta / 3000);
+  if (playing) {
+    a += (PI / 2) * (frameDelta / 3000);
+  }
 
   // Then, if we're *not* playing, draw a "play" overlay:
   if (!playing) {

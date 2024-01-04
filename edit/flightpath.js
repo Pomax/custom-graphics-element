@@ -53,12 +53,17 @@ function setup() {
     trail.splice(0, trail.length);
     reset();
   });
-  addSlider(`speed`, { min: 5, max: 100, step: 1, value: 50 });
+  addSlider(`speed`, { min: 5, max: 100, step: 1, value: 50, transform: (v) => {
+    if (airplane) {
+      airplane.r = v;
+    }
+    return v;
+  }});
   addSlider(`innerTarget`, { min: 1 / 6, max: 1, step: 1 / 6, value: 4 / 6 });
   noGrid();
 
   // Set up an "airplane" and a few points that define its flight path:
-  airplane = new Airplane(100, 100, 40);
+  airplane = new Airplane(100, 100, speed);
   addPoint(100, 200);
   addPoint(476, 100);
   addPoint(482, 425);

@@ -1,6 +1,6 @@
 {
   "name": "graphics-element",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "type": "module",
   "description": "A custom HTML <graphics-element>",
   "main": "dist/graphics-element.js",

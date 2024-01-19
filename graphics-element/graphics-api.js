@@ -72,7 +72,7 @@ const degrees = (v, constrain) => {
 };
 const dist = (x1, y1, x2, y2) => ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
 const epsilon = Number.MIN_VALUE;
-const huge = 1_000_000_000;
+const huge = 1_000_000;
 const map = (v, s, e, ns, ne, constrained = false) => {
   const i1 = e - s,
     i2 = ne - ns,

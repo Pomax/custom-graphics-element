@@ -210,7 +210,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         text
           .replace(`function setup()`, `function setup${pos + 1}()`)
           .replace(`function draw()`, `function draw${pos + 1}()`)
-      ) +
+      ).join(`\n`) +
       `\n` +
       `function __more_setup() { ${[...empty]
         .map((_, pos) => `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`)

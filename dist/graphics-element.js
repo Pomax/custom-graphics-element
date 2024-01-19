@@ -19,7 +19,8 @@ function draw() {
 `+x),!x.includes("setSize(")){let s="setSize();";r&&t&&(s=`setSize(${r}, ${t});`),x=x.replace("function setup() {",`function setup() {
   ${s}`)}import(`data:text/javascript;base64,${M(['"use strict";',`import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${W}";`,`const __randomId = "${Date.now()}";`,z,x,"export { reset as start, __canvas as canvas, halt, highlight, __getDescription as getDescription }"].join(`
 `))}`).then(async s=>{let{start:f,canvas:d,halt:E,highlight:h,getDescription:L}=s;this.canvas=d,this.halt=()=>E(),this.highlight=b=>h(b),this.render();let{width:u,height:l}=await f(this);if(this.querySelectorAll("p").length===0)try{let b=L();if(b){let A=new DocumentFragment,S=document.createElement("div");A.append(S),S.innerHTML=b,[...S.children].forEach(K=>this.append(K))}}catch(b){console.error(b)}u&&l&&(this.style.width="",this.style.height="",this.width=u,this.height=l,this.setAttribute("width",u),this.setAttribute("height",l)),this.dispatchEvent(new CustomEvent("load")),this.onload&&this.onload()})}loadAdditionalSources(e,r){if(!r)return e;let t=new Array(r.length);return e+`
-`+r.map(($,x)=>$.replace("function setup()",`function setup${x+1}()`).replace("function draw()",`function draw${x+1}()`))+`
+`+r.map(($,x)=>$.replace("function setup()",`function setup${x+1}()`).replace("function draw()",`function draw${x+1}()`)).join(`
+`)+`
 function __more_setup() { ${[...t].map(($,x)=>`if (typeof setup${x+1} !== \`undefined\`) setup${x+1}();`).join(`
 `)} }
 function __more_draw() { ${[...t].map(($,x)=>`if (typeof draw${x+1} !== \`undefined\`) draw${x+1}();`).join(`

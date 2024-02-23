@@ -729,9 +729,9 @@ const point = (x, y) => {
 const rect = (x, y, w, h) => {
   start();
   vertex(x, y);
-  vertex(x + width, y);
-  vertex(x + width, y + height);
-  vertex(x, y + height);
+  vertex(x + w, y);
+  vertex(x + w, y + h);
+  vertex(x, y + h);
   vertex(x, y);
   end();
 };

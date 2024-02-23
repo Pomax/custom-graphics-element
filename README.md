@@ -482,9 +482,9 @@ The following constants are available:
 
 These functions manipulate the coordinate system, which can greatly simplify, or greatly complicate, drawing things.
 
-- `resetTransform()` - reset the
+- `resetTransform()` - reset the graphics transform matrix to its default values.
 
-- `restore()` - restore a previously saved graphics context
+- `restore()` - restore a previously saved graphics context.
 
 - `rotate(angle)` - rotate the coordinate system around whatever is currently (0,0) by the specified angle in radians.
 

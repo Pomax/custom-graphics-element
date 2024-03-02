@@ -9,7 +9,8 @@
     "url": "https://github.com/pomax/custom-graphics-element/issues"
   },
   "scripts": {
-    "build": "rm -rf dist && npm run esbuild && cp ./graphics-element/graphics-element.css dist && node finish-up.js",
+    "build": "rm -rf dist && npm run esbuild && npm run css && node finish-up.js",
+    "css": "cp ./graphics-element/graphics-element.css dist && lightningcss --minify dist/graphics-element.css -o dist/graphics-element.css",
     "esbuild": "esbuild graphics-element/graphics-element.js  --bundle --outfile=./dist/graphics-element.js --format=esm --minify --keep-names --tree-shaking=false",
     "test": "npm run build && run-p serve open",
     "serve": "serve --cors",
@@ -19,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.19.10",
+    "lightningcss-cli": "^1.24.0",
     "monaco-editor": "^0.45.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^8.0.0",

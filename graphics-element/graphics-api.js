@@ -60,42 +60,62 @@ const {
   tanh,
   trunc,
 } = Math;
+
 const { PI, E } = Math;
-const constrain = (v, s, e) => (v < s ? s : v > e ? e : v);
-const csc = (v) => 1 / sin(v);
-const ctn = (v) => cos(v) / sin(v);
-const degrees = (v, constrain) => {
+
+function constrain(v, s, e) {
+  return v < s ? s : v > e ? e : v;
+}
+
+function csc(v) {
+  return 1 / sin(v);
+}
+
+function ctn(v) {
+  return cos(v) / sin(v);
+}
+
+function degrees(v, constrain) {
   let d = (v / PI) * 180;
   if (!constrain) return d;
   while (d < 0) d += 360;
   return d % 360;
-};
-const dist = (x1, y1, x2, y2) => ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
-const epsilon = Number.MIN_VALUE;
+}
+
+function dist(x1, y1, x2, y2) {
+  return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
+}
+
+const epsilon = 1e-10;
+
 const huge = 1_000_000;
-const map = (v, s, e, ns, ne, constrained = false) => {
+
+function map(v, s, e, ns, ne, constrained = false) {
   const i1 = e - s,
     i2 = ne - ns,
     p = v - s;
   let r = ns + (p * i2) / i1;
   if (constrained) return constrain(r, ns, ne);
   return r;
-};
-const radians = (v) => {
+}
+
+function radians(v) {
   let r = (v / 180) * PI;
   if (!constrain) return r;
   while (r < 0) r += TAU;
   return r % TAU;
-};
-const random = (a = 1, b) => {
+}
+
+function random(a = 1, b) {
   if (b === undefined) return a * Math.random();
   return a + Math.random() * (b - a);
-};
+}
+
 const sec = (v) => 1 / cos(v);
+
 const TAU = PI * 2;
 
 // "public" vars
-
 let currentPoint;
 let frame;
 let frameDelta;
@@ -129,15 +149,15 @@ let __style_stack;
 let __textStroke;
 let __last_frame;
 
-const find = (qs) => {
+function find(qs) {
   return __element.querySelector(qs);
-};
+}
 
-const findAll = (qs) => {
+function findAll(qs) {
   return __element.querySelectorAll(qs);
-};
+}
 
-const reset = async (element = __element) => {
+async function reset(element = __element) {
   __element = element;
 
   // default variable values
@@ -177,9 +197,9 @@ const reset = async (element = __element) => {
   await __draw();
 
   return { width, height };
-};
+}
 
-const halt = () => {
+function halt() {
   playing = false;
   __canvas = undefined;
   __ctx = undefined;
@@ -194,27 +214,27 @@ const halt = () => {
   __start_time = 0;
   clearSliders();
   clearButtons();
-};
+}
 
-const __getDescription = () => {
+function __getDescription() {
   if (typeof getDescription !== `undefined`) return getDescription();
-};
+}
 
-const __setup = async () => {
+async function __setup() {
   if (typeof setup !== `undefined`) await setup();
   if (typeof __more_setup !== `undefined`) await __more_setup();
   if (!width && !height) setSize();
-};
+}
 
-const setSize = (w = 400, h = 200) => {
+function setSize(w = 400, h = 200) {
   width = __canvas.width = w;
   height = __canvas.height = h;
   __element.style.maxWidth = `calc(2em + ${width}px`;
   __ctx = __canvas.getContext(`2d`);
   __draw();
-};
+}
 
-const __draw = async () => {
+async function __draw() {
   if (!__finished_setup) return;
   if (!__drawing) {
     __drawing = true;
@@ -228,19 +248,19 @@ const __draw = async () => {
     __last_frame = now;
     if (playing) requestAnimationFrame(() => __draw());
   }
-};
+}
 
-const redraw = () => {
+function redraw() {
   if (__redrawing) return;
   if (playing) return;
   __redrawing = true;
   __draw();
   __redrawing = false;
-};
+}
 
 // ----------------- pointer helpers ---------------------
 
-const __checkForCurrentPoint = (x, y, type) => {
+function __checkForCurrentPoint(x, y, type) {
   const matches = [];
   const matchPadding = type.includes(`mouse`) ? 10 : 30;
   __movable_points.forEach((p, pos) => {
@@ -258,9 +278,9 @@ const __checkForCurrentPoint = (x, y, type) => {
     currentPoint = matches[0].p;
     __canvas.style.cursor = `pointer`;
   }
-};
+}
 
-const __toPointerEvent = (evt) => {
+function __toPointerEvent(evt) {
   let pointer = evt;
   // Convert mouse or touch into generic pointer. Which we need
   // to do because Chrome on MacOS has decided to not generate
@@ -272,17 +292,17 @@ const __toPointerEvent = (evt) => {
   const { clientX, clientY } = pointer;
   const { left, top } = __canvas.getBoundingClientRect();
   return { offsetX: clientX - left, offsetY: clientY - top };
-};
+}
 
 // --------------- pointer event handling -------------------
 
-const __pointerDown = (x, y) => {
+function __pointerDown(x, y) {
   if (currentPoint) {
     currentPoint._dx = currentPoint.x - x;
     currentPoint._dy = currentPoint.y - y;
   }
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
-};
+}
 
 [`touchstart`, `mousedown`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
@@ -298,12 +318,12 @@ const __pointerDown = (x, y) => {
   });
 });
 
-const __pointerUp = (x, y) => {
+function __pointerUp(x, y) {
   if (typeof pointerUp !== `undefined`) pointerUp(x, y);
   if (pointer.mark?.x === x && pointer.mark?.y === y) {
     if (typeof pointerClick !== `undefined`) pointerClick(x, y);
   }
-};
+}
 
 [`touchend`, `mouseup`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
@@ -318,7 +338,7 @@ const __pointerUp = (x, y) => {
   });
 });
 
-const __pointerMove = (x, y) => {
+function __pointerMove(x, y) {
   let pointMoved = false;
   if (pointer.down && currentPoint) {
     if (currentPoint[0]) {
@@ -340,7 +360,7 @@ const __pointerMove = (x, y) => {
     }
   }
   if (pointMoved && !playing) redraw();
-};
+}
 
 [`touchmove`, `mousemove`].forEach((type) => {
   __canvas.addEventListener(type, (evt) => {
@@ -358,7 +378,7 @@ const __pointerMove = (x, y) => {
 
 // ------------------ key event handling ----------------------
 
-const __safelyInterceptKey = (evt) => {
+function __safelyInterceptKey(evt) {
   // We don't want to interfere with the browser, so we're only
   // going to allow unmodified keys, or shift-modified keys,
   // and tab has to always work. For obvious reasons.
@@ -371,13 +391,13 @@ const __safelyInterceptKey = (evt) => {
       evt.stopPropagation();
     }
   }
-};
+}
 
-const __keyDown = (key, shiftKey, altKey, ctrlKey, metaKey) => {
+function __keyDown(key, shiftKey, altKey, ctrlKey, metaKey) {
   keyboard[key] = Date.now();
   if (typeof keyDown !== `undefined`)
     keyDown(key, shiftKey, altKey, ctrlKey, metaKey);
-};
+}
 
 __canvas.addEventListener(`keydown`, (evt) => {
   __safelyInterceptKey(evt);
@@ -385,11 +405,11 @@ __canvas.addEventListener(`keydown`, (evt) => {
   if (__finished_setup) __keyDown(key, shiftKey, altKey, ctrlKey, metaKey);
 });
 
-const __keyUp = (key, shiftKey, altKey, ctrlKey, metaKey) => {
+function __keyUp(key, shiftKey, altKey, ctrlKey, metaKey) {
   delete keyboard[key];
   if (typeof keyUp !== `undefined`)
     keyUp(key, shiftKey, altKey, ctrlKey, metaKey);
-};
+}
 
 __canvas.addEventListener(`keyup`, (evt) => {
   __safelyInterceptKey(evt);
@@ -399,7 +419,7 @@ __canvas.addEventListener(`keyup`, (evt) => {
 
 // ---------------- slider functions ---------------------
 
-const addSlider = (propLabel, assign, options = {}) => {
+function addSlider(propLabel, assign, options = {}) {
   let {
     min,
     max,
@@ -492,71 +512,71 @@ const addSlider = (propLabel, assign, options = {}) => {
 
   update(slider);
   return slider;
-};
+}
 
-const clearSliders = () => {
+function clearSliders() {
   const table = __element.querySelector(`table.slider-wrapper`);
   if (table) table.innerHTML = ``;
-};
+}
 
-const addButton = (label, onClick) => {
+function addButton(label, onClick) {
   const btn = document.createElement(`button`);
   btn.classList.add(`graphics-element-button`);
   btn.textContent = label;
   btn.addEventListener(`click`, () => onClick(btn));
   __element.prepend(btn);
   return btn;
-};
+}
 
-const clearButtons = () => {
+function clearButtons() {
   __element
     .querySelectorAll(`button.graphics-element-button`)
     .forEach((e) => e.remove());
-};
+}
 
 // ---------- general functions -------------
 
-const clearMovable = () => {
+function clearMovable() {
   __movable_points.splice(0, __movable_points.length);
-};
+}
 
-const copy = () => {
+function copy() {
   const copy = document.createElement(`canvas`);
   copy.width = width;
   copy.height = height;
   const ctx = copy.getContext(`2d`);
   ctx.drawImage(__canvas, 0, 0, width, height);
   return copy;
-};
+}
 
-const color = (h = __current_hue, s = 50, l = 50, a = 1) => {
+function color(h = __current_hue, s = 50, l = 50, a = 1) {
   return `hsla(${h},${s}%,${l}%,${a})`;
-};
+}
 
-const highlight = (color) => {
+function highlight(color) {
   __highlight_color = color;
   redraw();
-};
+}
 
-const millis = () => {
+function millis() {
   return Date.now() - __start_time;
-};
+}
 
-const pause = () => {
+function pause() {
   playing = false;
-};
+}
 
-const play = () => {
+function play() {
   playing = true;
   __draw();
-};
+}
 
-const randomColor = (a = 1.0, cycle = true) => {
+function randomColor(a = 1.0, cycle = true) {
   if (cycle) __current_hue = (__current_hue + 73) % 360;
   return `hsla(${__current_hue},50%,50%,${a})`;
-};
+}
 
-const setMovable = (points) => {
+function setMovable(points) {
   // TODO: shapes
   if (!points.forEach) {
     points = [points];
@@ -566,39 +586,39 @@ const setMovable = (points) => {
       __movable_points.push(p);
     }
   });
-};
+}
 
-const restore = () => {
+function restore() {
   __ctx.restore();
-};
+}
 
 /**
  * Save the canvas context.
  */
-const save = () => {
+function save() {
   __ctx.save();
-};
+}
 
-const toDataURL = () => {
+function toDataURL() {
   return __canvas.toDataURL();
-};
+}
 
-const togglePlay = () => {
+function togglePlay() {
   playing ? pause() : play();
   return playing;
-};
+}
 
 // ---------- draw functions -------------
 
-const arc = (x, y, r, s = 0, e = TAU, wedge = false) => {
+function arc(x, y, r, s = 0, e = TAU, wedge = false) {
   start();
   if (wedge) __ctx.moveTo(x, y);
   __ctx.arc(x, y, r, s, e);
   if (wedge) __ctx.lineTo(x, y);
   end();
-};
+}
 
-const axes = (
+function axes(
   hLabel,
   hs,
   he,
@@ -609,7 +629,7 @@ const axes = (
   heLabel = false,
   vsLabel = false,
   veLabel = false
-) => {
+) {
   line(hs, 0, he, 0);
   line(0, vs, 0, ve);
 
@@ -623,9 +643,9 @@ const axes = (
   text(`↓`, vpos, height / 2 + 16, RIGHT);
   text(vsLabel ? vsLabel : vs, vpos, vs + 5, RIGHT);
   text(veLabel ? veLabel : ve, vpos, ve, RIGHT);
-};
+}
 
-const bezier = (points) => {
+function bezier(points) {
   const [first, ...rest] = points;
   start();
   vertex(first.x, first.y);
@@ -634,37 +654,37 @@ const bezier = (points) => {
     if (p1 && p2 && p3) __ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
   }
   end();
-};
+}
 
-const bspline = (points, open = true) => {
+function bspline(points, open = true) {
   start();
   new BSpline(points, open).getLUT().forEach((p) => vertex(p.x, p.y));
   end();
-};
+}
 
-const circle = (x, y, r) => {
+function circle(x, y, r) {
   arc(x, y, r);
-};
+}
 
-const clear = (color = `white`) => {
+function clear(color = `white`) {
   save();
   __canvas.style.background = color;
   __canvas.width = width;
   __ctx = __canvas.getContext(`2d`);
   if (__draw_grid) grid();
   restore();
-};
+}
 
-const end = (close = false) => {
+function end(close = false) {
   if (close) __ctx.closePath();
   __ctx.fill();
   __ctx.stroke();
   if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(-0.5, -0.5);
   }
-};
+}
 
-const grid = () => {
+function grid() {
   save();
   setLineWidth(0.5);
   noFill();
@@ -684,9 +704,9 @@ const grid = () => {
     line(0, y, width, y);
   }
   restore();
-};
+}
 
-const image = async (img, x = 0, y = 0, w, h) => {
+async function image(img, x = 0, y = 0, w, h) {
   if (typeof img === `string`) {
     img = await new Promise((resolve, reject) => {
       const tag = document.createElement(`img`);
@@ -696,16 +716,16 @@ const image = async (img, x = 0, y = 0, w, h) => {
     });
   }
   __ctx.drawImage(img, x, y, w || img.width, h || img.height);
-};
+}
 
-const line = (x1, y1, x2, y2) => {
+function line(x1, y1, x2, y2) {
   start();
   vertex(x1, y1);
   vertex(x2, y2);
   end();
-};
+}
 
-const plot = (f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) => {
+function plot(f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) {
   const interval = b - a;
   start();
   for (let i = 0, e = steps - 1, x, y, v; i < steps; i++) {
@@ -714,19 +734,19 @@ const plot = (f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) => {
     vertex(x * xscale, y * yscale);
   }
   end();
-};
+}
 
-const plotData = (data, x, y) => {
+function plotData(data, x, y) {
   start();
   data.forEach((p) => vertex(p[x], p[y]));
   end();
-};
+}
 
-const point = (x, y) => {
+function point(x, y) {
   circle(x, y, 3);
-};
+}
 
-const rect = (x, y, w, h) => {
+function rect(x, y, w, h) {
   start();
   vertex(x, y);
   vertex(x + w, y);
@@ -734,10 +754,10 @@ const rect = (x, y, w, h) => {
   vertex(x, y + h);
   vertex(x, y);
   end();
-};
+}
 
 // draw a cardinal spline with virtual start and end point
-const spline = (points, virtual = true, tightness = 1, T = tightness) => {
+function spline(points, virtual = true, tightness = 1, T = tightness) {
   let cpoints = points;
   if (virtual) {
     const f0 = points[0],
@@ -772,17 +792,17 @@ const spline = (points, virtual = true, tightness = 1, T = tightness) => {
     __ctx.bezierCurveTo(p2.x, p2.y, p3.x, p3.y, c3.x, c3.y);
   }
   end();
-};
+}
 
-const start = () => {
+function start() {
   if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(0.5, 0.5);
   }
   __ctx.beginPath();
   __first = false;
-};
+}
 
-const text = (str, x, y, xalign, yalign = `inherit`) => {
+function text(str, x, y, xalign, yalign = `inherit`) {
   save();
   if (xalign) {
     setTextAlign(xalign, yalign);
@@ -793,41 +813,41 @@ const text = (str, x, y, xalign, yalign = `inherit`) => {
     __ctx.strokeText(str, x, y);
   }
   restore();
-};
+}
 
-const triangle = (x1, y1, x2, y2, x3, y3) => {
+function triangle(x1, y1, x2, y2, x3, y3) {
   start();
   vertex(x1, y1);
   vertex(x2, y2);
   vertex(x3, y3);
   vertex(x1, y1);
   end();
-};
+}
 
-const vertex = (x, y) => {
+function vertex(x, y) {
   if (__first) {
     __ctx.lineTo(x, y);
   } else {
     __first = { x, y };
     __ctx.moveTo(x, y);
   }
-};
+}
 
 // ---------- transform functions -------------
 
-const resetTransform = () => {
+function resetTransform() {
   __ctx.resetTransform();
-};
+}
 
-const rotate = (angle = 0) => {
+function rotate(angle = 0) {
   __ctx.rotate(angle);
-};
+}
 
-const scale = (x = 1, y = x) => {
+function scale(x = 1, y = x) {
   __ctx.scale(x, y);
-};
+}
 
-const screenToWorld = (x, y) => {
+function screenToWorld(x, y) {
   if (y === undefined) {
     y = x.y;
     x = x.x;
@@ -841,7 +861,7 @@ const screenToWorld = (x, y) => {
   };
 
   return ret;
-};
+}
 
 /**
  * transforms: universal free transform based on applying
@@ -850,15 +870,15 @@ const screenToWorld = (x, y) => {
  *   m = | d e f |
  *       | 0 0 1 |
  */
-const transform = (a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) => {
+function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
   __ctx.transform(a, b, c, d, e, f);
-};
+}
 
-const translate = (x = 0, y = 0) => {
+function translate(x = 0, y = 0) {
   __ctx.translate(x, y);
-};
+}
 
-const worldToScreen = (x, y) => {
+function worldToScreen(x, y) {
   if (y === undefined) {
     y = x.y;
     x = x.x;
@@ -872,135 +892,135 @@ const worldToScreen = (x, y) => {
   };
 
   return ret;
-};
+}
 
 // ---------------- setters -------------------
 
-const setBorder = (width = 1, color = `black`) => {
+function setBorder(width = 1, color = `black`) {
   if (!width) {
     __canvas.style.border = `none`;
   } else {
     __canvas.style.border = `${width}px solid ${color}`;
   }
-};
+}
 
-const setColor = (color) => {
+function setColor(color) {
   setFill(color);
   setStroke(color);
-};
+}
 
-const setCrisp = (enabled = true) => {
+function setCrisp(enabled = true) {
   __canvas.classList.toggle(`crisp`, enabled);
-};
+}
 
-const setCursor = (type) => {
+function setCursor(type) {
   __current_cursor = type;
   __canvas.style.cursor = __current_cursor;
-};
+}
 
-const setFill = (color = `black`) => {
+function setFill(color = `black`) {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
     color = __current_highlight_color;
   }
   __ctx.fillStyle = color;
-};
+}
 
-const setFont = (font) => {
+function setFont(font) {
   __ctx.font = font || `${__font.weight} ${__font.size}px ${__font.family}`;
-};
+}
 
-const setFontFamily = (name) => {
+function setFontFamily(name) {
   __font.family = name;
   setFont();
-};
-const setFontSize = (px) => {
+}
+function setFontSize(px) {
   __font.size = px;
   setFont();
-};
+}
 
-const setFontWeight = (val) => {
+function setFontWeight(val) {
   __font.weight = val;
   setFont();
-};
+}
 
-const setGrid = (spacing = 20, color = `lightgrey`) => {
+function setGrid(spacing = 20, color = `lightgrey`) {
   __draw_grid = true;
   __grid_spacing = spacing;
   __grid_color = color;
-};
+}
 
-const setHighlightColor = (color) => {
+function setHighlightColor(color) {
   __current_highlight_color = color;
-};
+}
 
-const setLineDash = (...values) => {
+function setLineDash(...values) {
   __ctx.setLineDash(values);
-};
+}
 
-const setLineWidth = (width = 1) => {
+function setLineWidth(width = 1) {
   __ctx.lineWidth = width;
-};
+}
 
-const setStroke = (color = `black`) => {
+function setStroke(color = `black`) {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
     color = __current_highlight_color;
   }
   __ctx.strokeStyle = color;
-};
+}
 
-const setTextAlign = (xalign, yalign = ALPHABETIC) => {
-  __ctx.textAlign = xalign;
-  __ctx.textBaseLine = yalign;
-};
+function setTextAlign(xAlign, yAlign = ALPHABETIC) {
+  __ctx.textAlign = xAlign;
+  __ctx.textBaseLine = yAlign;
+}
 
-const setTextDirection = (dir = `inherit`) => {
+function setTextDirection(dir = `inherit`) {
   __ctx.direction = dir;
-};
+}
 
-const setTextStroke = (color, width) => {
+function setTextStroke(color, width) {
   __textStroke = color;
   setLineWidth(width);
-};
+}
 
 // ---------------- "no ..." -------------------
 
-const noBorder = () => {
+function noBorder() {
   setBorder(false);
-};
+}
 
-const noColor = () => {
+function noColor() {
   noFill();
   noStroke();
-};
+}
 
-const noCursor = () => {
+function noCursor() {
   __canvas.style.cursor = `none`;
-};
+}
 
-const noFill = () => {
+function noFill() {
   setFill(`transparent`);
-};
+}
 
-const noGrid = () => {
+function noGrid() {
   __draw_grid = false;
-};
+}
 
-const noLineDash = () => {
+function noLineDash() {
   __ctx.setLineDash([]);
-};
+}
 
-const noMarging = () => {
+function noMarging() {
   setMargin(0);
-};
+}
 
-const noShadow = () => {
+function noShadow() {
   setShadow(`transparent`, 0);
-};
+}
 
-const noStroke = () => {
+function noStroke() {
   setStroke(`transparent`);
-};
+}
 
-const noTextStroke = () => {
+function noTextStroke() {
   setTextStroke(false, undefined);
-};
+}

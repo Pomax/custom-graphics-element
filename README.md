@@ -33,7 +33,7 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
 
 The &lt;graphics-element&gt; tag supports the following attributes:
 
-- `title` - this is both the standard HTML title attribute, as well as the text that gets used as figure caption underneath your graphic.
+- `title` - this is both the standard HTML title attribute, as well as the text that gets used as figure caption underneath your graphic. Omitting this will result in a warning on the console.
 - `src` - this is the standard HTML attribute for indicating the source code for this element.
 - `width` - the (unitless) width for your graphic. This value is optional, but your graphics code must use `setSize` if omitted.
 - `height` - the (unitless) height for your graphic. This value is optional, but your graphics code must use `setSize` if omitted.
@@ -61,6 +61,43 @@ function draw() {
 ```
 
 Both of these functions are technically optional, but omitting them doesn't make a lot of sense: by default the &lt;graphics-element&gt; will first run `setup`, and will then run `draw`, once. The `setSize(width, height)` call is optional as long as you've specified the `width` and `height` attributes on the `<graphics-element>` tag itself, but must be present if you decide to omit them (and note that `setSize()` can be called at any time to resize your graphic).
+
+If you cannot link to a source code URL, you may also inline your code using a `<graphics-source>` element:
+
+```html
+<graphics-element title="an example" width="400" height="200">
+  <graphics-source>
+    function setup() {
+      // ...
+    }
+
+    function draw() {
+      // ...
+    }
+  </graphics-source>
+</graphics-element>
+```
+
+Or you may inject it using a source code function if you're working purely in JS:
+
+```javascript
+const graphicsElement = document.createElement(`graphics-element`);
+
+function sourceCode() {
+  function setup() {
+    setSize(300,100);
+  }
+
+  function draw() {
+    clear(`yellow`);
+  }
+}
+
+// load the code once the custom element loader is done:
+customElements.whenDefined('graphics-element').then(() => {
+  graphicsElement.loadFromFunction(sourceCode);
+});
+```
 
 In order to simplify certain aspects of graphics programming, several pieces of key functionality have been baked into the code runner:
 

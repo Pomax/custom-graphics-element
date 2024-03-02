@@ -16,10 +16,6 @@ const thisURL = String(import.meta.url);
 const libraryCode = decode64(`THIS_IS_A_PLACEHOLDER`);
 
 class GraphicsElement extends CustomElement {
-  constructor() {
-    super();
-  }
-
   handleAttributeChange(...args) {
     // console.log(...args);
   }
@@ -32,7 +28,12 @@ class GraphicsElement extends CustomElement {
     super.connectedCallback();
 
     this.label = document.createElement(`label`);
-    if (!this.title) this.title = ``;
+    if (!this.title) {
+      console.warn(
+        `<graphics-element> is missing a title attribute. Always caption your figures.`
+      );
+      this.title = ``;
+    }
     this.label.textContent = this.title;
 
     if (isInViewport(this)) {
@@ -82,14 +83,27 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
 
     // Get the main user code
     if (!userCode) {
+      // previously cached?
       if (this.userCode) {
         userCode = this.userCode;
-      } else {
+      }
+      // no: let's find out source
+      else {
+        // source attribute?
         const src = this.getAttribute(`src`);
         if (src) {
           userCode = await (await fetch(src)).text();
-        } else {
-          userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
+        }
+        // nope. <graphics-source> element?
+        else {
+          const gse = this.querySelector(`graphics-source`);
+          if (gse) {
+            userCode = gse.textContent;
+          }
+          // nope. Guess we're just loading  a stub.
+          else {
+            userCode = `function setup() {\n}\nfunction draw() {\n}\n`;
+          }
         }
       }
     }
@@ -206,21 +220,34 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     return (
       userCode +
       `\n` +
-      additionalSources.map((text, pos) =>
-        text
-          .replace(`function setup()`, `function setup${pos + 1}()`)
-          .replace(`function draw()`, `function draw${pos + 1}()`)
-      ).join(`\n`) +
+      additionalSources
+        .map((text, pos) =>
+          text
+            .replace(`function setup()`, `function setup${pos + 1}()`)
+            .replace(`function draw()`, `function draw${pos + 1}()`)
+        )
+        .join(`\n`) +
       `\n` +
       `function __more_setup() { ${[...empty]
-        .map((_, pos) => `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`)
+        .map(
+          (_, pos) =>
+            `if (typeof setup${pos + 1} !== \`undefined\`) setup${pos + 1}();`
+        )
         .join(`\n`)} }` +
       `\n` +
       `function __more_draw() { ${[...empty]
-        .map((_, pos) => `if (typeof draw${pos + 1} !== \`undefined\`) draw${pos + 1}();`)
+        .map(
+          (_, pos) =>
+            `if (typeof draw${pos + 1} !== \`undefined\`) draw${pos + 1}();`
+        )
         .join(`\n`)} }` +
       `\n`
     );
+  }
+
+  loadFromFunction(sourceCodeFunction) {
+    let code = sourceCodeFunction.toString();
+    this.reset(code.substring(code.indexOf(`{`) + 1, code.lastIndexOf(`}`)));
   }
 
   reset(newCode, additionalSources) {
@@ -320,5 +347,14 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
   }
 }
 
-// Register our custom element
+// The only reason this is a custom element is because it should never be visible.
+class GraphicsSource extends CustomElement {
+  constructor() {
+    super();
+    this.style.display = `none`;
+  }
+}
+
+// Register our custom elements
 await CustomElement.register(GraphicsElement);
+await CustomElement.register(GraphicsSource);

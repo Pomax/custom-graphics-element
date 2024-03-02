@@ -85,7 +85,7 @@ const graphicsElement = document.createElement(`graphics-element`);
 
 function sourceCode() {
   function setup() {
-    setSize(300,100);
+    setSize(300, 100);
   }
 
   function draw() {
@@ -94,7 +94,7 @@ function sourceCode() {
 }
 
 // load the code once the custom element loader is done:
-customElements.whenDefined('graphics-element').then(() => {
+customElements.whenDefined(`graphics-element`).then(() => {
   graphicsElement.loadFromFunction(sourceCode);
 });
 ```
@@ -184,8 +184,12 @@ That's all the code we need: users can now click/tap/touch-drag our point around
 Graphics interaction is based on "the pointer", which is a unified handler for mouse, stylus, and touch handling, so you don't have to care whether your code runs on a desktop computer, a laptop, a tablet, a phone, or anything else. Event handling uses five functions:
 
 ```js
+function pointerActive(trueOrFalse) {
+  // the pointer either entered or left the canvas region.
+}
+
 function pointerDown(x, y) {
-  // a mouse down, stylus down, or touch start at graphics coordinate x/y (not screen coordinate)
+  // a mouse down, stylus down, or touch start at graphics coordinate x/y (not screen coordinate).
 }
 
 function pointerUp(x, y) {
@@ -207,6 +211,7 @@ function pointerDrag(x, y) {
 
 In addition to this, there is the global `pointer` object that can be consulted in any of your code, with the following properties:
 
+- `active` - true/false based on whether or not the pointer is currently on/over the canvas.
 - `x` - the current graphics x coordinate for the pointer
 - `y` - the current graphics y coordinate for the pointer
 - `down` - true/false based on whether the pointer is currently down or not.
@@ -426,6 +431,7 @@ The following constants are available:
 - `addButton(label, clickHandler)` - adds a button to the graphics element, below the graphic pane, with the provided label, calling `clickHandler(button)` every time the button is clicked. This function returns the `<button>`.
 
 - `addSlider(varName, options = {})` - adds a numerical range slider to the graphics element, below the graphic pane, automatically binding a global variable with the indicated name (this value as function argument must be a string). This function returns the range slider `<input>`. Valid options are:
+
   - `min` - the minimum number, defaults to 0
   - `max` - the maximum number, defaults to 1
   - `step` - the step size, defaults to (max - min) / 10.

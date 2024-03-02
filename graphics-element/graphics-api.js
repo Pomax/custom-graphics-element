@@ -376,6 +376,26 @@ function __pointerMove(x, y) {
   });
 });
 
+function __pointerActive(active) {
+  if (typeof pointerActive !== `undefined`) {
+    pointerActive(active);
+  }
+}
+
+[`touchstart`, `mouseenter`].forEach((type) => {
+  __canvas.addEventListener(type, () => {
+    pointer.active = true;
+    __pointerActive(true);
+  });
+});
+
+[`touchend`, `mouseleave`].forEach((type) => {
+  __canvas.addEventListener(type, () => {
+    pointer.active = false;
+    __pointerActive(false);
+  });
+});
+
 // ------------------ key event handling ----------------------
 
 function __safelyInterceptKey(evt) {

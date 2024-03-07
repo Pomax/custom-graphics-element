@@ -13,7 +13,7 @@ import {
   isInViewport,
 } from "./api/util/utils.js";
 const thisURL = String(import.meta.url);
-const libraryCode = decode64(`THIS_IS_A_PLACEHOLDER`);
+const libraryCode = decode64(`GRAPHICS_API_PLACEHOLDER`);
 
 class GraphicsElement extends CustomElement {
   handleAttributeChange(...args) {

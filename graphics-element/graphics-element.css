@@ -82,6 +82,11 @@ graphics-element {
     }
   }
 
+  & .graphics-element-description {
+    margin: 0 1em;
+    box-sizing: content-box;
+  }
+
   & table.slider-wrapper {
     border-spacing: 0;
     width: 100%;

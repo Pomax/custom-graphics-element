@@ -1,10 +1,10 @@
 import { CustomElement } from "./custom-element.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
-import { Point, Circle } from "./api/types/point.js";
+import { Point, Circle, Vec2 } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
-export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
+export { BSpline, Point, Circle, Vec2, Vector, Matrix, CSS_COLOR_MAP };
 
 import {
   base64,
@@ -27,6 +27,12 @@ class GraphicsElement extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
 
+    // child observer
+    this.observer = new MutationObserver((mutations) =>
+      this.childNodeChange(mutations)
+    );
+    this.observer.observe(this, { childList: true });
+
     this.label = document.createElement(`label`);
     if (!this.title) {
       console.warn(
@@ -35,6 +41,8 @@ class GraphicsElement extends CustomElement {
       this.title = ``;
     }
     this.label.textContent = this.title;
+
+    this.contentCache = [];
 
     if (isInViewport(this)) {
       this.loadSource();
@@ -50,6 +58,12 @@ class GraphicsElement extends CustomElement {
           }),
         { threshold: 0.1, rootMargin: `${window.innerHeight}px` }
       ).observe(this);
+    }
+  }
+
+  childNodeChange(mutations) {
+    for (const mutation of mutations) {
+      this.contentCache.push(...mutation.addedNodes);
     }
   }
 
@@ -170,7 +184,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     const module = base64(
       [
         `"use strict";`,
-        `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
+        `import { BSpline, Point, Circle, Vec2, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         sourceCode,
@@ -185,21 +199,14 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       this.highlight = (color) => highlight(color);
       this.render();
       const { width, height } = await start(this);
-      // If we don't have guide text, see if we need to set guide text from the code itself
-      if (this.querySelectorAll(`p`).length === 0) {
-        try {
-          const description = getDescription();
-          if (description) {
-            const doc = new DocumentFragment();
-            const div = document.createElement(`div`);
-            doc.append(div);
-            div.innerHTML = description;
-            [...div.children].forEach((c) => this.append(c));
-          }
-        } catch (e) {
-          console.error(e);
-        }
+
+      console.log(`removing desc div...`);
+      const descClass = `graphics-element-description`;
+      this.querySelector(`.${descClass}`)?.remove();
+      if (!this.querySelector(`p`)) {
+        this.handleGraphicsDescription(descClass, getDescription);
       }
+
       if (width && height) {
         this.style.width = ``;
         this.style.height = ``;
@@ -212,6 +219,22 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       this.dispatchEvent(new CustomEvent(`load`));
       if (this.onload) this.onload();
     });
+  }
+
+  handleGraphicsDescription(descClass, getDescription = () => {}) {
+    try {
+      const description = getDescription();
+      if (description) {
+        const doc = new DocumentFragment();
+        const div = document.createElement(`div`);
+        div.classList.add(descClass);
+        doc.append(div);
+        div.innerHTML = description;
+        this.append(div);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   loadAdditionalSources(userCode, additionalSources) {
@@ -269,17 +292,17 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     if (this.canvas) slotParent.insertBefore(this.canvas, this._slot);
     if (this.label) slotParent.insertBefore(this.label, this._slot);
 
-    const toptitle = document.createElement(`div`);
-    toptitle.classList.add(`top-title`);
+    const topTitle = document.createElement(`div`);
+    topTitle.classList.add(`top-title`);
     const sources = document.createElement(`span`);
     sources.classList.add(`sources`);
-    toptitle.append(sources);
+    topTitle.append(sources);
 
     const r = document.createElement(`button`);
     r.classList.add(`reset`);
     r.textContent = this.getAttribute(`reset`) || `reset`;
     r.addEventListener(`click`, () => this.reset());
-    toptitle.append(r);
+    topTitle.append(r);
 
     const src = this.getAttribute(`src`);
     if (src) {
@@ -304,14 +327,14 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       });
     }
 
-    if (this.label) slotParent.insertBefore(toptitle, this.canvas);
+    if (this.label) slotParent.insertBefore(topTitle, this.canvas);
 
-    this.crosslink();
+    this.crossLink();
   }
 
-  crosslink() {
-    if (this.crosslinked) return;
-    this.crosslinked = true;
+  crossLink() {
+    if (this.crossLinked) return;
+    this.crossLinked = true;
 
     let addRemoveButton = false;
     this.querySelectorAll(`p`).forEach((p) => {

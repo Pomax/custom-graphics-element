@@ -6,7 +6,7 @@ What if you could just put graphics on your web page, or in your web app, by jus
 
 The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> shows off a bunch of things you might want to use this for, if you need inspiration, but keep reading if you want to to know how to use this element yourself, and what API it supports.
 
-Also, if this made a difference in your dev life, consider (temporarily, even?) becoming a patron over on https://www.patreon.com/bezierinfo, or send a one-time donatation over to [help keep this project funded](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW).
+Also, if this made a difference in your dev life, consider (temporarily, even?) becoming a patron over on https://www.patreon.com/bezierinfo, or send a one-time donatation using PayPal to [help keep this project funded](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW).
 
 — [Pomax](https://mastodon.social/@TheRealPomax)
 

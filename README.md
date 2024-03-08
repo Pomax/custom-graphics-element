@@ -25,6 +25,7 @@ The <a href="https://pomax.github.io/custom-graphics-element/">live site</a> sho
   - [General globals](#general-globals)
   - [General functions](#general=functions)
   - [Drawing functions](#drawing-functions)
+  - [3D functions](#3d-functions)
   - [Transformation functions](#transformation-functions)
   - [Setters](#setters)
   - [No... functions](#no-functions)

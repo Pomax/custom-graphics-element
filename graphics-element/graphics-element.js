@@ -289,7 +289,10 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     r.addEventListener(`click`, () => this.reset());
     topTitle.append(r);
 
-    const src = this.getAttribute(`src`);
+    let src = this.getAttribute(`src`);
+    if (!src) {
+      src = `data:application/json;base64,${base64(this.userCode)}`;
+    }
     if (src) {
       const a = document.createElement(`a`);
       a.classList.add(`view-source`);
@@ -300,6 +303,11 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     }
 
     let additionalSources = this.querySelectorAll(`source`);
+    if (additionalSources.length === 0) {
+      additionalSources = (this.additionalSources ?? []).map((sourceCode) => ({
+        src: `data:application/json;base64,${base64(sourceCode)}`
+      }));
+    }
     if (additionalSources.length) {
       additionalSources.forEach((e, pos) => {
         const { src } = e;

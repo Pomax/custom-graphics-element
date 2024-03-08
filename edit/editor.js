@@ -119,7 +119,6 @@ function clearEditors() {
 
 function loadUpdates() {
   if (graphics.__running_initial_code_load) return;
-  console.log(`loadUpdates`);
   clearTimeout(debounce);
   debounce = setTimeout(() => {
     const src = editors.map((e) => e.getValue());
@@ -129,7 +128,6 @@ function loadUpdates() {
       `code`,
       JSON.stringify({ userCode, additionalSources })
     );
-    console.log(`RESETTING`);
     graphics.reset(userCode, additionalSources);
     debounce = -1;
   }, 500);

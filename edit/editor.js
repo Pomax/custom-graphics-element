@@ -64,6 +64,7 @@ function buildPage(editorParent, userCode, additionalSources) {
   clearEditors();
   editorParent.innerHTML = ``;
   graphics.innerHTML = ``;
+  graphics.__running_initial_code_load = true;
 
   const sourceDiv = document.createElement(`div`);
   sourceDiv.classList.add(`editor`);
@@ -85,6 +86,7 @@ function buildPage(editorParent, userCode, additionalSources) {
   });
 
   graphics.reset(userCode, additionalSources);
+  delete graphics.__running_initial_code_load;
 }
 
 function createEditor(editorParent) {
@@ -116,6 +118,8 @@ function clearEditors() {
 }
 
 function loadUpdates() {
+  if (graphics.__running_initial_code_load) return;
+  console.log(`loadUpdates`);
   clearTimeout(debounce);
   debounce = setTimeout(() => {
     const src = editors.map((e) => e.getValue());
@@ -125,6 +129,7 @@ function loadUpdates() {
       `code`,
       JSON.stringify({ userCode, additionalSources })
     );
+    console.log(`RESETTING`);
     graphics.reset(userCode, additionalSources);
     debounce = -1;
   }, 500);

@@ -1,10 +1,10 @@
 import { CustomElement } from "./custom-element.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
-import { Point, Circle, Vec2 } from "./api/types/point.js";
+import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
 import { Matrix } from "./api/types/matrix.js";
-export { BSpline, Point, Circle, Vec2, Vector, Matrix, CSS_COLOR_MAP };
+export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
 
 import {
   base64,
@@ -27,12 +27,6 @@ class GraphicsElement extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
 
-    // child observer
-    this.observer = new MutationObserver((mutations) =>
-      this.childNodeChange(mutations)
-    );
-    this.observer.observe(this, { childList: true });
-
     this.label = document.createElement(`label`);
     if (!this.title) {
       console.warn(
@@ -41,8 +35,6 @@ class GraphicsElement extends CustomElement {
       this.title = ``;
     }
     this.label.textContent = this.title;
-
-    this.contentCache = [];
 
     if (isInViewport(this)) {
       this.loadSource();
@@ -58,12 +50,6 @@ class GraphicsElement extends CustomElement {
           }),
         { threshold: 0.1, rootMargin: `${window.innerHeight}px` }
       ).observe(this);
-    }
-  }
-
-  childNodeChange(mutations) {
-    for (const mutation of mutations) {
-      this.contentCache.push(...mutation.addedNodes);
     }
   }
 
@@ -184,7 +170,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     const module = base64(
       [
         `"use strict";`,
-        `import { BSpline, Point, Circle, Vec2, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
+        `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         sourceCode,
@@ -200,7 +186,6 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       this.render();
       const { width, height } = await start(this);
 
-      console.log(`removing desc div...`);
       const descClass = `graphics-element-description`;
       this.querySelector(`.${descClass}`)?.remove();
       if (!this.querySelector(`p`)) {

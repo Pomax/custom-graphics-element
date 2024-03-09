@@ -335,18 +335,113 @@ declare function noStroke(): void;
  */
 declare function noTextStroke(): void;
 /**
+ * Add a slider to your figure, allowing users to control
+ * a variable in your graphics code directly by interacting
+ * with that on-page slider, which is especially important if
+ * you want your graphics to be useable by users who don't
+ * have, or cannot use, a mouse.
  *
- * @param {*} propLabel
- * @param {*} assign
+ * The `propLabel` value should be the name of the variable
+ * that your graphics code uses, and should _not_ be "preallocated"
+ * in your code with a const, let, or var: it will automatically
+ * get added as part of the source loading process.
+ *
+ * The options object accepts the following properties and values:
+ *
+ * - min:number - the slider's minimum value, defaults to 0
+ * - max:number - the slider's maximum value, defaults to 1
+ * - step - the step size, defaults to (max - min)/10
+ * - value - the initial value, defaults to (max + min)/2
+ * - classes - the CSS classes that will be used, defaults to `sider`
+ * - transform - a value preprocessor  defaults to (v) => v
+ *
+ * The `transform` pre-processor runs after the user updates
+ * the slider, but before its value gets assigned to your variable,
+ * so that you can map it to something else (for instance, numbers
+ * in one range to numbers in a completely different range, or even
+ * numbers to strings or entire objects)
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(400, 200);
+ *       addSlider(`bgColor`, {
+ *         min: 0,
+ *         max: 255,
+ *         step: 1,
+ *         value: 200,
+ *         transform: (v) => {
+ *           // convert v into a hex color code
+ *           v = (v).toString(16).padStart(2, `0`);
+ *           return `#${v}${v}${v}`;
+ *         }
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(bgColor);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {string} propLabel
  * @param {*} options
- * @returns
+ * @returns returns the HTML input element for this slider
  */
-declare function addSlider(propLabel: any, assign: any, options?: any): any;
+declare function addSlider(propLabel: string, assign: any, options?: any): any;
 /**
+ * Remove all sliders for your figure from the page.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addSlider(`x`);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *     function pointerDown() {
+ *       clearSliders();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function clearSliders(): void;
 /**
+ * Add a button below your figure that can trigger event-based
+ * code, which is especially important if you want your graphics
+ * to be useable by users who don't have, or cannot use, a mouse.
+ *
+ * onClick is similar to the standard JS event handler, except
+ * that the call argument is a reference to your button, not
+ * the click event.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const colors = [`white`, `black`];
+ *     let bgColor = 0;
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`flip background`, () => {
+ *         bgColor = -(bgColor - 1);
+ *         redraw();
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(colors[bgColor]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} label
  * @param {*} onClick
@@ -354,10 +449,54 @@ declare function clearSliders(): void;
  */
 declare function addButton(label: any, onClick: any): HTMLButtonElement;
 /**
+ * Remove all buttons for your figure from the page.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`this does nothing`, () => {});
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *     function pointerDown() {
+ *       clearButtons();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function clearButtons(): void;
 /**
+ * Draw a circular arc with radius `r` at (x,y),
+ * starting at angle `s` and ending at angle `e`.
+ * If `wedge` is true, this will draw a closed
+ * shape that is anchored at (x,y). If omitted
+ * or explicitly set to false, this will draw
+ * an open shape with a fill that connects the
+ * first and last point on the arc, but no closing
+ * stroke.
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       arc(width/2 + 30, height/2 - 40, 40, 0, 0.66*TAU);
+ *       arc(width/2 - 30, height/2 + 20, 40, 0, 0.66*TAU, true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x
  * @param {*} y
@@ -400,10 +539,45 @@ declare function axes(
   veLabel?: any,
 ): void;
 /**
+ * Draw one or more Bezier curves from an array
+ * of Point or Point-likes that implement:
+ *
+ *   {
+ *     x: number
+ *     y: number
+ *   }
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       bezier(
+ *         new Point(20, height - 55),
+ *         new Point(20, 25),
+ *         { x: width - 20, y: 25},
+ *         { x: width - 20, y: height - 55}
+ *       );
+ *       noFill()
+ *       bezier(
+ *         new Point(0, height - 20),
+ *         new Point(width - 20, height - 20),
+ *         { x: 20, y: 20},
+ *         { x: width, y: 20}
+ *       );
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} points
  */
-declare function bezier(points: any): void;
+declare function bezier(...points: any): void;
 /**
  *
  * @param {*} points
@@ -411,6 +585,22 @@ declare function bezier(points: any): void;
  */
 declare function bspline(points: any, open?: any): void;
 /**
+ * Draw a circle with radius `r` at (x,y).
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       circle(width/2, height/2, 80);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  *
  * @param {*} x
  * @param {*} y

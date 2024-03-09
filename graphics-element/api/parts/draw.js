@@ -1,4 +1,27 @@
 /**
+ * Draw a circular arc with radius `r` at (x,y),
+ * starting at angle `s` and ending at angle `e`.
+ * If `wedge` is true, this will draw a closed
+ * shape that is anchored at (x,y). If omitted
+ * or explicitly set to false, this will draw
+ * an open shape with a fill that connects the
+ * first and last point on the arc, but no closing
+ * stroke.
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       arc(width/2 + 30, height/2 - 40, 40, 0, 0.66*TAU);
+ *       arc(width/2 - 30, height/2 + 20, 40, 0, 0.66*TAU, true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x
  * @param {*} y
@@ -8,10 +31,16 @@
  * @param {*} wedge
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
+  const step = 0.1;
   start();
-  if (wedge) __ctx.moveTo(x, y);
-  __ctx.arc(x, y, r, s, e);
-  if (wedge) __ctx.lineTo(x, y);
+  if (wedge) vertex(x, y);
+  let a = s;
+  vertex(x + r * cos(s), y + r * sin(s));
+  for (a = s + step; a < e; a += step) {
+    vertex(x + r * cos(a), y + r * sin(a));
+  }
+  vertex(x + r * cos(e), y + r * sin(e));
+  if (wedge) vertex(x, y);
   end();
 }
 
@@ -56,16 +85,62 @@ function axes(
 }
 
 /**
+ * Draw one or more Bezier curves from an array
+ * of Point or Point-likes that implement:
+ *
+ *   {
+ *     x: number
+ *     y: number
+ *   }
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       bezier(
+ *         new Point(20, height - 55),
+ *         new Point(20, 25),
+ *         { x: width - 20, y: 25},
+ *         { x: width - 20, y: height - 55}
+ *       );
+ *       noFill()
+ *       bezier(
+ *         new Point(0, height - 20),
+ *         new Point(width - 20, height - 20),
+ *         { x: 20, y: 20},
+ *         { x: width, y: 20}
+ *       );
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} points
  */
-function bezier(points) {
+function bezier(...points) {
+  const b = (t, a, b, c, d) => {
+    const mt = 1 - t;
+    return a * mt ** 3 + 3 * b * mt ** 2 * t + 3 * c * mt * t ** 2 + d * t ** 3;
+  };
   const [first, ...rest] = points;
+  let p0 = first;
   start();
   vertex(first.x, first.y);
   for (let i = 0, e = rest.length; i < e; i += 3) {
     let [p1, p2, p3] = rest.slice(i, i + 3);
-    if (p1 && p2 && p3) __ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+    if (p1 && p2 && p3) {
+      for (let t = 0; t < 1; t += 0.01) {
+        vertex(b(t, p0.x, p1.x, p2.x, p3.x), b(t, p0.y, p1.y, p2.y, p3.y));
+      }
+      vertex(p3.x, p3.y);
+      p0 = p3;
+    }
   }
   end();
 }
@@ -82,13 +157,29 @@ function bspline(points, open = true) {
 }
 
 /**
+ * Draw a circle with radius `r` at (x,y).
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`#F002`);
+ *       circle(width/2, height/2, 80);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  *
  * @param {*} x
  * @param {*} y
  * @param {*} r
  */
 function circle(x, y, r) {
-  arc(x, y, r);
+  arc(x, y, r, 0, TAU, false);
 }
 
 /**
@@ -263,7 +354,6 @@ function spline(points, virtual = true, tightness = 1, T = tightness) {
 
   // four point sliding window over the segment
   start();
-  __ctx.moveTo(cpoints[1].x, cpoints[1].y);
   for (let i = 0, e = cpoints.length - 3; i < e; i++) {
     let [c1, c2, c3, c4] = cpoints.slice(i, i + 4);
     let p2 = {
@@ -274,7 +364,7 @@ function spline(points, virtual = true, tightness = 1, T = tightness) {
       x: c3.x - (c4.x - c2.x) / (6 * T),
       y: c3.y - (c4.y - c2.y) / (6 * T),
     };
-    __ctx.bezierCurveTo(p2.x, p2.y, p3.x, p3.y, c3.x, c3.y);
+    bezier(c2, p2, p3, c3);
   }
   end();
 }

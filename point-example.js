@@ -62,7 +62,7 @@ function draw() {
 
   // Also  draw a cardinal spline through all our points!
   setStroke(`green`);
-  spline(points);
+  spline(...points);
 }
 
 // When someone clicks/touches the graphics pane,

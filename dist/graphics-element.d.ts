@@ -498,8 +498,13 @@ declare function clearButtons(): void;
  *   </graphics-source>
  * </graphics-element>
  *
+ * This function takes either separate x and y coordinates, or a single point-like
+ *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} point-like
+ * followed by
  * @param {*} r
  * @param {*} s
  * @param {*} e
@@ -575,15 +580,17 @@ declare function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} points
+ * @param {*} multiples of eight x, y coordinates
+ * -or-
+ * @param {*} multiples of four points
  */
-declare function bezier(...points: any): void;
+declare function bezier(...args: any[]): void;
 /**
  *
  * @param {*} points
  * @param {*} open
  */
-declare function bspline(points: any, open?: any): void;
+declare function bspline(...args: any[]): void;
 /**
  * Draw a circle with radius `r` at (x,y).
  *
@@ -684,12 +691,7 @@ declare function rect(x: any, y: any, w: any, h: any): void;
  * @param {*} tightness
  * @param {*} T
  */
-declare function spline(
-  points: any,
-  virtual?: any,
-  tightness?: any,
-  T?: any,
-): void;
+declare function spline(...args: any[]): void;
 /**
  *
  */
@@ -699,15 +701,19 @@ declare function start(): void;
  * @param {*} str
  * @param {*} x
  * @param {*} y
- * @param {*} xalign
- * @param {*} yalign
+ * -or-
+ * @param {*} str
+ * @param {*} point-like
+ * then
+ * @param {*} xAlign
+ * @param {*} yAlign
  */
 declare function text(
   str: any,
   x: any,
   y: any,
-  xalign: any,
-  yalign?: any,
+  xAlign: any,
+  yAlign?: any,
 ): void;
 /**
  *

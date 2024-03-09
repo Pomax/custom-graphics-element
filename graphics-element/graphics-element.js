@@ -376,9 +376,9 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         e.classList.remove(`calm`);
         e.addEventListener(`pointerenter`, () => {
           color ??= getComputedStyle(e)[`-webkit-text-stroke-color`];
-          this.highlight(color);
+          this.highlight?.(color);
         });
-        e.addEventListener(`pointerleave`, () => this.highlight(false));
+        e.addEventListener(`pointerleave`, () => this.highlight?.(false));
       });
     });
 

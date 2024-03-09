@@ -29,7 +29,7 @@ function scale(x = 1, y = x) {
  * @returns
  */
 function screenToWorld(x, y) {
-  if (y === undefined) {
+  if (x.x !== undefined && x.y !== undefined) {
     y = x.y;
     x = x.x;
   }
@@ -61,6 +61,10 @@ function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
  * @param {*} y
  */
 function translate(x = 0, y = 0) {
+  if (x.x !== undefined && x.y !== undefined) {
+    y = x.y;
+    x = x.x;
+  }
   __ctx.translate(x, y);
 }
 
@@ -71,7 +75,7 @@ function translate(x = 0, y = 0) {
  * @returns
  */
 function worldToScreen(x, y) {
-  if (y === undefined) {
+  if (x.x !== undefined && x.y !== undefined) {
     y = x.y;
     x = x.x;
   }

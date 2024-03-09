@@ -1,9 +1,35 @@
 /**
+ * Add a slider to your figure, allowing users to control
+ * a variable in your graphics code directly by interacting
+ * with that on-page slider.
  *
- * @param {*} propLabel
- * @param {*} assign
+ * The `propLabel` value should be the name of the variable
+ * that your graphics code uses, and should _not_ be "preallocated"
+ * in your code with a const, let, or var: it will automatically
+ * get added as part of the source loading process.
+ *
+ * The options object accepts the following properties and values:
+ *
+ * - min:number - the slider's minimum value, defaults to 0
+ * - max:number - the slider's maximum value, defaults to 1
+ * - step - the step size, defaults to (max - min)/10
+ * - value - the initial value, defaults to (max + min)/2
+ * - classes - the CSS classes that will be used, defaults to `sider`
+ * - transform - a value preprocessor  defaults to (v) => v
+ *
+ * The `transform` pre-processor runs after the user updates
+ * the slider, but before its value gets assigned to your variable,
+ * so that you can map it to something else (for instance, numbers
+ * in one range to numbers in a completely different range, or even
+ * numbers to strings or entire objects)
+ *
+ * Example:
+ *
+ * ...code goes here...
+ *
+ * @param {string} propLabel
  * @param {*} options
- * @returns
+ * @returns returns the HTML input element for this slider
  */
 function addSlider(propLabel, assign, options = {}) {
   let {
@@ -18,7 +44,7 @@ function addSlider(propLabel, assign, options = {}) {
   min = min === undefined ? 0 : min;
   max = max === undefined ? 1 : max;
   step = step === undefined ? (max - min) / 10 : step;
-  value = value === undefined ? (max - min) / 2 : value;
+  value = value === undefined ? (max + min) / 2 : value;
 
   // custom "rounding", purely for strings
   const round = (v, d = 4) => {
@@ -101,7 +127,7 @@ function addSlider(propLabel, assign, options = {}) {
 }
 
 /**
- *
+ * Remove all sliders for your figure from the page.
  */
 function clearSliders() {
   const table = __element.querySelector(`table.slider-wrapper`);

@@ -258,7 +258,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     this.reset(code.substring(code.indexOf(`{`) + 1, code.lastIndexOf(`}`)));
   }
 
-  reset(newCode, additionalSources) {
+  reset(newCode, additionalSources = []) {
     if (this.halt) this.halt();
     this.crosslinked = false;
     this.querySelector(`button.remove-color`)?.remove();
@@ -291,7 +291,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
 
     let src = this.getAttribute(`src`);
     if (!src) {
-      src = `data:application/json;base64,${base64(this.userCode)}`;
+      src = `data:text/plain;base64,${base64(this.userCode)}`;
     }
     if (src) {
       const a = document.createElement(`a`);
@@ -300,12 +300,31 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       a.href = src;
       a.target = `_blank`;
       sources.append(a);
+
+      // This is absolutely idiotic, and we have Chrome to thank for the idiotic
+      // proposal, and Firefox for just going along with it instead of saying no.
+      if (src.startsWith(`data`)) {
+        delete a.href;
+        delete a.target;
+        a.classList.add(`fake-source-link`);
+        a.addEventListener(`click`, () => {
+          const iframe = `<iframe width="100%" height="100%" src="${src}"></iframe>`;
+          const windowReference = window.open(``);
+          const { document: doc } = windowReference;
+          doc.open();
+          doc.write(iframe);
+          doc.write(
+            `<style>iframe { position: fixed; top: 0; right: 0; bottom: 0; left: 0; border:0; margin: 0; padding:0 }</style>`
+          );
+          doc.close();
+        });
+      }
     }
 
     let additionalSources = this.querySelectorAll(`source`);
     if (additionalSources.length === 0) {
       additionalSources = (this.additionalSources ?? []).map((sourceCode) => ({
-        src: `data:application/json;base64,${base64(sourceCode)}`
+        src: `data:text/plain;base64,${base64(sourceCode)}`,
       }));
     }
     if (additionalSources.length) {
@@ -317,6 +336,25 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         a.href = src;
         a.target = `_blank`;
         sources.append(a);
+
+        // This is absolutely idiotic, and we have Chrome to thank for the idiotic
+        // proposal, and Firefox for just going along with it instead of saying no.
+        if (src.startsWith(`data`)) {
+          delete a.href;
+          delete a.target;
+          a.classList.add(`fake-source-link`);
+          a.addEventListener(`click`, () => {
+            const iframe = `<iframe width="100%" height="100%" src="${src}"></iframe>`;
+            const windowReference = window.open(``);
+            const { document: doc } = windowReference;
+            doc.open();
+            doc.write(iframe);
+            doc.write(
+              `<style>iframe { position: fixed; top: 0; right: 0; bottom: 0; left: 0; border:0; margin: 0; padding:0 }</style>`
+            );
+            doc.close();
+          });
+        }
       });
     }
 

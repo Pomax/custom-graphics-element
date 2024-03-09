@@ -15,7 +15,7 @@
     "test": "npm run build && run-p serve open",
     "serve": "serve --cors",
     "types": "tsc && npm run types:compile",
-    "types:compile": "cp graphics-element/base.d.ts dist && cat dist/*.ts > dist/graphics-element.d && rm dist/*.ts & mv dist/graphics-element.d dist/graphics-element.d.ts && npm run types:clean",
+    "types:compile": "cp graphics-element/base.d.ts dist && cat dist/*.ts > dist/graphics-element.d && rm dist/*.ts && mv dist/graphics-element.d dist/graphics-element.d.ts && npm run types:clean",
     "types:clean": "prettier dist/graphics-element.d.ts --write",
     "open": "open-cli \"http://localhost:3000\""
   },

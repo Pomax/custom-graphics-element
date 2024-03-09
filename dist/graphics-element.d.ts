@@ -7,39 +7,331 @@ declare function setup(): void;
  */
 declare function draw(): void;
 /**
- * Ensure that there is no border around the canvas element
+ *
+ * @param trueOrFalse
+ */
+declare function pointerActive(trueOrFalse: boolean): void;
+/**
+ *
+ * @param x
+ * @param y
+ */
+declare function pointerDown(x: number, y: number): void;
+/**
+ *
+ * @param x
+ * @param y
+ */
+declare function pointerUp(x: number, y: number): void;
+/**
+ *
+ * @param x
+ * @param y
+ */
+declare function pointerClick(x: number, y: number): void;
+/**
+ *
+ * @param x
+ * @param y
+ */
+declare function pointerMove(x: number, y: number): void;
+/**
+ *
+ * @param x
+ * @param y
+ */
+declare function pointerDrag(x: number, y: number): void;
+/**
+ *
+ * @param key
+ * @param shift
+ * @param alt
+ * @param ctrl
+ * @param meta
+ */
+declare function keyDown(
+  key: string,
+  shift: boolean,
+  alt: boolean,
+  ctrl: boolean,
+  meta: boolean,
+): void;
+/**
+ *
+ * @param key
+ * @param shift
+ * @param alt
+ * @param ctrl
+ * @param meta
+ */
+declare function keyUp(
+  key: string,
+  shift: boolean,
+  alt: boolean,
+  ctrl: boolean,
+  meta: boolean,
+): void;
+/**
+ *
+ */
+declare type width = number;
+/**
+ *
+ */
+declare type height = number;
+/**
+ *
+ */
+declare type playing = boolean;
+/**
+ *
+ */
+declare type frame = number;
+/**
+ *
+ */
+declare type frameDelta = number;
+/**
+ *
+ */
+declare type currentPoint = { x: number; y: number };
+/**
+ *
+ */
+declare type pointer = {
+  active: boolean;
+  down: boolean;
+  drag: boolean;
+  mark:
+    | undefined
+    | {
+        x: number;
+        y: number;
+      };
+  x: number;
+  y: number;
+};
+
+/**
+ *
+ */
+declare type keyboard = {
+  [letter: string]: number;
+};
+/**
+ * Ensure that there is no border around the canvas element.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setBorder(5, `red`);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       text(`click me`, width/2, height/2);
+ *     }
+ *     function pointerUp(x, y) {
+ *       setBorder(5, `red`);
+ *       redraw()
+ *     }
+ *     function pointerDown(x, y) {
+ *       noBorder();
+ *       redraw()
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noBorder(): void;
 /**
  * Disable both stroke and fill color.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       text(`Now you see me`, width/2, height/2 - 25);
+ *       noColor();
+ *       text(`Now you don't`, width/2, height/2 + 25);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noColor(): void;
 /**
  * Hide the cursor.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`#FF02`);
+ *       rect(0, 0, width/2, height);
+ *       setColor(`#0FF2`);
+ *       rect(width/2, 0, width/2, height);
+ *     }
+ *     function pointerMove(x, y) {
+ *       if (x < width/2) {
+ *         setCursor(AUTO);
+ *       } else {
+ *         noCursor();
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noCursor(): void;
 /**
  * Disable the fill color.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       setTextStroke(1);
+ *       setColor(`black`);
+ *       rect(20, 70, 20, 20);
+ *       text(`filled`, width/2, height/2 - 25);
+ *       noFill();
+ *       rect(30, 80, 20, 20);
+ *       text(`not filled`, width/2, height/2 + 25);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noFill(): void;
 /**
  * Disable the default grid background.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       text(`click me`, width/2, height/2);
+ *     }
+ *     function pointerUp(x, y) {
+ *       setGrid(20, `lightgrey`);
+ *       redraw()
+ *     }
+ *     function pointerDown(x, y) {
+ *       noGrid();
+ *       redraw()
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noGrid(): void;
 /**
  * Set the line stroke to "solid".
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setLineDash(1);
+ *       line(0,20,width,50);
+ *       setLineDash(5);
+ *       line(0,30,width,90);
+ *       setLineDash(1,2,3,4);
+ *       line(0,40,width,130);
+ *       noLineDash();
+ *       line(0,50,width,180);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noLineDash(): void;
 /**
- * Disable the box shadow.
- */
-declare function noShadow(): void;
-/**
  * Disable the stroke color.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       setTextStroke(1);
+ *       setColor(`red`);
+ *       setStroke(`black`);
+ *       rect(20, 70, 20, 20);
+ *       text(`stroked`, width/2, height/2 - 25);
+ *       noStroke();
+ *       rect(42, 82, 20, 20);
+ *       text(`not stroked`, width/2, height/2 + 25);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noStroke(): void;
 /**
- * Disable text stroking.
+ * Disable text stroking, but not regular shape stroking.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setTextAlign(CENTER, CENTER);
+ *       setFontSize(25);
+ *       setTextStroke(1);
+ *       setColor(`red`);
+ *       setStroke(`black`);
+ *       rect(20, 70, 20, 20);
+ *       text(`stroked`, width/2, height/2 - 25);
+ *       noStroke();
+ *       rect(42, 82, 20, 20);
+ *       text(`not stroked`, width/2, height/2 + 25);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function noTextStroke(): void;
 /**

@@ -9,7 +9,7 @@ function setup() {
 function draw() {
   setCursor(`none`);
   clear(`white`);
-  rotateProjector(frame / 1000, 0, 0);
+  rotateProjector(millis() / 3000, 0, 0);
 
   drawAxes();
   drawBox();

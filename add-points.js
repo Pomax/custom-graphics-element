@@ -20,11 +20,11 @@ function setup() {
 function draw() {
   // First, let's draw the two bezier curves we can draw:
   setStroke(`blue`);
-  bezier(points.slice(0, 4));
+  bezier(...points.slice(0, 4));
   setStroke(`red`);
-  bezier(points.slice(1, 5));
+  bezier(...points.slice(1, 5));
 
   // And then let's also draw the B-spline based on those points:
   setStroke(`purple`);
-  bspline(points);
+  bspline(...points);
 }

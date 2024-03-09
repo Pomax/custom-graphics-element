@@ -23,14 +23,27 @@
  *   </graphics-source>
  * </graphics-element>
  *
+ * This function takes either separate x and y coordinates, or a single point-like
+ *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} point-like
+ * followed by
  * @param {*} r
  * @param {*} s
  * @param {*} e
  * @param {*} wedge
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
+  if (x.x !== undefined && x.y !== undefined) {
+    wedge = e;
+    e = s;
+    s = r;
+    r = y;
+    y = x.y;
+    x = x.x;
+  }
   const step = 0.1;
   start();
   if (wedge) vertex(x, y);
@@ -121,17 +134,27 @@ function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} points
+ * @param {*} multiples of eight x, y coordinates
+ * -or-
+ * @param {*} multiples of four points
  */
-function bezier(...points) {
+function bezier(...args) {
+  let points = args;
+
+  if (typeof args[0] === `number`) {
+    points = [];
+    for (let i = 0; i < args.length; i += 2) {
+      points.push({ x: args[i], y: args[i + 1] });
+    }
+  }
+
   const b = (t, a, b, c, d) => {
     const mt = 1 - t;
     return a * mt ** 3 + 3 * b * mt ** 2 * t + 3 * c * mt * t ** 2 + d * t ** 3;
   };
-  const [first, ...rest] = points;
-  let p0 = first;
+
+  let [p0, ...rest] = points;
   start();
-  vertex(first.x, first.y);
   for (let i = 0, e = rest.length; i < e; i += 3) {
     let [p1, p2, p3] = rest.slice(i, i + 3);
     if (p1 && p2 && p3) {
@@ -150,7 +173,21 @@ function bezier(...points) {
  * @param {*} points
  * @param {*} open
  */
-function bspline(points, open = true) {
+function bspline(...args) {
+  let open = true;
+  if (typeof args[args.length - 1] === `boolean`) {
+    open = args.splice(args.length - 1, 1)[0];
+  }
+
+  let points = args;
+
+  if (typeof args[0] === `number`) {
+    points = [];
+    for (let i = 0; i < args.length; i += 2) {
+      points.push({ x: args[i], y: args[i + 1] });
+    }
+  }
+
   start();
   new BSpline(points, open).getLUT().forEach((p) => vertex(p.x, p.y));
   end();
@@ -179,6 +216,11 @@ function bspline(points, open = true) {
  * @param {*} r
  */
 function circle(x, y, r) {
+  if (x.x !== undefined && x.y !== undefined) {
+    r = y;
+    y = x.y;
+    x = x.x;
+  }
   arc(x, y, r, 0, TAU, false);
 }
 
@@ -242,6 +284,13 @@ function grid() {
  * @param {*} h
  */
 async function image(img, x = 0, y = 0, w, h) {
+  if (x.x !== undefined && x.y !== undefined) {
+    h = w;
+    w = y;
+    y = x.y;
+    x = x.x;
+  }
+
   if (typeof img === `string`) {
     img = await new Promise((resolve, reject) => {
       const tag = document.createElement(`img`);
@@ -261,6 +310,13 @@ async function image(img, x = 0, y = 0, w, h) {
  * @param {*} y2
  */
 function line(x1, y1, x2, y2) {
+  if (x1.x !== undefined && x1.y !== undefined) {
+    y2 = y1.y;
+    x2 = y1.x;
+    y1 = x1.y;
+    x1 = x1.x;
+  }
+
   start();
   vertex(x1, y1);
   vertex(x2, y2);
@@ -294,6 +350,11 @@ function plot(f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) {
  * @param {*} y
  */
 function plotData(data, x, y) {
+  if (x.x !== undefined && x.y !== undefined) {
+    y = x.y;
+    x = x.x;
+  }
+
   start();
   data.forEach((p) => vertex(p[x], p[y]));
   end();
@@ -316,6 +377,13 @@ function point(x, y) {
  * @param {*} h
  */
 function rect(x, y, w, h) {
+  if (x.x !== undefined && x.y !== undefined) {
+    h = w;
+    w = y;
+    y = x.y;
+    x = x.x;
+  }
+
   start();
   vertex(x, y);
   vertex(x + w, y);
@@ -333,7 +401,26 @@ function rect(x, y, w, h) {
  * @param {*} tightness
  * @param {*} T
  */
-function spline(points, virtual = true, tightness = 1, T = tightness) {
+function spline(...args) {
+  let points = args;
+  let virtual = true;
+  let T = 1;
+
+  if (typeof args[args.length - 1] === `boolean`) {
+    [virtual] = args.splice(args.length - 1, 1);
+  }
+
+  if (typeof args[args.length - 2] === `boolean`) {
+    [virtual, T] = args.splice(args.length - 2, 2);
+  }
+
+  if (typeof args[0] === `number`) {
+    points = [];
+    for (let i = 0; i < args.length; i += 2) {
+      points.push({ x: args[i], y: args[i + 1] });
+    }
+  }
+
   let cpoints = points;
   if (virtual) {
     const f0 = points[0],
@@ -385,13 +472,24 @@ function start() {
  * @param {*} str
  * @param {*} x
  * @param {*} y
- * @param {*} xalign
- * @param {*} yalign
+ * -or-
+ * @param {*} str
+ * @param {*} point-like
+ * then
+ * @param {*} xAlign
+ * @param {*} yAlign
  */
-function text(str, x, y, xalign, yalign = `inherit`) {
+function text(str, x, y, xAlign, yAlign = `inherit`) {
+  if (x.x !== undefined && x.y !== undefined) {
+    yAlign = xAlign;
+    xAlign = y;
+    y = x.y;
+    x = x.x;
+  }
+
   save();
-  if (xalign) {
-    setTextAlign(xalign, yalign);
+  if (xAlign) {
+    setTextAlign(xAlign, yAlign);
   }
   __ctx.fillText(str, x, y);
   if (__textStroke) {
@@ -411,6 +509,15 @@ function text(str, x, y, xalign, yalign = `inherit`) {
  * @param {*} y3
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
+  if (x1.x !== undefined && x1.y !== undefined) {
+    y3 = x2.y;
+    x3 = x2.x;
+    y2 = y1.y;
+    x2 = y1.x;
+    y1 = x1.y;
+    x1 = x1.x;
+  }
+
   start();
   vertex(x1, y1);
   vertex(x2, y2);

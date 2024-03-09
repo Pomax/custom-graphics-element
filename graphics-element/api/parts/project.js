@@ -6,6 +6,12 @@
  * @returns
  */
 function project(x, y, z) {
+  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
+
   return __projector.project(x, y, z);
 }
 
@@ -17,6 +23,11 @@ function project(x, y, z) {
  * @returns
  */
 function rotateProjector(x, y, z) {
+  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
   return __projector.setRotation(x, y, z);
 }
 

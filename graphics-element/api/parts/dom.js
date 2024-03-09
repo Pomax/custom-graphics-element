@@ -1,7 +1,9 @@
 /**
  * Add a slider to your figure, allowing users to control
  * a variable in your graphics code directly by interacting
- * with that on-page slider.
+ * with that on-page slider, which is especially important if
+ * you want your graphics to be useable by users who don't
+ * have, or cannot use, a mouse.
  *
  * The `propLabel` value should be the name of the variable
  * that your graphics code uses, and should _not_ be "preallocated"
@@ -25,7 +27,27 @@
  *
  * Example:
  *
- * ...code goes here...
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(400, 200);
+ *       addSlider(`bgColor`, {
+ *         min: 0,
+ *         max: 255,
+ *         step: 1,
+ *         value: 200,
+ *         transform: (v) => {
+ *           // convert v into a hex color code
+ *           v = (v).toString(16).padStart(2, `0`);
+ *           return `#${v}${v}${v}`;
+ *         }
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(bgColor);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {string} propLabel
  * @param {*} options
@@ -128,6 +150,27 @@ function addSlider(propLabel, assign, options = {}) {
 
 /**
  * Remove all sliders for your figure from the page.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addSlider(`x`);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *     function pointerDown() {
+ *       clearSliders();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 function clearSliders() {
   const table = __element.querySelector(`table.slider-wrapper`);
@@ -135,12 +178,39 @@ function clearSliders() {
 }
 
 /**
+ * Add a button below your figure that can trigger event-based
+ * code, which is especially important if you want your graphics
+ * to be useable by users who don't have, or cannot use, a mouse.
+ *
+ * onClick is similar to the standard JS event handler, except
+ * that the call argument is a reference to your button, not
+ * the click event.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const colors = [`white`, `black`];
+ *     let bgColor = 0;
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`flip background`, () => {
+ *         bgColor = -(bgColor - 1);
+ *         redraw();
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(colors[bgColor]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} label
  * @param {*} onClick
  * @returns
  */
 function addButton(label, onClick) {
+  if (!onClick) throw new Error(`a button must have an onClick handler`);
   const btn = document.createElement(`button`);
   btn.classList.add(`graphics-element-button`);
   btn.textContent = label;
@@ -150,7 +220,28 @@ function addButton(label, onClick) {
 }
 
 /**
+ * Remove all buttons for your figure from the page.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`this does nothing`, () => {});
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *     function pointerDown() {
+ *       clearButtons();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 function clearButtons() {
   __element

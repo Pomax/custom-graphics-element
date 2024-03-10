@@ -2104,6 +2104,30 @@ declare function translate(x?: any, y?: any): void;
  * Convert an in-canvas "transformed" coordinate into its
  * corresponding "screen" (i.e. browser canvas offset) coordinate.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       play();
+ *     }
+ *     function draw() {
+ *       clear();
+ *       translate(width / 2, height / 2);
+ *       rotate(millis() / 2000);
+ *       const p = new Point(30, 0);
+ *       const s = worldToScreen(p);
+ *       setFontSize(25);
+ *       point(p);
+ *       text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+ *       resetTransform();
+ *       setFontSize(16);
+ *       text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param {*} x
  * @param {*} y
  * -or-

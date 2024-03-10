@@ -54,7 +54,10 @@ class CabinetProjector {
       b = -z,
       c = -x / 2;
 
-    return [offset.x + a + c * cos(phi), offset.y + b + c * sin(phi)];
+    return new Point(
+      offset.x + a + c * cos(phi),
+      offset.y + b + c * sin(phi)
+    );
   }
 }
 

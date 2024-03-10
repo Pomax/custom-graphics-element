@@ -1,6 +1,17 @@
 /**
  *
  */
+function array(len, fillFunction) {
+  const arr = new Array(len).fill();
+  if (fillFunction) {
+    return arr.map(fillFunction);
+  }
+  return arr;
+}
+
+/**
+ *
+ */
 function clearMovable() {
   __movable_points.splice(0, __movable_points.length);
 }
@@ -71,6 +82,16 @@ function play() {
 function randomColor(a = 1.0, cycle = true) {
   if (cycle) __current_hue = (__current_hue + 73) % 360;
   return `hsla(${__current_hue},50%,50%,${a})`;
+}
+
+function range(start, end, step, runFunction) {
+  if (typeof step === `function`) {
+    runFunction = step;
+    step = (end - start) / 10;
+  }
+  for (let i = start; i < end; i += step) {
+    runFunction(i);
+  }
 }
 
 /**

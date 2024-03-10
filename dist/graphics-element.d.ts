@@ -519,17 +519,17 @@ declare function arc(
   wedge?: any,
 ): void;
 /**
- *
- * @param {*} hLabel
- * @param {*} hs
- * @param {*} he
- * @param {*} vLabel
- * @param {*} vs
- * @param {*} ve
- * @param {*} hsLabel
- * @param {*} heLabel
- * @param {*} vsLabel
- * @param {*} veLabel
+ * Draw a pair of horizontal and vertical axes
+ * @param {*} hLabel the horizontal axis label
+ * @param {*} hs the start (left) value for the horizontal axis
+ * @param {*} he the end (right) value for the horizontal axis
+ * @param {*} vLabel the vertical axis label
+ * @param {*} vs the start (top) value for the vertical axis
+ * @param {*} ve the end (bottom) value for the vertical axis
+ * @param {*} hsLabel an optional label for the start (left) of the horizontal axis
+ * @param {*} heLabel an optional label for the end (right) of the horizontal axis
+ * @param {*} vsLabel an optional label for the start (top) of the vertical axis
+ * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
  */
 declare function axes(
   hLabel: any,
@@ -580,19 +580,43 @@ declare function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} multiples of eight x, y coordinates
+ * @param {*} eight x, y values, followed by multiples of six
  * -or-
- * @param {*} multiples of four points
+ * @param {*} four points, followed by multiples of three
  */
 declare function bezier(...args: any[]): void;
 /**
+ * Draw a B-spline using four or more Point or
+ * Point-likes that implement:
  *
- * @param {*} points
- * @param {*} open
+ *   {
+ *     x: number
+ *     y: number
+ *   }
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       // CODE GOES HERE
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} eight or more x, y values
+ * -or-
+ * @param {*} four or more points
  */
 declare function bspline(...args: any[]): void;
 /**
  * Draw a circle with radius `r` at (x,y).
+ *
+ * Example:
  *
  * <graphics-element>
  *   <graphics-source>
@@ -608,46 +632,170 @@ declare function bspline(...args: any[]): void;
  *   </graphics-source>
  * </graphics-element>
  *
- *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} r
  */
 declare function circle(x: any, y: any, r: any): void;
 /**
+ * Clear the canvas, and set it to a specific (CSS) color.
+ * If no `noGrid()` call was made, this will then also draw
+ * the background grid.
  *
- * @param {*} color
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`pink`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} color defaults to `white`
  */
 declare function clear(color?: any): void;
 /**
+ * Counterpart to start(), ends a particular shape and
+ * colors it. If `close` is true, it will close the path
+ * before coloring.
+ *
+ * If `noFill()` is in effect, the shape will not be filled.
+ * if `noStroke()` is in effect, the shape outline will not be colored.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} close
  */
 declare function end(close?: any): void;
 /**
+ * Draw an image in a given location with an optional
+ * width and height. If omitted, the width and height
+ * will be the image's own dimensions. Note that the
+ * image may be either a URL, or an <img> element.
  *
- */
-declare function grid(): void;
-/**
+ * Note that this is an async function: if it is important
+ * that nothing gets drawn until the image has been drawn,
+ * remember to `await` its call.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     async function draw() {
+ *       clear(`white`);
+ *       await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} img
+ * followed by
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} w
  * @param {*} h
+ *
+ * @return {Image} the drawn image
  */
-declare function image(img: any, x: any, y: any, w: any, h: any): Promise<void>;
+declare function image(
+  img: any,
+  x: any,
+  y: any,
+  w: any,
+  h: any,
+): new (width?: number, height?: number) => HTMLImageElement;
 /**
+ * Draw a line from one coordinate to another.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       for (let i=0; i<height; i+=20) {
+ *         line(0, 0, width, i);
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x1
  * @param {*} y1
+ * -or-
+ * @param {*} p1
+ * followed by
  * @param {*} x2
  * @param {*} y2
+ * -or-
+ * @param {*} p2
  */
 declare function line(x1: any, y1: any, x2: any, y2: any): void;
 /**
+ * Plot a y=f(x) function. The input to the function
+ * will span the interval [a,b] using the indicated
+ * number of steps, and the re sult may be scaled both
+ * in the x and y direction in order to draw something
+ * that you can actually see (e.g. if you're plotting
+ * to the domain [0,1] you wouldn't be able to see the
+ * result without scaling).
  *
- * @param {*} f
+ * This function is aware of, and will plot, discontinuities.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       noFill();
+ *       setStroke(`black`);
+ *       translate(0, height/2);
+ *       plot((x) => cos(x)**2/sin(x), 0, TAU, width/TAU, height/2)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} f the y=f(x) function
  * @param {*} a
  * @param {*} b
  * @param {*} steps
@@ -663,6 +811,35 @@ declare function plot(
   yscale?: any,
 ): void;
 /**
+ * Plot a 2D graph using a collection of any-dimensional data,
+ * by indicating which dimension should be treated as the `x`
+ * and which dimension should be treated as the `y`.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       noFill();
+ *       translate(0, height/2);
+ *
+ *       setStroke(`darkgreen`);
+ *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       plotData(data, 0, 1);
+ *
+ *       setStroke(`purple`);
+ *       data = array(width, (_,i) => ({
+ *         meep: i,
+ *         moop: height/2 * cos(i/25)
+ *       }));
+ *       plotData(data, `meep`, `moop`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} data
  * @param {*} x
@@ -670,9 +847,12 @@ declare function plot(
  */
 declare function plotData(data: any, x: any, y: any): void;
 /**
+ * Draw a point (either from x/y or point-like).
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
  */
 declare function point(x: any, y: any): void;
 /**
@@ -741,6 +921,10 @@ declare function vertex(x: any, y: any): void;
 /**
  *
  */
+declare function array(len: any, fillFunction: any): any;
+/**
+ *
+ */
 declare function clearMovable(): void;
 /**
  *
@@ -781,6 +965,7 @@ declare function play(): void;
  * @returns
  */
 declare function randomColor(a?: any, cycle?: any): string;
+declare function range(start: any, end: any, step: any, runFunction: any): void;
 /**
  *
  * @param {*} points

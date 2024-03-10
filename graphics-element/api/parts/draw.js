@@ -58,17 +58,17 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
 }
 
 /**
- *
- * @param {*} hLabel
- * @param {*} hs
- * @param {*} he
- * @param {*} vLabel
- * @param {*} vs
- * @param {*} ve
- * @param {*} hsLabel
- * @param {*} heLabel
- * @param {*} vsLabel
- * @param {*} veLabel
+ * Draw a pair of horizontal and vertical axes
+ * @param {*} hLabel the horizontal axis label
+ * @param {*} hs the start (left) value for the horizontal axis
+ * @param {*} he the end (right) value for the horizontal axis
+ * @param {*} vLabel the vertical axis label
+ * @param {*} vs the start (top) value for the vertical axis
+ * @param {*} ve the end (bottom) value for the vertical axis
+ * @param {*} hsLabel an optional label for the start (left) of the horizontal axis
+ * @param {*} heLabel an optional label for the end (right) of the horizontal axis
+ * @param {*} vsLabel an optional label for the start (top) of the vertical axis
+ * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
  */
 function axes(
   hLabel,
@@ -217,6 +217,8 @@ function bspline(...args) {
 
 /**
  * Draw a circle with radius `r` at (x,y).
+ * 
+ * Example:
  *
  * <graphics-element>
  *   <graphics-source>
@@ -232,9 +234,11 @@ function bspline(...args) {
  *   </graphics-source>
  * </graphics-element>
  *
- *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} r
  */
 function circle(x, y, r) {
@@ -247,8 +251,24 @@ function circle(x, y, r) {
 }
 
 /**
+ * Clear the canvas, and set it to a specific (CSS) color.
+ * If no `noGrid()` call was made, this will then also draw
+ * the background grid.
+ * 
+ * Example:
  *
- * @param {*} color
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`pink`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ * 
+ * @param {*} color defaults to `white`
  */
 function clear(color = `white`) {
   save();
@@ -260,7 +280,34 @@ function clear(color = `white`) {
 }
 
 /**
+ * Counterpart to start(), ends a particular shape and
+ * colors it. If `close` is true, it will close the path
+ * before coloring.
+ * 
+ * If `noFill()` is in effect, the shape will not be filled.
+ * if `noStroke()` is in effect, the shape outline will not be colored.
+ * 
+ * Example:
  *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ * 
  * @param {*} close
  */
 function end(close = false) {
@@ -270,31 +317,6 @@ function end(close = false) {
   if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(-0.5, -0.5);
   }
-}
-
-/**
- *
- */
-function grid() {
-  save();
-  setLineWidth(0.5);
-  noFill();
-  setStroke(__grid_color);
-  for (
-    let x = (-0.5 + __grid_spacing / 2) | 0;
-    x < width;
-    x += __grid_spacing
-  ) {
-    line(x, 0, x, height);
-  }
-  for (
-    let y = (-0.5 + __grid_spacing / 2) | 0;
-    y < height;
-    y += __grid_spacing
-  ) {
-    line(0, y, width, y);
-  }
-  restore();
 }
 
 /**
@@ -325,11 +347,34 @@ async function image(img, x = 0, y = 0, w, h) {
 }
 
 /**
+ * Draw a line from one coordinate to another.
+ * 
+ * Example:
  *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       for (let i=0; i<height; i+=20) {
+ *         line(0, 0, width, i);
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ * 
  * @param {*} x1
  * @param {*} y1
+ * -or-
+ * @param {*} p1
+ * followed by
  * @param {*} x2
  * @param {*} y2
+ * -or-
+ * @param {*} p2
  */
 function line(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -383,9 +428,12 @@ function plotData(data, x, y) {
 }
 
 /**
- *
+ * Draw a point (either from x/y or point-like).
+ * 
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
  */
 function point(x, y) {
   circle(x, y, 3);

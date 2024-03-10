@@ -129,7 +129,7 @@ graphics-element {
     opacity: 0.5;
   }
 
-  & > p {
+  &  p {
     text-align: left;
     padding: 0 1em;
     font-family: sans-serif;

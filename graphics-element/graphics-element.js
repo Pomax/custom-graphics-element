@@ -216,6 +216,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         doc.append(div);
         div.innerHTML = description;
         this.append(div);
+        this.crossLink(true);
       }
     } catch (e) {
       console.error(e);
@@ -260,7 +261,6 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
 
   reset(newCode, additionalSources = []) {
     if (this.halt) this.halt();
-    this.crosslinked = false;
     this.querySelector(`button.remove-color`)?.remove();
     this.loadSource(
       newCode || this.userCode,
@@ -363,7 +363,8 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     this.crossLink();
   }
 
-  crossLink() {
+  crossLink(forced) {
+    if (forced) this.crossLinked = false;
     if (this.crossLinked) return;
     this.crossLinked = true;
 

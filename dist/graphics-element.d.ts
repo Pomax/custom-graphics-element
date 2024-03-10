@@ -641,7 +641,7 @@ declare function bspline(...args: any[]): void;
  */
 declare function circle(x: any, y: any, r: any): void;
 /**
- * Clear the canvas, and set it to a specific (CSS) color.
+ * Clear the canvas, and set it to a specific (CSS) colour.
  * If no `noGrid()` call was made, this will then also draw
  * the background grid.
  *
@@ -658,16 +658,16 @@ declare function circle(x: any, y: any, r: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color defaults to `white`
+ * @param {*} colour defaults to `white`
  */
-declare function clear(color?: any): void;
+declare function clear(color?: string): void;
 /**
- * Counterpart to start(), ends a particular shape and
- * colors it. If `close` is true, it will close the path
- * before coloring.
+ * Counterpart to start(), finalizes the current shape and
+ * colours it. If `close` is true, it will close the path
+ * before colouring.
  *
  * If `noFill()` is in effect, the shape will not be filled.
- * if `noStroke()` is in effect, the shape outline will not be colored.
+ * if `noStroke()` is in effect, the shape outline will not be coloured.
  *
  * Example:
  *
@@ -749,9 +749,7 @@ declare function image(
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
- *       for (let i=0; i<height; i+=20) {
- *         line(0, 0, width, i);
- *       }
+ *       range(0,height,20, (i) => line(0, 0, width, i));
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -849,6 +847,23 @@ declare function plotData(data: any, x: any, y: any): void;
 /**
  * Draw a point (either from x/y or point-like).
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width/2, height/2);
+ *       range(0, TAU, (a) => {
+ *         point(40 * cos(a), 40 * sin(a));
+ *       });
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param {*} x
  * @param {*} y
  * -or-
@@ -856,9 +871,30 @@ declare function plotData(data: any, x: any, y: any): void;
  */
 declare function point(x: any, y: any): void;
 /**
+ * Draw a rectangle at the specified coordinate, with
+ * the specific width and height.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       rect(40, 40, width - 80, height - 80);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} w
  * @param {*} h
  */
@@ -873,18 +909,85 @@ declare function rect(x: any, y: any, w: any, h: any): void;
  */
 declare function spline(...args: any[]): void;
 /**
+ * Starts a (new) shape.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  */
 declare function start(): void;
 /**
+ * Draw some text to the screen. Its placement is
+ * determined by both the coordinate provided, and
+ * the x/y alignment provided. Valid `xAlign` values
+ * are:
+ *
+ *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ *   LEFT - the text anchor is on the left side of the text. all text is to the right.
+ *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ *
+ * Valid `yAlign` values are:
+ *
+ *   ALPHABETIC - standard text alignment
+ *   BOTTOM - the text is aligned to the bottom of the bounding box
+ *   HANGING - relevant for Tibetan and other Indic scripts.
+ *   IDEOGRAPHIC - relevant for ideographic CJKV text.
+ *   MIDDLE - The vertical equivalent of "center".
+ *   TOP - The text is aligned to the top of the typographic "em square".
+ *
+ * Note that the primary text colour uses the fill colour. If text
+ * stroking is enabled, the the text outline will be coloured using
+ * the current stroke colour.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       text("normal text", width/2, 60, CENTER, CENTER);
+ *       noFill();
+ *       setTextStroke(1);
+ *       text("unfilled text", width/2, 100, CENTER, CENTER);
+ *       setStroke(`red`);
+ *       setFill(`yellow`);
+ *       text("fancy text", width/2, 140, CENTER, CENTER);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} str
+ * followed by
  * @param {*} x
  * @param {*} y
  * -or-
- * @param {*} str
- * @param {*} point-like
- * then
+ * @param {*} p
+ * followed by
  * @param {*} xAlign
  * @param {*} yAlign
  */
@@ -896,6 +999,23 @@ declare function text(
   yAlign?: any,
 ): void;
 /**
+ * Draw a triangle.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       triangle(width/2, 30, 1/4 * width, 160, 3/4 * width, 110);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x1
  * @param {*} y1
@@ -903,6 +1023,10 @@ declare function text(
  * @param {*} y2
  * @param {*} x3
  * @param {*} y3
+ * -or-
+ * @param {*} p1
+ * @param {*} p2
+ * @param {*} p3
  */
 declare function triangle(
   x1: any,
@@ -913,80 +1037,489 @@ declare function triangle(
   y3: any,
 ): void;
 /**
+ * Add a vertex to the currently active shape.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       start();
+ *       vertex(width/2, 30);
+ *       vertex(1/4 * width, 160);
+ *       vertex(3/4 * width, 110);
+ *       end();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
  */
 declare function vertex(x: any, y: any): void;
 /**
+ * Create an array of specified length, optionally
+ * filled using the same kind of function you'd normall
+ * use with .map()
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       noFill();
+ *       translate(0, height/2);
+ *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       plotData(data, 0, 1);
+ *      }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param len
+ * @param fillFunction
  */
 declare function array(len: any, fillFunction: any): any;
 /**
+ * Empty the list of movable points in your graphic.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`lock`, () => {
+ *         clearMovable();
+ *         redraw();
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       for(let p of points) {
+ *         setColor(isMovable(p) ? `red` : `grey`);
+ *         point(p);
+ *       }
+ *     }
+ *     function pointerDown(x,y) {
+ *       if (currentPoint) return;
+ *       const p = new Point(x,y);
+ *       points.push(p);
+ *       setMovable(p);
+ *       redraw();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  */
 declare function clearMovable(): void;
 /**
+ * Create a copy of the current canvas element
+ * for use somewhere else in your own code.
  *
- * @returns
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`pink`);
+ *     }
+ *     function pointerDown(x,y) {
+ *       document.dispatchEvent(
+ *         new CustomEvent(`graphics:update`, {
+ *           detail: {
+ *             canvas: copy()
+ *           }
+ *         })
+ *       );
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @returns a copy of the current canvas
  */
 declare function copy(): HTMLCanvasElement;
 /**
+ * Generates a color based on the HSL color space.
  *
- * @param {*} h
- * @param {*} s
- * @param {*} l
- * @param {*} a
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(color(45, 80, 90));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} hue (0,360)
+ * @param {*} saturation (0,100)
+ * @param {*} lightness (0,100)
+ * @param {*} opacity (0,1)
  * @returns
  */
-declare function color(h?: any, s?: any, l?: any, a?: any): string;
+declare function color(h?: any, s?: number, l?: number, a?: number): string;
 /**
+ * Mark a specific color as the highlight color,
+ * which causes the graphic to redraw with that
+ * color replaced by whichever color you picked
+ * as highlight color.
+ *
+ * Note that you can only use named (CSS) colors
+ * with this function.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setHighlightColor(`lime`);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setColor(`red`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       text("let's go", width/2, height/2)
+ *     }
+ *     function pointerActive(state) {
+ *       if (state) highlight(`red`);
+ *       else highlight(false);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  */
 declare function highlight(color: any): void;
 /**
+ * Check whether a point is registered as movable.
  *
- * @returns
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`lock`, () => {
+ *         clearMovable();
+ *         redraw();
+ *       });
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       for(let p of points) {
+ *         setColor(isMovable(p) ? `red` : `grey`);
+ *         point(p);
+ *       }
+ *     }
+ *     function pointerDown(x,y) {
+ *       if (currentPoint) return;
+ *       const p = new Point(x,y);
+ *       points.push(p);
+ *       setMovable(p);
+ *       redraw();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @return true or false
+ */
+declare function isMovable(point: any): any;
+/**
+ * Get the number of milliseconds that this
+ * graphic has been running.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setColor(`black`);
+ *       play();
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       const seconds = (millis()/1000)|0;
+ *       text(`${seconds}s`, width/2, height/2)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @returns number of milliseconds
  */
 declare function millis(): number;
 /**
+ * Pause the graphic if its currently playing.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setColor(`black`);
+ *       play();
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       const seconds = (millis()/1000).toFixed(1);
+ *       text(`${seconds}s`, width/2, height/2)
+ *     }
+ *     function pointerActive(state) {
+ *       if(state) {
+ *         pause();
+ *       } else {
+ *         play();
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function pause(): void;
 /**
+ * Start playing your graphic, meaning it will call draw()
+ * at whatever rate the requestAnimationFrame loop is
+ * allowed to run on your computer.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     let fps = 0;
+ *     let checked = false;
+ *     let lastFrameCheck = 0;
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setColor(`black`);
+ *       play();
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       const seconds = (millis()/1000).toFixed(1);
+ *       text(`fps: ${fps}`, width/2, height/2)
+ *       if (seconds.endsWith(`.0`)) {
+ *         if (!checked) {
+ *           checked = true;
+ *           fps = frame - lastFrameCheck;
+ *           lastFrameCheck = frame;
+ *         }
+ *       } else {
+ *         checked = false;
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function play(): void;
 /**
+ * Generate a random colour. Note that this function
+ * allows you to get "the currently generated random
+ * colour" in different opacities by calling the function
+ * with an opacity value, and `false` as cycle argument.
  *
- * @param {*} a
- * @param {*} cycle
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(randomColor());
+ *     }
+ *     function pointerDown() {
+ *       redraw();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
+ * @param {*} opacity
+ * @param {*} cycle to next colour (default=true)
  * @returns
  */
-declare function randomColor(a?: any, cycle?: any): string;
+declare function randomColor(a?: number, cycle?: any): string;
+/**
+ * An alternative to writing for loops, because
+ * no one wants to constantly write var allocations
+ * that only live for the duration of a loop.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width/2, height/2);
+ *       range(0, TAU, (a) => point(40 * cos(a), 40 * sin(a)));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
+ * @param {*} start
+ * @param {*} end
+ * @param {*} step?
+ * @param {*} runFunction
+ */
 declare function range(start: any, end: any, step: any, runFunction: any): void;
 /**
+ * Mark one or more points as movable, meaning
+ * that the user can reposition the point around on
+ * the canvas by touch/click-dragging.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *     function setup() {
+ *       setSize(200, 200);
+ *       for (let i = 40; i < 200; i += 20) {
+ *         points.push(new Point(i - 20, 120));
+ *       }
+ *       setMovable(...points);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       noFill();
+ *       setStroke(`purple`);
+ *       bspline(...points);
+ *       for(let p of points) point(p);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} points
  */
-declare function setMovable(points: any): void;
+declare function setMovable(...points: any): void;
 /**
+ * Restore the graphics context (transforms,
+ * current colors, etc) to what they were
+ * when save() was called.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       translate(width/2, height/2);
+ *       setColor(`blue`);
+ *       line(0,0,80,0);
+ *       save();
+ *       setColor(`darkgreen`)
+ *       range(0, 5, 1, (a) => {
+ *         rotate(PI/8);
+ *         line(0,0,80,0);
+ *       });
+ *       restore();
+ *       line(-20,0,-80,0);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function restore(): void;
 /**
- * Save the canvas context.
+ * Save the current graphics context (transforms,
+ * current colors, etc) so that those can be restored
+ * after changing them.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       translate(width/2, height/2);
+ *       setColor(`blue`);
+ *       line(0,0,80,0);
+ *       save();
+ *       setColor(`darkgreen`)
+ *       range(0, 5, 1, (a) => {
+ *         rotate(PI/8);
+ *         line(0,0,80,0);
+ *       });
+ *       restore();
+ *       line(-20,0,-80,0);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  */
 declare function save(): void;
 /**
- *
- * @returns
+ * Convert the current canvas into an data URL
+ * that represents a PNG image.
+ * @returns dataURL
  */
 declare function toDataURL(): any;
 /**
+ * If the graphic is currently playing, pause it,
+ * and if it's paused, play it.
  *
- * @returns
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setColor(`black`);
+ *       play();
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, CENTER);
+ *       const seconds = (millis()/1000).toFixed(1);
+ *       text(`${seconds}s`, width/2, height/2)
+ *     }
+ *     function pointerActive(state) {
+ *       togglePlay();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @returns the new play state as boolean
  */
 declare function togglePlay(): any;
 /**

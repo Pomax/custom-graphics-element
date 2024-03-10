@@ -557,6 +557,10 @@ function plotData(data, x, y) {
  * @param {*} p
  */
 function point(x, y) {
+  if (x.x !== undefined && x.y !== undefined) {
+    y = x.y;
+    x = x.x;
+  }
   circle(x, y, 3);
 }
 

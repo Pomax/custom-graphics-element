@@ -70,13 +70,7 @@ If you cannot link to a source code URL, you may also inline your code using a `
 ```html
 <graphics-element title="an example" width="400" height="200">
   <graphics-source>
-    function setup() {
-      // ...
-    }
-
-    function draw() {
-      // ...
-    }
+    function setup() { // ... } function draw() { // ... }
   </graphics-source>
 </graphics-element>
 ```
@@ -531,12 +525,6 @@ The graphics API does not support true 3D, but does support coordinate projectio
 - `project(x,y,z)` - returns the 2D projection of a 3D coordinate, in `[x, y]` form.
 - `rotateProjector(x,y,z)` - set the projector's X, Y, and Z rotation. These will always be applied separately, but in order.
 - `setProjector(ox, oy, scale, phi)` - configure the projector by setting its viewport offset x and y, a scaling factor, and the cabinet projection angle.
-
-Note that because the `project` function returns an array, 3D coordinates can be plugged into the regular 2D draw functions by destructuring the array, e.g.
-
-```js
-line(...project(0,0,0), ...project(10,-1,3));
-```
 
 ## Transformation functions
 

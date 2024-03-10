@@ -18,29 +18,29 @@ function draw() {
 function drawAxes() {
   const axelen = huge / 10;
   setColor(`darkred`);
-  line(...project(-axelen, 0, 0), ...project(axelen, 0, 0));
+  line(project(-axelen, 0, 0), project(axelen, 0, 0));
   setColor(`darkblue`);
-  line(...project(0, 0, -axelen), ...project(0, 0, axelen));
+  line(project(0, 0, -axelen), project(0, 0, axelen));
   setColor(`darkgreen`);
-  line(...project(0, -axelen, 0), ...project(0, axelen, 0));
+  line(project(0, -axelen, 0), project(0, axelen, 0));
 }
 
 function drawBox() {
   setColor(`red`);
-  line(...project(-1, -1, -1), ...project(1, -1, -1));
-  line(...project(-1, -1, 1), ...project(1, -1, 1));
-  line(...project(-1, 1, -1), ...project(1, 1, -1));
-  line(...project(-1, 1, 1), ...project(1, 1, 1));
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
 
   setColor(`blue`);
-  line(...project(-1, -1, -1), ...project(-1, -1, 1));
-  line(...project(-1, 1, -1), ...project(-1, 1, 1));
-  line(...project(1, -1, -1), ...project(1, -1, 1));
-  line(...project(1, 1, -1), ...project(1, 1, 1));
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
 
   setColor(`green`);
-  line(...project(1, 1, -1), ...project(1, -1, -1));
-  line(...project(1, 1, 1), ...project(1, -1, 1));
-  line(...project(-1, 1, -1), ...project(-1, -1, -1));
-  line(...project(-1, 1, 1), ...project(-1, -1, 1));
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
 }

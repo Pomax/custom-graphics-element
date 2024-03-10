@@ -1523,14 +1523,20 @@ declare function toDataURL(): any;
  */
 declare function togglePlay(): any;
 /**
+ * Project a 3D coordinate to 2D.
  *
  * @param {*} x
  * @param {*} y
  * @param {*} z
- * @returns
+ * -or-
+ * @param p (3d)
+ *
+ * @returns p (2d)
  */
 declare function project(x: any, y: any, z: any): any;
 /**
+ * Set the projector's x, y, and z axis rotation
+ * in radians. Note that these are applied in order.
  *
  * @param {*} x
  * @param {*} y
@@ -1539,8 +1545,14 @@ declare function project(x: any, y: any, z: any): any;
  */
 declare function rotateProjector(x: any, y: any, z: any): any;
 /**
+ * Set the project parameters. Currently, only
+ * cabinet project is supported, which accepts
+ * the following parameters:
  *
- * @param  {...any} args
+ * @param  {number} x-offset of the projection wrt the canvas (default = 0)
+ * @param  {number} y-offset of the projection wrt the canvas (default = 0)
+ * @param  {number} scale factor for the 3D input (default = 1)
+ * @param  {number} cabinet angle in radians (default = -pi/6)
  */
 declare function setProjector(...args: any[]): void;
 /**

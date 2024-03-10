@@ -308,7 +308,6 @@ function setTextAlign(xAlign, yAlign) {
 /**
  * Set the text outline stroking properties.
  *
- *
  * Example:
  *
  * <graphics-element>

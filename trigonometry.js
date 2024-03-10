@@ -45,7 +45,6 @@ function setup() {
 
   // give the pane a border and force anti-aliassing off
   setBorder(1, `black`);
-  setCrisp(true);
 
   // Then set up our "unit circle", and a point on that circle.
   c = new Circle(width / 2, height / 2, radius);

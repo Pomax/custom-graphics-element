@@ -556,8 +556,6 @@ There are a number of setting functions, some of which have corresponding "no...
 
 - `setColor(color)` - set both the current stroke and fill colors.
 
-- `setCrisp(enabled = true)` - either enable to disable anti-aliassing, to force "the crispest" (but not necessarily best looking) lines.
-
 - `setCursor(type)` - change the cursor to a specific icon:
 
   - `AUTO` - use whatever the browser would otherwise use
@@ -601,8 +599,6 @@ There are a number of setting functions, some of which have corresponding "no...
   - yalign=`IDEOGRAPHIC` - relevant for ideographic CJKV text.
   - yalign=`MIDDLE` - The vertical equivalent of "center".
   - yalign=`TOP` - The text is aligned to the top of the typographic "em square".
-
-- `setTextDirection(dir = inherit)` - set the text direction to either `LTR` for left-to-write text, `RTL` for right-to-left text, or `inherit` for "whatever the context this &lt;graphics-element&gt; is used in is".
 
 - `setTextStroke(color, width)` - set the text stroke color and thickness (this only affects the "outline path" stroke for text, not the fill color).
 

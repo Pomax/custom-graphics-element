@@ -12,7 +12,7 @@
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
@@ -44,7 +44,7 @@ function noBorder() {
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`Now you see me`, width/2, height/2 - 25);
  *       noColor();
@@ -101,7 +101,7 @@ function noCursor() {
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`black`);
@@ -131,7 +131,7 @@ function noFill() {
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
@@ -191,7 +191,7 @@ function noLineDash() {
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`red`);
@@ -221,7 +221,7 @@ function noStroke() {
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`red`);

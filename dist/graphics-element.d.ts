@@ -132,7 +132,7 @@ declare type keyboard = {
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
@@ -161,7 +161,7 @@ declare function noBorder(): void;
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`Now you see me`, width/2, height/2 - 25);
  *       noColor();
@@ -211,7 +211,7 @@ declare function noCursor(): void;
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`black`);
@@ -238,7 +238,7 @@ declare function noFill(): void;
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
@@ -292,7 +292,7 @@ declare function noLineDash(): void;
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`red`);
@@ -319,7 +319,7 @@ declare function noStroke(): void;
  *     }
  *     function draw() {
  *       clear(`white`);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       setFontSize(25);
  *       setTextStroke(1);
  *       setColor(`red`);
@@ -405,7 +405,7 @@ declare function addSlider(propLabel: string, assign: any, options?: any): any;
  *       clear(`white`);
  *       setColor(`black`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
  *     function pointerDown() {
@@ -463,7 +463,7 @@ declare function addButton(label: any, onClick: any): HTMLButtonElement;
  *       clear(`white`);
  *       setColor(`black`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
  *     function pointerDown() {
@@ -991,13 +991,7 @@ declare function start(): void;
  * @param {*} xAlign
  * @param {*} yAlign
  */
-declare function text(
-  str: any,
-  x: any,
-  y: any,
-  xAlign: any,
-  yAlign?: any,
-): void;
+declare function text(str: any, x: any, y: any, xAlign: any, yAlign: any): void;
 /**
  * Draw a triangle.
  *
@@ -1199,7 +1193,7 @@ declare function color(h?: any, s?: number, l?: number, a?: number): string;
  *       clear();
  *       setColor(`red`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
  *     function pointerActive(state) {
@@ -1263,7 +1257,7 @@ declare function isMovable(point: any): any;
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000)|0;
  *       text(`${seconds}s`, width/2, height/2)
  *     }
@@ -1288,7 +1282,7 @@ declare function millis(): number;
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
@@ -1323,7 +1317,7 @@ declare function pause(): void;
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`fps: ${fps}`, width/2, height/2)
  *       if (seconds.endsWith(`.0`)) {
@@ -1509,7 +1503,7 @@ declare function toDataURL(): any;
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
@@ -1525,6 +1519,35 @@ declare function togglePlay(): any;
 /**
  * Project a 3D coordinate to 2D.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(width / 2, height / 2, 50, -0.4);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`red`);
+ *       line(project(-1, -1, -1), project(1, -1, -1));
+ *       line(project(-1, -1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(1, 1, -1));
+ *       line(project(-1, 1, 1), project(1, 1, 1));
+ *       setColor(`blue`);
+ *       line(project(-1, -1, -1), project(-1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, 1, 1));
+ *       line(project(1, -1, -1), project(1, -1, 1));
+ *       line(project(1, 1, -1), project(1, 1, 1));
+ *       setColor(`green`);
+ *       line(project(1, 1, -1), project(1, -1, -1));
+ *       line(project(1, 1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, -1, -1));
+ *       line(project(-1, 1, 1), project(-1, -1, 1));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param {*} x
  * @param {*} y
  * @param {*} z
@@ -1538,6 +1561,38 @@ declare function project(x: any, y: any, z: any): any;
  * Set the projector's x, y, and z axis rotation
  * in radians. Note that these are applied in order.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(width / 2, height / 2, 50, -0.4);
+ *       play();
+ *     }**
+ *     function draw() {
+ *       clear(`white`);
+ *       const m = millis() / 5000;
+ *       rotateProjector(m, 2 * m, 3 * m);
+ *       setColor(`red`);
+ *       line(project(-1, -1, -1), project(1, -1, -1));
+ *       line(project(-1, -1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(1, 1, -1));
+ *       line(project(-1, 1, 1), project(1, 1, 1));
+ *       setColor(`blue`);
+ *       line(project(-1, -1, -1), project(-1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, 1, 1));
+ *       line(project(1, -1, -1), project(1, -1, 1));
+ *       line(project(1, 1, -1), project(1, 1, 1));
+ *       setColor(`green`);
+ *       line(project(1, 1, -1), project(1, -1, -1));
+ *       line(project(1, 1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, -1, -1));
+ *       line(project(-1, 1, 1), project(-1, -1, 1));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param {*} x
  * @param {*} y
  * @param {*} z
@@ -1549,6 +1604,35 @@ declare function rotateProjector(x: any, y: any, z: any): any;
  * cabinet project is supported, which accepts
  * the following parameters:
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(width / 2, height / 2, 50, -0.4);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`red`);
+ *       line(project(-1, -1, -1), project(1, -1, -1));
+ *       line(project(-1, -1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(1, 1, -1));
+ *       line(project(-1, 1, 1), project(1, 1, 1));
+ *       setColor(`blue`);
+ *       line(project(-1, -1, -1), project(-1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, 1, 1));
+ *       line(project(1, -1, -1), project(1, -1, 1));
+ *       line(project(1, 1, -1), project(1, 1, 1));
+ *       setColor(`green`);
+ *       line(project(1, 1, -1), project(1, -1, -1));
+ *       line(project(1, 1, 1), project(1, -1, 1));
+ *       line(project(-1, 1, -1), project(-1, -1, -1));
+ *       line(project(-1, 1, 1), project(-1, -1, 1));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param  {number} x-offset of the projection wrt the canvas (default = 0)
  * @param  {number} y-offset of the projection wrt the canvas (default = 0)
  * @param  {number} scale factor for the 3D input (default = 1)
@@ -1556,27 +1640,75 @@ declare function rotateProjector(x: any, y: any, z: any): any;
  */
 declare function setProjector(...args: any[]): void;
 /**
+ * Set a border around the canvas.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setBorder(10, `red`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} width
  * @param {*} color
  */
 declare function setBorder(width?: any, color?: any): void;
 /**
+ * Set the current stroke and fill colour at
+ * the same time.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setColor(`blue`);
+ *       rect(50, 50, 100, 100);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  */
 declare function setColor(color: any): void;
 /**
+ * Change the cursor to a specific icon:
  *
- * @param {*} enabled
- */
-declare function setCrisp(enabled?: any): void;
-/**
+ *  AUTO - use whatever the browser would otherwise use
+ *  CROSS - use a cross-hair icon
+ *  POINTER - use the "pointer" icon that is also used for clickable links
+ *
+ * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
  * @param {*} type
  */
 declare function setCursor(type: any): void;
 /**
+ * Set the current fill colour.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       rect(50, 50, 100, 100);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  */
@@ -1602,48 +1734,187 @@ declare function setFontSize(px: any): void;
  */
 declare function setFontWeight(val: any): void;
 /**
+ * Set the background grid spacing and colour.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *      function setup() {
+ *       setSize(200, 200);
+ *       setGrid(20, `lavender`);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} spacing
  * @param {*} color
  */
 declare function setGrid(spacing?: any, color?: any): void;
 /**
+ * Set the color that should be used to replace whatever
+ * highlight() marked as the "to highlight" color.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setHighlightColor(`lime`);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setColor(`red`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text("let's go", width/2, height/2)
+ *     }
+ *     function pointerActive(state) {
+ *       if (state) highlight(`red`);
+ *       else highlight(false);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  */
 declare function setHighlightColor(color: any): void;
 /**
+ * Set the line dash property. See the following MDN article for the details:
+ *
+ * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash
  *
  * @param  {...any} values
  */
 declare function setLineDash(...values: any[]): void;
 /**
+ * Set the line width in pixels.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       range(1, 10, (i) => {
+ *         setLineWidth(i);
+ *         line(20, i * 20, 180, i * 20);
+ *       })
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} width
  */
 declare function setLineWidth(width?: any): void;
 /**
+ * Set the current stroke colour.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear();
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       rect(50, 50, 100, 100);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  */
 declare function setStroke(color?: any): void;
 /**
+ * Set the current text alignment values.
+ *
+ * Valid `xAlign` values are:
+ *
+ *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ *   LEFT - the text anchor is on the left side of the text. all text is to the right.
+ *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ *
+ * Valid `yAlign` values are:
+ *
+ *   ALPHABETIC - standard text alignment (default)
+ *   BOTTOM - the text is aligned to the bottom of the bounding box
+ *   HANGING - relevant for Tibetan and other Indic scripts.
+ *   IDEOGRAPHIC - relevant for ideographic CJKV text.
+ *   MIDDLE - The vertical equivalent of "center".
+ *   TOP - The text is aligned to the top of the typographic "em square".
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setFontSize(20);
+ *       setColor(`black`);
+ *       line(width / 2, 0, width / 2, height);
+ *       line(0, height / 2, width, height / 2);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text("center middle", width / 2, height/2);
+ *       line(0, height / 2 - 50, width, height / 2 - 50);
+ *       setTextAlign(RIGHT, TOP);
+ *       text("right top", width / 2, height/2 - 50);
+ *       line(0, height / 2 + 50, width, height / 2 + 50);
+ *       setTextAlign(LEFT, BOTTOM);
+ *       text("left bottom", width / 2, height/2 + 50);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} xAlign
  * @param {*} yAlign
  */
-declare function setTextAlign(xAlign: any, yAlign?: any): void;
+declare function setTextAlign(xAlign: any, yAlign: any): void;
 /**
+ * Set the text outline stroking properties.
  *
- * @param {*} dir
- */
-declare function setTextDirection(dir?: any): void;
-/**
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setFontSize(25);
+ *       setTextStroke(`red`, 1);
+ *       setFill(`yellow`);
+ *       text("fancy text", width/2, 80, CENTER, CENTER);
+ *       setFontSize(65);
+ *       setTextStroke(`red`, 3);
+ *       setFill(`yellow`);
+ *       text("fancy text", width/2, 140, CENTER, CENTER);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} color
  * @param {*} width
  */
-declare function setTextStroke(color: any, width: any): void;
+declare function setTextStroke(color: any, width?: any): void;
 /**
  *
  */

@@ -762,7 +762,7 @@ function start() {
  * @param {*} xAlign
  * @param {*} yAlign
  */
-function text(str, x, y, xAlign, yAlign = `inherit`) {
+function text(str, x, y, xAlign, yAlign) {
   if (x.x !== undefined && x.y !== undefined) {
     yAlign = xAlign;
     xAlign = y;

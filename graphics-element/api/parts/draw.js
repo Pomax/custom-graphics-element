@@ -58,17 +58,17 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
 }
 
 /**
- *
- * @param {*} hLabel
- * @param {*} hs
- * @param {*} he
- * @param {*} vLabel
- * @param {*} vs
- * @param {*} ve
- * @param {*} hsLabel
- * @param {*} heLabel
- * @param {*} vsLabel
- * @param {*} veLabel
+ * Draw a pair of horizontal and vertical axes
+ * @param {*} hLabel the horizontal axis label
+ * @param {*} hs the start (left) value for the horizontal axis
+ * @param {*} he the end (right) value for the horizontal axis
+ * @param {*} vLabel the vertical axis label
+ * @param {*} vs the start (top) value for the vertical axis
+ * @param {*} ve the end (bottom) value for the vertical axis
+ * @param {*} hsLabel an optional label for the start (left) of the horizontal axis
+ * @param {*} heLabel an optional label for the end (right) of the horizontal axis
+ * @param {*} vsLabel an optional label for the start (top) of the vertical axis
+ * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
  */
 function axes(
   hLabel,
@@ -134,9 +134,9 @@ function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} multiples of eight x, y coordinates
+ * @param {*} eight x, y values, followed by multiples of six
  * -or-
- * @param {*} multiples of four points
+ * @param {*} four points, followed by multiples of three
  */
 function bezier(...args) {
   let points = args;
@@ -169,9 +169,31 @@ function bezier(...args) {
 }
 
 /**
+ * Draw a B-spline using four or more Point or
+ * Point-likes that implement:
  *
- * @param {*} points
- * @param {*} open
+ *   {
+ *     x: number
+ *     y: number
+ *   }
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       // CODE GOES HERE
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} eight or more x, y values
+ * -or-
+ * @param {*} four or more points
  */
 function bspline(...args) {
   let open = true;
@@ -196,6 +218,8 @@ function bspline(...args) {
 /**
  * Draw a circle with radius `r` at (x,y).
  *
+ * Example:
+ *
  * <graphics-element>
  *   <graphics-source>
  *     function setup() {
@@ -210,9 +234,11 @@ function bspline(...args) {
  *   </graphics-source>
  * </graphics-element>
  *
- *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} r
  */
 function circle(x, y, r) {
@@ -225,8 +251,24 @@ function circle(x, y, r) {
 }
 
 /**
+ * Clear the canvas, and set it to a specific (CSS) colour.
+ * If no `noGrid()` call was made, this will then also draw
+ * the background grid.
  *
- * @param {*} color
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`pink`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} colour defaults to `white`
  */
 function clear(color = `white`) {
   save();
@@ -238,6 +280,33 @@ function clear(color = `white`) {
 }
 
 /**
+ * Counterpart to start(), finalizes the current shape and
+ * colours it. If `close` is true, it will close the path
+ * before colouring.
+ *
+ * If `noFill()` is in effect, the shape will not be filled.
+ * if `noStroke()` is in effect, the shape outline will not be coloured.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} close
  */
@@ -251,37 +320,40 @@ function end(close = false) {
 }
 
 /**
+ * Draw an image in a given location with an optional
+ * width and height. If omitted, the width and height
+ * will be the image's own dimensions. Note that the
+ * image may be either a URL, or an <img> element.
  *
- */
-function grid() {
-  save();
-  setLineWidth(0.5);
-  noFill();
-  setStroke(__grid_color);
-  for (
-    let x = (-0.5 + __grid_spacing / 2) | 0;
-    x < width;
-    x += __grid_spacing
-  ) {
-    line(x, 0, x, height);
-  }
-  for (
-    let y = (-0.5 + __grid_spacing / 2) | 0;
-    y < height;
-    y += __grid_spacing
-  ) {
-    line(0, y, width, y);
-  }
-  restore();
-}
-
-/**
+ * Note that this is an async function: if it is important
+ * that nothing gets drawn until the image has been drawn,
+ * remember to `await` its call.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     async function draw() {
+ *       clear(`white`);
+ *       await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} img
+ * followed by
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} w
  * @param {*} h
+ *
+ * @return {Image} the drawn image
  */
 async function image(img, x = 0, y = 0, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -300,14 +372,36 @@ async function image(img, x = 0, y = 0, w, h) {
     });
   }
   __ctx.drawImage(img, x, y, w || img.width, h || img.height);
+  return img;
 }
 
 /**
+ * Draw a line from one coordinate to another.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       range(0,height,20, (i) => line(0, 0, width, i));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x1
  * @param {*} y1
+ * -or-
+ * @param {*} p1
+ * followed by
  * @param {*} x2
  * @param {*} y2
+ * -or-
+ * @param {*} p2
  */
 function line(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -324,26 +418,103 @@ function line(x1, y1, x2, y2) {
 }
 
 /**
+ * Plot a y=f(x) function. The input to the function
+ * will span the interval [a,b] using the indicated
+ * number of steps, and the re sult may be scaled both
+ * in the x and y direction in order to draw something
+ * that you can actually see (e.g. if you're plotting
+ * to the domain [0,1] you wouldn't be able to see the
+ * result without scaling).
  *
- * @param {*} f
+ * This function is aware of, and will plot, discontinuities.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       noFill();
+ *       setStroke(`black`);
+ *       translate(0, height/2);
+ *       plot((x) => cos(x)**2/sin(x), 0, TAU, width/TAU, height/2)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} f the y=f(x) function
  * @param {*} a
  * @param {*} b
  * @param {*} steps
  * @param {*} xscale
  * @param {*} yscale
  */
-function plot(f, a = 0, b = 1, steps = 24, xscale = 1, yscale = 1) {
+function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
   const interval = b - a;
   start();
-  for (let i = 0, e = steps - 1, x, y, v; i < steps; i++) {
-    x = a + interval * (i / e);
+  let [py, dy, pdy] = [0, 0, 0];
+  const step = interval / (steps - 1);
+  const discontinuity = (i, x, y) => {
+    end();
+    save();
+    noFill();
+    console.log({ i, x, y, py, dy, pdy });
+    point(x * xscale, py * yscale);
+    point(x * xscale, y * yscale);
+    restore();
+    start();
+  };
+  for (let i = 0, x, y; i < steps; i++) {
+    x = a + i * step;
     y = f(x);
+    // If f(x) changes in violation of what its f'(x) suggested,
+    // that's a discontinuity and we draw an asymptote.
+    dy = (y - py) * step;
+    if (pdy !== null && sign(y - py) !== sign(pdy) && abs(pdy) > 0.01) {
+      discontinuity(i, x, y);
+      pdy = null;
+    } else {
+      pdy = dy;
+    }
     vertex(x * xscale, y * yscale);
+    py = y;
   }
   end();
 }
 
 /**
+ * Plot a 2D graph using a collection of any-dimensional data,
+ * by indicating which dimension should be treated as the `x`
+ * and which dimension should be treated as the `y`.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       noFill();
+ *       translate(0, height/2);
+ *
+ *       setStroke(`darkgreen`);
+ *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       plotData(data, 0, 1);
+ *
+ *       setStroke(`purple`);
+ *       data = array(width, (_,i) => ({
+ *         meep: i,
+ *         moop: height/2 * cos(i/25)
+ *       }));
+ *       plotData(data, `meep`, `moop`);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} data
  * @param {*} x
@@ -361,18 +532,59 @@ function plotData(data, x, y) {
 }
 
 /**
+ * Draw a point (either from x/y or point-like).
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width/2, height/2);
+ *       range(0, TAU, (a) => {
+ *         point(40 * cos(a), 40 * sin(a));
+ *       });
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
  */
 function point(x, y) {
   circle(x, y, 3);
 }
 
 /**
+ * Draw a rectangle at the specified coordinate, with
+ * the specific width and height.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       rect(40, 40, width - 80, height - 80);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
+ * followed by
  * @param {*} w
  * @param {*} h
  */
@@ -457,6 +669,28 @@ function spline(...args) {
 }
 
 /**
+ * Starts a (new) shape.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  */
 function start() {
@@ -468,14 +702,59 @@ function start() {
 }
 
 /**
+ * Draw some text to the screen. Its placement is
+ * determined by both the coordinate provided, and
+ * the x/y alignment provided. Valid `xAlign` values
+ * are:
+ *
+ *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ *   LEFT - the text anchor is on the left side of the text. all text is to the right.
+ *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ *
+ * Valid `yAlign` values are:
+ *
+ *   ALPHABETIC - standard text alignment
+ *   BOTTOM - the text is aligned to the bottom of the bounding box
+ *   HANGING - relevant for Tibetan and other Indic scripts.
+ *   IDEOGRAPHIC - relevant for ideographic CJKV text.
+ *   MIDDLE - The vertical equivalent of "center".
+ *   TOP - The text is aligned to the top of the typographic "em square".
+ *
+ * Note that the primary text colour uses the fill colour. If text
+ * stroking is enabled, the the text outline will be coloured using
+ * the current stroke colour.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       text("normal text", width/2, 60, CENTER, CENTER);
+ *       noFill();
+ *       setTextStroke(1);
+ *       text("unfilled text", width/2, 100, CENTER, CENTER);
+ *       setStroke(`red`);
+ *       setFill(`yellow`);
+ *       text("fancy text", width/2, 140, CENTER, CENTER);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} str
+ * followed by
  * @param {*} x
  * @param {*} y
  * -or-
- * @param {*} str
- * @param {*} point-like
- * then
+ * @param {*} p
+ * followed by
  * @param {*} xAlign
  * @param {*} yAlign
  */
@@ -500,6 +779,23 @@ function text(str, x, y, xAlign, yAlign = `inherit`) {
 }
 
 /**
+ * Draw a triangle.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       triangle(width/2, 30, 1/4 * width, 160, 3/4 * width, 110);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @param {*} x1
  * @param {*} y1
@@ -507,6 +803,10 @@ function text(str, x, y, xAlign, yAlign = `inherit`) {
  * @param {*} y2
  * @param {*} x3
  * @param {*} y3
+ * -or-
+ * @param {*} p1
+ * @param {*} p2
+ * @param {*} p3
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -527,11 +827,39 @@ function triangle(x1, y1, x2, y2, x3, y3) {
 }
 
 /**
+ * Add a vertex to the currently active shape.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`red`);
+ *       start();
+ *       vertex(width/2, 30);
+ *       vertex(1/4 * width, 160);
+ *       vertex(3/4 * width, 110);
+ *       end();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  *
  * @param {*} x
  * @param {*} y
+ * -or-
+ * @param {*} p
  */
 function vertex(x, y) {
+  if (x.x !== undefined && x.y !== undefined) {
+    y = x.y;
+    x = x.x;
+  }
   if (__first) {
     __ctx.lineTo(x, y);
   } else {

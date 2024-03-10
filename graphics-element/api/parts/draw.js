@@ -134,9 +134,9 @@ function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} multiples of eight x, y coordinates
+ * @param {*} eight x, y values, followed by multiples of six
  * -or-
- * @param {*} multiples of four points
+ * @param {*} four points, followed by multiples of three
  */
 function bezier(...args) {
   let points = args;
@@ -169,9 +169,31 @@ function bezier(...args) {
 }
 
 /**
+ * Draw a B-spline using four or more Point or
+ * Point-likes that implement:
  *
- * @param {*} points
- * @param {*} open
+ *   {
+ *     x: number
+ *     y: number
+ *   }
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       // CODE GOES HERE
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {*} eight or more x, y values
+ * -or-
+ * @param {*} four or more points
  */
 function bspline(...args) {
   let open = true;

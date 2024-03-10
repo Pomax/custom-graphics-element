@@ -163,7 +163,7 @@ function addSlider(propLabel, assign, options = {}) {
  *       clear(`white`);
  *       setColor(`black`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
  *     function pointerDown() {
@@ -234,7 +234,7 @@ function addButton(label, onClick) {
  *       clear(`white`);
  *       setColor(`black`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
  *     function pointerDown() {

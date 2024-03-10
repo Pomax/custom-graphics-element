@@ -152,7 +152,7 @@ function color(h = __current_hue, s = 50, l = 50, a = 1) {
  *       clear();
  *       setColor(`red`);
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
  *     function pointerActive(state) {
@@ -227,7 +227,7 @@ function isMovable(point) {
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000)|0;
  *       text(`${seconds}s`, width/2, height/2)
  *     }
@@ -255,7 +255,7 @@ function millis() {
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
@@ -293,7 +293,7 @@ function pause() {
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`fps: ${fps}`, width/2, height/2)
  *       if (seconds.endsWith(`.0`)) {
@@ -512,7 +512,7 @@ function toDataURL() {
  *     function draw() {
  *       clear();
  *       setFontSize(25);
- *       setTextAlign(CENTER, CENTER);
+ *       setTextAlign(CENTER, MIDDLE);
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }

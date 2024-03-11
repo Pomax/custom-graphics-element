@@ -8,6 +8,10 @@ graphics-element {
   display: block;
   border: 1px solid grey;
 
+  graphics-source {
+    display: none;
+  }
+
   /*
     We can use the :defined pseudo-class to check whether a particular
     element is considered a "real" element (either by being a built-in
@@ -129,7 +133,7 @@ graphics-element {
     opacity: 0.5;
   }
 
-  &  p {
+  & p {
     text-align: left;
     padding: 0 1em;
     font-family: sans-serif;

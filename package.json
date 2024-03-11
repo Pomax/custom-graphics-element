@@ -18,7 +18,7 @@
     "types:remove": "rm -f dist/graphics-element.d.ts",
     "types:compile": "node dts.js",
     "types:assemble": "cp graphics-element/base.d.ts dist && cat dist/*.ts > dist/graphics-element.d && rm dist/*.d.ts && mv dist/graphics-element.d dist/graphics-element.d.ts",
-    "types:clean": "prettier dist/graphics-element.d.ts --write",
+    "types:clean": "prettier dist/graphics-element.d.ts --write && prettier test.html --write",
     "open": "open-cli \"http://localhost:3000\""
   },
   "author": "Pomax",
@@ -27,6 +27,7 @@
     "esbuild": "^0.19.10",
     "glob": "^10.3.10",
     "lightningcss-cli": "^1.24.0",
+    "marked": "^12.0.1",
     "monaco-editor": "^0.45.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^8.0.0",

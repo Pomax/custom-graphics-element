@@ -139,7 +139,7 @@ function scale(x = 1, y = x) {
  * @param {*} x
  * @param {*} y
  * @returns p
- * 
+ *
  * @param {*} p
  * @returns p
  */
@@ -235,10 +235,10 @@ function translate(x = 0, y = 0) {
  *
  * @param {*} x
  * @param {*} y
- * @return p
+ * @returns p
  *
  * @param {*} p
- * @return p
+ * @returns p
  */
 function worldToScreen(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

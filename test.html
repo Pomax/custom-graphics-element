@@ -1,185 +1,336 @@
 <doctype html>
-<html>
-  <head> 
-    <meta charset="utf-8">
-    <title>example test</title>
-    <script type="module" src="dist/graphics-element.js" async></script>
-    <link rel="stylesheet" href="dist/graphics-element.css" async />
-    <style>
-      body {
-        width: 800px;
-        margin: auto;
-        border: 1px solid black;
-        border-width: 0px 1px;
-        padding: 0 1rem;
-      }
-      h1 {
-        background: #F8F8F8;
-        margin: 0 -1rem;
-        padding: 0 1rem;
-      }
-    </style>
-  </head>
-  <body>
-  
-        <h1>noBorder</h1>
-        <ul><li><code>noBorder()</code></li></ul>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>example test</title>
+      <script type="module" src="dist/graphics-element.js" async></script>
+      <link rel="stylesheet" href="dist/graphics-element.css" async />
+      <style>
+        body {
+          font-family: Helvetica;
+          width: 800px;
+          margin: auto;
+          border: 1px solid black;
+          border-width: 0px 1px;
+          padding: 0 1rem;
+          h1 {
+            background: #f8f8f8;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+            span {
+              vertical-align: -0.05em;
+            }
+          }
+          #toc {
+            column-count: 3;
+            padding: 1em 0 2em;
+            ul {
+              margin: 0;
+            }
+          }
+          a {
+            &:link,
+            &:visited,
+            &:active,
+            &:hover,
+            &:focus {
+              color: #06c;
+            }
+            text-decoration: none;
+            &[href="#top"] {
+              float: right;
+              font-size: 0.8em;
+              margin-top: 0.2em;
+            }
+          }
+          graphics-element {
+            min-width: 200px;
+            min-height: 200px;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <h1 id="top" style="text-align: center; font-size: 2.5em">
+        The <span>&lt;</span>graphics-element<span>&gt;</span> API
+      </h1>
+      <p>
+        This is the API documentation for &lt;graphics-element&gt; source code,
+        which at its code is simply plain JavaScript with a bunch of extra
+        global constants and functions to allow you to quickly but cleanly get
+        (interactive, and animated) graphics onto a page using the native web
+        stack instead of needing some kind of build system.
+      </p>
+      <section id="toc">
+        <ul>
+          <li><a href="#addButton">addButton</a></li>
+          <li><a href="#addSlider">addSlider</a></li>
+          <li><a href="#arc">arc</a></li>
+          <li><a href="#array">array</a></li>
+          <li><a href="#axes">axes</a></li>
+          <li><a href="#bezier">bezier</a></li>
+          <li><a href="#bspline">bspline</a></li>
+          <li><a href="#circle">circle</a></li>
+          <li><a href="#clear">clear</a></li>
+          <li><a href="#clearButtons">clearButtons</a></li>
+          <li><a href="#clearMovable">clearMovable</a></li>
+          <li><a href="#clearSliders">clearSliders</a></li>
+          <li><a href="#color">color</a></li>
+          <li><a href="#copy">copy</a></li>
+          <li><a href="#end">end</a></li>
+          <li><a href="#highlight">highlight</a></li>
+          <li><a href="#image">image</a></li>
+          <li><a href="#isMovable">isMovable</a></li>
+          <li><a href="#line">line</a></li>
+          <li><a href="#millis">millis</a></li>
+          <li><a href="#noBorder">noBorder</a></li>
+          <li><a href="#noColor">noColor</a></li>
+          <li><a href="#noCursor">noCursor</a></li>
+          <li><a href="#noFill">noFill</a></li>
+          <li><a href="#noGrid">noGrid</a></li>
+          <li><a href="#noLineDash">noLineDash</a></li>
+          <li><a href="#noStroke">noStroke</a></li>
+          <li><a href="#noTextStroke">noTextStroke</a></li>
+          <li><a href="#pause">pause</a></li>
+          <li><a href="#play">play</a></li>
+          <li><a href="#plot">plot</a></li>
+          <li><a href="#plotData">plotData</a></li>
+          <li><a href="#point">point</a></li>
+          <li><a href="#project">project</a></li>
+          <li><a href="#randomColor">randomColor</a></li>
+          <li><a href="#range">range</a></li>
+          <li><a href="#rect">rect</a></li>
+          <li><a href="#resetTransform">resetTransform</a></li>
+          <li><a href="#restore">restore</a></li>
+          <li><a href="#rotate">rotate</a></li>
+          <li><a href="#rotateProjector">rotateProjector</a></li>
+          <li><a href="#save">save</a></li>
+          <li><a href="#scale">scale</a></li>
+          <li><a href="#screenToWorld">screenToWorld</a></li>
+          <li><a href="#setBorder">setBorder</a></li>
+          <li><a href="#setColor">setColor</a></li>
+          <li><a href="#setCursor">setCursor</a></li>
+          <li><a href="#setFill">setFill</a></li>
+          <li><a href="#setFont">setFont</a></li>
+          <li><a href="#setFontFamily">setFontFamily</a></li>
+          <li><a href="#setFontSize">setFontSize</a></li>
+          <li><a href="#setFontWeight">setFontWeight</a></li>
+          <li><a href="#setGrid">setGrid</a></li>
+          <li><a href="#setHighlightColor">setHighlightColor</a></li>
+          <li><a href="#setLineDash">setLineDash</a></li>
+          <li><a href="#setLineWidth">setLineWidth</a></li>
+          <li><a href="#setMovable">setMovable</a></li>
+          <li><a href="#setProjector">setProjector</a></li>
+          <li><a href="#setStroke">setStroke</a></li>
+          <li><a href="#setTextAlign">setTextAlign</a></li>
+          <li><a href="#setTextStroke">setTextStroke</a></li>
+          <li><a href="#spline">spline</a></li>
+          <li><a href="#start">start</a></li>
+          <li><a href="#text">text</a></li>
+          <li><a href="#toDataURL">toDataURL</a></li>
+          <li><a href="#togglePlay">togglePlay</a></li>
+          <li><a href="#transform">transform</a></li>
+          <li><a href="#translate">translate</a></li>
+          <li><a href="#triangle">triangle</a></li>
+          <li><a href="#vertex">vertex</a></li>
+          <li><a href="#worldToScreen">worldToScreen</a></li>
+        </ul>
+      </section>
+
+      <section id="noBorder">
+        <h1><a href="#noBorder">noBorder</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noBorder()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Ensure that there is no border around the canvas element.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setBorder(5, `red`);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      text(`click me`, width/2, height/2);
-    }
-    function pointerUp(x, y) {
-      setBorder(5, `red`);
-      redraw()
-    }
-    function pointerDown(x, y) {
-      noBorder();
-      redraw()
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setBorder(5, `red`);
 }
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setTextAlign(CENTER, MIDDLE);
   setFontSize(25);
-  text(`click me`, width/2, height/2);
+  text(`click me`, width / 2, height / 2);
 }
+
 function pointerUp(x, y) {
   setBorder(5, `red`);
-  redraw()
+  redraw();
 }
+
 function pointerDown(x, y) {
   noBorder();
-  redraw()
-}</pre>
-          
-      
-
-
-        <h1>noColor</h1>
-        <ul><li><code>noColor()</code></li></ul>
-        <p>Disable both stroke and fill color.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      text(`Now you see me`, width/2, height/2 - 25);
-      noColor();
-      text(`Now you don't`, width/2, height/2 + 25);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
-  setSize(200, 200);
+  redraw();
 }
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setBorder(5, `red`);
+}
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setTextAlign(CENTER, MIDDLE);
   setFontSize(25);
-  text(`Now you see me`, width/2, height/2 - 25);
-  noColor();
-  text(`Now you don&apos;t`, width/2, height/2 + 25);
-}</pre>
-          
-      
+  text(`click me`, width / 2, height / 2);
+}
 
+function pointerUp(x, y) {
+  setBorder(5, `red`);
+  redraw();
+}
 
-        <h1>noCursor</h1>
-        <ul><li><code>noCursor()</code></li></ul>
-        <p>Hide the cursor.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`#FF02`);
-      rect(0, 0, width/2, height);
-      setColor(`#0FF2`);
-      rect(width/2, 0, width/2, height);
-    }
-    function pointerMove(x, y) {
-      if (x < width/2) {
-        setCursor(AUTO);
-      } else {
-        noCursor();
-      }
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+function pointerDown(x, y) {
+  noBorder();
+  redraw();
+}
+</pre
+        >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setBorder">setBorder</a></li>
+        </ul>
+      </section>
+
+      <section id="noColor">
+        <h1><a href="#noColor">noColor</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noColor()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Disable both stroke and fill color.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  text(`Now you see me`, width / 2, height / 2 - 25);
+  noColor();
+  text(`Now you don't`, width / 2, height / 2 + 25);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  text(`Now you see me`, width / 2, height / 2 - 25);
+  noColor();
+  text(`Now you don&apos;t`, width / 2, height / 2 + 25);
+}
+</pre
+        >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setColor">setColor</a></li>
+          <li><a href="#noStroke">noStroke</a></li>
+          <li><a href="#noFill">noFill</a></li>
+        </ul>
+      </section>
+
+      <section id="noCursor">
+        <h1><a href="#noCursor">noCursor</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noCursor()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Hide the cursor.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
 function draw() {
   clear(`white`);
   setColor(`#FF02`);
-  rect(0, 0, width/2, height);
+  rect(0, 0, width / 2, height);
   setColor(`#0FF2`);
-  rect(width/2, 0, width/2, height);
+  rect(width / 2, 0, width / 2, height);
 }
+
 function pointerMove(x, y) {
-  if (x &lt; width/2) {
+  if (x < width / 2) {
     setCursor(AUTO);
   } else {
     noCursor();
   }
-}</pre>
-          
-      
+}
 
-
-        <h1>noFill</h1>
-        <ul><li><code>noFill()</code></li></ul>
-        <p>Disable the fill color.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      setTextStroke(1);
-      setColor(`black`);
-      rect(20, 70, 20, 20);
-      text(`filled`, width/2, height/2 - 25);
-      noFill();
-      rect(30, 80, 20, 20);
-      text(`not filled`, width/2, height/2 + 25);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+
+function draw() {
+  clear(`white`);
+  setColor(`#FF02`);
+  rect(0, 0, width / 2, height);
+  setColor(`#0FF2`);
+  rect(width / 2, 0, width / 2, height);
+}
+
+function pointerMove(x, y) {
+  if (x &lt; width / 2) {
+    setCursor(AUTO);
+  } else {
+    noCursor();
+  }
+}
+</pre
+        >
+      </section>
+
+      <section id="noFill">
+        <h1><a href="#noFill">noFill</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noFill()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Disable the fill color.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -187,132 +338,165 @@ function draw() {
   setTextStroke(1);
   setColor(`black`);
   rect(20, 70, 20, 20);
-  text(`filled`, width/2, height/2 - 25);
+  text(`filled`, width / 2, height / 2 - 25);
   noFill();
   rect(30, 80, 20, 20);
-  text(`not filled`, width/2, height/2 + 25);
-}</pre>
-          
-      
+  text(`not filled`, width / 2, height / 2 + 25);
+}
 
-
-        <h1>noGrid</h1>
-        <ul><li><code>noGrid()</code></li></ul>
-        <p>Disable the default grid background.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      text(`click me`, width/2, height/2);
-    }
-    function pointerUp(x, y) {
-      setGrid(20, `lightgrey`);
-      redraw()
-    }
-    function pointerDown(x, y) {
-      noGrid();
-      redraw()
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+
+function draw() {
+  clear(`white`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  setTextStroke(1);
+  setColor(`black`);
+  rect(20, 70, 20, 20);
+  text(`filled`, width / 2, height / 2 - 25);
+  noFill();
+  rect(30, 80, 20, 20);
+  text(`not filled`, width / 2, height / 2 + 25);
+}
+</pre
+        >
+      </section>
+
+      <section id="noGrid">
+        <h1><a href="#noGrid">noGrid</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noGrid()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Disable the default grid background.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setTextAlign(CENTER, MIDDLE);
   setFontSize(25);
-  text(`click me`, width/2, height/2);
+  text(`click me`, width / 2, height / 2);
 }
+
 function pointerUp(x, y) {
   setGrid(20, `lightgrey`);
-  redraw()
+  redraw();
 }
+
 function pointerDown(x, y) {
   noGrid();
-  redraw()
-}</pre>
-          
-      
+  redraw();
+}
 
-
-        <h1>noLineDash</h1>
-        <ul><li><code>noLineDash()</code></li></ul>
-        <p>Set the line stroke to "solid".</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setLineDash(1);
-      line(0,20,width,50);
-      setLineDash(5);
-      line(0,30,width,90);
-      setLineDash(1,2,3,4);
-      line(0,40,width,130);
-      noLineDash();
-      line(0,50,width,180);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  text(`click me`, width / 2, height / 2);
+}
+
+function pointerUp(x, y) {
+  setGrid(20, `lightgrey`);
+  redraw();
+}
+
+function pointerDown(x, y) {
+  noGrid();
+  redraw();
+}
+</pre
+        >
+      </section>
+
+      <section id="noLineDash">
+        <h1><a href="#noLineDash">noLineDash</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noLineDash()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Set the line stroke to &quot;solid&quot;.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setLineDash(1);
-  line(0,20,width,50);
+  line(0, 20, width, 50);
   setLineDash(5);
-  line(0,30,width,90);
-  setLineDash(1,2,3,4);
-  line(0,40,width,130);
+  line(0, 30, width, 90);
+  setLineDash(1, 2, 3, 4);
+  line(0, 40, width, 130);
   noLineDash();
-  line(0,50,width,180);
-}</pre>
-          
-      
+  line(0, 50, width, 180);
+}
 
-
-        <h1>noStroke</h1>
-        <ul><li><code>noStroke()</code></li></ul>
-        <p>Disable the stroke color.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      setTextStroke(1);
-      setColor(`red`);
-      setStroke(`black`);
-      rect(20, 70, 20, 20);
-      text(`stroked`, width/2, height/2 - 25);
-      noStroke();
-      rect(42, 82, 20, 20);
-      text(`not stroked`, width/2, height/2 + 25);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setLineDash(1);
+  line(0, 20, width, 50);
+  setLineDash(5);
+  line(0, 30, width, 90);
+  setLineDash(1, 2, 3, 4);
+  line(0, 40, width, 130);
+  noLineDash();
+  line(0, 50, width, 180);
+}
+</pre
+        >
+      </section>
+
+      <section id="noStroke">
+        <h1><a href="#noStroke">noStroke</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noStroke()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Disable the stroke color.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -321,42 +505,19 @@ function draw() {
   setColor(`red`);
   setStroke(`black`);
   rect(20, 70, 20, 20);
-  text(`stroked`, width/2, height/2 - 25);
+  text(`stroked`, width / 2, height / 2 - 25);
   noStroke();
   rect(42, 82, 20, 20);
-  text(`not stroked`, width/2, height/2 + 25);
-}</pre>
-          
-      
+  text(`not stroked`, width / 2, height / 2 + 25);
+}
 
-
-        <h1>noTextStroke</h1>
-        <ul><li><code>noTextStroke()</code></li></ul>
-        <p>Disable text stroking, but not regular shape stroking.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setTextAlign(CENTER, MIDDLE);
-      setFontSize(25);
-      setTextStroke(1);
-      setColor(`red`);
-      setStroke(`black`);
-      rect(20, 70, 20, 20);
-      text(`stroked`, width/2, height/2 - 25);
-      noTextStroke();
-      rect(42, 82, 20, 20);
-      text(`not stroked`, width/2, height/2 + 25);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -365,65 +526,139 @@ function draw() {
   setColor(`red`);
   setStroke(`black`);
   rect(20, 70, 20, 20);
-  text(`stroked`, width/2, height/2 - 25);
+  text(`stroked`, width / 2, height / 2 - 25);
+  noStroke();
+  rect(42, 82, 20, 20);
+  text(`not stroked`, width / 2, height / 2 + 25);
+}
+</pre
+        >
+      </section>
+
+      <section id="noTextStroke">
+        <h1><a href="#noTextStroke">noTextStroke</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>noTextStroke()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Disable text stroking, but not regular shape stroking.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+
+function draw() {
+  clear(`white`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  setTextStroke(1);
+  setColor(`red`);
+  setStroke(`black`);
+  rect(20, 70, 20, 20);
+  text(`stroked`, width / 2, height / 2 - 25);
   noTextStroke();
   rect(42, 82, 20, 20);
-  text(`not stroked`, width/2, height/2 + 25);
-}</pre>
-          
-      
+  text(`not stroked`, width / 2, height / 2 + 25);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
 
-        <h1>addSlider</h1>
-        <ul><li><code>addSlider(propLabel: string, options: *)</code></li></ul>
-        <p>Add a slider to your figure, allowing users to control
- a variable in your graphics code directly by interacting
- with that on-page slider, which is especially important if
- you want your graphics to be useable by users who don't
- have, or cannot use, a mouse.
+function draw() {
+  clear(`white`);
+  setTextAlign(CENTER, MIDDLE);
+  setFontSize(25);
+  setTextStroke(1);
+  setColor(`red`);
+  setStroke(`black`);
+  rect(20, 70, 20, 20);
+  text(`stroked`, width / 2, height / 2 - 25);
+  noTextStroke();
+  rect(42, 82, 20, 20);
+  text(`not stroked`, width / 2, height / 2 + 25);
+}
+</pre
+        >
+      </section>
 
- The `propLabel` value should be the name of the variable
- that your graphics code uses, and should _not_ be "preallocated"
- in your code with a const, let, or var: it will automatically
- get added as part of the source loading process.
+      <section id="addSlider">
+        <h1><a href="#addSlider">addSlider</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >addSlider(propLabel: string, options: *):
+              {HTMLInputElement}</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Add a slider to your figure, allowing users to control a variable in
+          your graphics code directly by interacting with that on-page slider,
+          which is especially important if you want your graphics to be useable
+          by users who don&#39;t have, or cannot use, a mouse.
+        </p>
+        <p>
+          The <code>propLabel</code> value should be the name of the variable
+          that your graphics code uses, and should <em>not</em> be
+          &quot;preallocated&quot; in your code with a const, let, or var: it
+          will automatically get added as part of the source loading process.
+        </p>
+        <p>The options object accepts the following properties and values:</p>
+        <ul>
+          <li>min:number - the slider&#39;s minimum value, defaults to 0</li>
+          <li>max:number - the slider&#39;s maximum value, defaults to 1</li>
+          <li>step - the step size, defaults to (max - min)/10</li>
+          <li>value - the initial value, defaults to (max + min)/2</li>
+          <li>
+            classes - the CSS classes that will be used, defaults to
+            <code>sider</code>
+          </li>
+          <li>transform - a value preprocessor defaults to (v) =&gt; v</li>
+        </ul>
+        <p>
+          The <code>transform</code> pre-processor runs after the user updates
+          the slider, but before its value gets assigned to your variable, so
+          that you can map it to something else (for instance, numbers in one
+          range to numbers in a completely different range, or even numbers to
+          strings or entire objects)
+        </p>
 
- The options object accepts the following properties and values:
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(400, 200);
+  addSlider(`bgColor`, {
+    min: 0,
+    max: 255,
+    step: 1,
+    value: 200,
+    transform: (v) => {
+      // convert v into a hex color code
+      v = v.toString(16).padStart(2, `0`);
+      return `#${v}${v}${v}`;
+    },
+  });
+}
 
- - min:number - the slider's minimum value, defaults to 0
- - max:number - the slider's maximum value, defaults to 1
- - step - the step size, defaults to (max - min)/10
- - value - the initial value, defaults to (max + min)/2
- - classes - the CSS classes that will be used, defaults to `sider`
- - transform - a value preprocessor  defaults to (v) => v
+function draw() {
+  clear(bgColor);
+}
 
- The `transform` pre-processor runs after the user updates
- the slider, but before its value gets assigned to your variable,
- so that you can map it to something else (for instance, numbers
- in one range to numbers in a completely different range, or even
- numbers to strings or entire objects)</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(400, 200);
-      addSlider(`bgColor`, {
-        min: 0,
-        max: 255,
-        step: 1,
-        value: 200,
-        transform: (v) => {
-          // convert v into a hex color code
-          v = (v).toString(16).padStart(2, `0`);
-          return `#${v}${v}${v}`;
-        }
-      });
-    }
-    function draw() {
-      clear(bgColor);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(400, 200);
   addSlider(`bgColor`, {
     min: 0,
@@ -432,86 +667,114 @@ function draw() {
     value: 200,
     transform: (v) =&gt; {
       // convert v into a hex color code
-      v = (v).toString(16).padStart(2, `0`);
+      v = v.toString(16).padStart(2, `0`);
       return `#${v}${v}${v}`;
-    }
+    },
   });
 }
+
 function draw() {
   clear(bgColor);
-}</pre>
-          
-      
+}
+</pre
+        >
+      </section>
 
-
-        <h1>clearSliders</h1>
-        <ul><li><code>clearSliders()</code></li></ul>
+      <section id="clearSliders">
+        <h1><a href="#clearSliders">clearSliders</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>clearSliders()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Remove all sliders for your figure from the page.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      addSlider(`x`);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      text(`click to clear`, width/2, height/2);
-    }
-    function pointerDown() {
-      clearSliders();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   addSlider(`x`);
 }
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width/2, height/2);
+  text(`click to clear`, width / 2, height / 2);
 }
+
 function pointerDown() {
   clearSliders();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  addSlider(`x`);
+}
 
-        <h1>addButton</h1>
-        <ul><li><code>addButton(label: *, onClick: *): HTMLButtonElement</code></li></ul>
-        <p>Add a button below your figure that can trigger event-based
- code, which is especially important if you want your graphics
- to be useable by users who don't have, or cannot use, a mouse.
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
 
- onClick is similar to the standard JS event handler, except
- that the call argument is a reference to your button, not
- the click event.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const colors = [`white`, `black`];
-    let bgColor = 0;
-    function setup() {
-      setSize(200, 200);
-      addButton(`flip background`, () => {
-        bgColor = -(bgColor - 1);
-        redraw();
-      });
-    }
-    function draw() {
-      clear(colors[bgColor]);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const colors = [`white`, `black`];
+function pointerDown() {
+  clearSliders();
+}
+</pre
+        >
+      </section>
+
+      <section id="addButton">
+        <h1><a href="#addButton">addButton</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code>addButton(label: *, onClick: *): HTMLButtonElement</code>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Add a button below your figure that can trigger event-based code,
+          which is especially important if you want your graphics to be useable
+          by users who don&#39;t have, or cannot use, a mouse.
+        </p>
+        <p>
+          onClick is similar to the standard JS event handler, except that the
+          call argument is a reference to your button, not the click event.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const colors = [`white`, `black`];
 let bgColor = 0;
+
+function setup() {
+  setSize(200, 200);
+  addButton(`flip background`, () => {
+    bgColor = -(bgColor - 1);
+    redraw();
+  });
+}
+
+function draw() {
+  clear(colors[bgColor]);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const colors = [`white`, `black`];
+let bgColor = 0;
+
 function setup() {
   setSize(200, 200);
   addButton(`flip background`, () =&gt; {
@@ -519,137 +782,157 @@ function setup() {
     redraw();
   });
 }
+
 function draw() {
   clear(colors[bgColor]);
-}</pre>
-          
-      
-
-
-        <h1>clearButtons</h1>
-        <ul><li><code>clearButtons()</code></li></ul>
-        <p>Remove all buttons for your figure from the page.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      addButton(`this does nothing`, () => {});
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      text(`click to clear`, width/2, height/2);
-    }
-    function pointerDown() {
-      clearButtons();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
-  setSize(200, 200);
-  addButton(`this does nothing`, () =&gt; {});
 }
+</pre
+        >
+      </section>
+
+      <section id="clearButtons">
+        <h1><a href="#clearButtons">clearButtons</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>clearButtons()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Remove all buttons for your figure from the page.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  addButton(`this does nothing`, () => {});
+}
+
 function draw() {
   clear(`white`);
   setColor(`black`);
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width/2, height/2);
+  text(`click to clear`, width / 2, height / 2);
 }
+
 function pointerDown() {
   clearButtons();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  addButton(`this does nothing`, () =&gt; {});
+}
 
-        <h1>arc</h1>
-        <ul><li><code>arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, drawWedge: boolean)</code></li>
-<li><code>arc(point: PointLike, radius: number, startAngle: number, endAngle: number, drawWedge: boolean)</code></li></ul>
-        <p>Draw a circular arc with radius `r` at (x,y),
- starting at angle `s` and ending at angle `e`.
- If `wedge` is true, this will draw a closed
- shape that is anchored at (x,y). If omitted
- or explicitly set to false, this will draw
- an open shape with a fill that connects the
- first and last point on the arc, but no closing
- stroke.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`#F002`);
-      arc(width/2 + 30, height/2 - 40, 40, 0, 0.66*TAU);
-      arc(width/2 - 30, height/2 + 20, 40, 0, 0.66*TAU, true);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
+
+function pointerDown() {
+  clearButtons();
+}
+</pre
+        >
+      </section>
+
+      <section id="arc">
+        <h1><a href="#arc">arc</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >arc(x: number, y: number, radius: number, startAngle: number,
+              endAngle: number, drawWedge: boolean)</code
+            >
+          </li>
+          <li>
+            <code
+              >arc(point: PointLike, radius: number, startAngle: number,
+              endAngle: number, drawWedge: boolean)</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw a circular arc with radius <code>r</code> at (x,y), starting at
+          angle <code>s</code> and ending at angle <code>e</code>. If
+          <code>wedge</code> is true, this will draw a closed shape that is
+          anchored at (x,y). If omitted or explicitly set to false, this will
+          draw an open shape with a fill that connects the first and last point
+          on the arc, but no closing stroke.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   setStroke(`black`);
   setFill(`#F002`);
-  arc(width/2 + 30, height/2 - 40, 40, 0, 0.66*TAU);
-  arc(width/2 - 30, height/2 + 20, 40, 0, 0.66*TAU, true);
-}</pre>
-          
-      
+  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
+  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
+  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
+}
+</pre
+        >
+      </section>
 
-        <h1>axes</h1>
-        <ul><li><code>axes(hLabel: *, hs: *, he: *, vLabel: *, vs: *, ve: *, hsLabel: *, heLabel: *, vsLabel: *, veLabel: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="axes">
+        <h1><a href="#axes">axes</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >axes(hLabel: *, hs: *, he: *, vLabel: *, vs: *, ve: *, hsLabel:
+              *, heLabel: *, vsLabel: *, veLabel: *)</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>bezier</h1>
-        <ul><li><code>bezier(eight: *)</code></li>
-<li><code>bezier(four: *)</code></li></ul>
-        <p>Draw one or more Bezier curves from an array
- of Point or Point-likes that implement:
+      <section id="bezier">
+        <h1><a href="#bezier">bezier</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>bezier(eight: *)</code></li>
+          <li><code>bezier(four: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw one or more Bezier curves from an array of Point or Point-likes
+          that implement:
+        </p>
+        <p>{ x: number y: number }</p>
 
-   {
-     x: number
-     y: number
-   }</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`#F002`);
-      bezier(
-        new Point(20, height - 55),
-        new Point(20, 25),
-        { x: width - 20, y: 25},
-        { x: width - 20, y: height - 55}
-      );
-      noFill()
-      bezier(
-        new Point(0, height - 20),
-        new Point(width - 20, height - 20),
-        { x: 20, y: 20},
-        { x: width, y: 20}
-      );
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -659,139 +942,181 @@ function draw() {
   bezier(
     new Point(20, height - 55),
     new Point(20, 25),
-    { x: width - 20, y: 25},
-    { x: width - 20, y: height - 55}
+    { x: width - 20, y: 25 },
+    { x: width - 20, y: height - 55 },
   );
-  noFill()
+  noFill();
   bezier(
     new Point(0, height - 20),
     new Point(width - 20, height - 20),
-    { x: 20, y: 20},
-    { x: width, y: 20}
+    { x: 20, y: 20 },
+    { x: width, y: 20 },
   );
-}</pre>
-          
-      
-
-
-        <h1>bspline</h1>
-        <ul><li><code>bspline(eight: *)</code></li>
-<li><code>bspline(four: *)</code></li></ul>
-        <p>Draw a B-spline using four or more Point or
- Point-likes that implement:
-
-   {
-     x: number
-     y: number
-   }</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      // CODE GOES HERE
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
-  setSize(200, 200);
 }
-function draw() {
-  clear(`white`);
-  // CODE GOES HERE
-}</pre>
-          
-      
 
-
-        <h1>circle</h1>
-        <ul><li><code>circle(x: *, y: *, r: *)</code></li>
-<li><code>circle(p: *, r: *)</code></li></ul>
-        <p>Draw a circle with radius `r` at (x,y).</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`#F002`);
-      circle(width/2, height/2, 80);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   setStroke(`black`);
   setFill(`#F002`);
-  circle(width/2, height/2, 80);
-}</pre>
-          
-      
+  bezier(
+    new Point(20, height - 55),
+    new Point(20, 25),
+    { x: width - 20, y: 25 },
+    { x: width - 20, y: height - 55 },
+  );
+  noFill();
+  bezier(
+    new Point(0, height - 20),
+    new Point(width - 20, height - 20),
+    { x: 20, y: 20 },
+    { x: width, y: 20 },
+  );
+}
+</pre
+        >
+      </section>
 
+      <section id="bspline">
+        <h1><a href="#bspline">bspline</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>bspline(eight: *)</code></li>
+          <li><code>bspline(four: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw a B-spline using four or more Point or Point-likes that
+          implement:
+        </p>
+        <p>{ x: number y: number }</p>
 
-        <h1>clear</h1>
-        <ul><li><code>clear(colour: *)</code></li></ul>
-        <p>Clear the canvas, and set it to a specific (CSS) colour.
- If no `noGrid()` call was made, this will then also draw
- the background grid.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`pink`);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  // CODE GOES HERE
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  // CODE GOES HERE
+}
+</pre
+        >
+      </section>
+
+      <section id="circle">
+        <h1><a href="#circle">circle</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>circle(x: *, y: *, r: *)</code></li>
+          <li><code>circle(p: *, r: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Draw a circle with radius <code>r</code> at (x,y).</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  circle(width / 2, height / 2, 80);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  circle(width / 2, height / 2, 80);
+}
+</pre
+        >
+      </section>
+
+      <section id="clear">
+        <h1><a href="#clear">clear</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>clear(colour: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Clear the canvas, and set it to a specific (CSS) colour. If no
+          <code>noGrid()</code> call was made, this will then also draw the
+          background grid.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`pink`);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`pink`);
+}
+</pre
+        >
+      </section>
 
-        <h1>end</h1>
-        <ul><li><code>end(close: *)</code></li></ul>
-        <p>Counterpart to start(), finalizes the current shape and
- colours it. If `close` is true, it will close the path
- before colouring.
+      <section id="end">
+        <h1><a href="#end">end</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>end(close: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Counterpart to start(), finalizes the current shape and colours it. If
+          <code>close</code> is true, it will close the path before colouring.
+        </p>
+        <p>
+          If <code>noFill()</code> is in effect, the shape will not be filled.
+          if <code>noStroke()</code> is in effect, the shape outline will not be
+          coloured.
+        </p>
 
- If `noFill()` is in effect, the shape will not be filled.
- if `noStroke()` is in effect, the shape outline will not be coloured.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`gold`);
-      start();
-      vertex(0,height/2);
-      vertex(width/2, 0);
-      vertex(width, height/2);
-      vertex(width/2, height);
-      end(true);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -799,224 +1124,284 @@ function draw() {
   setStroke(`black`);
   setFill(`gold`);
   start();
-  vertex(0,height/2);
-  vertex(width/2, 0);
-  vertex(width, height/2);
-  vertex(width/2, height);
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
   end(true);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+</pre
+        >
+      </section>
 
-        <h1>image</h1>
-        <ul><li><code>image(img: *, x: *, y: *, w: *, h: *): {Image}</code></li>
-<li><code>image(img: *, p: *, w: *, h: *): {Image}</code></li></ul>
-        <p>Draw an image in a given location with an optional
- width and height. If omitted, the width and height
- will be the image's own dimensions. Note that the
- image may be either a URL, or an <img> element.
+      <section id="image">
+        <h1><a href="#image">image</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>image(img: *, x: *, y: *, w: *, h: *): {Image}</code></li>
+          <li><code>image(img: *, p: *, w: *, h: *): {Image}</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw an image in a given location with an optional width and height.
+          If omitted, the width and height will be the image&#39;s own
+          dimensions. Note that the image may be either a URL, or an
+          <img /> element.
+        </p>
+        <p>
+          Note that this is an async function: if it is important that nothing
+          gets drawn until the image has been drawn, remember to
+          <code>await</code> its call.
+        </p>
 
- Note that this is an async function: if it is important
- that nothing gets drawn until the image has been drawn,
- remember to `await` its call.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    async function draw() {
-      clear(`white`);
-      await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 async function draw() {
   clear(`white`);
   await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+async function draw() {
+  clear(`white`);
+  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
+}
+</pre
+        >
+      </section>
 
-        <h1>line</h1>
-        <ul><li><code>line(x1: *, y1: *, x2: *, y2: *)</code></li>
-<li><code>line(p1: *, p2: *)</code></li></ul>
+      <section id="line">
+        <h1><a href="#line">line</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>line(x1: *, y1: *, x2: *, y2: *)</code></li>
+          <li><code>line(p1: *, p2: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Draw a line from one coordinate to another.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      range(0,height,20, (i) => line(0, 0, width, i));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   setStroke(`black`);
-  range(0,height,20, (i) =&gt; line(0, 0, width, i));
-}</pre>
-          
-      
+  range(0, height, 20, (i) => line(0, 0, width, i));
+}
 
-
-        <h1>plot</h1>
-        <ul><li><code>plot(f: *, a: *, b: *, steps: *, xscale: *, yscale: *)</code></li></ul>
-        <p>Plot a y=f(x) function. The input to the function
- will span the interval [a,b] using the indicated
- number of steps, and the re sult may be scaled both
- in the x and y direction in order to draw something
- that you can actually see (e.g. if you're plotting
- to the domain [0,1] you wouldn't be able to see the
- result without scaling).
-
- This function is aware of, and will plot, discontinuities.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      noFill();
-      setStroke(`black`);
-      translate(0, height/2);
-      plot((x) => cos(x)**2/sin(x), 0, TAU, width/TAU, height/2)
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  range(0, height, 20, (i) =&gt; line(0, 0, width, i));
+}
+</pre
+        >
+      </section>
+
+      <section id="plot">
+        <h1><a href="#plot">plot</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >plot(f: function, a: number, b: number, steps: number, xscale:
+              number, yscale: number)</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Plot a y=f(x) function. The input to the function will span the
+          interval [a,b] using the indicated number of steps, and the re sult
+          may be scaled both in the x and y direction in order to draw something
+          that you can actually see (e.g. if you&#39;re plotting to the domain
+          [0,1] you wouldn&#39;t be able to see the result without scaling).
+        </p>
+        <p>This function is aware of, and will plot, discontinuities.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
 function draw() {
   clear(`white`);
   noFill();
   setStroke(`black`);
-  translate(0, height/2);
-  plot((x) =&gt; cos(x)**2/sin(x), 0, TAU, width/TAU, height/2)
-}</pre>
-          
-      
+  translate(0, height / 2);
+  const fn = (x) => cos(x) ** 2 / sin(x);
+  plot(fn, 0, TAU, undefined, width / TAU, height / 2);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  noFill();
+  setStroke(`black`);
+  translate(0, height / 2);
+  const fn = (x) =&gt; cos(x) ** 2 / sin(x);
+  plot(fn, 0, TAU, undefined, width / TAU, height / 2);
+}
+</pre
+        >
+      </section>
 
-        <h1>plotData</h1>
-        <ul><li><code>plotData(data: *, x: *, y: *)</code></li></ul>
-        <p>Plot a 2D graph using a collection of any-dimensional data,
- by indicating which dimension should be treated as the `x`
- and which dimension should be treated as the `y`.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      noFill();
-      translate(0, height/2);
-*
-      setStroke(`darkgreen`);
-      let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
-      plotData(data, 0, 1);
-*
-      setStroke(`purple`);
-      data = array(width, (_,i) => ({
-        meep: i,
-        moop: height/2 * cos(i/25)
-      }));
-      plotData(data, `meep`, `moop`);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="plotData">
+        <h1><a href="#plotData">plotData</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>plotData(data: *, x: *, y: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Plot a 2D graph using a collection of any-dimensional data, by
+          indicating which dimension should be treated as the <code>x</code> and
+          which dimension should be treated as the <code>y</code>.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   noFill();
-  translate(0, height/2);
-*
+  translate(0, height / 2);
+
   setStroke(`darkgreen`);
-  let data = array(width, (_,i) =&gt; [i, height/2 * sin(i/25)]);
+  let data = array(width, (_, i) => [i, (height / 2) * sin(i / 25)]);
   plotData(data, 0, 1);
-*
+
   setStroke(`purple`);
-  data = array(width, (_,i) =&gt; ({
+  data = array(width, (_, i) => ({
     meep: i,
-    moop: height/2 * cos(i/25)
+    moop: (height / 2) * cos(i / 25),
   }));
   plotData(data, `meep`, `moop`);
-}</pre>
-          
-      
+}
 
-
-        <h1>point</h1>
-        <ul><li><code>point(x: *, y: *)</code></li>
-<li><code>point(p: *)</code></li></ul>
-        <p>Draw a point (either from x/y or point-like).</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      translate(width/2, height/2);
-      range(0, TAU, (a) => {
-        point(40 * cos(a), 40 * sin(a));
-      });
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
-  translate(width/2, height/2);
+  noFill();
+  translate(0, height / 2);
+
+  setStroke(`darkgreen`);
+  let data = array(width, (_, i) =&gt; [i, (height / 2) * sin(i / 25)]);
+  plotData(data, 0, 1);
+
+  setStroke(`purple`);
+  data = array(width, (_, i) =&gt; ({
+    meep: i,
+    moop: (height / 2) * cos(i / 25),
+  }));
+  plotData(data, `meep`, `moop`);
+}
+</pre
+        >
+      </section>
+
+      <section id="point">
+        <h1><a href="#point">point</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>point(x: *, y: *)</code></li>
+          <li><code>point(p: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Draw a point (either from x/y or point-like).</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
+  range(0, TAU, (a) => {
+    point(40 * cos(a), 40 * sin(a));
+  });
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
   range(0, TAU, (a) =&gt; {
     point(40 * cos(a), 40 * sin(a));
   });
-}</pre>
-          
-      
+}
+</pre
+        >
+      </section>
 
+      <section id="rect">
+        <h1><a href="#rect">rect</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>rect(x: *, y: *, w: *, h: *)</code></li>
+          <li><code>rect(p: *, w: *, h: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw a rectangle at the specified coordinate, with the specific width
+          and height.
+        </p>
 
-        <h1>rect</h1>
-        <ul><li><code>rect(x: *, y: *, w: *, h: *)</code></li>
-<li><code>rect(p: *, w: *, h: *)</code></li></ul>
-        <p>Draw a rectangle at the specified coordinate, with
- the specific width and height.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`red`);
-      rect(40, 40, width - 80, height - 80);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -1024,41 +1409,49 @@ function draw() {
   setStroke(`black`);
   setFill(`red`);
   rect(40, 40, width - 80, height - 80);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  rect(40, 40, width - 80, height - 80);
+}
+</pre
+        >
+      </section>
 
-        <h1>spline</h1>
-        <ul><li><code>spline(points: *, virtual: *, tightness: *, T: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="spline">
+        <h1><a href="#spline">spline</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code>spline(points: *, virtual: *, tightness: *, T: *)</code>
+          </li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>start</h1>
-        <ul><li><code>start()</code></li></ul>
+      <section id="start">
+        <h1><a href="#start">start</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>start()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Starts a (new) shape.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`gold`);
-      start();
-      vertex(0,height/2);
-      vertex(width/2, 0);
-      vertex(width, height/2);
-      vertex(width/2, height);
-      end(true);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -1066,135 +1459,166 @@ function draw() {
   setStroke(`black`);
   setFill(`gold`);
   start();
-  vertex(0,height/2);
-  vertex(width/2, 0);
-  vertex(width, height/2);
-  vertex(width/2, height);
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
   end(true);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+</pre
+        >
+      </section>
 
-        <h1>text</h1>
-        <ul><li><code>text(str: *, x: *, y: *, xAlign: *, yAlign: *)</code></li>
-<li><code>text(str: *, p: *, xAlign: *, yAlign: *)</code></li></ul>
-        <p>Draw some text to the screen. Its placement is
- determined by both the coordinate provided, and
- the x/y alignment provided. Valid `xAlign` values
- are:
+      <section id="text">
+        <h1><a href="#text">text</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>text(str: *, x: *, y: *, xAlign: *, yAlign: *)</code></li>
+          <li><code>text(str: *, p: *, xAlign: *, yAlign: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw some text to the screen. Its placement is determined by both the
+          coordinate provided, and the x/y alignment provided. Valid
+          <code>xAlign</code> values are:
+        </p>
+        <p>
+          CENTER - the text anchor is in the middle of the text. Text is placed
+          evenly on either side. END - the text anchor is on the right for LTR
+          text, and on the left for RTL text. LEFT - the text anchor is on the
+          left side of the text. all text is to the right. RIGHT - the text
+          anchor is on the right side of the text. All text is to the left.
+          START - the text anchor is on the left for LTR text, and on the right
+          for RTL text.
+        </p>
+        <p>Valid <code>yAlign</code> values are:</p>
+        <p>
+          ALPHABETIC - standard text alignment BOTTOM - the text is aligned to
+          the bottom of the bounding box HANGING - relevant for Tibetan and
+          other Indic scripts. IDEOGRAPHIC - relevant for ideographic CJKV text.
+          MIDDLE - The vertical equivalent of &quot;center&quot;. TOP - The text
+          is aligned to the top of the typographic &quot;em square&quot;.
+        </p>
+        <p>
+          Note that the primary text colour uses the fill colour. If text
+          stroking is enabled, the the text outline will be coloured using the
+          current stroke colour.
+        </p>
 
-   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
-   END - the text anchor is on the right for LTR text, and on the left for RTL text.
-   LEFT - the text anchor is on the left side of the text. all text is to the right.
-   RIGHT - the text anchor is on the right side of the text. All text is to the left.
-   START - the text anchor is on the left for LTR text, and on the right for RTL text.
-
- Valid `yAlign` values are:
-
-   ALPHABETIC - standard text alignment
-   BOTTOM - the text is aligned to the bottom of the bounding box
-   HANGING - relevant for Tibetan and other Indic scripts.
-   IDEOGRAPHIC - relevant for ideographic CJKV text.
-   MIDDLE - The vertical equivalent of "center".
-   TOP - The text is aligned to the top of the typographic "em square".
-
- Note that the primary text colour uses the fill colour. If text
- stroking is enabled, the the text outline will be coloured using
- the current stroke colour.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      setFontSize(25);
-      text("normal text", width/2, 60, CENTER, CENTER);
-      noFill();
-      setTextStroke(1);
-      text("unfilled text", width/2, 100, CENTER, CENTER);
-      setStroke(`red`);
-      setFill(`yellow`);
-      text("fancy text", width/2, 140, CENTER, CENTER);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   setColor(`black`);
   setFontSize(25);
-  text(&quot;normal text&quot;, width/2, 60, CENTER, CENTER);
+  text("normal text", width / 2, 60, CENTER, CENTER);
   noFill();
   setTextStroke(1);
-  text(&quot;unfilled text&quot;, width/2, 100, CENTER, CENTER);
+  text("unfilled text", width / 2, 100, CENTER, CENTER);
   setStroke(`red`);
   setFill(`yellow`);
-  text(&quot;fancy text&quot;, width/2, 140, CENTER, CENTER);
-}</pre>
-          
-      
+  text("fancy text", width / 2, 140, CENTER, CENTER);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  text(&quot;normal text&quot;, width / 2, 60, CENTER, CENTER);
+  noFill();
+  setTextStroke(1);
+  text(&quot;unfilled text&quot;, width / 2, 100, CENTER, CENTER);
+  setStroke(`red`);
+  setFill(`yellow`);
+  text(&quot;fancy text&quot;, width / 2, 140, CENTER, CENTER);
+}
+</pre
+        >
+      </section>
 
-        <h1>triangle</h1>
-        <ul><li><code>triangle(x1: *, y1: *, x2: *, y2: *, x3: *, y3: *)</code></li>
-<li><code>triangle(p1: *, p2: *, p3: *)</code></li></ul>
+      <section id="triangle">
+        <h1><a href="#triangle">triangle</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code>triangle(x1: *, y1: *, x2: *, y2: *, x3: *, y3: *)</code>
+          </li>
+          <li><code>triangle(p1: *, p2: *, p3: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Draw a triangle.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`red`);
-      triangle(width/2, 30, 1/4 * width, 160, 3/4 * width, 110);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   setStroke(`black`);
   setFill(`red`);
-  triangle(width/2, 30, 1/4 * width, 160, 3/4 * width, 110);
-}</pre>
-          
-      
+  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
+}
+</pre
+        >
+      </section>
 
-        <h1>vertex</h1>
-        <ul><li><code>vertex(x: *, y: *)</code></li>
-<li><code>vertex(p: *)</code></li></ul>
+      <section id="vertex">
+        <h1><a href="#vertex">vertex</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>vertex(x: *, y: *)</code></li>
+          <li><code>vertex(p: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Add a vertex to the currently active shape.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setStroke(`black`);
-      setFill(`red`);
-      start();
-      vertex(width/2, 30);
-      vertex(1/4 * width, 160);
-      vertex(3/4 * width, 110);
-      end();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -1202,80 +1626,114 @@ function draw() {
   setStroke(`black`);
   setFill(`red`);
   start();
-  vertex(width/2, 30);
-  vertex(1/4 * width, 160);
-  vertex(3/4 * width, 110);
+  vertex(width / 2, 30);
+  vertex((1 / 4) * width, 160);
+  vertex((3 / 4) * width, 110);
   end();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  start();
+  vertex(width / 2, 30);
+  vertex((1 / 4) * width, 160);
+  vertex((3 / 4) * width, 110);
+  end();
+}
+</pre
+        >
+      </section>
 
-        <h1>array</h1>
-        <ul><li><code>array(len: *, fillFunction: *)</code></li></ul>
-        <p>Create an array of specified length, optionally
- filled using the same kind of function you'd normall
- use with .map()</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      noFill();
-      translate(0, height/2);
-      let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
-      plotData(data, 0, 1);
-     }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="array">
+        <h1><a href="#array">array</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>array(len: *, fillFunction: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Create an array of specified length, optionally filled using the same
+          kind of function you&#39;d normall use with .map()
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
   noFill();
-  translate(0, height/2);
-  let data = array(width, (_,i) =&gt; [i, height/2 * sin(i/25)]);
+  translate(0, height / 2);
+  let data = array(width, (_, i) => [i, (height / 2) * sin(i / 25)]);
   plotData(data, 0, 1);
- }</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  noFill();
+  translate(0, height / 2);
+  let data = array(width, (_, i) =&gt; [i, (height / 2) * sin(i / 25)]);
+  plotData(data, 0, 1);
+}
+</pre
+        >
+      </section>
 
-        <h1>clearMovable</h1>
-        <ul><li><code>clearMovable()</code></li></ul>
+      <section id="clearMovable">
+        <h1><a href="#clearMovable">clearMovable</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>clearMovable()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Empty the list of movable points in your graphic.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const points = [];
-    function setup() {
-      setSize(200, 200);
-      addButton(`lock`, () => {
-        clearMovable();
-        redraw();
-      });
-    }
-    function draw() {
-      clear(`white`);
-      for(let p of points) {
-        setColor(isMovable(p) ? `red` : `grey`);
-        point(p);
-      }
-    }
-    function pointerDown(x,y) {
-      if (currentPoint) return;
-      const p = new Point(x,y);
-      points.push(p);
-      setMovable(p);
-      redraw();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const points = [];
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () => {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () =&gt; {
@@ -1285,119 +1743,127 @@ function setup() {
 }
 function draw() {
   clear(`white`);
-  for(let p of points) {
+  for (let p of points) {
     setColor(isMovable(p) ? `red` : `grey`);
     point(p);
   }
 }
-function pointerDown(x,y) {
+function pointerDown(x, y) {
   if (currentPoint) return;
-  const p = new Point(x,y);
+  const p = new Point(x, y);
   points.push(p);
   setMovable(p);
   redraw();
-}</pre>
-          
-      
+}
+</pre
+        >
+      </section>
 
+      <section id="copy">
+        <h1><a href="#copy">copy</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>copy(): a</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Create a copy of the current canvas element for use somewhere else in
+          your own code.
+        </p>
 
-        <h1>copy</h1>
-        <ul><li><code>copy()</code></li></ul>
-        <p>Create a copy of the current canvas element
- for use somewhere else in your own code.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`pink`);
-    }
-    function pointerDown(x,y) {
-      document.dispatchEvent(
-        new CustomEvent(`graphics:update`, {
-          detail: {
-            canvas: copy()
-          }
-        })
-      );
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`pink`);
 }
-function pointerDown(x,y) {
+function pointerDown(x, y) {
   document.dispatchEvent(
     new CustomEvent(`graphics:update`, {
       detail: {
-        canvas: copy()
-      }
-    })
+        canvas: copy(),
+      },
+    }),
   );
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`pink`);
+}
+function pointerDown(x, y) {
+  document.dispatchEvent(
+    new CustomEvent(`graphics:update`, {
+      detail: {
+        canvas: copy(),
+      },
+    }),
+  );
+}
+</pre
+        >
+      </section>
 
-        <h1>color</h1>
-        <ul><li><code>color(hue: *, saturation: *, lightness: *, opacity: *)</code></li></ul>
+      <section id="color">
+        <h1><a href="#color">color</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code>color(hue: *, saturation: *, lightness: *, opacity: *)</code>
+          </li>
+        </ul>
+        <h3>Description</h3>
         <p>Generates a color based on the HSL color space.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(color(45, 80, 90));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(color(45, 80, 90));
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(color(45, 80, 90));
+}
+</pre
+        >
+      </section>
 
-        <h1>highlight</h1>
-        <ul><li><code>highlight(color: *)</code></li></ul>
-        <p>Mark a specific color as the highlight color,
- which causes the graphic to redraw with that
- color replaced by whichever color you picked
- as highlight color.
+      <section id="highlight">
+        <h1><a href="#highlight">highlight</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>highlight(color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Mark a specific color as the highlight color, which causes the graphic
+          to redraw with that color replaced by whichever color you picked as
+          highlight color.
+        </p>
+        <p>Note that you can only use named (CSS) colors with this function.</p>
 
- Note that you can only use named (CSS) colors
- with this function.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setHighlightColor(`lime`);
-    }
-    function draw() {
-      clear();
-      setColor(`red`);
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      text("let's go", width/2, height/2)
-    }
-    function pointerActive(state) {
-      if (state) highlight(`red`);
-      else highlight(false);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
@@ -1406,47 +1872,74 @@ function draw() {
   setColor(`red`);
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(&quot;let&apos;s go&quot;, width/2, height/2)
+  text("let's go", width / 2, height / 2);
 }
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setHighlightColor(`lime`);
+}
+function draw() {
+  clear();
+  setColor(`red`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(&quot;let&apos;s go&quot;, width / 2, height / 2);
+}
+function pointerActive(state) {
+  if (state) highlight(`red`);
+  else highlight(false);
+}
+</pre
+        >
+      </section>
 
-        <h1>isMovable</h1>
-        <ul><li><code>isMovable(): true</code></li></ul>
+      <section id="isMovable">
+        <h1><a href="#isMovable">isMovable</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>isMovable(): true</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Check whether a point is registered as movable.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const points = [];
-    function setup() {
-      setSize(200, 200);
-      addButton(`lock`, () => {
-        clearMovable();
-        redraw();
-      });
-    }
-    function draw() {
-      clear(`white`);
-      for(let p of points) {
-        setColor(isMovable(p) ? `red` : `grey`);
-        point(p);
-      }
-    }
-    function pointerDown(x,y) {
-      if (currentPoint) return;
-      const p = new Point(x,y);
-      points.push(p);
-      setMovable(p);
-      redraw();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const points = [];
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () => {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () =&gt; {
@@ -1456,44 +1949,37 @@ function setup() {
 }
 function draw() {
   clear(`white`);
-  for(let p of points) {
+  for (let p of points) {
     setColor(isMovable(p) ? `red` : `grey`);
     point(p);
   }
 }
-function pointerDown(x,y) {
+function pointerDown(x, y) {
   if (currentPoint) return;
-  const p = new Point(x,y);
+  const p = new Point(x, y);
   points.push(p);
   setMovable(p);
   redraw();
-}</pre>
-          
-      
+}
+</pre
+        >
+      </section>
 
+      <section id="millis">
+        <h1><a href="#millis">millis</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>millis(): number</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Get the number of milliseconds that this graphic has been running.
+        </p>
 
-        <h1>millis</h1>
-        <ul><li><code>millis()</code></li></ul>
-        <p>Get the number of milliseconds that this
- graphic has been running.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setColor(`black`);
-      play();
-    }
-    function draw() {
-      clear();
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      const seconds = (millis()/1000)|0;
-      text(`${seconds}s`, width/2, height/2)
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setColor(`black`);
   play();
@@ -1502,41 +1988,42 @@ function draw() {
   clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis()/1000)|0;
-  text(`${seconds}s`, width/2, height/2)
-}</pre>
-          
-      
+  const seconds = (millis() / 1000) | 0;
+  text(`${seconds}s`, width / 2, height / 2);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000) | 0;
+  text(`${seconds}s`, width / 2, height / 2);
+}
+</pre
+        >
+      </section>
 
-        <h1>pause</h1>
-        <ul><li><code>pause()</code></li></ul>
+      <section id="pause">
+        <h1><a href="#pause">pause</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>pause()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Pause the graphic if its currently playing.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setColor(`black`);
-      play();
-    }
-    function draw() {
-      clear();
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      const seconds = (millis()/1000).toFixed(1);
-      text(`${seconds}s`, width/2, height/2)
-    }
-    function pointerActive(state) {
-      if(state) {
-        pause();
-      } else {
-        play();
-      }
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setColor(`black`);
   play();
@@ -1545,55 +2032,60 @@ function draw() {
   clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis()/1000).toFixed(1);
-  text(`${seconds}s`, width/2, height/2)
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
 function pointerActive(state) {
-  if(state) {
+  if (state) {
     pause();
   } else {
     play();
   }
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
+}
+function pointerActive(state) {
+  if (state) {
+    pause();
+  } else {
+    play();
+  }
+}
+</pre
+        >
+      </section>
 
-        <h1>play</h1>
-        <ul><li><code>play()</code></li></ul>
-        <p>Start playing your graphic, meaning it will call draw()
- at whatever rate the requestAnimationFrame loop is
- allowed to run on your computer.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    let fps = 0;
-    let checked = false;
-    let lastFrameCheck = 0;
-    function setup() {
-      setSize(200, 200);
-      setColor(`black`);
-      play();
-    }
-    function draw() {
-      clear();
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      const seconds = (millis()/1000).toFixed(1);
-      text(`fps: ${fps}`, width/2, height/2)
-      if (seconds.endsWith(`.0`)) {
-        if (!checked) {
-          checked = true;
-          fps = frame - lastFrameCheck;
-          lastFrameCheck = frame;
-        }
-      } else {
-        checked = false;
-      }
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>let fps = 0;
+      <section id="play">
+        <h1><a href="#play">play</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>play()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Start playing your graphic, meaning it will call draw() at whatever
+          rate the requestAnimationFrame loop is allowed to run on your
+          computer.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
 function setup() {
@@ -1605,8 +2097,8 @@ function draw() {
   clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis()/1000).toFixed(1);
-  text(`fps: ${fps}`, width/2, height/2)
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`fps: ${fps}`, width / 2, height / 2);
   if (seconds.endsWith(`.0`)) {
     if (!checked) {
       checked = true;
@@ -1616,32 +2108,57 @@ function draw() {
   } else {
     checked = false;
   }
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+let fps = 0;
+let checked = false;
+let lastFrameCheck = 0;
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`fps: ${fps}`, width / 2, height / 2);
+  if (seconds.endsWith(`.0`)) {
+    if (!checked) {
+      checked = true;
+      fps = frame - lastFrameCheck;
+      lastFrameCheck = frame;
+    }
+  } else {
+    checked = false;
+  }
+}
+</pre
+        >
+      </section>
 
-        <h1>randomColor</h1>
-        <ul><li><code>randomColor(opacity: *, cycle: *)</code></li></ul>
-        <p>Generate a random colour. Note that this function
- allows you to get "the currently generated random
- colour" in different opacities by calling the function
- with an opacity value, and `false` as cycle argument.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(randomColor());
-    }
-    function pointerDown() {
-      redraw();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="randomColor">
+        <h1><a href="#randomColor">randomColor</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>randomColor(opacity: *, cycle: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Generate a random colour. Note that this function allows you to get
+          &quot;the currently generated random colour&quot; in different
+          opacities by calling the function with an opacity value, and
+          <code>false</code> as cycle argument.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -1649,67 +2166,101 @@ function draw() {
 }
 function pointerDown() {
   redraw();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(randomColor());
+}
+function pointerDown() {
+  redraw();
+}
+</pre
+        >
+      </section>
 
-        <h1>range</h1>
-        <ul><li><code>range(start: *, end: *, step?: *, runFunction: *)</code></li></ul>
-        <p>An alternative to writing for loops, because
- no one wants to constantly write var allocations
- that only live for the duration of a loop.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      translate(width/2, height/2);
-      range(0, TAU, (a) => point(40 * cos(a), 40 * sin(a)));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="range">
+        <h1><a href="#range">range</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code>range(start: *, end: *, step?: *, runFunction: *)</code>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          An alternative to writing for loops, because no one wants to
+          constantly write var allocations that only live for the duration of a
+          loop.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear(`white`);
-  translate(width/2, height/2);
+  translate(width / 2, height / 2);
+  range(0, TAU, (a) => point(40 * cos(a), 40 * sin(a)));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
   range(0, TAU, (a) =&gt; point(40 * cos(a), 40 * sin(a)));
-}</pre>
-          
-      
+}
+</pre
+        >
+      </section>
 
+      <section id="setMovable">
+        <h1><a href="#setMovable">setMovable</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setMovable(points: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Mark one or more points as movable, meaning that the user can
+          reposition the point around on the canvas by touch/click-dragging.
+        </p>
 
-        <h1>setMovable</h1>
-        <ul><li><code>setMovable(points: *)</code></li></ul>
-        <p>Mark one or more points as movable, meaning
- that the user can reposition the point around on
- the canvas by touch/click-dragging.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const points = [];
-    function setup() {
-      setSize(200, 200);
-      for (let i = 40; i < 200; i += 20) {
-        points.push(new Point(i - 20, 120));
-      }
-      setMovable(...points);
-    }
-    function draw() {
-      clear();
-      noFill();
-      setStroke(`purple`);
-      bspline(...points);
-      for(let p of points) point(p);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const points = [];
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  for (let i = 40; i < 200; i += 20) {
+    points.push(new Point(i - 20, 120));
+  }
+  setMovable(...points);
+}
+function draw() {
+  clear();
+  noFill();
+  setStroke(`purple`);
+  bspline(...points);
+  for (let p of points) point(p);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
 function setup() {
   setSize(200, 200);
   for (let i = 40; i &lt; 200; i += 20) {
@@ -1722,144 +2273,156 @@ function draw() {
   noFill();
   setStroke(`purple`);
   bspline(...points);
-  for(let p of points) point(p);
-}</pre>
-          
-      
+  for (let p of points) point(p);
+}
+</pre
+        >
+      </section>
 
+      <section id="restore">
+        <h1><a href="#restore">restore</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>restore()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Restore the graphics context (transforms, current colors, etc) to what
+          they were when save() was called.
+        </p>
 
-        <h1>restore</h1>
-        <ul><li><code>restore()</code></li></ul>
-        <p>Restore the graphics context (transforms,
- current colors, etc) to what they were
- when save() was called.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const points = [];
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      translate(width/2, height/2);
-      setColor(`blue`);
-      line(0,0,80,0);
-      save();
-      setColor(`darkgreen`)
-      range(0, 5, 1, (a) => {
-        rotate(PI/8);
-        line(0,0,80,0);
-      });
-      restore();
-      line(-20,0,-80,0);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const points = [];
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
 function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear();
-  translate(width/2, height/2);
+  translate(width / 2, height / 2);
   setColor(`blue`);
-  line(0,0,80,0);
+  line(0, 0, 80, 0);
   save();
-  setColor(`darkgreen`)
-  range(0, 5, 1, (a) =&gt; {
-    rotate(PI/8);
-    line(0,0,80,0);
+  setColor(`darkgreen`);
+  range(0, 5, 1, (a) => {
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
   });
   restore();
-  line(-20,0,-80,0);
-}</pre>
-          
-      
+  line(-20, 0, -80, 0);
+}
 
-
-        <h1>save</h1>
-        <ul><li><code>save()</code></li></ul>
-        <p>Save the current graphics context (transforms,
- current colors, etc) so that those can be restored
- after changing them.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    const points = [];
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      translate(width/2, height/2);
-      setColor(`blue`);
-      line(0,0,80,0);
-      save();
-      setColor(`darkgreen`)
-      range(0, 5, 1, (a) => {
-        rotate(PI/8);
-        line(0,0,80,0);
-      });
-      restore();
-      line(-20,0,-80,0);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>const points = [];
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
 function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear();
-  translate(width/2, height/2);
+  translate(width / 2, height / 2);
   setColor(`blue`);
-  line(0,0,80,0);
+  line(0, 0, 80, 0);
   save();
-  setColor(`darkgreen`)
+  setColor(`darkgreen`);
   range(0, 5, 1, (a) =&gt; {
-    rotate(PI/8);
-    line(0,0,80,0);
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
   });
   restore();
-  line(-20,0,-80,0);
-}</pre>
-          
-      
+  line(-20, 0, -80, 0);
+}
+</pre
+        >
+      </section>
 
+      <section id="save">
+        <h1><a href="#save">save</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>save()</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Save the current graphics context (transforms, current colors, etc) so
+          that those can be restored after changing them.
+        </p>
 
-        <h1>toDataURL</h1>
-        <ul><li><code>toDataURL()</code></li></ul>
-        <p></p>
-        
-      
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  setColor(`blue`);
+  line(0, 0, 80, 0);
+  save();
+  setColor(`darkgreen`);
+  range(0, 5, 1, (a) => {
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
+  });
+  restore();
+  line(-20, 0, -80, 0);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  setColor(`blue`);
+  line(0, 0, 80, 0);
+  save();
+  setColor(`darkgreen`);
+  range(0, 5, 1, (a) =&gt; {
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
+  });
+  restore();
+  line(-20, 0, -80, 0);
+}
+</pre
+        >
+      </section>
 
-        <h1>togglePlay</h1>
-        <ul><li><code>togglePlay()</code></li></ul>
-        <p>If the graphic is currently playing, pause it,
- and if it's paused, play it.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setColor(`black`);
-      play();
-    }
-    function draw() {
-      clear();
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      const seconds = (millis()/1000).toFixed(1);
-      text(`${seconds}s`, width/2, height/2)
-    }
-    function pointerActive(state) {
-      togglePlay();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="toDataURL">
+        <h1><a href="#toDataURL">toDataURL</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>toDataURL(): dataURL</code></li>
+        </ul>
+        <h3>Description</h3>
+
+        <h3>Examples</h3>
+      </section>
+
+      <section id="togglePlay">
+        <h1><a href="#togglePlay">togglePlay</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>togglePlay(): the</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          If the graphic is currently playing, pause it, and if it&#39;s paused,
+          play it.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setColor(`black`);
   play();
@@ -1868,47 +2431,49 @@ function draw() {
   clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis()/1000).toFixed(1);
-  text(`${seconds}s`, width/2, height/2)
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
 function pointerActive(state) {
   togglePlay();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
+}
+function pointerActive(state) {
+  togglePlay();
+}
+</pre
+        >
+      </section>
 
-        <h1>project</h1>
-        <ul><li><code>project(x: *, y: *, z: *, p: *)</code></li></ul>
+      <section id="project">
+        <h1><a href="#project">project</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>project(x: *, y: *, z: *, p: *)</code></li>
+          <li><code>project(): p</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Project a 3D coordinate to 2D.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setProjector(width / 2, height / 2, 50, -0.4);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`red`);
-      line(project(-1, -1, -1), project(1, -1, -1));
-      line(project(-1, -1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(1, 1, -1));
-      line(project(-1, 1, 1), project(1, 1, 1));
-      setColor(`blue`);
-      line(project(-1, -1, -1), project(-1, -1, 1));
-      line(project(-1, 1, -1), project(-1, 1, 1));
-      line(project(1, -1, -1), project(1, -1, 1));
-      line(project(1, 1, -1), project(1, 1, 1));
-      setColor(`green`);
-      line(project(1, 1, -1), project(1, -1, -1));
-      line(project(1, 1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(-1, -1, -1));
-      line(project(-1, 1, 1), project(-1, -1, 1));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
@@ -1929,50 +2494,59 @@ function draw() {
   line(project(1, 1, 1), project(1, -1, 1));
   line(project(-1, 1, -1), project(-1, -1, -1));
   line(project(-1, 1, 1), project(-1, -1, 1));
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+</pre
+        >
+      </section>
 
-        <h1>rotateProjector</h1>
-        <ul><li><code>rotateProjector(x: *, y: *, z: *)</code></li></ul>
-        <p>Set the projector's x, y, and z axis rotation
- in radians. Note that these are applied in order.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setProjector(width / 2, height / 2, 50, -0.4);
-      play();
-    }**
-    function draw() {
-      clear(`white`);
-      const m = millis() / 5000;
-      rotateProjector(m, 2 * m, 3 * m);
-      setColor(`red`);
-      line(project(-1, -1, -1), project(1, -1, -1));
-      line(project(-1, -1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(1, 1, -1));
-      line(project(-1, 1, 1), project(1, 1, 1));
-      setColor(`blue`);
-      line(project(-1, -1, -1), project(-1, -1, 1));
-      line(project(-1, 1, -1), project(-1, 1, 1));
-      line(project(1, -1, -1), project(1, -1, 1));
-      line(project(1, 1, -1), project(1, 1, 1));
-      setColor(`green`);
-      line(project(1, 1, -1), project(1, -1, -1));
-      line(project(1, 1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(-1, -1, -1));
-      line(project(-1, 1, 1), project(-1, -1, 1));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="rotateProjector">
+        <h1>
+          <a href="#rotateProjector">rotateProjector</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>rotateProjector(x: *, y: *, z: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Set the projector&#39;s x, y, and z axis rotation in radians. Note
+          that these are applied in order.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
   play();
-}**
+}
 function draw() {
   clear(`white`);
   const m = millis() / 5000;
@@ -1992,44 +2566,61 @@ function draw() {
   line(project(1, 1, 1), project(1, -1, 1));
   line(project(-1, 1, -1), project(-1, -1, -1));
   line(project(-1, 1, 1), project(-1, -1, 1));
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+  play();
+}
+function draw() {
+  clear(`white`);
+  const m = millis() / 5000;
+  rotateProjector(m, 2 * m, 3 * m);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+</pre
+        >
+      </section>
 
-        <h1>setProjector</h1>
-        <ul><li><code>setProjector(xOffset: number, yOffset: number, scale: number, cabinet: number)</code></li></ul>
-        <p>Set the project parameters. Currently, only
- cabinet project is supported, which accepts
- the following parameters:</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setProjector(width / 2, height / 2, 50, -0.4);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`red`);
-      line(project(-1, -1, -1), project(1, -1, -1));
-      line(project(-1, -1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(1, 1, -1));
-      line(project(-1, 1, 1), project(1, 1, 1));
-      setColor(`blue`);
-      line(project(-1, -1, -1), project(-1, -1, 1));
-      line(project(-1, 1, -1), project(-1, 1, 1));
-      line(project(1, -1, -1), project(1, -1, 1));
-      line(project(1, 1, -1), project(1, 1, 1));
-      setColor(`green`);
-      line(project(1, 1, -1), project(1, -1, -1));
-      line(project(1, 1, 1), project(1, -1, 1));
-      line(project(-1, 1, -1), project(-1, -1, -1));
-      line(project(-1, 1, 1), project(-1, -1, 1));
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="setProjector">
+        <h1><a href="#setProjector">setProjector</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >setProjector(xOffset: number, yOffset: number, scale: number,
+              cabinet: number)</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Set the project parameters. Currently, only cabinet project is
+          supported, which accepts the following parameters:
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
@@ -2050,85 +2641,124 @@ function draw() {
   line(project(1, 1, 1), project(1, -1, 1));
   line(project(-1, 1, -1), project(-1, -1, -1));
   line(project(-1, 1, 1), project(-1, -1, 1));
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+</pre
+        >
+      </section>
 
-        <h1>setBorder</h1>
-        <ul><li><code>setBorder(width: *, color: *)</code></li></ul>
+      <section id="setBorder">
+        <h1><a href="#setBorder">setBorder</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setBorder(width: *, color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set a border around the canvas.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setBorder(10, `red`);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setBorder(10, `red`);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setBorder(10, `red`);
+}
+</pre
+        >
+      </section>
 
-        <h1>setColor</h1>
-        <ul><li><code>setColor(color: *)</code></li></ul>
-        <p>Set the current stroke and fill colour at
- the same time.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      setColor(`blue`);
-      rect(50, 50, 100, 100);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="setColor">
+        <h1><a href="#setColor">setColor</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setColor(color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Set the current stroke and fill colour at the same time.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear();
   setColor(`blue`);
   rect(50, 50, 100, 100);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  setColor(`blue`);
+  rect(50, 50, 100, 100);
+}
+</pre
+        >
+      </section>
 
-        <h1>setCursor</h1>
-        <ul><li><code>setCursor(type: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setCursor">
+        <h1><a href="#setCursor">setCursor</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setCursor(type: *)</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setFill</h1>
-        <ul><li><code>setFill(color: *)</code></li></ul>
+      <section id="setFill">
+        <h1><a href="#setFill">setFill</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setFill(color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set the current fill colour.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      setStroke(`black`);
-      setFill(`red`);
-      rect(50, 50, 100, 100);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -2136,90 +2766,121 @@ function draw() {
   setStroke(`black`);
   setFill(`red`);
   rect(50, 50, 100, 100);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  setStroke(`black`);
+  setFill(`red`);
+  rect(50, 50, 100, 100);
+}
+</pre
+        >
+      </section>
 
-        <h1>setFont</h1>
-        <ul><li><code>setFont(font: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setFont">
+        <h1><a href="#setFont">setFont</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setFont(font: *)</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setFontFamily</h1>
-        <ul><li><code>setFontFamily(name: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setFontFamily">
+        <h1>
+          <a href="#setFontFamily">setFontFamily</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>setFontFamily(name: *)</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setFontSize</h1>
-        <ul><li><code>setFontSize(px: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setFontSize">
+        <h1><a href="#setFontSize">setFontSize</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setFontSize(px: *)</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setFontWeight</h1>
-        <ul><li><code>setFontWeight(val: *)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setFontWeight">
+        <h1>
+          <a href="#setFontWeight">setFontWeight</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>setFontWeight(val: *)</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setGrid</h1>
-        <ul><li><code>setGrid(spacing: *, color: *)</code></li></ul>
+      <section id="setGrid">
+        <h1><a href="#setGrid">setGrid</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setGrid(spacing: *, color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set the background grid spacing and colour.</p>
-        
-            <graphics-element>
-  <graphics-source>
-     function setup() {
-      setSize(200, 200);
-      setGrid(20, `lavender`);
-    }
-    function draw() {
-      clear(`white`);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
 }
 function draw() {
   clear(`white`);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setGrid(20, `lavender`);
+}
+function draw() {
+  clear(`white`);
+}
+</pre
+        >
+      </section>
 
-        <h1>setHighlightColor</h1>
-        <ul><li><code>setHighlightColor(color: *)</code></li></ul>
-        <p>Set the color that should be used to replace whatever
- highlight() marked as the "to highlight" color.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      setHighlightColor(`lime`);
-    }
-    function draw() {
-      clear();
-      setColor(`red`);
-      setFontSize(25);
-      setTextAlign(CENTER, MIDDLE);
-      text("let's go", width/2, height/2)
-    }
-    function pointerActive(state) {
-      if (state) highlight(`red`);
-      else highlight(false);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="setHighlightColor">
+        <h1>
+          <a href="#setHighlightColor">setHighlightColor</a>
+          <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>setHighlightColor(color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Set the color that should be used to replace whatever highlight()
+          marked as the &quot;to highlight&quot; color.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
@@ -2228,43 +2889,73 @@ function draw() {
   setColor(`red`);
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(&quot;let&apos;s go&quot;, width/2, height/2)
+  text("let's go", width / 2, height / 2);
 }
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setHighlightColor(`lime`);
+}
+function draw() {
+  clear();
+  setColor(`red`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(&quot;let&apos;s go&quot;, width / 2, height / 2);
+}
+function pointerActive(state) {
+  if (state) highlight(`red`);
+  else highlight(false);
+}
+</pre
+        >
+      </section>
 
-        <h1>setLineDash</h1>
-        <ul><li><code>setLineDash(values: any[])</code></li></ul>
-        <p></p>
-        
-      
+      <section id="setLineDash">
+        <h1><a href="#setLineDash">setLineDash</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setLineDash(values: any[])</code></li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>setLineWidth</h1>
-        <ul><li><code>setLineWidth(width: *)</code></li></ul>
+      <section id="setLineWidth">
+        <h1><a href="#setLineWidth">setLineWidth</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setLineWidth(width: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set the line width in pixels.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setColor(`black`);
-      range(1, 10, (i) => {
-        setLineWidth(i);
-        line(20, i * 20, 180, i * 20);
-      })
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  range(1, 10, (i) => {
+    setLineWidth(i);
+    line(20, i * 20, 180, i * 20);
+  });
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -2273,30 +2964,25 @@ function draw() {
   range(1, 10, (i) =&gt; {
     setLineWidth(i);
     line(20, i * 20, 180, i * 20);
-  })
-}</pre>
-          
-      
+  });
+}
+</pre
+        >
+      </section>
 
-
-        <h1>setStroke</h1>
-        <ul><li><code>setStroke(color: *)</code></li></ul>
+      <section id="setStroke">
+        <h1><a href="#setStroke">setStroke</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setStroke(color: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set the current stroke colour.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      setStroke(`black`);
-      setFill(`red`);
-      rect(50, 50, 100, 100);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -2304,55 +2990,56 @@ function draw() {
   setStroke(`black`);
   setFill(`red`);
   rect(50, 50, 100, 100);
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  setStroke(`black`);
+  setFill(`red`);
+  rect(50, 50, 100, 100);
+}
+</pre
+        >
+      </section>
 
-        <h1>setTextAlign</h1>
-        <ul><li><code>setTextAlign(xAlign: *, yAlign: *)</code></li></ul>
-        <p>Set the current text alignment values.
+      <section id="setTextAlign">
+        <h1><a href="#setTextAlign">setTextAlign</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>setTextAlign(xAlign: *, yAlign: *)</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>Set the current text alignment values.</p>
+        <p>Valid <code>xAlign</code> values are:</p>
+        <p>
+          CENTER - the text anchor is in the middle of the text. Text is placed
+          evenly on either side. END - the text anchor is on the right for LTR
+          text, and on the left for RTL text. LEFT - the text anchor is on the
+          left side of the text. all text is to the right. RIGHT - the text
+          anchor is on the right side of the text. All text is to the left.
+          START - the text anchor is on the left for LTR text, and on the right
+          for RTL text.
+        </p>
+        <p>Valid <code>yAlign</code> values are:</p>
+        <p>
+          ALPHABETIC - standard text alignment (default) BOTTOM - the text is
+          aligned to the bottom of the bounding box HANGING - relevant for
+          Tibetan and other Indic scripts. IDEOGRAPHIC - relevant for
+          ideographic CJKV text. MIDDLE - The vertical equivalent of
+          &quot;center&quot;. TOP - The text is aligned to the top of the
+          typographic &quot;em square&quot;.
+        </p>
 
- Valid `xAlign` values are:
-
-   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
-   END - the text anchor is on the right for LTR text, and on the left for RTL text.
-   LEFT - the text anchor is on the left side of the text. all text is to the right.
-   RIGHT - the text anchor is on the right side of the text. All text is to the left.
-   START - the text anchor is on the left for LTR text, and on the right for RTL text.
-
- Valid `yAlign` values are:
-
-   ALPHABETIC - standard text alignment (default)
-   BOTTOM - the text is aligned to the bottom of the bounding box
-   HANGING - relevant for Tibetan and other Indic scripts.
-   IDEOGRAPHIC - relevant for ideographic CJKV text.
-   MIDDLE - The vertical equivalent of "center".
-   TOP - The text is aligned to the top of the typographic "em square".</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setFontSize(20);
-      setColor(`black`);
-      line(width / 2, 0, width / 2, height);
-      line(0, height / 2, width, height / 2);
-      setTextAlign(CENTER, MIDDLE);
-      text("center middle", width / 2, height/2);
-      line(0, height / 2 - 50, width, height / 2 - 50);
-      setTextAlign(RIGHT, TOP);
-      text("right top", width / 2, height/2 - 50);
-      line(0, height / 2 + 50, width, height / 2 + 50);
-      setTextAlign(LEFT, BOTTOM);
-      text("left bottom", width / 2, height/2 + 50);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -2362,41 +3049,55 @@ function draw() {
   line(width / 2, 0, width / 2, height);
   line(0, height / 2, width, height / 2);
   setTextAlign(CENTER, MIDDLE);
-  text(&quot;center middle&quot;, width / 2, height/2);
+  text("center middle", width / 2, height / 2);
   line(0, height / 2 - 50, width, height / 2 - 50);
   setTextAlign(RIGHT, TOP);
-  text(&quot;right top&quot;, width / 2, height/2 - 50);
+  text("right top", width / 2, height / 2 - 50);
   line(0, height / 2 + 50, width, height / 2 + 50);
   setTextAlign(LEFT, BOTTOM);
-  text(&quot;left bottom&quot;, width / 2, height/2 + 50);
-}</pre>
-          
-      
+  text("left bottom", width / 2, height / 2 + 50);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setFontSize(20);
+  setColor(`black`);
+  line(width / 2, 0, width / 2, height);
+  line(0, height / 2, width, height / 2);
+  setTextAlign(CENTER, MIDDLE);
+  text(&quot;center middle&quot;, width / 2, height / 2);
+  line(0, height / 2 - 50, width, height / 2 - 50);
+  setTextAlign(RIGHT, TOP);
+  text(&quot;right top&quot;, width / 2, height / 2 - 50);
+  line(0, height / 2 + 50, width, height / 2 + 50);
+  setTextAlign(LEFT, BOTTOM);
+  text(&quot;left bottom&quot;, width / 2, height / 2 + 50);
+}
+</pre
+        >
+      </section>
 
-        <h1>setTextStroke</h1>
-        <ul><li><code>setTextStroke(color: *, width: *)</code></li></ul>
+      <section id="setTextStroke">
+        <h1>
+          <a href="#setTextStroke">setTextStroke</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>setTextStroke(color: *, width: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Set the text outline stroking properties.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear(`white`);
-      setFontSize(25);
-      setTextStroke(`red`, 1);
-      setFill(`yellow`);
-      text("fancy text", width/2, 80, CENTER, CENTER);
-      setFontSize(65);
-      setTextStroke(`red`, 3);
-      setFill(`yellow`);
-      text("fancy text", width/2, 140, CENTER, CENTER);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
@@ -2404,210 +3105,244 @@ function draw() {
   setFontSize(25);
   setTextStroke(`red`, 1);
   setFill(`yellow`);
-  text(&quot;fancy text&quot;, width/2, 80, CENTER, CENTER);
+  text("fancy text", width / 2, 80, CENTER, CENTER);
   setFontSize(65);
   setTextStroke(`red`, 3);
   setFill(`yellow`);
-  text(&quot;fancy text&quot;, width/2, 140, CENTER, CENTER);
-}</pre>
-          
-      
+  text("fancy text", width / 2, 140, CENTER, CENTER);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear(`white`);
+  setFontSize(25);
+  setTextStroke(`red`, 1);
+  setFill(`yellow`);
+  text(&quot;fancy text&quot;, width / 2, 80, CENTER, CENTER);
+  setFontSize(65);
+  setTextStroke(`red`, 3);
+  setFill(`yellow`);
+  text(&quot;fancy text&quot;, width / 2, 140, CENTER, CENTER);
+}
+</pre
+        >
+      </section>
 
-        <h1>resetTransform</h1>
-        <ul><li><code>resetTransform()</code></li></ul>
+      <section id="resetTransform">
+        <h1>
+          <a href="#resetTransform">resetTransform</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>resetTransform()</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Reset the coordinate transform matrix.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      noGrid();
-    }
-    function draw() {
-      clear(`lightgrey`);
-      setColor(`red`);
-      translate(50,50);
-      line(0,0,100,0);
-      point(0,0);
-      setColor(`darkgreen`);
-      point(10,0);
-      rotate(PI/4);
-      point(10,0);
-      line(0,0,100,0);
-      setColor(`blue`);
-      rotate(-PI/6)
-      point(100,0);
-      scale(0.5, 0.5);
-      point(100,0);
-      line(100,0,200,0);
-      resetTransform();
-      setColor(`black`);
-      line(0,3,100,3);
-      point(0,3);
-      point(10,3);
-      point(100,3);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   noGrid();
 }
 function draw() {
   clear(`lightgrey`);
   setColor(`red`);
-  translate(50,50);
-  line(0,0,100,0);
-  point(0,0);
+  translate(50, 50);
+  line(0, 0, 100, 0);
+  point(0, 0);
   setColor(`darkgreen`);
-  point(10,0);
-  rotate(PI/4);
-  point(10,0);
-  line(0,0,100,0);
+  point(10, 0);
+  rotate(PI / 4);
+  point(10, 0);
+  line(0, 0, 100, 0);
   setColor(`blue`);
-  rotate(-PI/6)
-  point(100,0);
+  rotate(-PI / 6);
+  point(100, 0);
   scale(0.5, 0.5);
-  point(100,0);
-  line(100,0,200,0);
+  point(100, 0);
+  line(100, 0, 200, 0);
   resetTransform();
   setColor(`black`);
-  line(0,3,100,3);
-  point(0,3);
-  point(10,3);
-  point(100,3);
-}</pre>
-          
-      
+  line(0, 3, 100, 3);
+  point(0, 3);
+  point(10, 3);
+  point(100, 3);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  setColor(`red`);
+  translate(50, 50);
+  line(0, 0, 100, 0);
+  point(0, 0);
+  setColor(`darkgreen`);
+  point(10, 0);
+  rotate(PI / 4);
+  point(10, 0);
+  line(0, 0, 100, 0);
+  setColor(`blue`);
+  rotate(-PI / 6);
+  point(100, 0);
+  scale(0.5, 0.5);
+  point(100, 0);
+  line(100, 0, 200, 0);
+  resetTransform();
+  setColor(`black`);
+  line(0, 3, 100, 3);
+  point(0, 3);
+  point(10, 3);
+  point(100, 3);
+}
+</pre
+        >
+      </section>
 
-        <h1>rotate</h1>
-        <ul><li><code>rotate(angle: *)</code></li></ul>
+      <section id="rotate">
+        <h1><a href="#rotate">rotate</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>rotate(angle: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Rotate the coordinate system wrt the current origin.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      noGrid();
-    }
-    function draw() {
-      clear(`lightgrey`);
-      translate(width/2, height/2);
-      setColor(`black`);
-      point(0,0);
-      setColor(`darkgreen`);
-      line(0,0,20,20);
-      point(20,20);
-      rotate(PI/4);
-      line(0,0,20,20);
-      point(20,20);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   noGrid();
 }
 function draw() {
   clear(`lightgrey`);
-  translate(width/2, height/2);
+  translate(width / 2, height / 2);
   setColor(`black`);
-  point(0,0);
+  point(0, 0);
   setColor(`darkgreen`);
-  line(0,0,20,20);
-  point(20,20);
-  rotate(PI/4);
-  line(0,0,20,20);
-  point(20,20);
-}</pre>
-          
-      
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  setColor(`black`);
+  point(0, 0);
+  setColor(`darkgreen`);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
+</pre
+        >
+      </section>
 
-        <h1>scale</h1>
-        <ul><li><code>scale(x: *, y?: *)</code></li></ul>
+      <section id="scale">
+        <h1><a href="#scale">scale</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>scale(x: *, y?: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Scale the coordinate system wrt the current origin.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      noGrid();
-    }
-    function draw() {
-      clear(`lightgrey`);
-      translate(width/2, height/2);
-      setColor(`black`);
-      point(0,0);
-      setColor(`darkgreen`);
-      line(0,0,20,20);
-      point(20,20);
-      rotate(PI/4);
-      scale(2);
-      line(0,0,20,20);
-      point(20,20);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   noGrid();
 }
 function draw() {
   clear(`lightgrey`);
-  translate(width/2, height/2);
+  translate(width / 2, height / 2);
   setColor(`black`);
-  point(0,0);
+  point(0, 0);
   setColor(`darkgreen`);
-  line(0,0,20,20);
-  point(20,20);
-  rotate(PI/4);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
   scale(2);
-  line(0,0,20,20);
-  point(20,20);
-}</pre>
-          
-      
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
 
-
-        <h1>screenToWorld</h1>
-        <ul><li><code>screenToWorld(x: *, y: *, p: *)</code></li></ul>
-        <p>Convert a screen (e.g. browser) coordinate into its
- corresponding "transformed" coordinate.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      noGrid();
-    }
-    function draw() {
-      clear(`lightgrey`);
-      translate(width/2, height/2);
-      rotate(PI/4);
-      scale(0.5);
-      if (pointer.active) {
-        setColor(`red`);
-        point(pointer.x, pointer.y);
-        setColor(`blue`);
-        point(screenToWorld(pointer.x, pointer.y));
-      }
-    }
-    function pointerMove() {
-      redraw();
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
   setSize(200, 200);
   noGrid();
 }
 function draw() {
   clear(`lightgrey`);
-  translate(width/2, height/2);
-  rotate(PI/4);
+  translate(width / 2, height / 2);
+  setColor(`black`);
+  point(0, 0);
+  setColor(`darkgreen`);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  scale(2);
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
+</pre
+        >
+      </section>
+
+      <section id="screenToWorld">
+        <h1>
+          <a href="#screenToWorld">screenToWorld</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>screenToWorld(x: *, y: *): p</code></li>
+          <li><code>screenToWorld(p: *): p</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Convert a screen (e.g. browser) coordinate into its corresponding
+          &quot;transformed&quot; coordinate.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  rotate(PI / 4);
   scale(0.5);
   if (pointer.active) {
     setColor(`red`);
@@ -2618,74 +3353,105 @@ function draw() {
 }
 function pointerMove() {
   redraw();
-}</pre>
-          
-      
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  rotate(PI / 4);
+  scale(0.5);
+  if (pointer.active) {
+    setColor(`red`);
+    point(pointer.x, pointer.y);
+    setColor(`blue`);
+    point(screenToWorld(pointer.x, pointer.y));
+  }
+}
+function pointerMove() {
+  redraw();
+}
+</pre
+        >
+      </section>
 
-        <h1>transform</h1>
-        <ul><li><code>transform(a: number, b: number, c: number, d: number, e: number, f: number)</code></li></ul>
-        <p></p>
-        
-      
+      <section id="transform">
+        <h1><a href="#transform">transform</a> <a href="#top">top</a></h1>
+        <ul>
+          <li>
+            <code
+              >transform(a: number, b: number, c: number, d: number, e: number,
+              f: number)</code
+            >
+          </li>
+        </ul>
+        <h3>Description</h3>
 
+        <h3>Examples</h3>
+      </section>
 
-        <h1>translate</h1>
-        <ul><li><code>translate(x: *, y: *, p: *)</code></li></ul>
+      <section id="translate">
+        <h1><a href="#translate">translate</a> <a href="#top">top</a></h1>
+        <ul>
+          <li><code>translate(x: *, y: *, p: *)</code></li>
+        </ul>
+        <h3>Description</h3>
         <p>Translate the coordinate system by some amount of x and y units.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-    }
-    function draw() {
-      clear();
-      translate(width/2, height/2);
-      point(0,0);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
 }
 function draw() {
   clear();
-  translate(width/2, height/2);
-  point(0,0);
-}</pre>
-          
-      
+  translate(width / 2, height / 2);
+  point(0, 0);
+}
 
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+}
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  point(0, 0);
+}
+</pre
+        >
+      </section>
 
-        <h1>worldToScreen</h1>
-        <ul><li><code>worldToScreen(x: *, y: *): p</code></li>
-<li><code>worldToScreen(p: *): p</code></li></ul>
-        <p>Convert an in-canvas "transformed" coordinate into its
- corresponding "screen" (i.e. browser canvas offset) coordinate.</p>
-        
-            <graphics-element>
-  <graphics-source>
-    function setup() {
-      setSize(200, 200);
-      play();
-    }
-    function draw() {
-      clear();
-      translate(width / 2, height / 2);
-      rotate(millis() / 2000);
-      const p = new Point(30, 0);
-      const s = worldToScreen(p);
-      setFontSize(25);
-      point(p);
-      text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
-      resetTransform();
-      setFontSize(16);
-      text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
-    }
-  </graphics-source>
-</graphics-element>
-            <pre>function setup() {
+      <section id="worldToScreen">
+        <h1>
+          <a href="#worldToScreen">worldToScreen</a> <a href="#top">top</a>
+        </h1>
+        <ul>
+          <li><code>worldToScreen(x: *, y: *): p</code></li>
+          <li><code>worldToScreen(p: *): p</code></li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Convert an in-canvas &quot;transformed&quot; coordinate into its
+          corresponding &quot;screen&quot; (i.e. browser canvas offset)
+          coordinate.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
   setSize(200, 200);
   play();
 }
@@ -2701,8 +3467,31 @@ function draw() {
   resetTransform();
   setFontSize(16);
   text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
-}</pre>
-          
-      
-  </body>
-</html>
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  play();
+}
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  rotate(millis() / 2000);
+  const p = new Point(30, 0);
+  const s = worldToScreen(p);
+  setFontSize(25);
+  point(p);
+  text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+  resetTransform();
+  setFontSize(16);
+  text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+}
+</pre
+        >
+      </section>
+    </body>
+  </html></doctype
+>

@@ -9,6 +9,7 @@
  *       setSize(200, 200);
  *       setBorder(5, `red`);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -16,16 +17,20 @@
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
+ *
  *     function pointerUp(x, y) {
  *       setBorder(5, `red`);
  *       redraw()
  *     }
+ *
  *     function pointerDown(x, y) {
  *       noBorder();
  *       redraw()
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setBorder}
  */
 function noBorder() {
   setBorder(false);
@@ -41,6 +46,7 @@ function noBorder() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -52,6 +58,10 @@ function noBorder() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setColor}
+ * @see {@link noStroke}
+ * @see {@link noFill}
  */
 function noColor() {
   noFill();
@@ -68,6 +78,7 @@ function noColor() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`#FF02`);
@@ -75,6 +86,7 @@ function noColor() {
  *       setColor(`#0FF2`);
  *       rect(width/2, 0, width/2, height);
  *     }
+ *
  *     function pointerMove(x, y) {
  *       if (x < width/2) {
  *         setCursor(AUTO);
@@ -99,6 +111,7 @@ function noCursor() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -128,6 +141,7 @@ function noFill() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -135,10 +149,12 @@ function noFill() {
  *       setFontSize(25);
  *       text(`click me`, width/2, height/2);
  *     }
+ *
  *     function pointerUp(x, y) {
  *       setGrid(20, `lightgrey`);
  *       redraw()
  *     }
+ *
  *     function pointerDown(x, y) {
  *       noGrid();
  *       redraw()
@@ -160,6 +176,7 @@ function noGrid() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -189,6 +206,7 @@ function noLineDash() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -219,6 +237,7 @@ function noStroke() {
  *     function setup() {
  *       setSize(200, 200);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);

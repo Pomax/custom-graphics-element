@@ -87,7 +87,6 @@ function project(x, y, z) {
  * @param {*} x
  * @param {*} y
  * @param {*} z
- * @returns
  */
 function rotateProjector(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
@@ -95,7 +94,7 @@ function rotateProjector(x, y, z) {
     y = x.y;
     x = x.x;
   }
-  return __projector.setRotation(x, y, z);
+  __projector.setRotation(x, y, z);
 }
 
 /**

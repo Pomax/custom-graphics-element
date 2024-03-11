@@ -43,6 +43,7 @@
  *         }
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(bgColor);
  *     }
@@ -51,7 +52,7 @@
  *
  * @param {string} propLabel
  * @param {*} options
- * @returns returns the HTML input element for this slider
+ * @returns {HTMLInputElement} the HTML input element for this slider
  */
 function addSlider(propLabel, assign, options = {}) {
   let {
@@ -159,6 +160,7 @@ function addSlider(propLabel, assign, options = {}) {
  *       setSize(200, 200);
  *       addSlider(`x`);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -166,6 +168,7 @@ function addSlider(propLabel, assign, options = {}) {
  *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
+ *
  *     function pointerDown() {
  *       clearSliders();
  *     }
@@ -192,6 +195,7 @@ function clearSliders() {
  *   <graphics-source>
  *     const colors = [`white`, `black`];
  *     let bgColor = 0;
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       addButton(`flip background`, () => {
@@ -199,6 +203,7 @@ function clearSliders() {
  *         redraw();
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(colors[bgColor]);
  *     }
@@ -207,7 +212,7 @@ function clearSliders() {
  *
  * @param {*} label
  * @param {*} onClick
- * @return HTMLButtonElement
+ * @returns HTMLButtonElement
  */
 function addButton(label, onClick) {
   if (!onClick) throw new Error(`a button must have an onClick handler`);
@@ -230,6 +235,7 @@ function addButton(label, onClick) {
  *       setSize(200, 200);
  *       addButton(`this does nothing`, () => {});
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -237,13 +243,14 @@ function addButton(label, onClick) {
  *       setTextAlign(CENTER, MIDDLE);
  *       text(`click to clear`, width/2, height/2);
  *     }
+ *
  *     function pointerDown() {
  *       clearButtons();
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
- * @return void
+ * @returns void
  */
 function clearButtons() {
   __element

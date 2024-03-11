@@ -73,7 +73,7 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
  * @param {*} heLabel an optional label for the end (right) of the horizontal axis
  * @param {*} vsLabel an optional label for the start (top) of the vertical axis
  * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
- * @return void
+ * @returns void
  */
 function axes(
   hLabel,
@@ -353,13 +353,13 @@ function end(close = false) {
  * @param {*} y
  * @param {*} w
  * @param {*} h
- * @return {Image} the drawn image
+ * @returns {Image} the drawn image
  *
  * @param {*} img
  * @param {*} p
  * @param {*} w
  * @param {*} h
- * @return {Image} the drawn image
+ * @returns {Image} the drawn image
  */
 async function image(img, x = 0, y = 0, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -436,27 +436,25 @@ function line(x1, y1, x2, y2) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       noFill();
  *       setStroke(`black`);
  *       translate(0, height/2);
- *       plot((x) => cos(x)**2/sin(x), 0, TAU, width/TAU, height/2)
+ *       const fn = (x) => cos(x) ** 2 / sin(x);
+ *       plot(fn, 0, TAU, undefined, width/TAU, height/2)
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} f the y=f(x) function
- * @param {*} a
- * @param {*} b
- * @param {*} steps
- * @param {*} xscale
- * @param {*} yscale
+ * @param {function} f the y=f(x) function
+ * @param {number} a
+ * @param {number} b
+ * @param {number} steps number of plot points to use (default = 100)
+ * @param {number} xscale
+ * @param {number} yscale
  */
-function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
+function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
   const interval = b - a;
   start();
   let [py, dy, pdy] = [0, 0, 0];

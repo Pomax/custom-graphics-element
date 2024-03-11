@@ -125,7 +125,6 @@ function copy() {
  * @param {*} saturation (0,100)
  * @param {*} lightness (0,100)
  * @param {*} opacity (0,1)
- * @returns
  */
 function color(h = __current_hue, s = 50, l = 50, a = 1) {
   return `hsla(${h},${s}%,${l}%,${a})`;
@@ -205,7 +204,7 @@ function highlight(color) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @return true or false
+ * @returns true or false
  */
 function isMovable(point) {
   return __movable_points.includes(point);
@@ -339,7 +338,6 @@ function play() {
  *
  * @param {*} opacity
  * @param {*} cycle to next colour (default=true)
- * @returns
  */
 function randomColor(a = 1.0, cycle = true) {
   if (cycle) __current_hue = (__current_hue + 73) % 360;

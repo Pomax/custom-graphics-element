@@ -228,7 +228,7 @@ function noStroke() {
  *       setStroke(`black`);
  *       rect(20, 70, 20, 20);
  *       text(`stroked`, width/2, height/2 - 25);
- *       noStroke();
+ *       noTextStroke();
  *       rect(42, 82, 20, 20);
  *       text(`not stroked`, width/2, height/2 + 25);
  *     }

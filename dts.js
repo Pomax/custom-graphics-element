@@ -2,7 +2,10 @@
  * Turn a reasonably well JSDoc'd JavaScript file into a typescript declarations.
  */
 import fs from "node:fs";
-import path from "node:path";
+import { glob } from "glob";
+
+const declarations = {};
+const examples = {};
 
 /**
  * Find the start of a comment block, and then parse the subsequent comment out.
@@ -74,33 +77,74 @@ function fileToDTS(filename) {
     const { fname, comment } = block;
     // derive the JSDoc-less comment from the comment stream.
     let commentString = comment.join(``);
-    commentString =
-      commentString.substring(0, commentString.indexOf(` @`)) + `/`;
+    if (commentString.indexOf(` @`) > -1) {
+      commentString =
+        commentString.substring(0, commentString.indexOf(` @`)) + `/`;
+    }
     if (commentString === `/`) return;
+    // extract the example code
+    examples[fname] = getExamples(fname, comment.slice());
     // Then get the JSDoc @things from the comment stream.
     const params = getParamsAndReturn(fname, comment);
-    console.log(commentString);
+    declarations[fname] = {
+      comment: commentString,
+      declarations: [],
+    };
     params.forEach((set) => {
       const { returnType, ...params } = set;
       const parameters = Object.entries(params)
         .map(([key, value]) => `${key}: ${value}`)
         .join(`, `);
-      console.log(`declare function ${fname}(${parameters}): ${returnType};`);
+      declarations[fname].declarations.push(
+        `declare function ${fname}(${parameters}): ${returnType};`
+      );
     });
   });
   return blocks;
 }
 
+function getExamples(fname, comment) {
+  comment = comment.join(``);
+  const description = comment
+    .substring(0, comment.indexOf(`Example`))
+    .split(`\n`)
+    .map((l) => l.trim().replace(/^(\/\*)?\*/, ""))
+    .join(`\n`)
+    .trim();
+  const blocks = comment
+    .match(/<graphics-element>[\s\S]+?<\/graphics-element>/g)
+    ?.map((block) =>
+      block
+        .split(`\n`)
+        .map((l) => l.trim().replace(/^\* /, ""))
+        .join(`\n`)
+        .trim()
+    );
+
+  return { description, blocks: blocks ?? [] };
+}
+
 function getParamsAndReturn(fname, comment) {
   const params = [];
-  let set = {};
+  const newSet = () => ({ returnType: `void`, __updated: false });
+  const saveSet = () => {
+    delete set.__updated;
+    params.push(set);
+    set = newSet();
+  };
+
+  // The first set is always "updated" so that even if there
+  // are no annotations at all, we have typing.
+  let set = newSet();
+  set.__updated = true;
+
   while (comment.length) {
     // find a JSDoc thing
     while (comment.length && comment[0] !== `@`) {
       comment.shift();
     }
     if (comment.length === 0) break;
-    // reade the whole line
+    // read the whole line
     let line = comment.shift();
     while (comment.length && comment[0] !== `\n`) {
       line += comment.shift();
@@ -111,20 +155,112 @@ function getParamsAndReturn(fname, comment) {
       const [_, __, type, name, ___, desc] = line.match(
         /(@[^\s]+)\s+{([^}]+)}\s+(\S+)(\s+([^\n]+))?/
       );
+      set.__updated = true;
       set[name] = type;
     } else if (op === `@return`) {
       const [_, __, type] = line.match(/(@[^\s]+)\s+(\S+)/);
       set.returnType = type;
-      params.push(set);
-      set = {};
+      saveSet();
     }
+
+    // Is there a param set overload without a return? If
+    // so, there'll be an "empty" line between @param sets.
+    const next = comment.slice(0, 4).join(``);
+    if (next === `\n *\n` && set.__updated) {
+      // FIXME: This is somewhat brittle and relies on indent. That's
+      //        fine for now, but may be a promblem in the future.
+      saveSet();
+    }
+  }
+
+  // If we have a dangling set with updates, save that.
+  if (set.__updated) {
+    saveSet();
   }
 
   return params;
 }
 
-import { glob } from "glob";
-const posixPath = process.argv[2].split(path.sep).join(path.posix.sep);
-const fileList = await glob(posixPath);
+// Let's go. And not in package.json because the glob will trigger zsh, even in quotes.
+const fileList = await glob(`./graphics-element/api/parts/[!_]*.js`);
+fileList.sort().forEach((filename) => fileToDTS(filename));
 
-fileList.forEach((filename) => fileToDTS(filename));
+fs.writeFileSync(
+  `./dist/graphics-element.d.ts`,
+  Object.entries(declarations)
+    .map(([key, value]) => {
+      return value.comment + `\n` + value.declarations.join(`\n`);
+    })
+    .join(`\n`)
+);
+
+function escape(s) {
+  let lookup = {
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+    "<": "&lt;",
+    ">": "&gt;",
+  };
+  return s.replace(/[&"'<>]/g, (c) => lookup[c]);
+}
+
+fs.writeFileSync(
+  `test.html`,
+  `<doctype html>
+<html>
+  <head> 
+    <meta charset="utf-8">
+    <title>example test</title>
+    <script type="module" src="dist/graphics-element.js" async></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" async />
+    <style>
+      body {
+        width: 800px;
+        margin: auto;
+        border: 1px solid black;
+        border-width: 0px 1px;
+        padding: 0 1rem;
+      }
+      h1 {
+        background: #F8F8F8;
+        margin: 0 -1rem;
+        padding: 0 1rem;
+      }
+    </style>
+  </head>
+  <body>
+  ${Object.entries(examples)
+    .map(([key, value]) => {
+      const signatures = declarations[key].declarations
+        .map((v) => {
+          const signature = v
+            .replace(`declare function `, ``)
+            .replace(`: void`, ``)
+            .replace(`;`, ``);
+          return `<li><code>${signature}</code></li>`;
+        })
+        .join(`\n`);
+
+      return `
+        <h1>${key}</h1>
+        <ul>${signatures}</ul>
+        <p>${value.description}</p>
+        ${value.blocks
+          .map((block) => {
+            const code = block
+              .replace(/\<\/?graphics-[^>]+\>/g, ``)
+              .replace(/\n    /g, `\n`)
+              .trim();
+            return `
+            ${block}
+            <pre>${escape(code)}</pre>
+          `;
+          })
+          .join(`\n\n`)}
+      `;
+    })
+    .join(`\n\n`)}
+  </body>
+</html>`
+);

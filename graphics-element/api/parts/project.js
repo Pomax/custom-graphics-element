@@ -132,8 +132,8 @@ function rotateProjector(x, y, z) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param  {number} x-offset of the projection wrt the canvas (default = 0)
- * @param  {number} y-offset of the projection wrt the canvas (default = 0)
+ * @param  {number} xOffset of the projection wrt the canvas (default = 0)
+ * @param  {number} yOffset of the projection wrt the canvas (default = 0)
  * @param  {number} scale factor for the 3D input (default = 1)
  * @param  {number} cabinet angle in radians (default = -pi/6)
  */

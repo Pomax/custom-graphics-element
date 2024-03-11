@@ -8,6 +8,8 @@
  * first and last point on the arc, but no closing
  * stroke.
  *
+ * Example:
+ *
  * <graphics-element>
  *   <graphics-source>
  *     function setup() {
@@ -23,22 +25,18 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * This function takes either separate x and y coordinates, or a single point-like
- *
  * @param {number} x
  * @param {number} y
  * @param {number} radius
  * @param {number} startAngle
  * @param {number} endAngle
  * @param {boolean} drawWedge
- * @return void
  *
- * @param {point-like} point
+ * @param {PointLike} point
  * @param {number} radius
  * @param {number} startAngle
  * @param {number} endAngle
  * @param {boolean} drawWedge
- * @return void
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -142,10 +140,8 @@ function axes(
  * </graphics-element>
  *
  * @param {*} eight x, y values, followed by multiples of six
- * @return void
  *
  * @param {*} four points, followed by multiples of three
- * @return void
  */
 function bezier(...args) {
   let points = args;
@@ -201,10 +197,8 @@ function bezier(...args) {
  * </graphics-element>
  *
  * @param {*} eight or more x, y values
- * @return void
  *
  * @param {*} four or more points
- * @return void
  */
 function bspline(...args) {
   let open = true;
@@ -248,11 +242,9 @@ function bspline(...args) {
  * @param {*} x
  * @param {*} y
  * @param {*} r
- * @return void
  *
  * @param {*} p
  * @param {*} r
- * @return void
  */
 function circle(x, y, r) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -282,7 +274,6 @@ function circle(x, y, r) {
  * </graphics-element>
  *
  * @param {*} colour defaults to `white`
- * @return void
  */
 function clear(color = `white`) {
   save();
@@ -323,7 +314,6 @@ function clear(color = `white`) {
  * </graphics-element>
  *
  * @param {*} close
- * @return void
  */
 function end(close = false) {
   if (close) __ctx.closePath();
@@ -413,11 +403,9 @@ async function image(img, x = 0, y = 0, w, h) {
  * @param {*} y1
  * @param {*} x2
  * @param {*} y2
- * @return void
  *
  * @param {*} p1
  * @param {*} p2
- * @return void
  */
 function line(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -467,7 +455,6 @@ function line(x1, y1, x2, y2) {
  * @param {*} steps
  * @param {*} xscale
  * @param {*} yscale
- * @return void
  */
 function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
   const interval = b - a;
@@ -536,7 +523,6 @@ function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
  * @param {*} data
  * @param {*} x
  * @param {*} y
- * @return void
  */
 function plotData(data, x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -571,10 +557,8 @@ function plotData(data, x, y) {
  *
  * @param {*} x
  * @param {*} y
- * @return void
  *
  * @param {*} p
- * @return void
  */
 function point(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -608,12 +592,10 @@ function point(x, y) {
  * @param {*} y
  * @param {*} w
  * @param {*} h
- * @return void
  *
  * @param {*} p
  * @param {*} w
  * @param {*} h
- * @return void
  */
 function rect(x, y, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -639,7 +621,6 @@ function rect(x, y, w, h) {
  * @param {*} virtual
  * @param {*} tightness
  * @param {*} T
- * @return void
  */
 function spline(...args) {
   let points = args;
@@ -719,8 +700,6 @@ function spline(...args) {
  *     }
  *   </graphics-source>
  * </graphics-element>
- *
- * @return void
  */
 function start() {
   if (__ctx.lineWidth % 2 === 1) {
@@ -782,13 +761,11 @@ function start() {
  * @param {*} y
  * @param {*} xAlign
  * @param {*} yAlign
- * @return void
  *
  * @param {*} str
  * @param {*} p
  * @param {*} xAlign
  * @param {*} yAlign
- * @return void
  */
 function text(str, x, y, xAlign, yAlign) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -835,12 +812,10 @@ function text(str, x, y, xAlign, yAlign) {
  * @param {*} y2
  * @param {*} x3
  * @param {*} y3
- * @return void
  *
  * @param {*} p1
  * @param {*} p2
  * @param {*} p3
- * @return void
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -883,13 +858,10 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  *   </graphics-source>
  * </graphics-element>
  *
- *
  * @param {*} x
  * @param {*} y
- * @return void
  *
  * @param {*} p
- * @return void
  */
 function vertex(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

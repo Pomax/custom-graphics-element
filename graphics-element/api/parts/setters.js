@@ -191,7 +191,7 @@ function setHighlightColor(color) {
  *
  * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash
  *
- * @param  {...any} values
+ * @param  {any[]} values
  */
 function setLineDash(...values) {
   __ctx.setLineDash(values);

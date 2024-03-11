@@ -326,7 +326,7 @@ declare function noStroke(): void;
  *       setStroke(`black`);
  *       rect(20, 70, 20, 20);
  *       text(`stroked`, width/2, height/2 - 25);
- *       noStroke();
+ *       noTextStroke();
  *       rect(42, 82, 20, 20);
  *       text(`not stroked`, width/2, height/2 + 25);
  *     }
@@ -385,11 +385,8 @@ declare function noTextStroke(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {string} propLabel
- * @param {*} options
- * @returns returns the HTML input element for this slider
  */
-declare function addSlider(propLabel: string, assign: any, options?: any): any;
+declare function addSlider(propLabel: string, options: *): void;
 /**
  * Remove all sliders for your figure from the page.
  *
@@ -443,11 +440,8 @@ declare function clearSliders(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} label
- * @param {*} onClick
- * @returns
  */
-declare function addButton(label: any, onClick: any): HTMLButtonElement;
+declare function addButton(label: *, onClick: *): HTMLButtonElement;
 /**
  * Remove all buttons for your figure from the page.
  *
@@ -471,6 +465,7 @@ declare function addButton(label: any, onClick: any): HTMLButtonElement;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function clearButtons(): void;
 /**
@@ -482,6 +477,8 @@ declare function clearButtons(): void;
  * an open shape with a fill that connects the
  * first and last point on the arc, but no closing
  * stroke.
+ *
+ * Example:
  *
  * <graphics-element>
  *   <graphics-source>
@@ -498,50 +495,37 @@ declare function clearButtons(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * This function takes either separate x and y coordinates, or a single point-like
- *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} point-like
- * followed by
- * @param {*} r
- * @param {*} s
- * @param {*} e
- * @param {*} wedge
  */
 declare function arc(
-  x: any,
-  y: any,
-  r: any,
-  s?: any,
-  e?: any,
-  wedge?: any,
+  x: number,
+  y: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  drawWedge: boolean,
+): void;
+declare function arc(
+  point: PointLike,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  drawWedge: boolean,
 ): void;
 /**
  * Draw a pair of horizontal and vertical axes
- * @param {*} hLabel the horizontal axis label
- * @param {*} hs the start (left) value for the horizontal axis
- * @param {*} he the end (right) value for the horizontal axis
- * @param {*} vLabel the vertical axis label
- * @param {*} vs the start (top) value for the vertical axis
- * @param {*} ve the end (bottom) value for the vertical axis
- * @param {*} hsLabel an optional label for the start (left) of the horizontal axis
- * @param {*} heLabel an optional label for the end (right) of the horizontal axis
- * @param {*} vsLabel an optional label for the start (top) of the vertical axis
- * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
+ *
  */
 declare function axes(
-  hLabel: any,
-  hs: any,
-  he: any,
-  vLabel: any,
-  vs: any,
-  ve: any,
-  hsLabel?: any,
-  heLabel?: any,
-  vsLabel?: any,
-  veLabel?: any,
+  hLabel: *,
+  hs: *,
+  he: *,
+  vLabel: *,
+  vs: *,
+  ve: *,
+  hsLabel: *,
+  heLabel: *,
+  vsLabel: *,
+  veLabel: *,
 ): void;
 /**
  * Draw one or more Bezier curves from an array
@@ -580,11 +564,9 @@ declare function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} eight x, y values, followed by multiples of six
- * -or-
- * @param {*} four points, followed by multiples of three
  */
-declare function bezier(...args: any[]): void;
+declare function bezier(eight: *): void;
+declare function bezier(four: *): void;
 /**
  * Draw a B-spline using four or more Point or
  * Point-likes that implement:
@@ -608,11 +590,9 @@ declare function bezier(...args: any[]): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} eight or more x, y values
- * -or-
- * @param {*} four or more points
  */
-declare function bspline(...args: any[]): void;
+declare function bspline(eight: *): void;
+declare function bspline(four: *): void;
 /**
  * Draw a circle with radius `r` at (x,y).
  *
@@ -632,14 +612,9 @@ declare function bspline(...args: any[]): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- * followed by
- * @param {*} r
  */
-declare function circle(x: any, y: any, r: any): void;
+declare function circle(x: *, y: *, r: *): void;
+declare function circle(p: *, r: *): void;
 /**
  * Clear the canvas, and set it to a specific (CSS) colour.
  * If no `noGrid()` call was made, this will then also draw
@@ -658,9 +633,8 @@ declare function circle(x: any, y: any, r: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} colour defaults to `white`
  */
-declare function clear(color?: string): void;
+declare function clear(colour: *): void;
 /**
  * Counterpart to start(), finalizes the current shape and
  * colours it. If `close` is true, it will close the path
@@ -690,9 +664,8 @@ declare function clear(color?: string): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} close
  */
-declare function end(close?: any): void;
+declare function end(close: *): void;
 /**
  * Draw an image in a given location with an optional
  * width and height. If omitted, the width and height
@@ -717,25 +690,9 @@ declare function end(close?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} img
- * followed by
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- * followed by
- * @param {*} w
- * @param {*} h
- *
- * @return {Image} the drawn image
  */
-declare function image(
-  img: any,
-  x: any,
-  y: any,
-  w: any,
-  h: any,
-): new (width?: number, height?: number) => HTMLImageElement;
+declare function image(img: *, x: *, y: *, w: *, h: *): { Image };
+declare function image(img: *, p: *, w: *, h: *): { Image };
 /**
  * Draw a line from one coordinate to another.
  *
@@ -754,17 +711,9 @@ declare function image(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x1
- * @param {*} y1
- * -or-
- * @param {*} p1
- * followed by
- * @param {*} x2
- * @param {*} y2
- * -or-
- * @param {*} p2
  */
-declare function line(x1: any, y1: any, x2: any, y2: any): void;
+declare function line(x1: *, y1: *, x2: *, y2: *): void;
+declare function line(p1: *, p2: *): void;
 /**
  * Plot a y=f(x) function. The input to the function
  * will span the interval [a,b] using the indicated
@@ -793,21 +742,8 @@ declare function line(x1: any, y1: any, x2: any, y2: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} f the y=f(x) function
- * @param {*} a
- * @param {*} b
- * @param {*} steps
- * @param {*} xscale
- * @param {*} yscale
  */
-declare function plot(
-  f: any,
-  a?: any,
-  b?: any,
-  steps?: any,
-  xscale?: any,
-  yscale?: any,
-): void;
+declare function plot(f: *, a: *, b: *, steps: *, xscale: *, yscale: *): void;
 /**
  * Plot a 2D graph using a collection of any-dimensional data,
  * by indicating which dimension should be treated as the `x`
@@ -839,11 +775,8 @@ declare function plot(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} data
- * @param {*} x
- * @param {*} y
  */
-declare function plotData(data: any, x: any, y: any): void;
+declare function plotData(data: *, x: *, y: *): void;
 /**
  * Draw a point (either from x/y or point-like).
  *
@@ -864,12 +797,9 @@ declare function plotData(data: any, x: any, y: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
  */
-declare function point(x: any, y: any): void;
+declare function point(x: *, y: *): void;
+declare function point(p: *): void;
 /**
  * Draw a rectangle at the specified coordinate, with
  * the specific width and height.
@@ -890,24 +820,14 @@ declare function point(x: any, y: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- * followed by
- * @param {*} w
- * @param {*} h
  */
-declare function rect(x: any, y: any, w: any, h: any): void;
+declare function rect(x: *, y: *, w: *, h: *): void;
+declare function rect(p: *, w: *, h: *): void;
 /**
  * draw a cardinal spline with virtual start and end point
  *
- * @param {*} points
- * @param {*} virtual
- * @param {*} tightness
- * @param {*} T
  */
-declare function spline(...args: any[]): void;
+declare function spline(points: *, virtual: *, tightness: *, T: *): void;
 /**
  * Starts a (new) shape.
  *
@@ -931,7 +851,6 @@ declare function spline(...args: any[]): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
- *
  */
 declare function start(): void;
 /**
@@ -981,17 +900,9 @@ declare function start(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} str
- * followed by
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- * followed by
- * @param {*} xAlign
- * @param {*} yAlign
  */
-declare function text(str: any, x: any, y: any, xAlign: any, yAlign: any): void;
+declare function text(str: *, x: *, y: *, xAlign: *, yAlign: *): void;
+declare function text(str: *, p: *, xAlign: *, yAlign: *): void;
 /**
  * Draw a triangle.
  *
@@ -1011,25 +922,9 @@ declare function text(str: any, x: any, y: any, xAlign: any, yAlign: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x1
- * @param {*} y1
- * @param {*} x2
- * @param {*} y2
- * @param {*} x3
- * @param {*} y3
- * -or-
- * @param {*} p1
- * @param {*} p2
- * @param {*} p3
  */
-declare function triangle(
-  x1: any,
-  y1: any,
-  x2: any,
-  y2: any,
-  x3: any,
-  y3: any,
-): void;
+declare function triangle(x1: *, y1: *, x2: *, y2: *, x3: *, y3: *): void;
+declare function triangle(p1: *, p2: *, p3: *): void;
 /**
  * Add a vertex to the currently active shape.
  *
@@ -1053,13 +948,9 @@ declare function triangle(
  *   </graphics-source>
  * </graphics-element>
  *
- *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
  */
-declare function vertex(x: any, y: any): void;
+declare function vertex(x: *, y: *): void;
+declare function vertex(p: *): void;
 /**
  * Create an array of specified length, optionally
  * filled using the same kind of function you'd normall
@@ -1082,10 +973,8 @@ declare function vertex(x: any, y: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param len
- * @param fillFunction
  */
-declare function array(len: any, fillFunction: any): any;
+declare function array(len: *, fillFunction: *): void;
 /**
  * Empty the list of movable points in your graphic.
  *
@@ -1146,9 +1035,8 @@ declare function clearMovable(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns a copy of the current canvas
  */
-declare function copy(): HTMLCanvasElement;
+declare function copy(): void;
 /**
  * Generates a color based on the HSL color space.
  *
@@ -1165,13 +1053,8 @@ declare function copy(): HTMLCanvasElement;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} hue (0,360)
- * @param {*} saturation (0,100)
- * @param {*} lightness (0,100)
- * @param {*} opacity (0,1)
- * @returns
  */
-declare function color(h?: any, s?: number, l?: number, a?: number): string;
+declare function color(hue: *, saturation: *, lightness: *, opacity: *): void;
 /**
  * Mark a specific color as the highlight color,
  * which causes the graphic to redraw with that
@@ -1203,9 +1086,8 @@ declare function color(h?: any, s?: number, l?: number, a?: number): string;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
  */
-declare function highlight(color: any): void;
+declare function highlight(color: *): void;
 /**
  * Check whether a point is registered as movable.
  *
@@ -1238,9 +1120,8 @@ declare function highlight(color: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @return true or false
  */
-declare function isMovable(point: any): any;
+declare function isMovable(): true;
 /**
  * Get the number of milliseconds that this
  * graphic has been running.
@@ -1264,9 +1145,8 @@ declare function isMovable(point: any): any;
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns number of milliseconds
  */
-declare function millis(): number;
+declare function millis(): void;
 /**
  * Pause the graphic if its currently playing.
  *
@@ -1357,11 +1237,8 @@ declare function play(): void;
  * </graphics-element>
  *
  *
- * @param {*} opacity
- * @param {*} cycle to next colour (default=true)
- * @returns
  */
-declare function randomColor(a?: number, cycle?: any): string;
+declare function randomColor(opacity: *, cycle: *): void;
 /**
  * An alternative to writing for loops, because
  * no one wants to constantly write var allocations
@@ -1383,12 +1260,8 @@ declare function randomColor(a?: number, cycle?: any): string;
  * </graphics-element>
  *
  *
- * @param {*} start
- * @param {*} end
- * @param {*} step?
- * @param {*} runFunction
  */
-declare function range(start: any, end: any, step: any, runFunction: any): void;
+declare function range(start: *, end: *, step?: *, runFunction: *): void;
 /**
  * Mark one or more points as movable, meaning
  * that the user can reposition the point around on
@@ -1416,9 +1289,8 @@ declare function range(start: any, end: any, step: any, runFunction: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} points
  */
-declare function setMovable(...points: any): void;
+declare function setMovable(points: *): void;
 /**
  * Restore the graphics context (transforms,
  * current colors, etc) to what they were
@@ -1484,9 +1356,8 @@ declare function save(): void;
 /**
  * Convert the current canvas into an data URL
  * that represents a PNG image.
- * @returns dataURL
  */
-declare function toDataURL(): any;
+declare function toDataURL(): void;
 /**
  * If the graphic is currently playing, pause it,
  * and if it's paused, play it.
@@ -1513,9 +1384,8 @@ declare function toDataURL(): any;
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns the new play state as boolean
  */
-declare function togglePlay(): any;
+declare function togglePlay(): void;
 /**
  * Project a 3D coordinate to 2D.
  *
@@ -1548,15 +1418,8 @@ declare function togglePlay(): any;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} z
- * -or-
- * @param p (3d)
- *
- * @returns p (2d)
  */
-declare function project(x: any, y: any, z: any): any;
+declare function project(x: *, y: *, z: *, p: *): void;
 /**
  * Set the projector's x, y, and z axis rotation
  * in radians. Note that these are applied in order.
@@ -1593,12 +1456,8 @@ declare function project(x: any, y: any, z: any): any;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} z
- * @returns
  */
-declare function rotateProjector(x: any, y: any, z: any): any;
+declare function rotateProjector(x: *, y: *, z: *): void;
 /**
  * Set the project parameters. Currently, only
  * cabinet project is supported, which accepts
@@ -1633,12 +1492,13 @@ declare function rotateProjector(x: any, y: any, z: any): any;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param  {number} x-offset of the projection wrt the canvas (default = 0)
- * @param  {number} y-offset of the projection wrt the canvas (default = 0)
- * @param  {number} scale factor for the 3D input (default = 1)
- * @param  {number} cabinet angle in radians (default = -pi/6)
  */
-declare function setProjector(...args: any[]): void;
+declare function setProjector(
+  xOffset: number,
+  yOffset: number,
+  scale: number,
+  cabinet: number,
+): void;
 /**
  * Set a border around the canvas.
  *
@@ -1653,10 +1513,8 @@ declare function setProjector(...args: any[]): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} width
- * @param {*} color
  */
-declare function setBorder(width?: any, color?: any): void;
+declare function setBorder(width: *, color: *): void;
 /**
  * Set the current stroke and fill colour at
  * the same time.
@@ -1676,9 +1534,8 @@ declare function setBorder(width?: any, color?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
  */
-declare function setColor(color: any): void;
+declare function setColor(color: *): void;
 /**
  * Change the cursor to a specific icon:
  *
@@ -1688,9 +1545,8 @@ declare function setColor(color: any): void;
  *
  * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
- * @param {*} type
  */
-declare function setCursor(type: any): void;
+declare function setCursor(type: *): void;
 /**
  * Set the current fill colour.
  *
@@ -1710,29 +1566,24 @@ declare function setCursor(type: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
  */
-declare function setFill(color?: any): void;
+declare function setFill(color: *): void;
 /**
  *
- * @param {*} font
  */
-declare function setFont(font: any): void;
+declare function setFont(font: *): void;
 /**
  *
- * @param {*} name
  */
-declare function setFontFamily(name: any): void;
+declare function setFontFamily(name: *): void;
 /**
  *
- * @param {*} px
  */
-declare function setFontSize(px: any): void;
+declare function setFontSize(px: *): void;
 /**
  *
- * @param {*} val
  */
-declare function setFontWeight(val: any): void;
+declare function setFontWeight(val: *): void;
 /**
  * Set the background grid spacing and colour.
  *
@@ -1750,10 +1601,8 @@ declare function setFontWeight(val: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} spacing
- * @param {*} color
  */
-declare function setGrid(spacing?: any, color?: any): void;
+declare function setGrid(spacing: *, color: *): void;
 /**
  * Set the color that should be used to replace whatever
  * highlight() marked as the "to highlight" color.
@@ -1780,17 +1629,15 @@ declare function setGrid(spacing?: any, color?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
  */
-declare function setHighlightColor(color: any): void;
+declare function setHighlightColor(color: *): void;
 /**
  * Set the line dash property. See the following MDN article for the details:
  *
  * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash
  *
- * @param  {...any} values
  */
-declare function setLineDash(...values: any[]): void;
+declare function setLineDash(values: any[]): void;
 /**
  * Set the line width in pixels.
  *
@@ -1812,9 +1659,8 @@ declare function setLineDash(...values: any[]): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} width
  */
-declare function setLineWidth(width?: any): void;
+declare function setLineWidth(width: *): void;
 /**
  * Set the current stroke colour.
  *
@@ -1834,9 +1680,8 @@ declare function setLineWidth(width?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
  */
-declare function setStroke(color?: any): void;
+declare function setStroke(color: *): void;
 /**
  * Set the current text alignment values.
  *
@@ -1882,13 +1727,10 @@ declare function setStroke(color?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} xAlign
- * @param {*} yAlign
  */
-declare function setTextAlign(xAlign: any, yAlign: any): void;
+declare function setTextAlign(xAlign: *, yAlign: *): void;
 /**
  * Set the text outline stroking properties.
- *
  *
  * Example:
  *
@@ -1911,10 +1753,8 @@ declare function setTextAlign(xAlign: any, yAlign: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
- * @param {*} width
  */
-declare function setTextStroke(color: any, width?: any): void;
+declare function setTextStroke(color: *, width: *): void;
 /**
  * Reset the coordinate transform matrix.
  *
@@ -1980,9 +1820,8 @@ declare function resetTransform(): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} angle
  */
-declare function rotate(angle?: any): void;
+declare function rotate(angle: *): void;
 /**
  * Scale the coordinate system wrt the current origin.
  *
@@ -2010,10 +1849,8 @@ declare function rotate(angle?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y?
  */
-declare function scale(x?: any, y?: any): void;
+declare function scale(x: *, y?: *): void;
 /**
  * Convert a screen (e.g. browser) coordinate into its
  * corresponding "transformed" coordinate.
@@ -2044,14 +1881,8 @@ declare function scale(x?: any, y?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- *
- * @returns p
  */
-declare function screenToWorld(x: any, y: any): any;
+declare function screenToWorld(x: *, y: *, p: *): void;
 /**
  * Set the current transform matrix, based on applying:
  *
@@ -2061,20 +1892,14 @@ declare function screenToWorld(x: any, y: any): any;
  *
  * With the parameters defaulting to the identity matrix.
  *
- * @param {number} a
- * @param {number} b
- * @param {number} c
- * @param {number} d
- * @param {number} e
- * @param {number} f
  */
 declare function transform(
-  a?: number,
-  b?: number,
-  c?: number,
-  d?: number,
-  e?: number,
-  f?: number,
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  e: number,
+  f: number,
 ): void;
 /**
  * Translate the coordinate system by some amount of x and y units.
@@ -2094,12 +1919,8 @@ declare function transform(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
  */
-declare function translate(x?: any, y?: any): void;
+declare function translate(x: *, y: *, p: *): void;
 /**
  * Convert an in-canvas "transformed" coordinate into its
  * corresponding "screen" (i.e. browser canvas offset) coordinate.
@@ -2128,11 +1949,6 @@ declare function translate(x?: any, y?: any): void;
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
- *
- * @return p
  */
-declare function worldToScreen(x: any, y: any): any;
+declare function worldToScreen(x: *, y: *): p;
+declare function worldToScreen(p: *): p;

@@ -138,9 +138,9 @@ function scale(x = 1, y = x) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
+ * @returns p
+ * 
  * @param {*} p
- *
  * @returns p
  */
 function screenToWorld(x, y) {
@@ -235,9 +235,9 @@ function translate(x = 0, y = 0) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
- * @param {*} p
+ * @return p
  *
+ * @param {*} p
  * @return p
  */
 function worldToScreen(x, y) {

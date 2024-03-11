@@ -207,7 +207,7 @@ function clearSliders() {
  *
  * @param {*} label
  * @param {*} onClick
- * @returns
+ * @return HTMLButtonElement
  */
 function addButton(label, onClick) {
   if (!onClick) throw new Error(`a button must have an onClick handler`);
@@ -242,6 +242,8 @@ function addButton(label, onClick) {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @return void
  */
 function clearButtons() {
   __element

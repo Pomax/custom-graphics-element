@@ -20,8 +20,8 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param len
- * @param fillFunction
+ * @param {*} len
+ * @param {*} fillFunction
  */
 function array(len, fillFunction) {
   const arr = new Array(len).fill();

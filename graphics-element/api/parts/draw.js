@@ -25,15 +25,20 @@
  *
  * This function takes either separate x and y coordinates, or a single point-like
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} point-like
- * followed by
- * @param {*} r
- * @param {*} s
- * @param {*} e
- * @param {*} wedge
+ * @param {number} x
+ * @param {number} y
+ * @param {number} radius
+ * @param {number} startAngle
+ * @param {number} endAngle
+ * @param {boolean} drawWedge
+ * @return void
+ *
+ * @param {point-like} point
+ * @param {number} radius
+ * @param {number} startAngle
+ * @param {number} endAngle
+ * @param {boolean} drawWedge
+ * @return void
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -59,6 +64,7 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
 
 /**
  * Draw a pair of horizontal and vertical axes
+ *
  * @param {*} hLabel the horizontal axis label
  * @param {*} hs the start (left) value for the horizontal axis
  * @param {*} he the end (right) value for the horizontal axis
@@ -69,6 +75,7 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
  * @param {*} heLabel an optional label for the end (right) of the horizontal axis
  * @param {*} vsLabel an optional label for the start (top) of the vertical axis
  * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
+ * @return void
  */
 function axes(
   hLabel,
@@ -135,8 +142,10 @@ function axes(
  * </graphics-element>
  *
  * @param {*} eight x, y values, followed by multiples of six
- * -or-
+ * @return void
+ *
  * @param {*} four points, followed by multiples of three
+ * @return void
  */
 function bezier(...args) {
   let points = args;
@@ -192,8 +201,10 @@ function bezier(...args) {
  * </graphics-element>
  *
  * @param {*} eight or more x, y values
- * -or-
+ * @return void
+ *
  * @param {*} four or more points
+ * @return void
  */
 function bspline(...args) {
   let open = true;
@@ -236,10 +247,12 @@ function bspline(...args) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
- * @param {*} p
- * followed by
  * @param {*} r
+ * @return void
+ *
+ * @param {*} p
+ * @param {*} r
+ * @return void
  */
 function circle(x, y, r) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -269,6 +282,7 @@ function circle(x, y, r) {
  * </graphics-element>
  *
  * @param {*} colour defaults to `white`
+ * @return void
  */
 function clear(color = `white`) {
   save();
@@ -309,6 +323,7 @@ function clear(color = `white`) {
  * </graphics-element>
  *
  * @param {*} close
+ * @return void
  */
 function end(close = false) {
   if (close) __ctx.closePath();
@@ -344,15 +359,16 @@ function end(close = false) {
  * </graphics-element>
  *
  * @param {*} img
- * followed by
  * @param {*} x
  * @param {*} y
- * -or-
- * @param {*} p
- * followed by
  * @param {*} w
  * @param {*} h
+ * @return {Image} the drawn image
  *
+ * @param {*} img
+ * @param {*} p
+ * @param {*} w
+ * @param {*} h
  * @return {Image} the drawn image
  */
 async function image(img, x = 0, y = 0, w, h) {
@@ -395,13 +411,13 @@ async function image(img, x = 0, y = 0, w, h) {
  *
  * @param {*} x1
  * @param {*} y1
- * -or-
- * @param {*} p1
- * followed by
  * @param {*} x2
  * @param {*} y2
- * -or-
+ * @return void
+ *
+ * @param {*} p1
  * @param {*} p2
+ * @return void
  */
 function line(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -451,6 +467,7 @@ function line(x1, y1, x2, y2) {
  * @param {*} steps
  * @param {*} xscale
  * @param {*} yscale
+ * @return void
  */
 function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
   const interval = b - a;
@@ -519,6 +536,7 @@ function plot(f, a = 0, b = 1, steps = (b - a) / 100, xscale = 1, yscale = 1) {
  * @param {*} data
  * @param {*} x
  * @param {*} y
+ * @return void
  */
 function plotData(data, x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -553,8 +571,10 @@ function plotData(data, x, y) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
+ * @return void
+ *
  * @param {*} p
+ * @return void
  */
 function point(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -586,11 +606,14 @@ function point(x, y) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
- * @param {*} p
- * followed by
  * @param {*} w
  * @param {*} h
+ * @return void
+ *
+ * @param {*} p
+ * @param {*} w
+ * @param {*} h
+ * @return void
  */
 function rect(x, y, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -616,6 +639,7 @@ function rect(x, y, w, h) {
  * @param {*} virtual
  * @param {*} tightness
  * @param {*} T
+ * @return void
  */
 function spline(...args) {
   let points = args;
@@ -696,6 +720,7 @@ function spline(...args) {
  *   </graphics-source>
  * </graphics-element>
  *
+ * @return void
  */
 function start() {
   if (__ctx.lineWidth % 2 === 1) {
@@ -753,14 +778,17 @@ function start() {
  * </graphics-element>
  *
  * @param {*} str
- * followed by
  * @param {*} x
  * @param {*} y
- * -or-
- * @param {*} p
- * followed by
  * @param {*} xAlign
  * @param {*} yAlign
+ * @return void
+ *
+ * @param {*} str
+ * @param {*} p
+ * @param {*} xAlign
+ * @param {*} yAlign
+ * @return void
  */
 function text(str, x, y, xAlign, yAlign) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -807,10 +835,12 @@ function text(str, x, y, xAlign, yAlign) {
  * @param {*} y2
  * @param {*} x3
  * @param {*} y3
- * -or-
+ * @return void
+ *
  * @param {*} p1
  * @param {*} p2
  * @param {*} p3
+ * @return void
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -856,8 +886,10 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  *
  * @param {*} x
  * @param {*} y
- * -or-
+ * @return void
+ *
  * @param {*} p
+ * @return void
  */
 function vertex(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

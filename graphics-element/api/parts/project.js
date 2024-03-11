@@ -34,9 +34,9 @@
  * @param {*} y
  * @param {*} z
  * -or-
- * @param p (3d)
+ * @param {*} p
  *
- * @returns p (2d)
+ * @returns p
  */
 function project(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {

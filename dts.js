@@ -271,7 +271,7 @@ fs.writeFileSync(
   Object.entries(declarations)
     .map(([key, value]) => {
       return (
-        value.comment + `\n` + value.declarations.map((e) => e.type).join(`\n`)
+        value.comment + `\n` + value.declarations.join(`\n`)
       );
     })
     .join(`\n`)

@@ -7,9 +7,6 @@
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       noFill();
@@ -76,9 +73,6 @@ function clearMovable() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`pink`);
  *     }
@@ -112,9 +106,6 @@ function copy() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(color(45, 80, 90));
  *     }
@@ -323,9 +314,6 @@ function play() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(randomColor());
  *     }
@@ -353,9 +341,6 @@ function randomColor(a = 1.0, cycle = true) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       translate(width/2, height/2);
@@ -427,9 +412,6 @@ function setMovable(...points) {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -461,9 +443,6 @@ function restore() {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);

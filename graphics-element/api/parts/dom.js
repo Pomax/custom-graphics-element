@@ -16,7 +16,7 @@
  * - max:number - the slider's maximum value, defaults to 1
  * - step - the step size, defaults to (max - min)/10
  * - value - the initial value, defaults to (max + min)/2
- * - classes - the CSS classes that will be used, defaults to `sider`
+ * - classes - the CSS classes that will be used, defaults to `"slider"`
  * - transform - a value preprocessor  defaults to (v) => v
  *
  * The `transform` pre-processor runs after the user updates
@@ -50,8 +50,8 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {string} propLabel
- * @param {*} options
+ * @param {string} varName The name for the variable this slider gets tied to.
+ * @param {object} options See description
  * @returns {HTMLInputElement} the HTML input element for this slider
  */
 function addSlider(propLabel, assign, options = {}) {
@@ -198,7 +198,7 @@ function clearSliders() {
  *
  *     function setup() {
  *       setSize(200, 200);
- *       addButton(`flip background`, () => {
+ *       addButton(`flip background`, (button) => {
  *         bgColor = -(bgColor - 1);
  *         redraw();
  *       });
@@ -210,8 +210,8 @@ function clearSliders() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} label
- * @param {*} onClick
+ * @param {string} label The text label for your button
+ * @param {function} onClick The click handling function, see description.
  * @returns HTMLButtonElement
  */
 function addButton(label, onClick) {

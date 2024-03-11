@@ -12,9 +12,6 @@
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -25,18 +22,18 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {number} x
- * @param {number} y
- * @param {number} radius
- * @param {number} startAngle
- * @param {number} endAngle
- * @param {boolean} drawWedge
+ * @param {number} x The circular center x pixel value
+ * @param {number} y The circular center y pixel value
+ * @param {number} radius The radius of this arc in pixels
+ * @param {number} startAngle The start angle for this arc in radians
+ * @param {number} endAngle The end angle for this arc in radians
+ * @param {boolean} drawWedge A boolean indicating whether to draw a wedge or capped circle (default=circle)
  *
- * @param {PointLike} point
- * @param {number} radius
- * @param {number} startAngle
- * @param {number} endAngle
- * @param {boolean} drawWedge
+ * @param {PointLike} point The circular center {x,y} coordinate
+ * @param {number} radius The radius of this arc in pixels
+ * @param {number} startAngle The start angle for this arc in radians
+ * @param {number} endAngle The end angle for this arc in radians
+ * @param {boolean} drawWedge A boolean indicating whether to draw a wedge or capped circle (default=circle)
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -61,18 +58,42 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
 }
 
 /**
- * Draw a pair of horizontal and vertical axes
+ * Draw a pair of horizontal and vertical axes.
  *
- * @param {*} hLabel the horizontal axis label
- * @param {*} hs the start (left) value for the horizontal axis
- * @param {*} he the end (right) value for the horizontal axis
- * @param {*} vLabel the vertical axis label
- * @param {*} vs the start (top) value for the vertical axis
- * @param {*} ve the end (bottom) value for the vertical axis
- * @param {*} hsLabel an optional label for the start (left) of the horizontal axis
- * @param {*} heLabel an optional label for the end (right) of the horizontal axis
- * @param {*} vsLabel an optional label for the start (top) of the vertical axis
- * @param {*} veLabel an optional label for the end (bottom) of the vertical axis
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setBorder(1, `black`);
+ *       setGrid(50, `lightgrey`);
+ *     }
+ *
+ *     function draw() {
+ *       setCursor(`none`);
+ *       clear(`#fffef7`);
+ *       setColor(`#333`);
+ *       translate(25,25);
+ *       axes(
+ *         `time (s)`, 0, width-50,
+ *         `distance (km)`, 0, height-50,
+ *         "0", "60",
+ *         "0", "500");
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {string} hLabel the horizontal axis label
+ * @param {number} hs the start (left) pixel value for the horizontal axis
+ * @param {number} he the end (right) pixel value for the horizontal axis
+ * @param {string} vLabel the vertical axis label
+ * @param {number} vs the start (top) pixel value for the vertical axis
+ * @param {number} ve the end (bottom) pixel value for the vertical axis
+ * @param {string} hsLabel? an optional label for the start (left) of the horizontal axis
+ * @param {string} heLabel? an optional label for the end (right) of the horizontal axis
+ * @param {string} vsLabel? an optional label for the start (top) of the vertical axis
+ * @param {string} veLabel? an optional label for the end (bottom) of the vertical axis
  * @returns void
  */
 function axes(
@@ -91,12 +112,16 @@ function axes(
   line(0, vs, 0, ve);
 
   const hpos = 0 - 5;
-  text(`${hLabel} →`, width / 2, hpos, CENTER);
-  text(hsLabel ? hsLabel : hs, hs, hpos, CENTER);
-  text(heLabel ? heLabel : he, he, hpos, CENTER);
+  text(`${hLabel} →`, width / 2 + 5, hpos, RIGHT);
+  text(hsLabel ? hsLabel : hs, hs, hpos, RIGHT);
+  text(heLabel ? heLabel : he, he, hpos, RIGHT);
 
   const vpos = -5;
-  text(`${vLabel}`, vpos, height / 2, RIGHT);
+  save();
+  translate(vpos, height / 2);
+  rotate(-PI / 2);
+  text(`${vLabel}`, 0, 0, LEFT);
+  restore();
   text(`↓`, vpos, height / 2 + 16, RIGHT);
   text(vsLabel ? vsLabel : vs, vpos, vs + 5, RIGHT);
   text(veLabel ? veLabel : ve, vpos, ve, RIGHT);
@@ -106,18 +131,17 @@ function axes(
  * Draw one or more Bezier curves from an array
  * of Point or Point-likes that implement:
  *
- *   {
- *     x: number
- *     y: number
- *   }
+ * ```
+ * {
+ *   x: number
+ *   y: number
+ * }
+ * ```
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -139,9 +163,11 @@ function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} eight x, y values, followed by multiples of six
+ * @param {number[8]} coordinates Eight x, y values.
+ * @param {number[6n]} additionalCoordinates? Multiples of six x, y values.
  *
- * @param {*} four points, followed by multiples of three
+ * @param {PointLike[4]} coordinates Four {x,y} coordinates.
+ * @param {PointLike[3n]} additionalCoordinates? Multiples of three {x,y} coordinates.
  */
 function bezier(...args) {
   let points = args;
@@ -186,19 +212,36 @@ function bezier(...args) {
  *
  * <graphics-element>
  *   <graphics-source>
+ *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
+ *       range(0, TAU, PI / 5, (a) => points.push(
+ *         new Point(
+ *           random(30) + 50 * cos(a),
+ *           random(30) + 50 * sin(a)
+ *         )
+ *       ));
+ *       setMovable(...points);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
- *       // CODE GOES HERE
+ *       translate(width / 2, height / 2);
+ *       noStroke();
+ *       setFill(`#0002`);
+ *       bspline(...points);
+ *       setColor(`red`);
+ *       points.forEach(p => point(p));
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} eight or more x, y values
+ * @param {number[8]} coordinates Eight x, y values.
+ * @param {number[2n]} additionalCoordinates? Multiples of x, y values.
  *
- * @param {*} four or more points
+ * @param {PointLike[4]} coordinates Four {x,y} coordinates.
+ * @param {PointLike[n]} additionalCoordinates? Zero or more {x,y} coordinates.
  */
 function bspline(...args) {
   let open = true;
@@ -221,15 +264,12 @@ function bspline(...args) {
 }
 
 /**
- * Draw a circle with radius `r` at (x,y).
+ * Draw a circle with radius `r` at `x,y`.
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -239,12 +279,12 @@ function bspline(...args) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} r
+ * @param {number} x The circle's center x pixel value
+ * @param {number} y The circle's center x pixel value
+ * @param {number} r The circle's radius in pixels
  *
- * @param {*} p
- * @param {*} r
+ * @param {PointLike} p The circle's center {x,y} coordinate
+ * @param {number} r The circle's radius in pixels
  */
 function circle(x, y, r) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -264,9 +304,6 @@ function circle(x, y, r) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`pink`);
  *     }
@@ -296,9 +333,6 @@ function clear(color = `white`) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -338,9 +372,6 @@ function end(close = false) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     async function draw() {
  *       clear(`white`);
  *       await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
@@ -388,9 +419,6 @@ async function image(img, x = 0, y = 0, w, h) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -496,9 +524,6 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       noFill();
@@ -540,9 +565,6 @@ function plotData(data, x, y) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       translate(width/2, height/2);
@@ -574,9 +596,6 @@ function point(x, y) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -682,9 +701,6 @@ function spline(...args) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -736,9 +752,6 @@ function start() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -792,9 +805,6 @@ function text(str, x, y, xAlign, yAlign) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -840,9 +850,6 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);

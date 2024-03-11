@@ -95,19 +95,23 @@ function fileToDTS(filename) {
     const params = getParamsAndReturn(fname, comment);
     declarations[fname] = {
       comment: commentString,
+      params,
       declarations: [],
       see: [],
     };
 
     params.forEach((set) => {
       const { returnType, see, ...params } = set;
+      delete set.see;
       const parameters = Object.entries(params)
         .map(([name, param]) => `${name}: ${param.type}`)
         .join(`, `);
       declarations[fname].declarations.push(
         `declare function ${fname}(${parameters}): ${returnType.type};`
       );
-      if (see) declarations[fname].see.push(...see);
+      if (see) {
+        declarations[fname].see.push(...see);
+      }
     });
   });
   return blocks;
@@ -270,9 +274,7 @@ fs.writeFileSync(
   `./dist/graphics-element.d.ts`,
   Object.entries(declarations)
     .map(([key, value]) => {
-      return (
-        value.comment + `\n` + value.declarations.join(`\n`)
-      );
+      return value.comment + `\n` + value.declarations.join(`\n`);
     })
     .join(`\n`)
 );
@@ -285,14 +287,31 @@ const pageCode = (
     Object.entries(examples).map(async ([key, value]) => {
       // Include the call signature(s)
       const signatures = await declarations[key].declarations
-        .map((v) => {
+        .map((v, pos) => {
+          // call signature
           const signature = v
             .replace(`declare function `, ``)
             .replace(`: void`, ``)
             .replace(`;`, ``);
-          return `<li><code>${signature}</code></li>`;
+
+          // call parameters
+          let params = ``;
+          if (declarations[key].params[pos]) {
+            const { returnType, see, ...rest } = declarations[key].params[pos];
+            params =
+              `<ul class="params">` +
+              Object.entries(rest)
+                .map(([key, { type, desc }]) => {
+                  return `<li><code>${key}</code> - ${desc}</li>`;
+                })
+                .join(``) +
+              `</ul>`;
+          }
+          return `<li><code>${signature}</code>${params}</li>`;
         })
         .join(`\n`);
+
+      const siglist = declarations[key].declarations.length > 1 ? `ol` : `ul`;
 
       // With the example as both a graphics element and <pre>'d source code.
       const gfxAndCode = (
@@ -320,7 +339,7 @@ const pageCode = (
       return `
         <section id="${key}">
           <h1><a href="#${key}">${key}</a> <a href="#top">top</a></h1>
-          <ul>${signatures}</ul>
+          <${siglist} class="signatures">${signatures}</${siglist}>
           <h3>Description</h3>
           ${markdownToHTML(value.description)}
           <h3>Examples</h3>

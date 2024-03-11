@@ -43,10 +43,6 @@ function noBorder() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -75,10 +71,6 @@ function noColor() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`#FF02`);
@@ -108,10 +100,6 @@ function noCursor() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -138,10 +126,6 @@ function noFill() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -173,10 +157,6 @@ function noGrid() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -203,10 +183,6 @@ function noLineDash() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -234,10 +210,6 @@ function noStroke() {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);

@@ -94,7 +94,7 @@ declare type frameDelta = number;
 /**
  *
  */
-declare type currentPoint = { x: number; y: number };
+declare type PointLike = { x: number; y: number };
 /**
  *
  */
@@ -111,7 +111,6 @@ declare type pointer = {
   x: number;
   y: number;
 };
-
 /**
  *
  */

@@ -94,7 +94,7 @@ declare type frameDelta = number;
 /**
  *
  */
-declare type currentPoint = { x: number; y: number };
+declare type PointLike = { x: number; y: number };
 /**
  *
  */
@@ -111,7 +111,6 @@ declare type pointer = {
   x: number;
   y: number;
 };
-
 /**
  *
  */
@@ -159,10 +158,6 @@ declare function noBorder(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -184,10 +179,6 @@ declare function noColor(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`#FF02`);
@@ -214,10 +205,6 @@ declare function noCursor(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -241,10 +228,6 @@ declare function noFill(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -273,10 +256,6 @@ declare function noGrid(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -300,10 +279,6 @@ declare function noLineDash(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -328,10 +303,6 @@ declare function noStroke(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
- *
  *     function draw() {
  *       clear(`white`);
  *       setTextAlign(CENTER, MIDDLE);
@@ -367,7 +338,7 @@ declare function noTextStroke(): void;
  * - max:number - the slider's maximum value, defaults to 1
  * - step - the step size, defaults to (max - min)/10
  * - value - the initial value, defaults to (max + min)/2
- * - classes - the CSS classes that will be used, defaults to `sider`
+ * - classes - the CSS classes that will be used, defaults to `"slider"`
  * - transform - a value preprocessor  defaults to (v) => v
  *
  * The `transform` pre-processor runs after the user updates
@@ -402,7 +373,10 @@ declare function noTextStroke(): void;
  * </graphics-element>
  *
  */
-declare function addSlider(propLabel: string, options: *): { HTMLInputElement };
+declare function addSlider(
+  varName: string,
+  options: object,
+): { HTMLInputElement };
 /**
  * Remove all sliders for your figure from the page.
  *
@@ -448,7 +422,7 @@ declare function clearSliders(): void;
  *
  *     function setup() {
  *       setSize(200, 200);
- *       addButton(`flip background`, () => {
+ *       addButton(`flip background`, (button) => {
  *         bgColor = -(bgColor - 1);
  *         redraw();
  *       });
@@ -461,7 +435,7 @@ declare function clearSliders(): void;
  * </graphics-element>
  *
  */
-declare function addButton(label: *, onClick: *): HTMLButtonElement;
+declare function addButton(label: string, onClick: function): HTMLButtonElement;
 /**
  * Remove all buttons for your figure from the page.
  *
@@ -504,9 +478,6 @@ declare function clearButtons(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -534,29 +505,7 @@ declare function arc(
   drawWedge: boolean,
 ): void;
 /**
- * Draw a pair of horizontal and vertical axes
- *
- */
-declare function axes(
-  hLabel: *,
-  hs: *,
-  he: *,
-  vLabel: *,
-  vs: *,
-  ve: *,
-  hsLabel: *,
-  heLabel: *,
-  vsLabel: *,
-  veLabel: *,
-): void;
-/**
- * Draw one or more Bezier curves from an array
- * of Point or Point-likes that implement:
- *
- *   {
- *     x: number
- *     y: number
- *   }
+ * Draw a pair of horizontal and vertical axes.
  *
  * Example:
  *
@@ -564,7 +513,52 @@ declare function axes(
  *   <graphics-source>
  *     function setup() {
  *       setSize(200, 200);
+ *       setBorder(1, `black`);
+ *       setGrid(50, `lightgrey`);
  *     }
+ *
+ *     function draw() {
+ *       setCursor(`none`);
+ *       clear(`#fffef7`);
+ *       setColor(`#333`);
+ *       translate(25,25);
+ *       axes(
+ *         `time (s)`, 0, width-50,
+ *         `distance (km)`, 0, height-50,
+ *         "0", "60",
+ *         "0", "500");
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function axes(
+  hLabel: string,
+  hs: number,
+  he: number,
+  vLabel: string,
+  vs: number,
+  ve: number,
+  hsLabel?: string,
+  heLabel?: string,
+  vsLabel?: string,
+  veLabel?: string,
+): void;
+/**
+ * Draw one or more Bezier curves from an array
+ * of Point or Point-likes that implement:
+ *
+ * ```
+ * {
+ *   x: number
+ *   y: number
+ * }
+ * ```
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -587,8 +581,14 @@ declare function axes(
  * </graphics-element>
  *
  */
-declare function bezier(eight: *): void;
-declare function bezier(four: *): void;
+declare function bezier(
+  coordinates: number[8],
+  additionalCoordinates?: number[6n],
+): void;
+declare function bezier(
+  coordinates: PointLike[4],
+  additionalCoordinates?: PointLike[3n],
+): void;
 /**
  * Draw a B-spline using four or more Point or
  * Point-likes that implement:
@@ -602,29 +602,47 @@ declare function bezier(four: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
+ *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
+ *       range(0, TAU, PI / 5, (a) => points.push(
+ *         new Point(
+ *           random(30) + 50 * cos(a),
+ *           random(30) + 50 * sin(a)
+ *         )
+ *       ));
+ *       setMovable(...points);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
- *       // CODE GOES HERE
+ *       translate(width / 2, height / 2);
+ *       noStroke();
+ *       setFill(`#0002`);
+ *       bspline(...points);
+ *       setColor(`red`);
+ *       points.forEach(p => point(p));
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
  */
-declare function bspline(eight: *): void;
-declare function bspline(four: *): void;
+declare function bspline(
+  coordinates: number[8],
+  additionalCoordinates?: number[2n],
+): void;
+declare function bspline(
+  coordinates: PointLike[4],
+  additionalCoordinates?: PointLike[n],
+): void;
 /**
- * Draw a circle with radius `r` at (x,y).
+ * Draw a circle with radius `r` at `x,y`.
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -635,8 +653,8 @@ declare function bspline(four: *): void;
  * </graphics-element>
  *
  */
-declare function circle(x: *, y: *, r: *): void;
-declare function circle(p: *, r: *): void;
+declare function circle(x: number, y: number, r: number): void;
+declare function circle(p: PointLike, r: number): void;
 /**
  * Clear the canvas, and set it to a specific (CSS) colour.
  * If no `noGrid()` call was made, this will then also draw
@@ -646,9 +664,6 @@ declare function circle(p: *, r: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`pink`);
  *     }
@@ -669,9 +684,6 @@ declare function clear(colour: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -702,9 +714,6 @@ declare function end(close: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     async function draw() {
  *       clear(`white`);
  *       await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
@@ -722,9 +731,6 @@ declare function image(img: *, p: *, w: *, h: *): { Image };
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -780,9 +786,6 @@ declare function plot(
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       noFill();
@@ -811,9 +814,6 @@ declare function plotData(data: *, x: *, y: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       translate(width/2, height/2);
@@ -835,9 +835,6 @@ declare function point(p: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -862,9 +859,6 @@ declare function spline(points: *, virtual: *, tightness: *, T: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -909,9 +903,6 @@ declare function start(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -937,9 +928,6 @@ declare function text(str: *, p: *, xAlign: *, yAlign: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -959,9 +947,6 @@ declare function triangle(p1: *, p2: *, p3: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setStroke(`black`);
@@ -987,9 +972,6 @@ declare function vertex(p: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       noFill();
@@ -1044,9 +1026,6 @@ declare function clearMovable(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`pink`);
  *     }
@@ -1071,9 +1050,6 @@ declare function copy(): a;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(color(45, 80, 90));
  *     }
@@ -1251,9 +1227,6 @@ declare function play(): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(randomColor());
  *     }
@@ -1275,9 +1248,6 @@ declare function randomColor(opacity: *, cycle: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       translate(width/2, height/2);
@@ -1328,9 +1298,6 @@ declare function setMovable(points: *): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -1359,9 +1326,6 @@ declare function restore(): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -1551,9 +1515,6 @@ declare function setBorder(width: *, color: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setColor(`blue`);
@@ -1582,9 +1543,6 @@ declare function setCursor(type: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setStroke(`black`);
@@ -1673,9 +1631,6 @@ declare function setLineDash(values: any[]): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -1696,9 +1651,6 @@ declare function setLineWidth(width: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setStroke(`black`);
@@ -1734,9 +1686,6 @@ declare function setStroke(color: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setFontSize(20);
@@ -1764,9 +1713,6 @@ declare function setTextAlign(xAlign: *, yAlign: *): void;
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setFontSize(25);
@@ -1937,9 +1883,6 @@ declare function transform(
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);

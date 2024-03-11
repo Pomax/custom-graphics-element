@@ -181,9 +181,6 @@ function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);

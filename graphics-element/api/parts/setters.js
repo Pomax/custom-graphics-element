@@ -31,9 +31,6 @@ function setBorder(width = 1, color = `black`) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setColor(`blue`);
@@ -72,9 +69,6 @@ function setCursor(type) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setStroke(`black`);
@@ -204,9 +198,6 @@ function setLineDash(...values) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setColor(`black`);
@@ -231,9 +222,6 @@ function setLineWidth(width = 1) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear();
  *       setStroke(`black`);
@@ -276,9 +264,6 @@ function setStroke(color = `black`) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setFontSize(20);
@@ -312,9 +297,6 @@ function setTextAlign(xAlign, yAlign) {
  *
  * <graphics-element>
  *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *     }
  *     function draw() {
  *       clear(`white`);
  *       setFontSize(25);

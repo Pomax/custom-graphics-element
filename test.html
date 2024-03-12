@@ -246,6 +246,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#clearButtons">clearButtons</a></li>
+        </ul>
       </section>
 
       <section id="addSlider">
@@ -348,6 +352,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#clearSliders">clearSliders</a></li>
+        </ul>
       </section>
 
       <section id="arc">
@@ -431,6 +439,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#circle">circle</a></li>
+        </ul>
       </section>
 
       <section id="array">
@@ -676,6 +688,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#bspline">bspline</a></li>
+          <li><a href="#spline">spline</a></li>
+        </ul>
       </section>
 
       <section id="bspline">
@@ -767,6 +784,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#bezier">bezier</a></li>
+          <li><a href="#spline">spline</a></li>
+        </ul>
       </section>
 
       <section id="circle">
@@ -813,6 +835,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#arc">arc</a></li>
+        </ul>
       </section>
 
       <section id="clear">
@@ -906,6 +932,10 @@ function pointerDown() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#addButton">addButton</a></li>
+        </ul>
       </section>
 
       <section id="clearMovable">
@@ -924,6 +954,7 @@ function pointerDown() {
         <graphics-element width="200px" height="200px">
             <graphics-source>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () => {
@@ -931,6 +962,7 @@ function setup() {
     redraw();
   });
 }
+
 function draw() {
   clear(`white`);
   for (let p of points) {
@@ -938,6 +970,7 @@ function draw() {
     point(p);
   }
 }
+
 function pointerDown(x, y) {
   if (currentPoint) return;
   const p = new Point(x, y);
@@ -950,6 +983,7 @@ function pointerDown(x, y) {
           </graphics-element>
         <pre>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () =&gt; {
@@ -957,6 +991,7 @@ function setup() {
     redraw();
   });
 }
+
 function draw() {
   clear(`white`);
   for (let p of points) {
@@ -964,6 +999,7 @@ function draw() {
     point(p);
   }
 }
+
 function pointerDown(x, y) {
   if (currentPoint) return;
   const p = new Point(x, y);
@@ -973,6 +1009,11 @@ function pointerDown(x, y) {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#isMovable">isMovable</a></li>
+          <li><a href="#setMovable">setMovable</a></li>
+        </ul>
       </section>
 
       <section id="clearSliders">
@@ -1028,6 +1069,10 @@ function pointerDown() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#addSlider">addSlider</a></li>
+        </ul>
       </section>
 
       <section id="color">
@@ -1066,6 +1111,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#randomColor">randomColor</a></li>
+        </ul>
       </section>
 
       <section id="constrain">
@@ -1126,6 +1175,7 @@ function draw() {
 function draw() {
   clear(`pink`);
 }
+
 function pointerDown(x, y) {
   document.dispatchEvent(
     new CustomEvent(`graphics:update`, {
@@ -1142,6 +1192,7 @@ function pointerDown(x, y) {
 function draw() {
   clear(`pink`);
 }
+
 function pointerDown(x, y) {
   document.dispatchEvent(
     new CustomEvent(`graphics:update`, {
@@ -1257,11 +1308,15 @@ function pointerDown(x, y) {
             </p>
           </li>
           <li>
-            <code>dist(p1: PointLike, p2: PointLike)</code>
+            <code>dist(p1: PointLike, p2: PointLike): number</code>
             <ul class="params">
               <li><code>p1</code> - The first point's {x,y} coordinate</li>
               <li><code>p2</code> - The second point's {x,y} coordinate</li>
             </ul>
+            <p>
+              returns the euclidean distance between the two coordinates
+              (<code>number</code>)
+            </p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -1324,6 +1379,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#start">start</a></li>
+          <li><a href="#vertex">vertex</a></li>
+        </ul>
       </section>
 
       <section id="highlight">
@@ -1355,6 +1415,7 @@ function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
+
 function draw() {
   clear();
   setColor(`red`);
@@ -1362,6 +1423,7 @@ function draw() {
   setTextAlign(CENTER, MIDDLE);
   text("let's go", width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
@@ -1374,6 +1436,7 @@ function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
+
 function draw() {
   clear();
   setColor(`red`);
@@ -1381,12 +1444,17 @@ function draw() {
   setTextAlign(CENTER, MIDDLE);
   text(&quot;let&apos;s go&quot;, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setHighlightColor">setHighlightColor</a></li>
+        </ul>
       </section>
 
       <section id="image">
@@ -1483,6 +1551,7 @@ async function draw() {
         <graphics-element width="200px" height="200px">
             <graphics-source>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () => {
@@ -1490,6 +1559,7 @@ function setup() {
     redraw();
   });
 }
+
 function draw() {
   clear(`white`);
   for (let p of points) {
@@ -1497,6 +1567,7 @@ function draw() {
     point(p);
   }
 }
+
 function pointerDown(x, y) {
   if (currentPoint) return;
   const p = new Point(x, y);
@@ -1509,6 +1580,7 @@ function pointerDown(x, y) {
           </graphics-element>
         <pre>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   addButton(`lock`, () =&gt; {
@@ -1516,6 +1588,7 @@ function setup() {
     redraw();
   });
 }
+
 function draw() {
   clear(`white`);
   for (let p of points) {
@@ -1523,6 +1596,7 @@ function draw() {
     point(p);
   }
 }
+
 function pointerDown(x, y) {
   if (currentPoint) return;
   const p = new Point(x, y);
@@ -1532,6 +1606,11 @@ function pointerDown(x, y) {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#clearMovable">clearMovable</a></li>
+          <li><a href="#setMovable">setMovable</a></li>
+        </ul>
       </section>
 
       <section id="line">
@@ -1652,6 +1731,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -1668,6 +1748,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -1848,6 +1929,10 @@ function pointerMove(x, y) {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setCursor">setCursor</a></li>
+        </ul>
       </section>
 
       <section id="noFill">
@@ -1895,6 +1980,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFill">setFill</a></li>
+        </ul>
       </section>
 
       <section id="noGrid">
@@ -1952,6 +2041,10 @@ function pointerDown(x, y) {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setGrid">setGrid</a></li>
+        </ul>
       </section>
 
       <section id="noLineDash">
@@ -1999,6 +2092,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setLineDash">setLineDash</a></li>
+        </ul>
       </section>
 
       <section id="noStroke">
@@ -2048,6 +2145,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setStroke">setStroke</a></li>
+        </ul>
       </section>
 
       <section id="noTextStroke">
@@ -2097,6 +2198,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setTextStroke">setTextStroke</a></li>
+        </ul>
       </section>
 
       <section id="pause">
@@ -2119,6 +2224,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -2126,6 +2232,7 @@ function draw() {
   const seconds = (millis() / 1000).toFixed(1);
   text(`${seconds}s`, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) {
     pause();
@@ -2142,6 +2249,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -2149,6 +2257,7 @@ function draw() {
   const seconds = (millis() / 1000).toFixed(1);
   text(`${seconds}s`, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) {
     pause();
@@ -2158,6 +2267,11 @@ function pointerActive(state) {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#play">play</a></li>
+          <li><a href="#togglePlay">togglePlay</a></li>
+        </ul>
       </section>
 
       <section id="play">
@@ -2182,11 +2296,13 @@ function pointerActive(state) {
 let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
+
 function setup() {
   setSize(200, 200);
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -2210,11 +2326,13 @@ function draw() {
 let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
+
 function setup() {
   setSize(200, 200);
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -2233,6 +2351,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#pause">pause</a></li>
+          <li><a href="#togglePlay">togglePlay</a></li>
+        </ul>
       </section>
 
       <section id="plot">
@@ -2304,6 +2427,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#plotData">plotData</a></li>
+        </ul>
       </section>
 
       <section id="plotData">
@@ -2379,6 +2506,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#plot">plot</a></li>
+        </ul>
       </section>
 
       <section id="point">
@@ -2425,6 +2556,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#circle">circle</a></li>
+        </ul>
       </section>
 
       <section id="project">
@@ -2464,6 +2599,7 @@ function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
+
 function draw() {
   clear(`white`);
   setColor(`red`);
@@ -2490,6 +2626,7 @@ function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
+
 function draw() {
   clear(`white`);
   setColor(`red`);
@@ -2510,6 +2647,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setProjector">setProjector</a></li>
+        </ul>
       </section>
 
       <section id="radians">
@@ -2618,6 +2759,7 @@ function draw() {
 function draw() {
   clear(randomColor());
 }
+
 function pointerDown() {
   redraw();
 }
@@ -2628,11 +2770,16 @@ function pointerDown() {
 function draw() {
   clear(randomColor());
 }
+
 function pointerDown() {
   redraw();
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#color">color</a></li>
+        </ul>
       </section>
 
       <section id="range">
@@ -2762,6 +2909,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   setColor(`red`);
@@ -2794,6 +2942,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   setColor(`red`);
@@ -2820,6 +2969,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#transform">transform</a></li>
+        </ul>
       </section>
 
       <section id="restore">
@@ -2841,6 +2994,7 @@ function draw() {
         <graphics-element width="200px" height="200px">
             <graphics-source>
 const points = [];
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -2860,6 +3014,7 @@ function draw() {
           </graphics-element>
         <pre>
 const points = [];
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -2876,6 +3031,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#save">save</a></li>
+        </ul>
       </section>
 
       <section id="rotate">
@@ -2902,6 +3061,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -2922,6 +3082,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -2936,6 +3097,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#transform">transform</a></li>
+          <li><a href="#resetTransform">resetTransform</a></li>
+        </ul>
       </section>
 
       <section id="rotateProjector">
@@ -2976,6 +3142,7 @@ function setup() {
   setProjector(width / 2, height / 2, 50, -0.4);
   play();
 }
+
 function draw() {
   clear(`white`);
   const m = millis() / 5000;
@@ -3005,6 +3172,7 @@ function setup() {
   setProjector(width / 2, height / 2, 50, -0.4);
   play();
 }
+
 function draw() {
   clear(`white`);
   const m = millis() / 5000;
@@ -3027,6 +3195,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#project">project</a></li>
+        </ul>
       </section>
 
       <section id="save">
@@ -3048,6 +3220,7 @@ function draw() {
         <graphics-element width="200px" height="200px">
             <graphics-source>
 const points = [];
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -3067,6 +3240,7 @@ function draw() {
           </graphics-element>
         <pre>
 const points = [];
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -3083,6 +3257,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#restore">restore</a></li>
+        </ul>
       </section>
 
       <section id="scale">
@@ -3112,6 +3290,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -3133,6 +3312,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -3148,6 +3328,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#transform">transform</a></li>
+          <li><a href="#resetTransform">resetTransform</a></li>
+        </ul>
       </section>
 
       <section id="screenToWorld">
@@ -3189,6 +3374,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -3201,6 +3387,7 @@ function draw() {
     point(screenToWorld(pointer.x, pointer.y));
   }
 }
+
 function pointerMove() {
   redraw();
 }
@@ -3212,6 +3399,7 @@ function setup() {
   setSize(200, 200);
   noGrid();
 }
+
 function draw() {
   clear(`lightgrey`);
   translate(width / 2, height / 2);
@@ -3224,11 +3412,17 @@ function draw() {
     point(screenToWorld(pointer.x, pointer.y));
   }
 }
+
 function pointerMove() {
   redraw();
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#project">project</a></li>
+          <li><a href="#worldToScreen">worldToScreen</a></li>
+        </ul>
       </section>
 
       <section id="sec">
@@ -3291,6 +3485,10 @@ function setup() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#noBorder">noBorder</a></li>
+        </ul>
       </section>
 
       <section id="setColor">
@@ -3326,6 +3524,12 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setStroke">setStroke</a></li>
+          <li><a href="#setFill">setFill</a></li>
+          <li><a href="#noColor">noColor</a></li>
+        </ul>
       </section>
 
       <section id="setCursor">
@@ -3352,6 +3556,51 @@ function draw() {
           Use any other string found over on the MDN cursor article to set a
           cursor not covered by the above constants.
         </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setColor(`#FF02`);
+  rect(0, 0, width / 2, height);
+  setColor(`#0FF2`);
+  rect(width / 2, 0, width / 2, height);
+}
+
+function pointerMove(x, y) {
+  if (x < width / 2) {
+    setCursor(AUTO);
+  } else {
+    noCursor();
+  }
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setColor(`#FF02`);
+  rect(0, 0, width / 2, height);
+  setColor(`#0FF2`);
+  rect(width / 2, 0, width / 2, height);
+}
+
+function pointerMove(x, y) {
+  if (x &lt; width / 2) {
+    setCursor(AUTO);
+  } else {
+    noCursor();
+  }
+}
+</pre
+        >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#noCursor">noCursor</a></li>
+        </ul>
       </section>
 
       <section id="setFill">
@@ -3392,6 +3641,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#noFill">noFill</a></li>
+        </ul>
       </section>
 
       <section id="setFont">
@@ -3411,6 +3664,13 @@ function draw() {
             >https://developer.mozilla.org/en-US/docs/Web/CSS/font</a
           >
         </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFontFamily">setFontFamily</a></li>
+          <li><a href="#setFontSize">setFontSize</a></li>
+          <li><a href="#setFontWeight">setFontWeight</a></li>
+        </ul>
       </section>
 
       <section id="setFontFamily">
@@ -3427,6 +3687,12 @@ function draw() {
         </ul>
         <h3>Description</h3>
         <p>Set the current font family.</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFontSize">setFontSize</a></li>
+          <li><a href="#setFontWeight">setFontWeight</a></li>
+        </ul>
       </section>
 
       <section id="setFontSize">
@@ -3441,6 +3707,12 @@ function draw() {
         </ul>
         <h3>Description</h3>
         <p>Set the current font size</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFontFamily">setFontFamily</a></li>
+          <li><a href="#setFontWeight">setFontWeight</a></li>
+        </ul>
       </section>
 
       <section id="setFontWeight">
@@ -3460,6 +3732,12 @@ function draw() {
         </ul>
         <h3>Description</h3>
         <p>Set the current font weight</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFontFamily">setFontFamily</a></li>
+          <li><a href="#setFontSize">setFontSize</a></li>
+        </ul>
       </section>
 
       <section id="setGrid">
@@ -3490,6 +3768,7 @@ function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
 }
+
 function draw() {
   clear(`white`);
 }
@@ -3501,11 +3780,16 @@ function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
 }
+
 function draw() {
   clear(`white`);
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#noGrid">noGrid</a></li>
+        </ul>
       </section>
 
       <section id="setHighlightColor">
@@ -3535,6 +3819,7 @@ function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
+
 function draw() {
   clear();
   setColor(`red`);
@@ -3542,6 +3827,7 @@ function draw() {
   setTextAlign(CENTER, MIDDLE);
   text("let's go", width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
@@ -3554,6 +3840,7 @@ function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
 }
+
 function draw() {
   clear();
   setColor(`red`);
@@ -3561,12 +3848,17 @@ function draw() {
   setTextAlign(CENTER, MIDDLE);
   text(&quot;let&apos;s go&quot;, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   if (state) highlight(`red`);
   else highlight(false);
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#highlight">highlight</a></li>
+        </ul>
       </section>
 
       <section id="setLineDash">
@@ -3590,6 +3882,11 @@ function pointerActive(state) {
             >https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash</a
           >
         </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#noLineDash">noLineDash</a></li>
+        </ul>
       </section>
 
       <section id="setLineWidth">
@@ -3633,6 +3930,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setTextStroke">setTextStroke</a></li>
+        </ul>
       </section>
 
       <section id="setMovable">
@@ -3658,6 +3959,7 @@ function draw() {
         <graphics-element width="200px" height="200px">
             <graphics-source>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   for (let i = 40; i < 200; i += 20) {
@@ -3665,6 +3967,7 @@ function setup() {
   }
   setMovable(...points);
 }
+
 function draw() {
   clear();
   noFill();
@@ -3677,6 +3980,7 @@ function draw() {
           </graphics-element>
         <pre>
 const points = [];
+
 function setup() {
   setSize(200, 200);
   for (let i = 40; i &lt; 200; i += 20) {
@@ -3684,6 +3988,7 @@ function setup() {
   }
   setMovable(...points);
 }
+
 function draw() {
   clear();
   noFill();
@@ -3693,6 +3998,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#isMovable">isMovable</a></li>
+          <li><a href="#clearMovable">clearMovable</a></li>
+        </ul>
       </section>
 
       <section id="setProjector">
@@ -3733,6 +4043,7 @@ function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
+
 function draw() {
   clear(`white`);
   setColor(`red`);
@@ -3759,6 +4070,7 @@ function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
 }
+
 function draw() {
   clear(`white`);
   setColor(`red`);
@@ -3779,6 +4091,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#project">project</a></li>
+        </ul>
       </section>
 
       <section id="setStroke">
@@ -3819,6 +4135,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setFill">setFill</a></li>
+          <li><a href="#setColor">setColor</a></li>
+        </ul>
       </section>
 
       <section id="setTextAlign">
@@ -3965,6 +4286,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setStroke">setStroke</a></li>
+          <li><a href="#setLineWidth">setLineWidth</a></li>
+        </ul>
       </section>
 
       <section id="spline">
@@ -4053,6 +4379,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#bezier">bezier</a></li>
+          <li><a href="#bspline">bspline</a></li>
+        </ul>
       </section>
 
       <section id="start">
@@ -4098,6 +4429,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#end">end</a></li>
+          <li><a href="#vertex">vertex</a></li>
+        </ul>
       </section>
 
       <section id="text">
@@ -4219,6 +4555,10 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#setTextStroke">setTextStroke</a></li>
+        </ul>
       </section>
 
       <section id="toDataURL">
@@ -4263,6 +4603,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -4270,6 +4611,7 @@ function draw() {
   const seconds = (millis() / 1000).toFixed(1);
   text(`${seconds}s`, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   togglePlay();
 }
@@ -4282,6 +4624,7 @@ function setup() {
   setColor(`black`);
   play();
 }
+
 function draw() {
   clear();
   setFontSize(25);
@@ -4289,11 +4632,17 @@ function draw() {
   const seconds = (millis() / 1000).toFixed(1);
   text(`${seconds}s`, width / 2, height / 2);
 }
+
 function pointerActive(state) {
   togglePlay();
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#pause">pause</a></li>
+          <li><a href="#play">play</a></li>
+        </ul>
       </section>
 
       <section id="transform">
@@ -4327,6 +4676,11 @@ function pointerActive(state) {
             >https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform</a
           >
         </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#resetTransform">resetTransform</a></li>
+        </ul>
       </section>
 
       <section id="translate">
@@ -4378,6 +4732,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#transform">transform</a></li>
+          <li><a href="#resetTransform">resetTransform</a></li>
+        </ul>
       </section>
 
       <section id="triangle">
@@ -4483,6 +4842,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#end">end</a></li>
+          <li><a href="#start">start</a></li>
+        </ul>
       </section>
 
       <section id="worldToScreen">
@@ -4525,6 +4889,7 @@ function setup() {
   setSize(200, 200);
   play();
 }
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -4546,6 +4911,7 @@ function setup() {
   setSize(200, 200);
   play();
 }
+
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -4561,6 +4927,11 @@ function draw() {
 }
 </pre
         >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#project">project</a></li>
+          <li><a href="#screenToWorld">screenToWorld</a></li>
+        </ul>
       </section>
     </body>
   </html></doctype

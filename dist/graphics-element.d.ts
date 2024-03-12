@@ -196,6 +196,7 @@ declare function addSlider(varName: string, options: object): HTMLInputElement;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function clearSliders(): void;
 /**
@@ -337,6 +338,7 @@ declare function noColor(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noCursor(): void;
 /**
@@ -360,6 +362,7 @@ declare function noCursor(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noFill(): void;
 /**
@@ -388,6 +391,7 @@ declare function noFill(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noGrid(): void;
 /**
@@ -411,6 +415,7 @@ declare function noGrid(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noLineDash(): void;
 /**
@@ -435,6 +440,7 @@ declare function noLineDash(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noStroke(): void;
 /**
@@ -459,6 +465,7 @@ declare function noStroke(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function noTextStroke(): void;
 /**
@@ -928,6 +935,7 @@ declare function spline(
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function start(): void;
 /**
@@ -1066,6 +1074,7 @@ declare function array(length: number, fillFunction?: function): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       addButton(`lock`, () => {
@@ -1073,6 +1082,7 @@ declare function array(length: number, fillFunction?: function): void;
  *         redraw();
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       for(let p of points) {
@@ -1080,6 +1090,7 @@ declare function array(length: number, fillFunction?: function): void;
  *         point(p);
  *       }
  *     }
+ *
  *     function pointerDown(x,y) {
  *       if (currentPoint) return;
  *       const p = new Point(x,y);
@@ -1089,6 +1100,7 @@ declare function array(length: number, fillFunction?: function): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function clearMovable(): void;
 /**
@@ -1102,6 +1114,7 @@ declare function clearMovable(): void;
  *     function draw() {
  *       clear(`pink`);
  *     }
+ *
  *     function pointerDown(x,y) {
  *       document.dispatchEvent(
  *         new CustomEvent(`graphics:update`, {
@@ -1153,6 +1166,7 @@ declare function color(
  *       setSize(200, 200);
  *       setHighlightColor(`lime`);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setColor(`red`);
@@ -1160,6 +1174,7 @@ declare function color(
  *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if (state) highlight(`red`);
  *       else highlight(false);
@@ -1177,6 +1192,7 @@ declare function highlight(color: color | boolean): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       addButton(`lock`, () => {
@@ -1184,6 +1200,7 @@ declare function highlight(color: color | boolean): void;
  *         redraw();
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       for(let p of points) {
@@ -1191,6 +1208,7 @@ declare function highlight(color: color | boolean): void;
  *         point(p);
  *       }
  *     }
+ *
  *     function pointerDown(x,y) {
  *       if (currentPoint) return;
  *       const p = new Point(x,y);
@@ -1216,6 +1234,7 @@ declare function isMovable(The: PointLike): boolean;
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -1240,6 +1259,7 @@ declare function millis(): number;
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -1247,6 +1267,7 @@ declare function millis(): number;
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if(state) {
  *         pause();
@@ -1256,6 +1277,7 @@ declare function millis(): number;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function pause(): void;
 /**
@@ -1270,11 +1292,13 @@ declare function pause(): void;
  *     let fps = 0;
  *     let checked = false;
  *     let lastFrameCheck = 0;
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -1293,6 +1317,7 @@ declare function pause(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function play(): void;
 /**
@@ -1308,6 +1333,7 @@ declare function play(): void;
  *     function draw() {
  *       clear(randomColor());
  *     }
+ *
  *     function pointerDown() {
  *       redraw();
  *     }
@@ -1352,6 +1378,7 @@ declare function range(
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       for (let i = 40; i < 200; i += 20) {
@@ -1359,6 +1386,7 @@ declare function range(
  *       }
  *       setMovable(...points);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       noFill();
@@ -1381,6 +1409,7 @@ declare function setMovable(points: PointLike[n]): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -1397,6 +1426,7 @@ declare function setMovable(points: PointLike[n]): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function restore(): void;
 /**
@@ -1409,6 +1439,7 @@ declare function restore(): void;
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -1425,11 +1456,13 @@ declare function restore(): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
- */
+ *
+ * */
 declare function save(): void;
 /**
  * Convert the current canvas into an data URL
  * that represents a PNG image.
+ *
  */
 declare function toDataURL(): string;
 /**
@@ -1445,6 +1478,7 @@ declare function toDataURL(): string;
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -1452,6 +1486,7 @@ declare function toDataURL(): string;
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       togglePlay();
  *     }
@@ -1512,7 +1547,7 @@ declare function degrees(value: number, constrain?: boolean): number;
  *
  */
 declare function dist(x1: number, y1: number, x2: number, y2: number): number;
-declare function dist(p1: PointLike, p2: PointLike): void;
+declare function dist(p1: PointLike, p2: PointLike): number;
 /**
  * Map a value from one interval to another, optionally
  * constrained to the target interval.
@@ -1567,6 +1602,7 @@ declare function sec(value: number): number;
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`red`);
@@ -1603,7 +1639,8 @@ declare function project(p: PointLike): PointLike;
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *       play();
- *     }**
+ *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       const m = millis() / 5000;
@@ -1642,6 +1679,7 @@ declare function rotateProjector(x: number, y: number, z: number): void;
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`red`);
@@ -1713,6 +1751,28 @@ declare function setColor(color: string): void;
  *
  * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`#FF02`);
+ *       rect(0, 0, width/2, height);
+ *       setColor(`#0FF2`);
+ *       rect(width/2, 0, width/2, height);
+ *     }
+ *
+ *     function pointerMove(x, y) {
+ *       if (x < width/2) {
+ *         setCursor(AUTO);
+ *       } else {
+ *         noCursor();
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  */
 declare function setCursor(type: string): void;
 /**
@@ -1746,10 +1806,12 @@ declare function setFont(font: string): void;
 declare function setFontFamily(name: string): void;
 /**
  * Set the current font size
+ *
  */
 declare function setFontSize(px: number): void;
 /**
  * Set the current font weight
+ *
  */
 declare function setFontWeight(val: number | string): void;
 /**
@@ -1763,6 +1825,7 @@ declare function setFontWeight(val: number | string): void;
  *       setSize(200, 200);
  *       setGrid(20, `lavender`);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *     }
@@ -1783,6 +1846,7 @@ declare function setGrid(spacing?: number, color?: string): void;
  *       setSize(200, 200);
  *       setHighlightColor(`lime`);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setColor(`red`);
@@ -1790,6 +1854,7 @@ declare function setGrid(spacing?: number, color?: string): void;
  *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if (state) highlight(`red`);
  *       else highlight(false);
@@ -1922,6 +1987,7 @@ declare function setTextStroke(color: string, width?: number): void;
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       setColor(`red`);
@@ -1948,6 +2014,7 @@ declare function setTextStroke(color: string, width?: number): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
  */
 declare function resetTransform(): void;
 /**
@@ -1961,6 +2028,7 @@ declare function resetTransform(): void;
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -1989,6 +2057,7 @@ declare function rotate(angle: number): void;
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -2019,6 +2088,7 @@ declare function scale(x: number, y?: number): void;
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -2031,6 +2101,7 @@ declare function scale(x: number, y?: number): void;
  *         point(screenToWorld(pointer.x, pointer.y));
  *       }
  *     }
+ *
  *     function pointerMove() {
  *       redraw();
  *     }
@@ -2091,6 +2162,7 @@ declare function translate(p: PointLike): void;
  *       setSize(200, 200);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       translate(width / 2, height / 2);

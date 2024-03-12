@@ -62,6 +62,9 @@ function array(len, fillFunction) {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link isMovable}
+ * @see {@link setMovable}
  */
 function clearMovable() {
   __movable_points.splice(0, __movable_points.length);
@@ -120,6 +123,8 @@ function copy() {
  * @param {number} lightness in the range [0, 100]
  * @param {number} opacity in the range [0, 1]
  * @returns {string} A CSS hsla color string
+ *
+ * @see {@link randomColor}
  */
 function color(h = __current_hue, s = 50, l = 50, a = 1) {
   return `hsla(${h},${s}%,${l}%,${a})`;
@@ -159,6 +164,8 @@ function color(h = __current_hue, s = 50, l = 50, a = 1) {
  * </graphics-element>
  *
  * @param {color|boolean} color Set the color that should get replaced with the highlight color, or disable highlight when color is `false`
+ *
+ * @see {@link setHighlightColor}
  */
 function highlight(color) {
   if (CSS_COLOR_MAP[color]) {
@@ -206,6 +213,9 @@ function highlight(color) {
  *
  * @param {PointLike} The point that we want to check "movability" for
  * @returns {boolean} True if our point is in the list of movable points, otherwise false
+ *
+ * @see {@link clearMovable}
+ * @see {@link setMovable}
  */
 function isMovable(point) {
   return __movable_points.includes(point);
@@ -271,6 +281,9 @@ function millis() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link play}
+ * @see {@link togglePlay}
  */
 function pause() {
   playing = false;
@@ -313,6 +326,9 @@ function pause() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link pause}
+ * @see {@link togglePlay}
  */
 function play() {
   playing = true;
@@ -342,6 +358,8 @@ function play() {
  *
  * @param {number} opacity The opacity value in the range [0,1]
  * @param {number} cycle? A boolean that indicates whether or not to move on to the next colour (default = true)
+ *
+ * @see {@link color}
  */
 function randomColor(a = 1.0, cycle = true) {
   if (cycle) __current_hue = (__current_hue + 73) % 360;
@@ -411,6 +429,9 @@ function range(start, end, step, runFunction) {
  * </graphics-element>
  *
  * @param {PointLike[n]} points One or more points to mark as movable.
+ *
+ * @see {@link isMovable}
+ * @see {@link clearMovable}
  */
 function setMovable(...points) {
   points.forEach((p) => {
@@ -447,6 +468,8 @@ function setMovable(...points) {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link save}
  */
 function restore() {
   __ctx.restore();
@@ -479,6 +502,8 @@ function restore() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * * @see {@link restore}
  */
 function save() {
   __ctx.save();
@@ -487,6 +512,7 @@ function save() {
 /**
  * Convert the current canvas into an data URL
  * that represents a PNG image.
+ *
  * @returns {string} The current canvas as PNG data URL
  */
 function toDataURL() {
@@ -522,6 +548,9 @@ function toDataURL() {
  * </graphics-element>
  *
  * @returns {boolean} The new play state
+ *
+ * @see {@link pause}
+ * @see {@link play}
  */
 function togglePlay() {
   playing ? pause() : play();

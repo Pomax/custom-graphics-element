@@ -88,6 +88,8 @@ function noColor() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setCursor}
  */
 function noCursor() {
   __canvas.style.cursor = `none`;
@@ -114,6 +116,8 @@ function noCursor() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setFill}
  */
 function noFill() {
   setFill(`transparent`);
@@ -145,6 +149,8 @@ function noFill() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setGrid}
  */
 function noGrid() {
   __draw_grid = false;
@@ -171,7 +177,10 @@ function noGrid() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setLineDash}
  */
+
 function noLineDash() {
   __ctx.setLineDash([]);
 }
@@ -198,7 +207,10 @@ function noLineDash() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setStroke}
  */
+
 function noStroke() {
   setStroke(`transparent`);
 }
@@ -225,7 +237,10 @@ function noStroke() {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link setTextStroke}
  */
+
 function noTextStroke() {
   setTextStroke(false, undefined);
 }

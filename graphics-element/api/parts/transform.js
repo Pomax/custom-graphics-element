@@ -36,6 +36,8 @@
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link transform}
  */
 function resetTransform() {
   __ctx.resetTransform();
@@ -69,6 +71,9 @@ function resetTransform() {
  * </graphics-element>
  *
  * @param {number} angle The angle by which to rotate the coordinate system in radians
+ *
+ * @see {@link transform}
+ * @see {@link resetTransform}
  */
 function rotate(angle = 0) {
   __ctx.rotate(angle);
@@ -104,6 +109,9 @@ function rotate(angle = 0) {
  *
  * @param {number} x The amount by which to scale the x coordinates.
  * @param {number} y? The amount by which to scale the x coordinates (default = same as x)
+ *
+ * @see {@link transform}
+ * @see {@link resetTransform}
  */
 function scale(x = 1, y = x) {
   __ctx.scale(x, y);
@@ -147,6 +155,9 @@ function scale(x = 1, y = x) {
  *
  * @param {PointLike} p The screen {x,y} coordinate
  * @returns {PointLike} p The world {x,y} coordinate
+ *
+ * @see {@link project}
+ * @see {@link worldToScreen}
  */
 function screenToWorld(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -177,6 +188,8 @@ function screenToWorld(x, y) {
  * @param {number} d (default = 0)
  * @param {number} e (default = 1)
  * @param {number} f (default = 0)
+ *
+  * @see {@link resetTransform}
  */
 function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
   __ctx.transform(a, b, c, d, e, f);
@@ -201,6 +214,9 @@ function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
  * @param {number} y The y value in pixels to be treated as the new "zero"
  *
  * @param {PointLike} p The {x,y} coordinate to be treated as the new "zero"
+ *
+ * @see {@link transform}
+ * @see {@link resetTransform}
  */
 function translate(x = 0, y = 0) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -245,6 +261,9 @@ function translate(x = 0, y = 0) {
  *
  * @param {PointLike} p The world {x,y} coordinate
  * @returns {PointLike} p The screen {x,y} coordinate
+ *
+ * @see {@link project}
+ * @see {@link screenToWorld}
  */
 function worldToScreen(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

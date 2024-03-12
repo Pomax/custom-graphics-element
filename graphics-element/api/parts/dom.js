@@ -53,6 +53,8 @@
  * @param {string} varName The name for the variable this slider gets tied to.
  * @param {object} options See description
  * @returns {HTMLInputElement} the HTML input element for this slider
+ *
+ * @see {@link clearSliders}
  */
 function addSlider(propLabel, assign, options = {}) {
   let {
@@ -174,7 +176,10 @@ function addSlider(propLabel, assign, options = {}) {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link addSlider}
  */
+
 function clearSliders() {
   const table = __element.querySelector(`table.slider-wrapper`);
   if (table) table.innerHTML = ``;
@@ -213,6 +218,8 @@ function clearSliders() {
  * @param {string} label The text label for your button
  * @param {function} onClick The click handling function, see description.
  * @returns {HTMLButtonElement} The button element this added to the page
+ *
+ * @see {@link clearButtons}
  */
 function addButton(label, onClick) {
   if (!onClick) throw new Error(`a button must have an onClick handler`);
@@ -250,7 +257,7 @@ function addButton(label, onClick) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns {void}
+ * @see {@link addButton}
  */
 function clearButtons() {
   __element

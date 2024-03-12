@@ -38,6 +38,8 @@
  *
  * @param {PointLike} p The 2D coordinate as {x,y,z} coordinate
  * @returns {PointLike} p  The projected 2D {x,y} coordinate
+ *
+ * @see {@link setProjector}
  */
 function project(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
@@ -88,6 +90,8 @@ function project(x, y, z) {
  * @param {number} x The angle of rotation over the x axis in radians
  * @param {number} y The angle of rotation over the y axis in radians
  * @param {number} z The angle of rotation over the z axis in radians
+ *
+ * @see {@link project}
  */
 function rotateProjector(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
@@ -137,6 +141,8 @@ function rotateProjector(x, y, z) {
  * @param  {number} yOffset of the projection wrt the canvas (default = 0)
  * @param  {number} scale factor for the 3D input (default = 1)
  * @param  {number} cabinet angle in radians (default = -pi/6)
+ *
+ * @see {@link project}
  */
 function setProjector(...args) {
   __projector.update(...args);

@@ -34,6 +34,8 @@
  * @param {number} startAngle The start angle for this arc in radians
  * @param {number} endAngle The end angle for this arc in radians
  * @param {boolean} drawWedge A boolean indicating whether to draw a wedge or capped circle (default=circle)
+ *
+ * @see {@link circle}
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -168,6 +170,9 @@ function axes(
  *
  * @param {PointLike[4]} ...coordinates Four {x,y} coordinates.
  * @param {PointLike[3n]} ...additionalCoordinates? Multiples of three {x,y} coordinates.
+ *
+ * @see {@link bspline}
+ * @see {@link spline}
  */
 function bezier(...args) {
   let points = args;
@@ -244,7 +249,11 @@ function bezier(...args) {
  *
  * @param {PointLike[4]} ...coordinates Four {x,y} coordinates.
  * @param {PointLike[n]} ...additionalCoordinates? Zero or more {x,y} coordinates.
+ *
+ * @see {@link bezier}
+ * @see {@link spline}
  */
+
 function bspline(...args) {
   let open = true;
   if (typeof args[args.length - 1] === `boolean`) {
@@ -287,6 +296,8 @@ function bspline(...args) {
  *
  * @param {PointLike} p The circle's center {x,y} coordinate
  * @param {number} r The circle's radius in pixels
+ *
+ * @see {@link arc}
  */
 function circle(x, y, r) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -350,6 +361,9 @@ function clear(color = `white`) {
  * </graphics-element>
  *
  * @param {boolean} close? A boolean that indicates whether or not to close the path (default = false)
+ *
+ * @see {@link start}
+ * @see {@link vertex}
  */
 function end(close = false) {
   if (close) __ctx.closePath();
@@ -483,6 +497,8 @@ function line(x1, y1, x2, y2) {
  * @param {number} steps The number of plot points to plot over the interval [a,b] (default = 100)
  * @param {number} xscale? An optional scaling factor to apply to each plot point's x value (default = 1)
  * @param {number} yscale? An optional scaling factor to apply to each plot point's y value (default = 1)
+ *
+ * @see {@link plotData}
  */
 function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
   const interval = b - a;
@@ -548,6 +564,8 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
  * @param {object[]} data The any-dimensional data from which to plot one dimension again another
  * @param {number|string} x The property name or individual element array index to use as x dimension
  * @param {number|string} y The property name or individual element array index to use as y dimension
+ *
+ * @see {@link plot}
  */
 function plotData(data, x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -581,6 +599,8 @@ function plotData(data, x, y) {
  * @param {number} y The point's center y pixel value
  *
  * @param {PointLike} p The point's center {x,y} coordinate
+ *
+ * @see {@link circle}
  */
 function point(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -677,6 +697,9 @@ function rect(x, y, w, h) {
  * @param {PointLike[]} ...points The points across which to fit a spline
  * @param {boolean} virtual? Whether or not to invent new mathematical points that ensure the curve starts and ends at the provided start and end points. (default = true)
  * @param {number} tightness? How tight this spline should be fit through the points provided. The higher the tightness, the more polygonal the curve becomes (default = 1)
+ *
+ * @see {@link bezier}
+ * @see {@link bspline}
  */
 function spline(...args) {
   let points = args;
@@ -755,6 +778,9 @@ function spline(...args) {
  *     }
  *   </graphics-source>
  * </graphics-element>
+ *
+ * @see {@link end}
+ * @see {@link vertex}
  */
 function start() {
   if (__ctx.lineWidth % 2 === 1) {
@@ -818,6 +844,8 @@ function start() {
  * @param {PointLike} p The text location's {x,y} coordinate
  * @param {string} xAlign? An optional horizontal alignment string
  * @param {string} yAlign? An optional vertical  alignment string
+ *
+ * @see {@link setTextStroke}
  */
 function text(str, x, y, xAlign, yAlign) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -908,6 +936,9 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  * @param {number} y The vertex's y pixel value
  *
  * @param {PointLike} p The vertex {x,y} coordinate
+ *
+ * @see {@link end}
+ * @see {@link start}
  */
 function vertex(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

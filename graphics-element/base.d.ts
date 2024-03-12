@@ -8,46 +8,46 @@ declare function setup(): void;
 declare function draw(): void;
 /**
  *
- * @param trueOrFalse
+ * @param {boolean} trueOrFalse
  */
 declare function pointerActive(trueOrFalse: boolean): void;
 /**
  *
- * @param x
- * @param y
+ * @param {number} x
+ * @param {number} y
  */
 declare function pointerDown(x: number, y: number): void;
 /**
  *
- * @param x
- * @param y
+ * @param {number} x
+ * @param {number} y
  */
 declare function pointerUp(x: number, y: number): void;
 /**
  *
- * @param x
- * @param y
+ * @param {number} x
+ * @param {number} y
  */
 declare function pointerClick(x: number, y: number): void;
 /**
  *
- * @param x
- * @param y
+ * @param {number} x
+ * @param {number} y
  */
 declare function pointerMove(x: number, y: number): void;
 /**
  *
- * @param x
- * @param y
+ * @param {number} x
+ * @param {number} y
  */
 declare function pointerDrag(x: number, y: number): void;
 /**
  *
- * @param key
- * @param shift
- * @param alt
- * @param ctrl
- * @param meta
+ * @param {string} key
+ * @param {boolean} shift
+ * @param {boolean} alt
+ * @param {boolean} ctrl
+ * @param {boolean} meta
  */
 declare function keyDown(
   key: string,
@@ -58,11 +58,11 @@ declare function keyDown(
 ): void;
 /**
  *
- * @param key
- * @param shift
- * @param alt
- * @param ctrl
- * @param meta
+ * @param {string} key
+ * @param {boolean} shift
+ * @param {boolean} alt
+ * @param {boolean} ctrl
+ * @param {boolean} meta
  */
 declare function keyUp(
   key: string,

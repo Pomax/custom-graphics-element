@@ -4169,9 +4169,12 @@ function draw() {
         <h1><a href="#rotate">rotate</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>rotate(angle: *)</code>
+            <code>rotate(angle: number)</code>
             <ul class="params">
-              <li><code>angle</code> -</li>
+              <li>
+                <code>angle</code> - The angle by which to rotate the coordinate
+                system in radians
+              </li>
             </ul>
           </li>
         </ul>
@@ -4226,10 +4229,15 @@ function draw() {
         <h1><a href="#scale">scale</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>scale(x: *, y?: *)</code>
+            <code>scale(x: number, y?: number)</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y?</code> -</li>
+              <li>
+                <code>x</code> - The amount by which to scale the x coordinates.
+              </li>
+              <li>
+                <code>y?</code> - The amount by which to scale the x coordinates
+                (default = same as x)
+              </li>
             </ul>
           </li>
         </ul>
@@ -4288,19 +4296,23 @@ function draw() {
         </h1>
         <ol class="signatures">
           <li>
-            <code>screenToWorld(x: *, y: *): PointLike</code>
+            <code>screenToWorld(x: number, y: number): PointLike</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y</code> -</li>
+              <li>
+                <code>x</code> - The screen coordinate's x value in pixels
+              </li>
+              <li>
+                <code>y</code> - The screen coordinate's y value in pixels
+              </li>
             </ul>
-            <p>returns p (<code>PointLike</code>)</p>
+            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
           </li>
           <li>
-            <code>screenToWorld(p: *): PointLike</code>
+            <code>screenToWorld(p: PointLike): PointLike</code>
             <ul class="params">
-              <li><code>p</code> -</li>
+              <li><code>p</code> - The screen {x,y} coordinate</li>
             </ul>
-            <p>returns p (<code>PointLike</code>)</p>
+            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -4368,12 +4380,12 @@ function pointerMove() {
               f: number)</code
             >
             <ul class="params">
-              <li><code>a</code> -</li>
-              <li><code>b</code> -</li>
-              <li><code>c</code> -</li>
-              <li><code>d</code> -</li>
-              <li><code>e</code> -</li>
-              <li><code>f</code> -</li>
+              <li><code>a</code> - (default = 1)</li>
+              <li><code>b</code> - (default = 0)</li>
+              <li><code>c</code> - (default = 0)</li>
+              <li><code>d</code> - (default = 0)</li>
+              <li><code>e</code> - (default = 1)</li>
+              <li><code>f</code> - (default = 0)</li>
             </ul>
           </li>
         </ul>
@@ -4383,20 +4395,41 @@ function pointerMove() {
 </code></pre>
         <p>m = | d e f | | 0 0 1 |</p>
         <p>With the parameters defaulting to the identity matrix.</p>
+        <p>
+          See the following MDN article for more details about this function:
+          <a
+            href="https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform"
+            >https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform</a
+          >
+        </p>
       </section>
 
       <section id="translate">
         <h1><a href="#translate">translate</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
+        <ol class="signatures">
           <li>
-            <code>translate(x: *, y: *, p: *)</code>
+            <code>translate(x: number, y: number)</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y</code> -</li>
-              <li><code>p</code> -</li>
+              <li>
+                <code>x</code> - The x value in pixels to be treated as the new
+                "zero"
+              </li>
+              <li>
+                <code>y</code> - The y value in pixels to be treated as the new
+                "zero"
+              </li>
             </ul>
           </li>
-        </ul>
+          <li>
+            <code>translate(p: PointLike)</code>
+            <ul class="params">
+              <li>
+                <code>p</code> - The {x,y} coordinate to be treated as the new
+                "zero"
+              </li>
+            </ul>
+          </li>
+        </ol>
         <h3>Description</h3>
         <p>Translate the coordinate system by some amount of x and y units.</p>
 
@@ -4428,19 +4461,23 @@ function draw() {
         </h1>
         <ol class="signatures">
           <li>
-            <code>worldToScreen(x: *, y: *): PointLike</code>
+            <code>worldToScreen(x: number, y: number): PointLike</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y</code> -</li>
+              <li><code>x</code> - The world coordinate's x value in pixels</li>
+              <li><code>y</code> - The world coordinate's y value in pixels</li>
             </ul>
-            <p>returns p (<code>PointLike</code>)</p>
+            <p>
+              returns p The screen {x,y} coordinate (<code>PointLike</code>)
+            </p>
           </li>
           <li>
-            <code>worldToScreen(p: *): PointLike</code>
+            <code>worldToScreen(p: PointLike): PointLike</code>
             <ul class="params">
-              <li><code>p</code> -</li>
+              <li><code>p</code> - The world {x,y} coordinate</li>
             </ul>
-            <p>returns p (<code>PointLike</code>)</p>
+            <p>
+              returns p The screen {x,y} coordinate (<code>PointLike</code>)
+            </p>
           </li>
         </ol>
         <h3>Description</h3>

@@ -66,7 +66,7 @@ function resetTransform() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} angle
+ * @param {number} angle The angle by which to rotate the coordinate system in radians
  */
 function rotate(angle = 0) {
   __ctx.rotate(angle);
@@ -99,8 +99,8 @@ function rotate(angle = 0) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y?
+ * @param {number} x The amount by which to scale the x coordinates.
+ * @param {number} y? The amount by which to scale the x coordinates (default = same as x)
  */
 function scale(x = 1, y = x) {
   __ctx.scale(x, y);
@@ -136,12 +136,12 @@ function scale(x = 1, y = x) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @returns {PointLike} p
+ * @param {number} x The screen coordinate's x value in pixels
+ * @param {number} y The screen coordinate's y value in pixels
+ * @returns {PointLike} p The world {x,y} coordinate
  *
- * @param {*} p
- * @returns {PointLike} p
+ * @param {PointLike} p The screen {x,y} coordinate
+ * @returns {PointLike} p The world {x,y} coordinate
  */
 function screenToWorld(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -163,12 +163,15 @@ function screenToWorld(x, y) {
  *
  * With the parameters defaulting to the identity matrix.
  *
- * @param {number} a
- * @param {number} b
- * @param {number} c
- * @param {number} d
- * @param {number} e
- * @param {number} f
+ * See the following MDN article for more details about this function:
+ * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform
+ *
+ * @param {number} a (default = 1)
+ * @param {number} b (default = 0)
+ * @param {number} c (default = 0)
+ * @param {number} d (default = 0)
+ * @param {number} e (default = 1)
+ * @param {number} f (default = 0)
  */
 function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
   __ctx.transform(a, b, c, d, e, f);
@@ -189,10 +192,10 @@ function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * -or-
- * @param {*} p
+ * @param {number} x The x value in pixels to be treated as the new "zero"
+ * @param {number} y The y value in pixels to be treated as the new "zero"
+ *
+ * @param {PointLike} p The {x,y} coordinate to be treated as the new "zero"
  */
 function translate(x = 0, y = 0) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -230,12 +233,12 @@ function translate(x = 0, y = 0) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @returns {PointLike} p
+ * @param {number} x The world coordinate's x value in pixels
+ * @param {number} y The world coordinate's y value in pixels
+ * @returns {PointLike} p The screen {x,y} coordinate
  *
- * @param {*} p
- * @returns {PointLike} p
+ * @param {PointLike} p The world {x,y} coordinate
+ * @returns {PointLike} p The screen {x,y} coordinate
  */
 function worldToScreen(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

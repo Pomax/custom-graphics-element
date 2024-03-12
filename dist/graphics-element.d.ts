@@ -1977,7 +1977,7 @@ declare function resetTransform(): void;
  * </graphics-element>
  *
  */
-declare function rotate(angle: *): void;
+declare function rotate(angle: number): void;
 /**
  * Scale the coordinate system wrt the current origin.
  *
@@ -2006,7 +2006,7 @@ declare function rotate(angle: *): void;
  * </graphics-element>
  *
  */
-declare function scale(x: *, y?: *): void;
+declare function scale(x: number, y?: number): void;
 /**
  * Convert a screen (e.g. browser) coordinate into its
  * corresponding "transformed" coordinate.
@@ -2038,8 +2038,8 @@ declare function scale(x: *, y?: *): void;
  * </graphics-element>
  *
  */
-declare function screenToWorld(x: *, y: *): PointLike;
-declare function screenToWorld(p: *): PointLike;
+declare function screenToWorld(x: number, y: number): PointLike;
+declare function screenToWorld(p: PointLike): PointLike;
 /**
  * Set the current transform matrix, based on applying:
  *
@@ -2048,6 +2048,9 @@ declare function screenToWorld(p: *): PointLike;
  *       | 0 0 1 |
  *
  * With the parameters defaulting to the identity matrix.
+ *
+ * See the following MDN article for more details about this function:
+ * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform
  *
  */
 declare function transform(
@@ -2074,7 +2077,8 @@ declare function transform(
  * </graphics-element>
  *
  */
-declare function translate(x: *, y: *, p: *): void;
+declare function translate(x: number, y: number): void;
+declare function translate(p: PointLike): void;
 /**
  * Convert an in-canvas "transformed" coordinate into its
  * corresponding "screen" (i.e. browser canvas offset) coordinate.
@@ -2104,5 +2108,5 @@ declare function translate(x: *, y: *, p: *): void;
  * </graphics-element>
  *
  */
-declare function worldToScreen(x: *, y: *): PointLike;
-declare function worldToScreen(p: *): PointLike;
+declare function worldToScreen(x: number, y: number): PointLike;
+declare function worldToScreen(p: PointLike): PointLike;

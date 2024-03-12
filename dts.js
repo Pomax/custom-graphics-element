@@ -97,21 +97,17 @@ function fileToDTS(filename) {
       comment: commentString,
       params,
       declarations: [],
-      see: [],
+      see: params.see ?? [],
     };
 
     params.forEach((set) => {
-      const { returnType, see, ...params } = set;
-      delete set.see;
+      const { returnType, ...params } = set;
       const parameters = Object.entries(params)
         .map(([name, param]) => `${name}: ${param.type}`)
         .join(`, `);
       declarations[fname].declarations.push(
         `declare function ${fname}(${parameters}): ${returnType.type};`
       );
-      if (see) {
-        declarations[fname].see.push(...see);
-      }
     });
   });
   return blocks;
@@ -122,12 +118,25 @@ function fileToDTS(filename) {
  */
 function getExamples(fname, comment) {
   comment = comment.join(``);
+
+  // Where does the description... you know... end?
+  let lastIndex = -1;
+  const [v1, v2, v3, v4, v5] = [
+    comment.indexOf(`Example`),
+    comment.indexOf(`@returns`),
+    comment.indexOf(`@param`),
+    comment.indexOf(`@see`),
+    comment.indexOf(`*/`),
+  ];
+  lastIndex = Math.min(...[v1, v2, v3, v4, v5].filter((v) => v > -1));
+
   const description = comment
-    .substring(0, comment.indexOf(`Example`))
+    .substring(0, lastIndex)
     .split(`\n`)
     .map((l) => l.trim().replace(/^(\/\*)?\*/, ""))
     .join(`\n`)
     .trim();
+
   const blocks = comment
     .match(/<graphics-element>[\s\S]+?<\/graphics-element>/g)
     ?.map((block) =>
@@ -181,14 +190,14 @@ function getParamsAndReturn(fname, comment) {
         const [_, type, name, __, desc] = line.match(
           /@param\s+{([^}]+)}\s+(\S+)(\s+([^\n]+))?/
         );
-        set.__updated = true;
         set[name] = { type, desc: desc ?? `` };
+        set.__updated = true;
       }
       // reference to another function?
       else if (op === `@see`) {
         const [_, ref] = line.match(/@see\s+{@link\s+(\S+)}/);
-        set.see ??= [];
-        set.see.push(ref);
+        params.see ??= [];
+        params.see.push(ref);
       }
       // return type?
       else if (op === `@returns`) {
@@ -311,6 +320,8 @@ const pageCode = (
         })
         .join(`\n`);
 
+      // If there's 1 signature, use an unordered list, but if there are
+      // two or more, use an ordered (numbered) list.
       const siglist = declarations[key].declarations.length > 1 ? `ol` : `ul`;
 
       // With the example as both a graphics element and <pre>'d source code.
@@ -342,7 +353,7 @@ const pageCode = (
           <${siglist} class="signatures">${signatures}</${siglist}>
           <h3>Description</h3>
           ${markdownToHTML(value.description)}
-          <h3>Examples</h3>
+          ${gfxAndCode ? `<h3>Examples</h3>` : ``}
           ${gfxAndCode}
           ${seeAlso}
         </section>

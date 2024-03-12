@@ -593,10 +593,12 @@ declare function bezier(
  * Draw a B-spline using four or more Point or
  * Point-likes that implement:
  *
- *   {
- *     x: number
- *     y: number
- *   }
+ * ```
+ * {
+ *   x: number
+ *   y: number
+ * }
+ * ```
  *
  * Example:
  *
@@ -671,7 +673,7 @@ declare function circle(p: PointLike, r: number): void;
  * </graphics-element>
  *
  */
-declare function clear(colour: *): void;
+declare function clear(color?: color): void;
 /**
  * Counterpart to start(), finalizes the current shape and
  * colours it. If `close` is true, it will close the path
@@ -699,7 +701,7 @@ declare function clear(colour: *): void;
  * </graphics-element>
  *
  */
-declare function end(close: *): void;
+declare function end(close?: boolean): void;
 /**
  * Draw an image in a given location with an optional
  * width and height. If omitted, the width and height
@@ -722,8 +724,19 @@ declare function end(close: *): void;
  * </graphics-element>
  *
  */
-declare function image(img: *, x: *, y: *, w: *, h: *): { Image };
-declare function image(img: *, p: *, w: *, h: *): { Image };
+declare function image(
+  imgOrURL: Image | string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+): { Image };
+declare function image(
+  imgOrURL: Image | string,
+  p: PointLike,
+  w: number,
+  h: number,
+): { Image };
 /**
  * Draw a line from one coordinate to another.
  *
@@ -740,8 +753,8 @@ declare function image(img: *, p: *, w: *, h: *): { Image };
  * </graphics-element>
  *
  */
-declare function line(x1: *, y1: *, x2: *, y2: *): void;
-declare function line(p1: *, p2: *): void;
+declare function line(x1: number, y1: number, x2: number, y2: number): void;
+declare function line(p1: PointLike, p2: PointLike): void;
 /**
  * Plot a y=f(x) function. The input to the function
  * will span the interval [a,b] using the indicated
@@ -774,8 +787,8 @@ declare function plot(
   a: number,
   b: number,
   steps: number,
-  xscale: number,
-  yscale: number,
+  xscale?: number,
+  yscale?: number,
 ): void;
 /**
  * Plot a 2D graph using a collection of any-dimensional data,
@@ -806,7 +819,11 @@ declare function plot(
  * </graphics-element>
  *
  */
-declare function plotData(data: *, x: *, y: *): void;
+declare function plotData(
+  data: object[],
+  x: number | string,
+  y: number | string,
+): void;
 /**
  * Draw a point (either from x/y or point-like).
  *
@@ -825,8 +842,8 @@ declare function plotData(data: *, x: *, y: *): void;
  * </graphics-element>
  *
  */
-declare function point(x: *, y: *): void;
-declare function point(p: *): void;
+declare function point(x: number, y: number): void;
+declare function point(p: PointLike): void;
 /**
  * Draw a rectangle at the specified coordinate, with
  * the specific width and height.
@@ -845,13 +862,55 @@ declare function point(p: *): void;
  * </graphics-element>
  *
  */
-declare function rect(x: *, y: *, w: *, h: *): void;
-declare function rect(p: *, w: *, h: *): void;
+declare function rect(x: number, y: number, w: number, h: number): void;
+declare function rect(p: PointLike, w: number, h: number): void;
 /**
- * draw a cardinal spline with virtual start and end point
+ * Draw a cardinal (hermite) spline that passes through each
+ * point provided, using a mathematically virtual start and
+ * end to ensure the curve starts and ends at the provided
+ * start and end point. This can be bypassed by setting
+ * the `virtual` argument to `false`.
+ *
+ * Additionally, the spline's tightness, which controls
+ * how "bendy" the spline is (the tighter the spline,
+ * the sharper bends become) can be controlled by setting
+ * the `tightness` value.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       range(0, TAU, PI / 5, (a) => points.push(
+ *         new Point(
+ *           random(30) + 50 * cos(a),
+ *           random(30) + 50 * sin(a)
+ *         )
+ *       ));
+ *       setMovable(...points);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width / 2, height / 2);
+ *       setFill(`#0002`);
+ *       spline(...points);
+ *       setColor(`red`);
+ *       points.forEach(p => point(p));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  *
  */
-declare function spline(points: *, virtual: *, tightness: *, T: *): void;
+declare function spline(
+  points: PointLike[],
+  virtual?: boolean,
+  tightness?: number,
+): void;
 /**
  * Starts a (new) shape.
  *
@@ -880,20 +939,20 @@ declare function start(): void;
  * the x/y alignment provided. Valid `xAlign` values
  * are:
  *
- *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
- *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
- *   LEFT - the text anchor is on the left side of the text. all text is to the right.
- *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
- *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ * - CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ * - END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ * - LEFT - the text anchor is on the left side of the text. all text is to the right.
+ * - RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ * - START - the text anchor is on the left for LTR text, and on the right for RTL text.
  *
  * Valid `yAlign` values are:
  *
- *   ALPHABETIC - standard text alignment
- *   BOTTOM - the text is aligned to the bottom of the bounding box
- *   HANGING - relevant for Tibetan and other Indic scripts.
- *   IDEOGRAPHIC - relevant for ideographic CJKV text.
- *   MIDDLE - The vertical equivalent of "center".
- *   TOP - The text is aligned to the top of the typographic "em square".
+ * - ALPHABETIC - standard text alignment
+ * - BOTTOM - the text is aligned to the bottom of the bounding box
+ * - HANGING - relevant for Tibetan and other Indic scripts.
+ * - IDEOGRAPHIC - relevant for ideographic CJKV text.
+ * - MIDDLE - The vertical equivalent of "center".
+ * - TOP - The text is aligned to the top of the typographic "em square".
  *
  * Note that the primary text colour uses the fill colour. If text
  * stroking is enabled, the the text outline will be coloured using
@@ -919,8 +978,19 @@ declare function start(): void;
  * </graphics-element>
  *
  */
-declare function text(str: *, x: *, y: *, xAlign: *, yAlign: *): void;
-declare function text(str: *, p: *, xAlign: *, yAlign: *): void;
+declare function text(
+  str: string,
+  x: number,
+  y: number,
+  xAlign?: string,
+  yAlign?: string,
+): void;
+declare function text(
+  str: string,
+  p: PointLike,
+  xAlign?: string,
+  yAlign?: string,
+): void;
 /**
  * Draw a triangle.
  *
@@ -938,8 +1008,15 @@ declare function text(str: *, p: *, xAlign: *, yAlign: *): void;
  * </graphics-element>
  *
  */
-declare function triangle(x1: *, y1: *, x2: *, y2: *, x3: *, y3: *): void;
-declare function triangle(p1: *, p2: *, p3: *): void;
+declare function triangle(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  x3: number,
+  y3: number,
+): void;
+declare function triangle(p1: PointLike, p2: PointLike, p3: PointLike): void;
 /**
  * Add a vertex to the currently active shape.
  *
@@ -961,8 +1038,8 @@ declare function triangle(p1: *, p2: *, p3: *): void;
  * </graphics-element>
  *
  */
-declare function vertex(x: *, y: *): void;
-declare function vertex(p: *): void;
+declare function vertex(x: number, y: number): void;
+declare function vertex(p: PointLike): void;
 /**
  * Create an array of specified length, optionally
  * filled using the same kind of function you'd normall
@@ -1377,6 +1454,107 @@ declare function toDataURL(): dataURL;
  *
  */
 declare function togglePlay(): the;
+/**
+ * Constrain a number to within a given range.
+ * This is really nothing more than a convenient
+ * function wrapper around the statement:
+ *
+ * ```
+ * v < s ? s : v > e ? e : v
+ * ```
+ *
+ */
+declare function constrain(
+  value: number,
+  lowerBound: number,
+  upperBound: number,
+): { number };
+/**
+ * The cosecant function, which is:
+ *
+ * ```
+ * 1 / sin(v)
+ * ```
+ *
+ */
+declare function csc(value: number): { number };
+/**
+ * The cotangent function, which is:
+ *
+ * ```
+ * cos(v) / sin(v)
+ * ```
+ *
+ */
+declare function ctn(value: number): { number };
+/**
+ * Convert a number in radians to a number in degrees.
+ * This is really nothing more than a convenient
+ * function wrapper around the statement:
+ *
+ * ```
+ * v/PI * 180
+ * ```
+ *
+ * With one trick, in that it allows you to constrain the
+ * resultant value to the standard [0, 360] interval.
+ *
+ */
+declare function degrees(value: number, constrain?: boolean): { number };
+/**
+ * Calculate the 2D Euclidean distance between two points.
+ *
+ */
+declare function dist(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): { number };
+declare function dist(p1: PointLike, p2: PointLike): void;
+/**
+ * Map a value from one interval to another, optionally
+ * constrained to the target interval.
+ *
+ */
+declare function map(
+  value: number,
+  originalStart: number,
+  originalEnd: number,
+  newStart: number,
+  newEnd: number,
+  constrain?: boolean,
+): { number };
+/**
+ * Convert a number in degrees to a number in radians.
+ * This is really nothing more than a convenient
+ * function wrapper around the statement:
+ *
+ * ```
+ * v/180 * PI
+ * ```
+ *
+ * With one trick, in that it allows you to constrain the
+ * resultant value to the standard [0, TAU] interval.
+ *
+ */
+declare function radians(value: number, constrain?: boolean): { number };
+/**
+ * Generate a random number.
+ *
+ */
+declare function random(): { number };
+declare function random(a: number): { number };
+declare function random(a: number, b: number): { number };
+/**
+ * The secant function, which is:
+ *
+ * ```
+ * 1 / cos(v)
+ * ```
+ *
+ */
+declare function sec(value: number): { number };
 /**
  * Project a 3D coordinate to 2D.
  *

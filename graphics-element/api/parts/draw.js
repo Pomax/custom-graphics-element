@@ -203,10 +203,12 @@ function bezier(...args) {
  * Draw a B-spline using four or more Point or
  * Point-likes that implement:
  *
- *   {
- *     x: number
- *     y: number
- *   }
+ * ```
+ * {
+ *   x: number
+ *   y: number
+ * }
+ * ```
  *
  * Example:
  *
@@ -280,7 +282,7 @@ function bspline(...args) {
  * </graphics-element>
  *
  * @param {number} x The circle's center x pixel value
- * @param {number} y The circle's center x pixel value
+ * @param {number} y The circle's center y pixel value
  * @param {number} r The circle's radius in pixels
  *
  * @param {PointLike} p The circle's center {x,y} coordinate
@@ -310,7 +312,7 @@ function circle(x, y, r) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} colour defaults to `white`
+ * @param {color} color? The (CSS) background color to use (default = `white`)
  */
 function clear(color = `white`) {
   save();
@@ -347,7 +349,7 @@ function clear(color = `white`) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} close
+ * @param {boolean} close? A boolean that indicates whether or not to close the path (default = false)
  */
 function end(close = false) {
   if (close) __ctx.closePath();
@@ -379,18 +381,18 @@ function end(close = false) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} img
- * @param {*} x
- * @param {*} y
- * @param {*} w
- * @param {*} h
- * @returns {Image} the drawn image
+ * @param {Image|string} imgOrURL The image to draw either as Image object, or image URL.
+ * @param {number} x The draw position's x pixel value
+ * @param {number} y The draw position's y pixel value
+ * @param {number} w The width over which to draw the image
+ * @param {number} h The height over which to draw the image
+ * @returns {Image} The drawn image
  *
- * @param {*} img
- * @param {*} p
- * @param {*} w
- * @param {*} h
- * @returns {Image} the drawn image
+ * @param {Image|string} imgOrURL The image to draw either as Image object, or image URL.
+ * @param {PointLike} p The draw position as {x,y} coordinate
+ * @param {number} w The width over which to draw the image
+ * @param {number} h The height over which to draw the image
+ * @returns {Image} The drawn image
  */
 async function image(img, x = 0, y = 0, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -427,13 +429,13 @@ async function image(img, x = 0, y = 0, w, h) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x1
- * @param {*} y1
- * @param {*} x2
- * @param {*} y2
+ * @param {number} x1 The first point's x pixel value
+ * @param {number} y1 The first point's y pixel value
+ * @param {number} x2 The second point's x pixel value
+ * @param {number} y2 The second point's y pixel value
  *
- * @param {*} p1
- * @param {*} p2
+ * @param {PointLike} p1 The first point's {x,y} coordinate
+ * @param {PointLike} p2 The second point's {x,y} coordinate
  */
 function line(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -475,12 +477,12 @@ function line(x1, y1, x2, y2) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {function} f the y=f(x) function
- * @param {number} a
- * @param {number} b
- * @param {number} steps number of plot points to use (default = 100)
- * @param {number} xscale
- * @param {number} yscale
+ * @param {function} f the `y = f(x)` function to plot
+ * @param {number} a The lower bound for the input value (default = 0)
+ * @param {number} b The upper bound for the input value (default = 1)
+ * @param {number} steps The number of plot points to plot over the interval [a,b] (default = 100)
+ * @param {number} xscale? An optional scaling factor to apply to each plot point's x value (default = 1)
+ * @param {number} yscale? An optional scaling factor to apply to each plot point's y value (default = 1)
  */
 function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
   const interval = b - a;
@@ -543,9 +545,9 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} data
- * @param {*} x
- * @param {*} y
+ * @param {object[]} data The any-dimensional data from which to plot one dimension again another
+ * @param {number|string} x The property name or individual element array index to use as x dimension
+ * @param {number|string} y The property name or individual element array index to use as y dimension
  */
 function plotData(data, x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -575,10 +577,10 @@ function plotData(data, x, y) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
+ * @param {number} x The point's center x pixel value
+ * @param {number} y The point's center y pixel value
  *
- * @param {*} p
+ * @param {PointLike} p The point's center {x,y} coordinate
  */
 function point(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -605,14 +607,14 @@ function point(x, y) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} w
- * @param {*} h
+ * @param {number} x The rect's corner  x pixel value
+ * @param {number} y The rect's corner  y pixel value
+ * @param {number} w The width over which to draw the image
+ * @param {number} h The height over which to draw the image
  *
- * @param {*} p
- * @param {*} w
- * @param {*} h
+ * @param {PointLike} p The rect;s corder {x,y} coordinate
+ * @param {number} w The width over which to draw the image
+ * @param {number} h The height over which to draw the image
  */
 function rect(x, y, w, h) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -632,12 +634,49 @@ function rect(x, y, w, h) {
 }
 
 /**
- * draw a cardinal spline with virtual start and end point
+ * Draw a cardinal (hermite) spline that passes through each
+ * point provided, using a mathematically virtual start and
+ * end to ensure the curve starts and ends at the provided
+ * start and end point. This can be bypassed by setting
+ * the `virtual` argument to `false`.
  *
- * @param {*} points
- * @param {*} virtual
- * @param {*} tightness
- * @param {*} T
+ * Additionally, the spline's tightness, which controls
+ * how "bendy" the spline is (the tighter the spline,
+ * the sharper bends become) can be controlled by setting
+ * the `tightness` value.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       range(0, TAU, PI / 5, (a) => points.push(
+ *         new Point(
+ *           random(30) + 50 * cos(a),
+ *           random(30) + 50 * sin(a)
+ *         )
+ *       ));
+ *       setMovable(...points);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width / 2, height / 2);
+ *       setFill(`#0002`);
+ *       spline(...points);
+ *       setColor(`red`);
+ *       points.forEach(p => point(p));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
+ * @param {PointLike[]} points
+ * @param {boolean} virtual? Whether or not to invent new mathematical points that ensure the curve starts and ends at the provided start and end points. (default = true)
+ * @param {number} tightness? How tight this spline should be fit through the points provided. The higher the tightness, the more polygonal the curve becomes (default = 1)
  */
 function spline(...args) {
   let points = args;
@@ -678,7 +717,7 @@ function spline(...args) {
   }
 
   // four point sliding window over the segment
-  start();
+  const bezierPoints = [];
   for (let i = 0, e = cpoints.length - 3; i < e; i++) {
     let [c1, c2, c3, c4] = cpoints.slice(i, i + 4);
     let p2 = {
@@ -689,9 +728,11 @@ function spline(...args) {
       x: c3.x - (c4.x - c2.x) / (6 * T),
       y: c3.y - (c4.y - c2.y) / (6 * T),
     };
-    bezier(c2, p2, p3, c3);
+    if (i === 0) bezierPoints.push(c2);
+    bezierPoints.push(p2, p3, c3);
   }
-  end();
+
+  bezier(...bezierPoints);
 }
 
 /**
@@ -729,20 +770,20 @@ function start() {
  * the x/y alignment provided. Valid `xAlign` values
  * are:
  *
- *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
- *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
- *   LEFT - the text anchor is on the left side of the text. all text is to the right.
- *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
- *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ * - CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ * - END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ * - LEFT - the text anchor is on the left side of the text. all text is to the right.
+ * - RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ * - START - the text anchor is on the left for LTR text, and on the right for RTL text.
  *
  * Valid `yAlign` values are:
  *
- *   ALPHABETIC - standard text alignment
- *   BOTTOM - the text is aligned to the bottom of the bounding box
- *   HANGING - relevant for Tibetan and other Indic scripts.
- *   IDEOGRAPHIC - relevant for ideographic CJKV text.
- *   MIDDLE - The vertical equivalent of "center".
- *   TOP - The text is aligned to the top of the typographic "em square".
+ * - ALPHABETIC - standard text alignment
+ * - BOTTOM - the text is aligned to the bottom of the bounding box
+ * - HANGING - relevant for Tibetan and other Indic scripts.
+ * - IDEOGRAPHIC - relevant for ideographic CJKV text.
+ * - MIDDLE - The vertical equivalent of "center".
+ * - TOP - The text is aligned to the top of the typographic "em square".
  *
  * Note that the primary text colour uses the fill colour. If text
  * stroking is enabled, the the text outline will be coloured using
@@ -767,16 +808,16 @@ function start() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} str
- * @param {*} x
- * @param {*} y
- * @param {*} xAlign
- * @param {*} yAlign
+ * @param {string} str The text we want to show
+ * @param {number} x The text location's x pixel value
+ * @param {number} y The text location's y pixel value
+ * @param {string} xAlign? An optional horizontal alignment string
+ * @param {string} yAlign? An optional vertical  alignment string
  *
- * @param {*} str
- * @param {*} p
- * @param {*} xAlign
- * @param {*} yAlign
+ * @param {string} str The text we want to show
+ * @param {PointLike} p The text location's {x,y} coordinate
+ * @param {string} xAlign? An optional horizontal alignment string
+ * @param {string} yAlign? An optional vertical  alignment string
  */
 function text(str, x, y, xAlign, yAlign) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -814,16 +855,16 @@ function text(str, x, y, xAlign, yAlign) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x1
- * @param {*} y1
- * @param {*} x2
- * @param {*} y2
- * @param {*} x3
- * @param {*} y3
+ * @param {number} x1 The first point's x pixel value
+ * @param {number} y1 The first point's y pixel value
+ * @param {number} x2 The second point's x pixel value
+ * @param {number} y2 The second point's y pixel value
+ * @param {number} x3 The third point's x pixel value
+ * @param {number} y3 The third point's y pixel value
  *
- * @param {*} p1
- * @param {*} p2
- * @param {*} p3
+ * @param {PointLike} p1 The first point's {x,y} coordinate
+ * @param {PointLike} p2 The second point's {x,y} coordinate
+ * @param {PointLike} p3 The third point's {x,y} coordinate
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
   if (x1.x !== undefined && x1.y !== undefined) {
@@ -863,10 +904,10 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
+ * @param {number} x The vertex's x pixel value
+ * @param {number} y The vertex's y pixel value
  *
- * @param {*} p
+ * @param {PointLike} p The vertex {x,y} coordinate
  */
 function vertex(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

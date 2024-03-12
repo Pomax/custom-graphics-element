@@ -1496,6 +1496,254 @@ declare function toDataURL(): string;
  */
 declare function togglePlay(): boolean;
 /**
+ * Get the absolute value for some input
+ *
+ */
+declare function abs(v: number): number;
+/**
+ * The inverse cosine function
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       setCursor(`none`);
+ *       clear(`white`);
+ *       translate(20, 30);
+ *       const a = PI / 3;
+ *       const x = cos(a);
+ *       const y = sin(a);
+ *       const s = (width - 60)
+ *       axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1)
+ *       scale(s);
+ *       setLineWidth(1 / s);*
+ *
+ *       noFill();
+ *       arc(0, 0, 1, 0, PI / 2);
+ *       arc(0, 0, 1.1, 0, PI / 3.5);
+ *       line(x+25/s, y, x+35/s, y-2/s);
+ *       line(x+25/s, y, x+30/s, y-10/s);
+ *
+ *       setColor(`black`);
+ *       circle(x, y, 3/s);
+ *       setFontSize(16 / s);
+ *       text(`pi/3`, x+5/s, y+15/s);
+ *
+ *       setLineWidth(2 / s);
+ *       setColor(`red`);
+ *       line(0, 0, x, 0);
+ *       line(0, y, x, y);
+ *       text(`cos`, x/3, -2/s);
+ *
+ *       setColor(`blue`);
+ *       line(0, 0, 0, y);
+ *       line(x, 0, x, y);
+ *       text(`sin`, 2/s, y/2);
+ *
+ *       noFill();
+ *       setStroke(`#d2d`)
+ *       arc(0, 0, 1, 0, PI / 3)
+ *
+ *       setColor(`purple`)
+ *       text(`acos(red)`, 100 / s, 75 / s)
+ *       text(`asin(blue)`, 100 / s, 53 / s)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function acos(v: number): number;
+/**
+ * ...
+ *
+ */
+declare function acosh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function asin(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function asinh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function atan(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function atan2(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function atanh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function cbrt(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function ceil(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function clz32(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function cos(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function cosh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function exp(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function expm1(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function floor(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function fround(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function hypot(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function imul(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function ln(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function log(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function log2(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function max(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function min(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function pow(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function round(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function sign(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function sin(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function sinh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function sqrt(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function tan(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function tanh(input: number): number;
+/**
+ * ...
+ *
+ */
+declare function trunc(input: number): number;
+/**
+ * The ratio of a circle's circumference to its diameter.
+ *
+ * See https://en.wikipedia.org/wiki/Pi
+ *
+ */
+declare const PI: number;
+/**
+ * The base for the natural logarithm.
+ *
+ * See https://en.wikipedia.org/wiki/E_(mathematical_constant)
+ *
+ */
+declare const E: number;
+/**
+ * A very small value for performing imprecise math operations
+ * such as checking whether a value is approximately the same
+ * as some other value.
+ *
+ */
+declare const epsilon: number;
+/**
+ * A very large value that can still be used to draw things
+ * on the canvas (such as lines from -huge to +huge).
+ *
+ */
+declare const huge: number;
+/**
+ * The ratio of a circle's circumference to its radius.
+ *
+ * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
+ *
+ */
+declare const TAU: number;
+/**
  * Constrain a number to within a given range.
  * This is really nothing more than a convenient
  * function wrapper around the statement:

@@ -40,7 +40,9 @@ function parseComment(stream, blocks) {
       stream.splice(0, 2);
       blocks.push({
         comment: [`/`, ...comment, `*`, `/`],
-        // get the function name that this comment is documentation for
+        // get the next marker, which can be either an explicit function,
+        // or a constant inside a destructuring, which will just be a
+        // bare name.
         fname: parseFName(stream),
       });
       return;
@@ -53,16 +55,13 @@ function parseComment(stream, blocks) {
  * parse a function name out of the stream.
  */
 function parseFName(stream) {
-  // find "function" and then parse out the subsequent name
-  const target = `function`;
-  const len = target.length;
-  let fname = ``;
-  while (stream[0] !== target[0]) stream.shift();
-  if (stream.slice(0, len).join(``) === target) {
-    stream.splice(0, len);
-    // and the name is just "anything up to the opening parenthesis":
-    while (stream[0] !== `(`) fname += stream.shift();
-  }
+  const copy = stream.slice(0, 100).join(``);
+  // console.log(copy);
+  let fmatch = copy.match(/function (\S+)\(/)?.[1];
+  let cmatch = copy.match(/^\s*(\S+),/)?.[1];
+  let rnmatch = copy.match(/^\s*\S+\s*:\s*(\S+),/)?.[1];
+  const fname = cmatch ?? rnmatch ?? fmatch;
+  stream.splice(0, copy.indexOf(fname) + fname.length);
   return fname.trim();
 }
 
@@ -109,12 +108,26 @@ function fileToDTS(filename) {
 
     params.forEach((set) => {
       const { returnType, ...params } = set;
-      const parameters = Object.entries(params)
-        .map(([name, param]) => `${name}: ${param.type}`)
-        .join(`, `);
-      declarations[fname].declarations.push(
-        `declare function ${fname}(${parameters}): ${returnType.type};`
-      );
+
+      let parameters = Object.entries(params);
+
+      // Is this a constant?
+      if (parameters.length === 1 && params[parameters[0][0]].constant) {
+        const [cname, { type }] = parameters[0];
+        declarations[fname].declarations.push(
+          `declare const ${cname}: ${type};`
+        );
+      }
+
+      // If not, we assume it's a function
+      else {
+        parameters = parameters
+          .map(([name, param]) => `${name}: ${param.type}`)
+          .join(`, `);
+        declarations[fname].declarations.push(
+          `declare function ${fname}(${parameters}): ${returnType.type};`
+        );
+      }
     });
   });
   return blocks;
@@ -130,8 +143,9 @@ function getMetaData(fname, comment) {
   let lastIndex = -1;
   const [v1, v2, v3, v4, v5] = [
     comment.indexOf(`Example`),
-    comment.indexOf(`@returns`),
+    comment.indexOf(`@constant`),
     comment.indexOf(`@param`),
+    comment.indexOf(`@returns`),
     comment.indexOf(`@see`),
     comment.indexOf(`*/`),
   ];
@@ -192,6 +206,12 @@ function getParamsAndReturn(fname, comment) {
     // Figure out who annotation we're dealing with
     const [_, op] = line.match(/(@[^\s]+)/);
     try {
+      // constant?
+      if (op === `@constant`) {
+        const [_, type] = line.match(/@constant\s+{([^}]+)}/);
+        set[fname] = { constant: true, type };
+        set.__updated = true;
+      }
       // parameter?
       if (op === `@param`) {
         const [_, type, name, __, desc] = line.match(
@@ -301,42 +321,62 @@ fs.writeFileSync(
 const pageCode = (
   await Promise.all(
     Object.entries(metadata)
-      .sort(([a, _], [b, __]) => (a < b ? -1 : a > b ? 1 : 0))
+      .sort(([a, _], [b, __]) => {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        return a < b ? -1 : a > b ? 1 : 0;
+      })
       .map(async ([key, value]) => {
+        const isConstant = declarations[key].declarations.some((v) =>
+          v.includes(`declare const`)
+        );
+
         // Include the call signature(s)
         const signatures = await declarations[key].declarations
           .map((v, pos) => {
-            // call signature
-            const signature = v
-              .replace(`declare function `, ``)
-              .replace(`: void`, ``)
-              .replace(`;`, ``);
+            // Are we dealing with a function?
+            if (v.includes(`declare function`)) {
+              // call signature
+              const signature = v
+                .replace(`declare function `, ``)
+                .replace(`: void`, ``)
+                .replace(`;`, ``);
 
-            // call parameters
-            let params = ``;
-            if (declarations[key].params[pos]) {
-              const { returnType, see, ...rest } =
-                declarations[key].params[pos];
-              params =
-                `<ul class="params">` +
-                Object.entries(rest)
-                  .map(([key, { type, desc }]) => {
-                    return `<li><code>${key}</code> - ${desc}</li>`;
-                  })
-                  .join(``) +
-                `</ul>` +
-                (returnType.type !== `void`
-                  ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
-                  : ``);
+              // call parameters
+              let params = ``;
+              if (declarations[key].params[pos]) {
+                const { returnType, see, ...rest } =
+                  declarations[key].params[pos];
+                params =
+                  `<ul class="params">` +
+                  Object.entries(rest)
+                    .map(([key, { type, desc }]) => {
+                      return `<li><code>${key}</code> - ${desc}</li>`;
+                    })
+                    .join(``) +
+                  `</ul>` +
+                  (returnType.type !== `void`
+                    ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
+                    : ``);
+              }
+
+              return `<li><code>${signature}</code>${params}</li>`;
             }
 
-            return `<li><code>${signature}</code>${params}</li>`;
+            // not a function (so right now: a const)
+            return ``;
           })
           .join(`\n`);
 
         // If there's 1 signature, use an unordered list, but if there are
         // two or more, use an ordered (numbered) list.
         const siglist = declarations[key].declarations.length > 1 ? `ol` : `ul`;
+
+        const signatureCode = isConstant
+          ? `<code class="const">constant</code>`
+          : !signatures
+            ? ``
+            : `<${siglist} class="signatures">${signatures}</${siglist}>`;
 
         // With the example as both a graphics element and <pre>'d source code.
         const gfxAndCode = (
@@ -362,16 +402,16 @@ const pageCode = (
         }
 
         return `
-        <section id="${key}">
-          <h1><a href="#${key}">${key}</a> <a href="#top">top</a></h1>
-          <${siglist} class="signatures">${signatures}</${siglist}>
-          <h3>Description</h3>
-          ${markdownToHTML(value.description)}
-          ${gfxAndCode ? `<h3>Examples</h3>` : ``}
-          ${gfxAndCode}
-          ${seeAlso}
-        </section>
-    `;
+          <section id="${key}">
+            <h1><a href="#${key}">${key}</a> <a href="#top">top</a></h1>
+            ${signatureCode}
+            <h3>Description</h3>
+            ${markdownToHTML(value.description)}
+            ${gfxAndCode ? `<h3>Examples</h3>` : ``}
+            ${gfxAndCode}
+            ${seeAlso}
+          </section>
+        `;
       })
   )
 ).join(`\n\n`);
@@ -460,9 +500,16 @@ fs.writeFileSync(
             margin-top: 0.2em;
           }
         }
-        graphics-element {
-          min-width: 200px;
-          min-height: 200px;
+        section {
+          graphics-element {
+            min-width: 200px;
+            min-height: 200px;
+          }
+          code.const {
+            display: block;
+            margin-top: 1em;
+            margin-left: 2em;
+          }
         }
       }
     </style>

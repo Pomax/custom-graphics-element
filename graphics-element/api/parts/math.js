@@ -1,47 +1,374 @@
 // math functions
 const {
+  /**
+   * Get the absolute value for some input
+   *
+   * @param {number} v Any number
+   * @returns {number} The input value with its sign set to positive
+   */
   abs,
+
+  /**
+   * The inverse cosine function
+   *
+   * Example:
+   *
+   * <graphics-element>
+   *   <graphics-source>
+   *     function draw() {
+   *       setCursor(`none`);
+   *       clear(`white`);
+   *       translate(20, 30);
+   *       const a = PI / 3;
+   *       const x = cos(a);
+   *       const y = sin(a);
+   *       const s = (width - 60)
+   *       axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1)
+   *       scale(s);
+   *       setLineWidth(1 / s);*
+   *
+   *       noFill();
+   *       arc(0, 0, 1, 0, PI / 2);
+   *       arc(0, 0, 1.1, 0, PI / 3.5);
+   *       line(x+25/s, y, x+35/s, y-2/s);
+   *       line(x+25/s, y, x+30/s, y-10/s);
+   *
+   *       setColor(`black`);
+   *       circle(x, y, 3/s);
+   *       setFontSize(16 / s);
+   *       text(`pi/3`, x+5/s, y+15/s);
+   *
+   *       setLineWidth(2 / s);
+   *       setColor(`red`);
+   *       line(0, 0, x, 0);
+   *       line(0, y, x, y);
+   *       text(`cos`, x/3, -2/s);
+   *
+   *       setColor(`blue`);
+   *       line(0, 0, 0, y);
+   *       line(x, 0, x, y);
+   *       text(`sin`, 2/s, y/2);
+   *
+   *       noFill();
+   *       setStroke(`#d2d`)
+   *       arc(0, 0, 1, 0, PI / 3)
+   *
+   *       setColor(`purple`)
+   *       text(`acos(red)`, 100 / s, 75 / s)
+   *       text(`asin(blue)`, 100 / s, 53 / s)
+   *     }
+   *   </graphics-source>
+   * </graphics-element>
+   *
+   * @param {number} v Any number
+   * @returns {number} The inverse cosine of that number
+   *
+   * @see {@link asin}
+   * @see {@link acosh}
+   */
   acos,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   acosh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   asin,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   asinh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   atan,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   atan2,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   atanh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   cbrt,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   ceil,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   clz32,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   cos,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   cosh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   exp,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   expm1,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   floor,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   fround,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   hypot,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   imul,
-  // The natural logarithm is called "ln". If you call it "log", you don't math.
-  log: ln,
-  // The function called "log" is the "common logarithm", which is base 10.
-  log10: log,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
+  log: ln, // The natural logarithm is called "ln". If you call it "log", you don't math.
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
+  log10: log, // The function called "log" is the "common logarithm", which is base 10.
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   log2,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   max,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   min,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   pow,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   round,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   sign,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   sin,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   sinh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   sqrt,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   tan,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   tanh,
+
+  /**
+   * ...
+   *
+   * @param {number} input
+   * @returns {number} output
+   */
   trunc,
 } = Math;
 
 // constants...
-const { PI, E } = Math;
-const epsilon = 1e-10;
-const huge = 1_000_000;
-const TAU = PI * 2;
+const {
+  /**
+   * The ratio of a circle's circumference to its diameter.
+   *
+   * See https://en.wikipedia.org/wiki/Pi
+   *
+   * @constant {number}
+   *
+   * @see {@link TAU}
+   */
+  PI,
+
+  /**
+   * The base for the natural logarithm.
+   *
+   * See https://en.wikipedia.org/wiki/E_(mathematical_constant)
+   *
+   * @constant {number}
+   */
+  E,
+} = Math;
+
+const {
+  /**
+   * A very small value for performing imprecise math operations
+   * such as checking whether a value is approximately the same
+   * as some other value.
+   *
+   * @constant {number}
+   */
+  epsilon,
+
+  /**
+   * A very large value that can still be used to draw things
+   * on the canvas (such as lines from -huge to +huge).
+   *
+   * @constant {number}
+   */
+  huge,
+
+  /**
+   * The ratio of a circle's circumference to its radius.
+   *
+   * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
+   *
+   * @constant {number}
+   *
+   * @see {@link PI}
+   */
+  TAU,
+} = { epsilon: 1e-10, huge: 1_000_000, TAU: PI * 2 };
 
 /**
  * Constrain a number to within a given range.

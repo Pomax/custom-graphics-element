@@ -51,9 +51,16 @@
               margin-top: 0.2em;
             }
           }
-          graphics-element {
-            min-width: 200px;
-            min-height: 200px;
+          section {
+            graphics-element {
+              min-width: 200px;
+              min-height: 200px;
+            }
+            code.const {
+              display: block;
+              margin-top: 1em;
+              margin-left: 2em;
+            }
           }
         }
       </style>
@@ -130,15 +137,53 @@
         </ul>
         <h4 class="sep">math functions</h4>
         <ul>
+          <li><a href="#E">E</a></li>
+          <li><a href="#PI">PI</a></li>
+          <li><a href="#TAU">TAU</a></li>
+          <li><a href="#abs">abs</a></li>
+          <li><a href="#acos">acos</a></li>
+          <li><a href="#acosh">acosh</a></li>
+          <li><a href="#asin">asin</a></li>
+          <li><a href="#asinh">asinh</a></li>
+          <li><a href="#atan">atan</a></li>
+          <li><a href="#atan2">atan2</a></li>
+          <li><a href="#atanh">atanh</a></li>
+          <li><a href="#cbrt">cbrt</a></li>
+          <li><a href="#ceil">ceil</a></li>
+          <li><a href="#clz32">clz32</a></li>
           <li><a href="#constrain">constrain</a></li>
+          <li><a href="#cos">cos</a></li>
+          <li><a href="#cosh">cosh</a></li>
           <li><a href="#csc">csc</a></li>
           <li><a href="#ctn">ctn</a></li>
           <li><a href="#degrees">degrees</a></li>
           <li><a href="#dist">dist</a></li>
+          <li><a href="#epsilon">epsilon</a></li>
+          <li><a href="#exp">exp</a></li>
+          <li><a href="#expm1">expm1</a></li>
+          <li><a href="#floor">floor</a></li>
+          <li><a href="#fround">fround</a></li>
+          <li><a href="#huge">huge</a></li>
+          <li><a href="#hypot">hypot</a></li>
+          <li><a href="#imul">imul</a></li>
+          <li><a href="#ln">ln</a></li>
+          <li><a href="#log">log</a></li>
+          <li><a href="#log2">log2</a></li>
           <li><a href="#map">map</a></li>
+          <li><a href="#max">max</a></li>
+          <li><a href="#min">min</a></li>
+          <li><a href="#pow">pow</a></li>
           <li><a href="#radians">radians</a></li>
           <li><a href="#random">random</a></li>
+          <li><a href="#round">round</a></li>
           <li><a href="#sec">sec</a></li>
+          <li><a href="#sign">sign</a></li>
+          <li><a href="#sin">sin</a></li>
+          <li><a href="#sinh">sinh</a></li>
+          <li><a href="#sqrt">sqrt</a></li>
+          <li><a href="#tan">tan</a></li>
+          <li><a href="#tanh">tanh</a></li>
+          <li><a href="#trunc">trunc</a></li>
         </ul>
         <h4 class="sep">projection functions</h4>
         <ul>
@@ -174,6 +219,156 @@
           <li><a href="#translate">translate</a></li>
           <li><a href="#worldToScreen">worldToScreen</a></li>
         </ul>
+      </section>
+
+      <section id="abs">
+        <h1><a href="#abs">abs</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>abs(v: number): number</code>
+            <ul class="params">
+              <li><code>v</code> - Any number</li>
+            </ul>
+            <p>
+              returns the input value with its sign set to positive
+              (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Get the absolute value for some input</p>
+      </section>
+
+      <section id="acos">
+        <h1><a href="#acos">acos</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>acos(v: number): number</code>
+            <ul class="params">
+              <li><code>v</code> - Any number</li>
+            </ul>
+            <p>
+              returns the inverse cosine of that number (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>The inverse cosine function</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  setCursor(`none`);
+  clear(`white`);
+  translate(20, 30);
+  const a = PI / 3;
+  const x = cos(a);
+  const y = sin(a);
+  const s = width - 60;
+  axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1);
+  scale(s);
+  setLineWidth(1 / s);
+
+  noFill();
+  arc(0, 0, 1, 0, PI / 2);
+  arc(0, 0, 1.1, 0, PI / 3.5);
+  line(x + 25 / s, y, x + 35 / s, y - 2 / s);
+  line(x + 25 / s, y, x + 30 / s, y - 10 / s);
+
+  setColor(`black`);
+  circle(x, y, 3 / s);
+  setFontSize(16 / s);
+  text(`pi/3`, x + 5 / s, y + 15 / s);
+
+  setLineWidth(2 / s);
+  setColor(`red`);
+  line(0, 0, x, 0);
+  line(0, y, x, y);
+  text(`cos`, x / 3, -2 / s);
+
+  setColor(`blue`);
+  line(0, 0, 0, y);
+  line(x, 0, x, y);
+  text(`sin`, 2 / s, y / 2);
+
+  noFill();
+  setStroke(`#d2d`);
+  arc(0, 0, 1, 0, PI / 3);
+
+  setColor(`purple`);
+  text(`acos(red)`, 100 / s, 75 / s);
+  text(`asin(blue)`, 100 / s, 53 / s);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  setCursor(`none`);
+  clear(`white`);
+  translate(20, 30);
+  const a = PI / 3;
+  const x = cos(a);
+  const y = sin(a);
+  const s = width - 60;
+  axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1);
+  scale(s);
+  setLineWidth(1 / s);
+
+  noFill();
+  arc(0, 0, 1, 0, PI / 2);
+  arc(0, 0, 1.1, 0, PI / 3.5);
+  line(x + 25 / s, y, x + 35 / s, y - 2 / s);
+  line(x + 25 / s, y, x + 30 / s, y - 10 / s);
+
+  setColor(`black`);
+  circle(x, y, 3 / s);
+  setFontSize(16 / s);
+  text(`pi/3`, x + 5 / s, y + 15 / s);
+
+  setLineWidth(2 / s);
+  setColor(`red`);
+  line(0, 0, x, 0);
+  line(0, y, x, y);
+  text(`cos`, x / 3, -2 / s);
+
+  setColor(`blue`);
+  line(0, 0, 0, y);
+  line(x, 0, x, y);
+  text(`sin`, 2 / s, y / 2);
+
+  noFill();
+  setStroke(`#d2d`);
+  arc(0, 0, 1, 0, PI / 3);
+
+  setColor(`purple`);
+  text(`acos(red)`, 100 / s, 75 / s);
+  text(`asin(blue)`, 100 / s, 53 / s);
+}
+</pre
+        >
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#asin">asin</a></li>
+          <li><a href="#acosh">acosh</a></li>
+        </ul>
+      </section>
+
+      <section id="acosh">
+        <h1><a href="#acosh">acosh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>acosh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="addButton">
@@ -491,6 +686,81 @@ function draw() {
         >
       </section>
 
+      <section id="asin">
+        <h1><a href="#asin">asin</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>asin(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="asinh">
+        <h1><a href="#asinh">asinh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>asinh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="atan">
+        <h1><a href="#atan">atan</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>atan(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="atan2">
+        <h1><a href="#atan2">atan2</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>atan2(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="atanh">
+        <h1><a href="#atanh">atanh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>atanh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="axes">
         <h1><a href="#axes">axes</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -791,6 +1061,36 @@ function draw() {
         </ul>
       </section>
 
+      <section id="cbrt">
+        <h1><a href="#cbrt">cbrt</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>cbrt(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="ceil">
+        <h1><a href="#ceil">ceil</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>ceil(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="circle">
         <h1><a href="#circle">circle</a> <a href="#top">top</a></h1>
         <ol class="signatures">
@@ -1075,6 +1375,21 @@ function pointerDown() {
         </ul>
       </section>
 
+      <section id="clz32">
+        <h1><a href="#clz32">clz32</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>clz32(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="color">
         <h1><a href="#color">color</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -1206,6 +1521,36 @@ function pointerDown(x, y) {
         >
       </section>
 
+      <section id="cos">
+        <h1><a href="#cos">cos</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>cos(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="cosh">
+        <h1><a href="#cosh">cosh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>cosh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="csc">
         <h1><a href="#csc">csc</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -1323,6 +1668,19 @@ function pointerDown(x, y) {
         <p>Calculate the 2D Euclidean distance between two points.</p>
       </section>
 
+      <section id="E">
+        <h1><a href="#E">E</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The base for the natural logarithm.</p>
+        <p>
+          See
+          <a href="https://en.wikipedia.org/wiki/E_(mathematical_constant)"
+            >https://en.wikipedia.org/wiki/E_(mathematical_constant)</a
+          >
+        </p>
+      </section>
+
       <section id="end">
         <h1><a href="#end">end</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -1384,6 +1742,77 @@ function draw() {
           <li><a href="#start">start</a></li>
           <li><a href="#vertex">vertex</a></li>
         </ul>
+      </section>
+
+      <section id="epsilon">
+        <h1><a href="#epsilon">epsilon</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>
+          A very small value for performing imprecise math operations such as
+          checking whether a value is approximately the same as some other
+          value.
+        </p>
+      </section>
+
+      <section id="exp">
+        <h1><a href="#exp">exp</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>exp(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="expm1">
+        <h1><a href="#expm1">expm1</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>expm1(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="floor">
+        <h1><a href="#floor">floor</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>floor(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="fround">
+        <h1><a href="#fround">fround</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>fround(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="highlight">
@@ -1457,6 +1886,31 @@ function pointerActive(state) {
         </ul>
       </section>
 
+      <section id="huge">
+        <h1><a href="#huge">huge</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>
+          A very large value that can still be used to draw things on the canvas
+          (such as lines from -huge to +huge).
+        </p>
+      </section>
+
+      <section id="hypot">
+        <h1><a href="#hypot">hypot</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>hypot(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="image">
         <h1><a href="#image">image</a> <a href="#top">top</a></h1>
         <ol class="signatures">
@@ -1525,6 +1979,21 @@ async function draw() {
 }
 </pre
         >
+      </section>
+
+      <section id="imul">
+        <h1><a href="#imul">imul</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>imul(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="isMovable">
@@ -1658,6 +2127,51 @@ function draw() {
         >
       </section>
 
+      <section id="ln">
+        <h1><a href="#ln">ln</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>ln(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="log">
+        <h1><a href="#log">log</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>log(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="log2">
+        <h1><a href="#log2">log2</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>log2(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="map">
         <h1><a href="#map">map</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -1703,6 +2217,21 @@ function draw() {
           <li><a href="#constrain">constrain</a></li>
           <li><a href="#constrainMap">constrainMap</a></li>
         </ul>
+      </section>
+
+      <section id="max">
+        <h1><a href="#max">max</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>max(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="millis">
@@ -1758,6 +2287,21 @@ function draw() {
 }
 </pre
         >
+      </section>
+
+      <section id="min">
+        <h1><a href="#min">min</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>min(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="noBorder">
@@ -2274,6 +2818,24 @@ function pointerActive(state) {
         </ul>
       </section>
 
+      <section id="PI">
+        <h1><a href="#PI">PI</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The ratio of a circle&#39;s circumference to its diameter.</p>
+        <p>
+          See
+          <a href="https://en.wikipedia.org/wiki/Pi"
+            >https://en.wikipedia.org/wiki/Pi</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#TAU">TAU</a></li>
+        </ul>
+      </section>
+
       <section id="play">
         <h1><a href="#play">play</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -2560,6 +3122,21 @@ function draw() {
         <ul>
           <li><a href="#circle">circle</a></li>
         </ul>
+      </section>
+
+      <section id="pow">
+        <h1><a href="#pow">pow</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>pow(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="project">
@@ -3199,6 +3776,21 @@ function draw() {
         <ul>
           <li><a href="#project">project</a></li>
         </ul>
+      </section>
+
+      <section id="round">
+        <h1><a href="#round">round</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>round(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="save">
@@ -4293,6 +4885,51 @@ function draw() {
         </ul>
       </section>
 
+      <section id="sign">
+        <h1><a href="#sign">sign</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>sign(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="sin">
+        <h1><a href="#sin">sin</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>sin(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="sinh">
+        <h1><a href="#sinh">sinh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>sinh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="spline">
         <h1><a href="#spline">spline</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -4386,6 +5023,21 @@ function draw() {
         </ul>
       </section>
 
+      <section id="sqrt">
+        <h1><a href="#sqrt">sqrt</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>sqrt(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
       <section id="start">
         <h1><a href="#start">start</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -4433,6 +5085,54 @@ function draw() {
         <ul>
           <li><a href="#end">end</a></li>
           <li><a href="#vertex">vertex</a></li>
+        </ul>
+      </section>
+
+      <section id="tan">
+        <h1><a href="#tan">tan</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>tan(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="tanh">
+        <h1><a href="#tanh">tanh</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>tanh(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
+      </section>
+
+      <section id="TAU">
+        <h1><a href="#TAU">TAU</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The ratio of a circle&#39;s circumference to its radius.</p>
+        <p>
+          See
+          <a href="https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals"
+            >https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#PI">PI</a></li>
         </ul>
       </section>
 
@@ -4790,6 +5490,21 @@ function draw() {
 }
 </pre
         >
+      </section>
+
+      <section id="trunc">
+        <h1><a href="#trunc">trunc</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>trunc(input: number): number</code>
+            <ul class="params">
+              <li><code>input</code> -</li>
+            </ul>
+            <p>returns output (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>...</p>
       </section>
 
       <section id="vertex">

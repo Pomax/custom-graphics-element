@@ -373,10 +373,7 @@ declare function noTextStroke(): void;
  * </graphics-element>
  *
  */
-declare function addSlider(
-  varName: string,
-  options: object,
-): { HTMLInputElement };
+declare function addSlider(varName: string, options: object): HTMLInputElement;
 /**
  * Remove all sliders for your figure from the page.
  *
@@ -582,12 +579,12 @@ declare function axes(
  *
  */
 declare function bezier(
-  coordinates: number[8],
-  additionalCoordinates?: number[6n],
+  ...coordinates: number[8],
+  ...additionalCoordinates: number[6n]
 ): void;
 declare function bezier(
-  coordinates: PointLike[4],
-  additionalCoordinates?: PointLike[3n],
+  ...coordinates: PointLike[4],
+  ...additionalCoordinates: PointLike[3n]
 ): void;
 /**
  * Draw a B-spline using four or more Point or
@@ -631,12 +628,12 @@ declare function bezier(
  *
  */
 declare function bspline(
-  coordinates: number[8],
-  additionalCoordinates?: number[2n],
+  ...coordinates: number[8],
+  ...additionalCoordinates: number[2n]
 ): void;
 declare function bspline(
-  coordinates: PointLike[4],
-  additionalCoordinates?: PointLike[n],
+  ...coordinates: PointLike[4],
+  ...additionalCoordinates: PointLike[n]
 ): void;
 /**
  * Draw a circle with radius `r` at `x,y`.
@@ -730,13 +727,13 @@ declare function image(
   y: number,
   w: number,
   h: number,
-): { Image };
+): Image;
 declare function image(
   imgOrURL: Image | string,
   p: PointLike,
   w: number,
   h: number,
-): { Image };
+): Image;
 /**
  * Draw a line from one coordinate to another.
  *
@@ -907,7 +904,7 @@ declare function rect(p: PointLike, w: number, h: number): void;
  *
  */
 declare function spline(
-  points: PointLike[],
+  ...points: PointLike[],
   virtual?: boolean,
   tightness?: number,
 ): void;
@@ -1060,7 +1057,7 @@ declare function vertex(p: PointLike): void;
  * </graphics-element>
  *
  */
-declare function array(len: *, fillFunction: *): void;
+declare function array(length: number, fillFunction?: function): void;
 /**
  * Empty the list of movable points in your graphic.
  *
@@ -1092,7 +1089,6 @@ declare function array(len: *, fillFunction: *): void;
  *     }
  *   </graphics-source>
  * </graphics-element>
- *
  */
 declare function clearMovable(): void;
 /**
@@ -1119,7 +1115,7 @@ declare function clearMovable(): void;
  * </graphics-element>
  *
  */
-declare function copy(): a;
+declare function copy(): HTMLCanvasElement;
 /**
  * Generates a color based on the HSL color space.
  *
@@ -1134,7 +1130,12 @@ declare function copy(): a;
  * </graphics-element>
  *
  */
-declare function color(hue: *, saturation: *, lightness: *, opacity: *): void;
+declare function color(
+  hue: number,
+  saturation: number,
+  lightness: number,
+  opacity: number,
+): string;
 /**
  * Mark a specific color as the highlight color,
  * which causes the graphic to redraw with that
@@ -1167,7 +1168,7 @@ declare function color(hue: *, saturation: *, lightness: *, opacity: *): void;
  * </graphics-element>
  *
  */
-declare function highlight(color: *): void;
+declare function highlight(color: color | boolean): void;
 /**
  * Check whether a point is registered as movable.
  *
@@ -1201,7 +1202,7 @@ declare function highlight(color: *): void;
  * </graphics-element>
  *
  */
-declare function isMovable(): true;
+declare function isMovable(The: PointLike): boolean;
 /**
  * Get the number of milliseconds that this
  * graphic has been running.
@@ -1315,7 +1316,7 @@ declare function play(): void;
  *
  *
  */
-declare function randomColor(opacity: *, cycle: *): void;
+declare function randomColor(opacity: number, cycle?: number): void;
 /**
  * An alternative to writing for loops, because
  * no one wants to constantly write var allocations
@@ -1335,7 +1336,12 @@ declare function randomColor(opacity: *, cycle: *): void;
  *
  *
  */
-declare function range(start: *, end: *, step?: *, runFunction: *): void;
+declare function range(
+  start: number,
+  end: number,
+  step?: number,
+  runFunction: function,
+): void;
 /**
  * Mark one or more points as movable, meaning
  * that the user can reposition the point around on
@@ -1364,7 +1370,7 @@ declare function range(start: *, end: *, step?: *, runFunction: *): void;
  * </graphics-element>
  *
  */
-declare function setMovable(points: *): void;
+declare function setMovable(points: PointLike[n]): void;
 /**
  * Restore the graphics context (transforms,
  * current colors, etc) to what they were
@@ -1425,7 +1431,7 @@ declare function save(): void;
  * Convert the current canvas into an data URL
  * that represents a PNG image.
  */
-declare function toDataURL(): dataURL;
+declare function toDataURL(): string;
 /**
  * If the graphic is currently playing, pause it,
  * and if it's paused, play it.
@@ -1453,7 +1459,7 @@ declare function toDataURL(): dataURL;
  * </graphics-element>
  *
  */
-declare function togglePlay(): the;
+declare function togglePlay(): boolean;
 /**
  * Constrain a number to within a given range.
  * This is really nothing more than a convenient
@@ -1468,7 +1474,7 @@ declare function constrain(
   value: number,
   lowerBound: number,
   upperBound: number,
-): { number };
+): number;
 /**
  * The cosecant function, which is:
  *
@@ -1477,7 +1483,7 @@ declare function constrain(
  * ```
  *
  */
-declare function csc(value: number): { number };
+declare function csc(value: number): number;
 /**
  * The cotangent function, which is:
  *
@@ -1486,7 +1492,7 @@ declare function csc(value: number): { number };
  * ```
  *
  */
-declare function ctn(value: number): { number };
+declare function ctn(value: number): number;
 /**
  * Convert a number in radians to a number in degrees.
  * This is really nothing more than a convenient
@@ -1500,17 +1506,12 @@ declare function ctn(value: number): { number };
  * resultant value to the standard [0, 360] interval.
  *
  */
-declare function degrees(value: number, constrain?: boolean): { number };
+declare function degrees(value: number, constrain?: boolean): number;
 /**
  * Calculate the 2D Euclidean distance between two points.
  *
  */
-declare function dist(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-): { number };
+declare function dist(x1: number, y1: number, x2: number, y2: number): number;
 declare function dist(p1: PointLike, p2: PointLike): void;
 /**
  * Map a value from one interval to another, optionally
@@ -1524,7 +1525,7 @@ declare function map(
   newStart: number,
   newEnd: number,
   constrain?: boolean,
-): { number };
+): number;
 /**
  * Convert a number in degrees to a number in radians.
  * This is really nothing more than a convenient
@@ -1538,14 +1539,14 @@ declare function map(
  * resultant value to the standard [0, TAU] interval.
  *
  */
-declare function radians(value: number, constrain?: boolean): { number };
+declare function radians(value: number, constrain?: boolean): number;
 /**
  * Generate a random number.
  *
  */
-declare function random(): { number };
-declare function random(a: number): { number };
-declare function random(a: number, b: number): { number };
+declare function random(): number;
+declare function random(a: number): number;
+declare function random(a: number, b: number): number;
 /**
  * The secant function, which is:
  *
@@ -1554,7 +1555,7 @@ declare function random(a: number, b: number): { number };
  * ```
  *
  */
-declare function sec(value: number): { number };
+declare function sec(value: number): number;
 /**
  * Project a 3D coordinate to 2D.
  *
@@ -1588,8 +1589,8 @@ declare function sec(value: number): { number };
  * </graphics-element>
  *
  */
-declare function project(x: *, y: *, z: *, p: *): void;
-declare function project(): p;
+declare function project(x: number, y: number, z: number): PointLike;
+declare function project(p: PointLike): PointLike;
 /**
  * Set the projector's x, y, and z axis rotation
  * in radians. Note that these are applied in order.
@@ -1627,7 +1628,7 @@ declare function project(): p;
  * </graphics-element>
  *
  */
-declare function rotateProjector(x: *, y: *, z: *): void;
+declare function rotateProjector(x: number, y: number, z: number): void;
 /**
  * Set the project parameters. Currently, only
  * cabinet project is supported, which accepts
@@ -1684,7 +1685,7 @@ declare function setProjector(
  * </graphics-element>
  *
  */
-declare function setBorder(width: *, color: *): void;
+declare function setBorder(width?: number | boolean, color?: string): void;
 /**
  * Set the current stroke and fill colour at
  * the same time.
@@ -1702,18 +1703,18 @@ declare function setBorder(width: *, color: *): void;
  * </graphics-element>
  *
  */
-declare function setColor(color: *): void;
+declare function setColor(color: string): void;
 /**
  * Change the cursor to a specific icon:
  *
- *  AUTO - use whatever the browser would otherwise use
- *  CROSS - use a cross-hair icon
- *  POINTER - use the "pointer" icon that is also used for clickable links
+ * - AUTO - use whatever the browser would otherwise use
+ * - CROSS - use a cross-hair icon
+ * - POINTER - use the "pointer" icon that is also used for clickable links
  *
  * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
  */
-declare function setCursor(type: *): void;
+declare function setCursor(type: string): void;
 /**
  * Set the current fill colour.
  *
@@ -1731,23 +1732,26 @@ declare function setCursor(type: *): void;
  * </graphics-element>
  *
  */
-declare function setFill(color: *): void;
+declare function setFill(color: string): void;
 /**
+ * Set the current font using a single string. For the syntax,
+ * see https://developer.mozilla.org/en-US/docs/Web/CSS/font
  *
  */
-declare function setFont(font: *): void;
+declare function setFont(font: string): void;
 /**
+ * Set the current font family.
  *
  */
-declare function setFontFamily(name: *): void;
+declare function setFontFamily(name: string): void;
 /**
- *
+ * Set the current font size
  */
-declare function setFontSize(px: *): void;
+declare function setFontSize(px: number): void;
 /**
- *
+ * Set the current font weight
  */
-declare function setFontWeight(val: *): void;
+declare function setFontWeight(val: number | string): void;
 /**
  * Set the background grid spacing and colour.
  *
@@ -1766,7 +1770,7 @@ declare function setFontWeight(val: *): void;
  * </graphics-element>
  *
  */
-declare function setGrid(spacing: *, color: *): void;
+declare function setGrid(spacing?: number, color?: string): void;
 /**
  * Set the color that should be used to replace whatever
  * highlight() marked as the "to highlight" color.
@@ -1794,14 +1798,14 @@ declare function setGrid(spacing: *, color: *): void;
  * </graphics-element>
  *
  */
-declare function setHighlightColor(color: *): void;
+declare function setHighlightColor(color: string): void;
 /**
  * Set the line dash property. See the following MDN article for the details:
  *
  * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash
  *
  */
-declare function setLineDash(values: any[]): void;
+declare function setLineDash(...values: number[]): void;
 /**
  * Set the line width in pixels.
  *
@@ -1821,7 +1825,7 @@ declare function setLineDash(values: any[]): void;
  * </graphics-element>
  *
  */
-declare function setLineWidth(width: *): void;
+declare function setLineWidth(width?: number): void;
 /**
  * Set the current stroke colour.
  *
@@ -1839,26 +1843,26 @@ declare function setLineWidth(width: *): void;
  * </graphics-element>
  *
  */
-declare function setStroke(color: *): void;
+declare function setStroke(color: string): void;
 /**
  * Set the current text alignment values.
  *
  * Valid `xAlign` values are:
  *
- *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
- *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
- *   LEFT - the text anchor is on the left side of the text. all text is to the right.
- *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
- *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ * - CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ * - END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ * - LEFT - the text anchor is on the left side of the text. all text is to the right.
+ * - RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ * - START - the text anchor is on the left for LTR text, and on the right for RTL text.
  *
  * Valid `yAlign` values are:
  *
- *   ALPHABETIC - standard text alignment (default)
- *   BOTTOM - the text is aligned to the bottom of the bounding box
- *   HANGING - relevant for Tibetan and other Indic scripts.
- *   IDEOGRAPHIC - relevant for ideographic CJKV text.
- *   MIDDLE - The vertical equivalent of "center".
- *   TOP - The text is aligned to the top of the typographic "em square".
+ * - ALPHABETIC - standard text alignment (default)
+ * - BOTTOM - the text is aligned to the bottom of the bounding box
+ * - HANGING - relevant for Tibetan and other Indic scripts.
+ * - IDEOGRAPHIC - relevant for ideographic CJKV text.
+ * - MIDDLE - The vertical equivalent of "center".
+ * - TOP - The text is aligned to the top of the typographic "em square".
  *
  * Example:
  *
@@ -1883,7 +1887,7 @@ declare function setStroke(color: *): void;
  * </graphics-element>
  *
  */
-declare function setTextAlign(xAlign: *, yAlign: *): void;
+declare function setTextAlign(xAlign: string, yAlign: string): void;
 /**
  * Set the text outline stroking properties.
  *
@@ -1906,7 +1910,7 @@ declare function setTextAlign(xAlign: *, yAlign: *): void;
  * </graphics-element>
  *
  */
-declare function setTextStroke(color: *, width: *): void;
+declare function setTextStroke(color: string, width?: number): void;
 /**
  * Reset the coordinate transform matrix.
  *
@@ -2034,8 +2038,8 @@ declare function scale(x: *, y?: *): void;
  * </graphics-element>
  *
  */
-declare function screenToWorld(x: *, y: *): p;
-declare function screenToWorld(p: *): p;
+declare function screenToWorld(x: *, y: *): PointLike;
+declare function screenToWorld(p: *): PointLike;
 /**
  * Set the current transform matrix, based on applying:
  *
@@ -2100,5 +2104,5 @@ declare function translate(x: *, y: *, p: *): void;
  * </graphics-element>
  *
  */
-declare function worldToScreen(x: *, y: *): p;
-declare function worldToScreen(p: *): p;
+declare function worldToScreen(x: *, y: *): PointLike;
+declare function worldToScreen(p: *): PointLike;

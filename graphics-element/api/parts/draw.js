@@ -94,7 +94,7 @@ function arc(x, y, r, s = 0, e = TAU, wedge = false) {
  * @param {string} heLabel? an optional label for the end (right) of the horizontal axis
  * @param {string} vsLabel? an optional label for the start (top) of the vertical axis
  * @param {string} veLabel? an optional label for the end (bottom) of the vertical axis
- * @returns void
+ * @returns {void}
  */
 function axes(
   hLabel,
@@ -163,11 +163,11 @@ function axes(
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {number[8]} coordinates Eight x, y values.
- * @param {number[6n]} additionalCoordinates? Multiples of six x, y values.
+ * @param {number[8]} ...coordinates Eight x, y values.
+ * @param {number[6n]} ...additionalCoordinates? Multiples of six x, y values.
  *
- * @param {PointLike[4]} coordinates Four {x,y} coordinates.
- * @param {PointLike[3n]} additionalCoordinates? Multiples of three {x,y} coordinates.
+ * @param {PointLike[4]} ...coordinates Four {x,y} coordinates.
+ * @param {PointLike[3n]} ...additionalCoordinates? Multiples of three {x,y} coordinates.
  */
 function bezier(...args) {
   let points = args;
@@ -239,11 +239,11 @@ function bezier(...args) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {number[8]} coordinates Eight x, y values.
- * @param {number[2n]} additionalCoordinates? Multiples of x, y values.
+ * @param {number[8]} ...coordinates Eight x, y values.
+ * @param {number[2n]} ...additionalCoordinates? Multiples of x, y values.
  *
- * @param {PointLike[4]} coordinates Four {x,y} coordinates.
- * @param {PointLike[n]} additionalCoordinates? Zero or more {x,y} coordinates.
+ * @param {PointLike[4]} ...coordinates Four {x,y} coordinates.
+ * @param {PointLike[n]} ...additionalCoordinates? Zero or more {x,y} coordinates.
  */
 function bspline(...args) {
   let open = true;
@@ -674,7 +674,7 @@ function rect(x, y, w, h) {
  * </graphics-element>
  *
  *
- * @param {PointLike[]} points
+ * @param {PointLike[]} ...points The points across which to fit a spline
  * @param {boolean} virtual? Whether or not to invent new mathematical points that ensure the curve starts and ends at the provided start and end points. (default = true)
  * @param {number} tightness? How tight this spline should be fit through the points provided. The higher the tightness, the more polygonal the curve becomes (default = 1)
  */

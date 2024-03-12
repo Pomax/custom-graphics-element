@@ -212,7 +212,7 @@ function clearSliders() {
  *
  * @param {string} label The text label for your button
  * @param {function} onClick The click handling function, see description.
- * @returns HTMLButtonElement
+ * @returns {HTMLButtonElement} The button element this added to the page
  */
 function addButton(label, onClick) {
   if (!onClick) throw new Error(`a button must have an onClick handler`);
@@ -250,7 +250,7 @@ function addButton(label, onClick) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns void
+ * @returns {void}
  */
 function clearButtons() {
   __element

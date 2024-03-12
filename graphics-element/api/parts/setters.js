@@ -12,8 +12,8 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} width
- * @param {*} color
+ * @param {number|boolean} width? The width of the border in pixels, disabling the border omitted
+ * @param {string} color? The CSS color to use for the border (default = black)
  */
 function setBorder(width = 1, color = `black`) {
   if (!width) {
@@ -39,7 +39,7 @@ function setBorder(width = 1, color = `black`) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
+ * @param {string} color The CSS color to use for the border
  */
 function setColor(color) {
   setFill(color);
@@ -49,13 +49,13 @@ function setColor(color) {
 /**
  * Change the cursor to a specific icon:
  *
- *  AUTO - use whatever the browser would otherwise use
- *  CROSS - use a cross-hair icon
- *  POINTER - use the "pointer" icon that is also used for clickable links
+ * - AUTO - use whatever the browser would otherwise use
+ * - CROSS - use a cross-hair icon
+ * - POINTER - use the "pointer" icon that is also used for clickable links
  *
  * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
- * @param {*} type
+ * @param {string} type The CSS cursor type
  */
 function setCursor(type) {
   __current_cursor = type;
@@ -78,7 +78,7 @@ function setCursor(type) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
+ * @param {string} color The CSS color to use for the border (default = black)
  */
 function setFill(color = `black`) {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
@@ -88,16 +88,19 @@ function setFill(color = `black`) {
 }
 
 /**
+ * Set the current font using a single string. For the syntax,
+ * see https://developer.mozilla.org/en-US/docs/Web/CSS/font
  *
- * @param {*} font
+ * @param {string} font A CSS shorthand font property
  */
 function setFont(font) {
   __ctx.font = font || `${__font.weight} ${__font.size}px ${__font.family}`;
 }
 
 /**
+ * Set the current font family.
  *
- * @param {*} name
+ * @param {string} name The CSS font family name
  */
 function setFontFamily(name) {
   __font.family = name;
@@ -105,8 +108,8 @@ function setFontFamily(name) {
 }
 
 /**
- *
- * @param {*} px
+ * Set the current font size
+ * @param {number} px The font size in pixels
  */
 function setFontSize(px) {
   __font.size = px;
@@ -114,8 +117,8 @@ function setFontSize(px) {
 }
 
 /**
- *
- * @param {*} val
+ * Set the current font weight
+ * @param {number|string} val The CSS weight number or either of the special strings "normal", "bold", "bolder", or "lighter".
  */
 function setFontWeight(val) {
   __font.weight = val;
@@ -139,8 +142,8 @@ function setFontWeight(val) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} spacing
- * @param {*} color
+ * @param {number} spacing? The spacing between grid lines in pixels (default = 20)
+ * @param {string} color? The CSS color to use for the border (default = lightgrey)
  */
 function setGrid(spacing = 20, color = `lightgrey`) {
   __draw_grid = true;
@@ -174,7 +177,7 @@ function setGrid(spacing = 20, color = `lightgrey`) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
+ * @param {string} color The CSS color to use for the border
  */
 function setHighlightColor(color) {
   __current_highlight_color = color;
@@ -185,7 +188,7 @@ function setHighlightColor(color) {
  *
  * https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash
  *
- * @param  {any[]} values
+ * @param  {number[]} ...values The dash intervals in pixel
  */
 function setLineDash(...values) {
   __ctx.setLineDash(values);
@@ -209,7 +212,7 @@ function setLineDash(...values) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} width
+ * @param {number} width? The line width in pixels (default = 1)
  */
 function setLineWidth(width = 1) {
   __ctx.lineWidth = width;
@@ -231,7 +234,7 @@ function setLineWidth(width = 1) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
+ * @param {string} color The CSS color to use for the border (default = black)
  */
 function setStroke(color = `black`) {
   if (CSS_COLOR_MAP[color] === __highlight_color) {
@@ -245,20 +248,20 @@ function setStroke(color = `black`) {
  *
  * Valid `xAlign` values are:
  *
- *   CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
- *   END - the text anchor is on the right for LTR text, and on the left for RTL text.
- *   LEFT - the text anchor is on the left side of the text. all text is to the right.
- *   RIGHT - the text anchor is on the right side of the text. All text is to the left.
- *   START - the text anchor is on the left for LTR text, and on the right for RTL text.
+ * - CENTER - the text anchor is in the middle of the text. Text is placed evenly on either side.
+ * - END - the text anchor is on the right for LTR text, and on the left for RTL text.
+ * - LEFT - the text anchor is on the left side of the text. all text is to the right.
+ * - RIGHT - the text anchor is on the right side of the text. All text is to the left.
+ * - START - the text anchor is on the left for LTR text, and on the right for RTL text.
  *
  * Valid `yAlign` values are:
  *
- *   ALPHABETIC - standard text alignment (default)
- *   BOTTOM - the text is aligned to the bottom of the bounding box
- *   HANGING - relevant for Tibetan and other Indic scripts.
- *   IDEOGRAPHIC - relevant for ideographic CJKV text.
- *   MIDDLE - The vertical equivalent of "center".
- *   TOP - The text is aligned to the top of the typographic "em square".
+ * - ALPHABETIC - standard text alignment (default)
+ * - BOTTOM - the text is aligned to the bottom of the bounding box
+ * - HANGING - relevant for Tibetan and other Indic scripts.
+ * - IDEOGRAPHIC - relevant for ideographic CJKV text.
+ * - MIDDLE - The vertical equivalent of "center".
+ * - TOP - The text is aligned to the top of the typographic "em square".
  *
  * Example:
  *
@@ -282,8 +285,8 @@ function setStroke(color = `black`) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} xAlign
- * @param {*} yAlign
+ * @param {string} xAlign The CSS horizontal alignment
+ * @param {string} yAlign The CSS vertical alignment
  */
 function setTextAlign(xAlign, yAlign) {
   __ctx.textAlign = xAlign;
@@ -311,8 +314,8 @@ function setTextAlign(xAlign, yAlign) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
- * @param {*} width
+ * @param {string} color The CSS color to use for the border
+ * @param {number} width? The text stroke width in pixels (default = 1)
  */
 function setTextStroke(color, width = 1) {
   __textStroke = color;

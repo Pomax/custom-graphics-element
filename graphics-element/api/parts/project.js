@@ -30,13 +30,13 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} z
- * -or-
- * @param {*} p
+ * @param {number} x The 3D coordinate's x value
+ * @param {number} y The 3D coordinate's x value
+ * @param {number} z The 3D coordinate's x value
+ * @returns {PointLike} p  The projected 2D {x,y} coordinate
  *
- * @returns p
+ * @param {PointLike} p The 2D coordinate as {x,y,z} coordinate
+ * @returns {PointLike} p  The projected 2D {x,y} coordinate
  */
 function project(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
@@ -44,7 +44,6 @@ function project(x, y, z) {
     y = x.y;
     x = x.x;
   }
-
   return __projector.project(x, y, z);
 }
 
@@ -84,9 +83,9 @@ function project(x, y, z) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} x
- * @param {*} y
- * @param {*} z
+ * @param {number} x The angle of rotation over the x axis in radians
+ * @param {number} y The angle of rotation over the y axis in radians
+ * @param {number} z The angle of rotation over the z axis in radians
  */
 function rotateProjector(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {

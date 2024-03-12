@@ -138,10 +138,10 @@ function scale(x = 1, y = x) {
  *
  * @param {*} x
  * @param {*} y
- * @returns p
+ * @returns {PointLike} p
  *
  * @param {*} p
- * @returns p
+ * @returns {PointLike} p
  */
 function screenToWorld(x, y) {
   if (x.x !== undefined && x.y !== undefined) {
@@ -232,10 +232,10 @@ function translate(x = 0, y = 0) {
  *
  * @param {*} x
  * @param {*} y
- * @returns p
+ * @returns {PointLike} p
  *
  * @param {*} p
- * @returns p
+ * @returns {PointLike} p
  */
 function worldToScreen(x, y) {
   if (x.x !== undefined && x.y !== undefined) {

@@ -17,8 +17,8 @@
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} len
- * @param {*} fillFunction
+ * @param {number} length The size of the array you want
+ * @param {function} fillFunction? The optional function that gets used to fill the array
  */
 function array(len, fillFunction) {
   const arr = new Array(len).fill();
@@ -59,7 +59,6 @@ function array(len, fillFunction) {
  *     }
  *   </graphics-source>
  * </graphics-element>
- *
  */
 function clearMovable() {
   __movable_points.splice(0, __movable_points.length);
@@ -88,7 +87,7 @@ function clearMovable() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns a copy of the current canvas
+ * @returns {HTMLCanvasElement} A copy of the current canvas
  */
 function copy() {
   const copy = document.createElement(`canvas`);
@@ -112,10 +111,11 @@ function copy() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} hue (0,360)
- * @param {*} saturation (0,100)
- * @param {*} lightness (0,100)
- * @param {*} opacity (0,1)
+ * @param {number} hue in the range [0, 360]
+ * @param {number} saturation in the range [0, 100]
+ * @param {number} lightness in the range [0, 100]
+ * @param {number} opacity in the range [0, 1]
+ * @returns {string} A CSS hsla color string
  */
 function color(h = __current_hue, s = 50, l = 50, a = 1) {
   return `hsla(${h},${s}%,${l}%,${a})`;
@@ -152,7 +152,7 @@ function color(h = __current_hue, s = 50, l = 50, a = 1) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} color
+ * @param {color|boolean} color Set the color that should get replaced with the highlight color, or disable highlight when color is `false`
  */
 function highlight(color) {
   if (CSS_COLOR_MAP[color]) {
@@ -195,7 +195,8 @@ function highlight(color) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns true or false
+ * @param {PointLike} The point that we want to check "movability" for
+ * @returns {boolean} True if our point is in the list of movable points, otherwise false
  */
 function isMovable(point) {
   return __movable_points.includes(point);
@@ -224,7 +225,7 @@ function isMovable(point) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns number of milliseconds
+ * @returns {number} number of milliseconds since the graphic loaded in
  */
 function millis() {
   return Date.now() - __start_time;
@@ -324,8 +325,8 @@ function play() {
  * </graphics-element>
  *
  *
- * @param {*} opacity
- * @param {*} cycle to next colour (default=true)
+ * @param {number} opacity The opacity value in the range [0,1]
+ * @param {number} cycle? A boolean that indicates whether or not to move on to the next colour (default = true)
  */
 function randomColor(a = 1.0, cycle = true) {
   if (cycle) __current_hue = (__current_hue + 73) % 360;
@@ -350,10 +351,10 @@ function randomColor(a = 1.0, cycle = true) {
  * </graphics-element>
  *
  *
- * @param {*} start
- * @param {*} end
- * @param {*} step?
- * @param {*} runFunction
+ * @param {number} start The equivalent of a for loop's initial `let i = ...`
+ * @param {number} end The equivalent of a for loop's `i < end`
+ * @param {number} step? The step size by which to increment at each iteration (defaults = `(start-end)/10`)
+ * @param {function} runFunction The function to run at each iteration
  */
 function range(start, end, step, runFunction) {
   if (typeof step === `function`) {
@@ -392,7 +393,7 @@ function range(start, end, step, runFunction) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {*} points
+ * @param {PointLike[n]} points One or more points to mark as movable.
  */
 function setMovable(...points) {
   points.forEach((p) => {
@@ -467,7 +468,7 @@ function save() {
 /**
  * Convert the current canvas into an data URL
  * that represents a PNG image.
- * @returns dataURL
+ * @returns {string} The current canvas as PNG data URL
  */
 function toDataURL() {
   return __canvas.toDataURL();
@@ -499,7 +500,7 @@ function toDataURL() {
  *   </graphics-source>
  * </graphics-element>
  *
- * @returns the new play state as boolean
+ * @returns {boolean} The new play state
  */
 function togglePlay() {
   playing ? pause() : play();

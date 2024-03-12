@@ -202,7 +202,7 @@ function getParamsAndReturn(fname, comment) {
       // return type?
       else if (op === `@returns`) {
         const [_, type, __, desc] = line.match(
-          /@returns\s+(\S+)(\s+([^\n]+))?/
+          /@returns\s+{(\S+)}(\s+([^\n]+))?/
         );
         set.returnType = { type, desc: desc ?? `` };
         saveSet();
@@ -314,8 +314,12 @@ const pageCode = (
                   return `<li><code>${key}</code> - ${desc}</li>`;
                 })
                 .join(``) +
-              `</ul>`;
+              `</ul>` +
+              (returnType.type !== `void`
+                ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
+                : ``);
           }
+
           return `<li><code>${signature}</code>${params}</li>`;
         })
         .join(`\n`);

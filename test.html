@@ -572,7 +572,7 @@ function draw() {
           <li>
             <code
               >addSlider(varName: string, options: object):
-              {HTMLInputElement}</code
+              HTMLInputElement</code
             >
             <ul class="params">
               <li>
@@ -581,6 +581,10 @@ function draw() {
               </li>
               <li><code>options</code> - See description</li>
             </ul>
+            <p>
+              returns the HTML input element for this slider
+              (<code>HTMLInputElement</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -734,6 +738,10 @@ function pointerDown() {
                 description.
               </li>
             </ul>
+            <p>
+              returns the button element this added to the page
+              (<code>HTMLButtonElement</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -1040,27 +1048,27 @@ function draw() {
         <ol class="signatures">
           <li>
             <code
-              >bezier(coordinates: number[8], additionalCoordinates?:
+              >bezier(...coordinates: number[8], ...additionalCoordinates?:
               number[6n])</code
             >
             <ul class="params">
-              <li><code>coordinates</code> - Eight x, y values.</li>
+              <li><code>...coordinates</code> - Eight x, y values.</li>
               <li>
-                <code>additionalCoordinates?</code> - Multiples of six x, y
+                <code>...additionalCoordinates?</code> - Multiples of six x, y
                 values.
               </li>
             </ul>
           </li>
           <li>
             <code
-              >bezier(coordinates: PointLike[4], additionalCoordinates?:
+              >bezier(...coordinates: PointLike[4], ...additionalCoordinates?:
               PointLike[3n])</code
             >
             <ul class="params">
-              <li><code>coordinates</code> - Four {x,y} coordinates.</li>
+              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
               <li>
-                <code>additionalCoordinates?</code> - Multiples of three {x,y}
-                coordinates.
+                <code>...additionalCoordinates?</code> - Multiples of three
+                {x,y} coordinates.
               </li>
             </ul>
           </li>
@@ -1129,25 +1137,26 @@ function draw() {
         <ol class="signatures">
           <li>
             <code
-              >bspline(coordinates: number[8], additionalCoordinates?:
+              >bspline(...coordinates: number[8], ...additionalCoordinates?:
               number[2n])</code
             >
             <ul class="params">
-              <li><code>coordinates</code> - Eight x, y values.</li>
+              <li><code>...coordinates</code> - Eight x, y values.</li>
               <li>
-                <code>additionalCoordinates?</code> - Multiples of x, y values.
+                <code>...additionalCoordinates?</code> - Multiples of x, y
+                values.
               </li>
             </ul>
           </li>
           <li>
             <code
-              >bspline(coordinates: PointLike[4], additionalCoordinates?:
+              >bspline(...coordinates: PointLike[4], ...additionalCoordinates?:
               PointLike[n])</code
             >
             <ul class="params">
-              <li><code>coordinates</code> - Four {x,y} coordinates.</li>
+              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
               <li>
-                <code>additionalCoordinates?</code> - Zero or more {x,y}
+                <code>...additionalCoordinates?</code> - Zero or more {x,y}
                 coordinates.
               </li>
             </ul>
@@ -1362,7 +1371,7 @@ function draw() {
           <li>
             <code
               >image(imgOrURL: Image|string, x: number, y: number, w: number, h:
-              number): {Image}</code
+              number): Image</code
             >
             <ul class="params">
               <li>
@@ -1374,11 +1383,12 @@ function draw() {
               <li><code>w</code> - The width over which to draw the image</li>
               <li><code>h</code> - The height over which to draw the image</li>
             </ul>
+            <p>returns the drawn image (<code>Image</code>)</p>
           </li>
           <li>
             <code
               >image(imgOrURL: Image|string, p: PointLike, w: number, h:
-              number): {Image}</code
+              number): Image</code
             >
             <ul class="params">
               <li>
@@ -1389,6 +1399,7 @@ function draw() {
               <li><code>w</code> - The width over which to draw the image</li>
               <li><code>h</code> - The height over which to draw the image</li>
             </ul>
+            <p>returns the drawn image (<code>Image</code>)</p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -1717,11 +1728,13 @@ function draw() {
         <ul class="signatures">
           <li>
             <code
-              >spline(points: PointLike[], virtual?: boolean, tightness?:
+              >spline(...points: PointLike[], virtual?: boolean, tightness?:
               number)</code
             >
             <ul class="params">
-              <li><code>points</code> -</li>
+              <li>
+                <code>...points</code> - The points across which to fit a spline
+              </li>
               <li>
                 <code>virtual?</code> - Whether or not to invent new
                 mathematical points that ensure the curve starts and ends at the
@@ -2073,10 +2086,13 @@ function draw() {
         <h1><a href="#array">array</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>array(len: *, fillFunction: *)</code>
+            <code>array(length: number, fillFunction?: function)</code>
             <ul class="params">
-              <li><code>len</code> -</li>
-              <li><code>fillFunction</code> -</li>
+              <li><code>length</code> - The size of the array you want</li>
+              <li>
+                <code>fillFunction?</code> - The optional function that gets
+                used to fill the array
+              </li>
             </ul>
           </li>
         </ul>
@@ -2183,8 +2199,12 @@ function pointerDown(x, y) {
         <h1><a href="#copy">copy</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>copy(): a</code>
+            <code>copy(): HTMLCanvasElement</code>
             <ul class="params"></ul>
+            <p>
+              returns a copy of the current canvas
+              (<code>HTMLCanvasElement</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2233,13 +2253,17 @@ function pointerDown(x, y) {
         <h1><a href="#color">color</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>color(hue: *, saturation: *, lightness: *, opacity: *)</code>
+            <code
+              >color(hue: number, saturation: number, lightness: number,
+              opacity: number): string</code
+            >
             <ul class="params">
-              <li><code>hue</code> - (0,360)</li>
-              <li><code>saturation</code> - (0,100)</li>
-              <li><code>lightness</code> - (0,100)</li>
-              <li><code>opacity</code> - (0,1)</li>
+              <li><code>hue</code> - in the range [0, 360]</li>
+              <li><code>saturation</code> - in the range [0, 100]</li>
+              <li><code>lightness</code> - in the range [0, 100]</li>
+              <li><code>opacity</code> - in the range [0, 1]</li>
             </ul>
+            <p>returns a CSS hsla color string (<code>string</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2267,9 +2291,12 @@ function draw() {
         <h1><a href="#highlight">highlight</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>highlight(color: *)</code>
+            <code>highlight(color: color|boolean)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
+              <li>
+                <code>color</code> - Set the color that should get replaced with
+                the highlight color, or disable highlight when color is `false`
+              </li>
             </ul>
           </li>
         </ul>
@@ -2327,8 +2354,16 @@ function pointerActive(state) {
         <h1><a href="#isMovable">isMovable</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>isMovable(): true</code>
-            <ul class="params"></ul>
+            <code>isMovable(The: PointLike): boolean</code>
+            <ul class="params">
+              <li>
+                <code>The</code> - point that we want to check "movability" for
+              </li>
+            </ul>
+            <p>
+              returns true if our point is in the list of movable points,
+              otherwise false (<code>boolean</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2396,6 +2431,10 @@ function pointerDown(x, y) {
           <li>
             <code>millis(): number</code>
             <ul class="params"></ul>
+            <p>
+              returns number of milliseconds since the graphic loaded in
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2579,10 +2618,15 @@ function draw() {
         <h1><a href="#randomColor">randomColor</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>randomColor(opacity: *, cycle: *)</code>
+            <code>randomColor(opacity: number, cycle?: number)</code>
             <ul class="params">
-              <li><code>opacity</code> -</li>
-              <li><code>cycle</code> - to next colour (default=true)</li>
+              <li>
+                <code>opacity</code> - The opacity value in the range [0,1]
+              </li>
+              <li>
+                <code>cycle?</code> - A boolean that indicates whether or not to
+                move on to the next colour (default = true)
+              </li>
             </ul>
           </li>
         </ul>
@@ -2622,12 +2666,25 @@ function pointerDown() {
         <h1><a href="#range">range</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>range(start: *, end: *, step?: *, runFunction: *)</code>
+            <code
+              >range(start: number, end: number, step?: number, runFunction:
+              function)</code
+            >
             <ul class="params">
-              <li><code>start</code> -</li>
-              <li><code>end</code> -</li>
-              <li><code>step?</code> -</li>
-              <li><code>runFunction</code> -</li>
+              <li>
+                <code>start</code> - The equivalent of a for loop's initial `let
+                i = ...`
+              </li>
+              <li>
+                <code>end</code> - The equivalent of a for loop's `i < end`
+              </li>
+              <li>
+                <code>step?</code> - The step size by which to increment at each
+                iteration (defaults = `(start-end)/10`)
+              </li>
+              <li>
+                <code>runFunction</code> - The function to run at each iteration
+              </li>
             </ul>
           </li>
         </ul>
@@ -2664,9 +2721,11 @@ function draw() {
         <h1><a href="#setMovable">setMovable</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setMovable(points: *)</code>
+            <code>setMovable(points: PointLike[n])</code>
             <ul class="params">
-              <li><code>points</code> -</li>
+              <li>
+                <code>points</code> - One or more points to mark as movable.
+              </li>
             </ul>
           </li>
         </ul>
@@ -2834,8 +2893,11 @@ function draw() {
         <h1><a href="#toDataURL">toDataURL</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>toDataURL(): dataURL</code>
+            <code>toDataURL(): string</code>
             <ul class="params"></ul>
+            <p>
+              returns the current canvas as PNG data URL (<code>string</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2849,8 +2911,9 @@ function draw() {
         <h1><a href="#togglePlay">togglePlay</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>togglePlay(): the</code>
+            <code>togglePlay(): boolean</code>
             <ul class="params"></ul>
+            <p>returns the new play state (<code>boolean</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2907,13 +2970,17 @@ function pointerActive(state) {
           <li>
             <code
               >constrain(value: number, lowerBound: number, upperBound: number):
-              {number}</code
+              number</code
             >
             <ul class="params">
               <li><code>value</code> - The value to constrain</li>
               <li><code>lowerBound</code> - The lower bound on our value</li>
               <li><code>upperBound</code> - The upper bound on our value</li>
             </ul>
+            <p>
+              returns the value, if it falls withing [lowerBound,upperBound],
+              otherwise one of those bounds. (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2934,10 +3001,11 @@ function pointerActive(state) {
         <h1><a href="#csc">csc</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>csc(value: number): {number}</code>
+            <code>csc(value: number): number</code>
             <ul class="params">
               <li><code>value</code> - The input value, in radians.</li>
             </ul>
+            <p>returns the cosecant of our value. (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2955,10 +3023,11 @@ function pointerActive(state) {
         <h1><a href="#ctn">ctn</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>ctn(value: number): {number}</code>
+            <code>ctn(value: number): number</code>
             <ul class="params">
               <li><code>value</code> - The input value, in radians.</li>
             </ul>
+            <p>returns the cotangent of our value. (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -2976,7 +3045,7 @@ function pointerActive(state) {
         <h1><a href="#degrees">degrees</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>degrees(value: number, constrain?: boolean): {number}</code>
+            <code>degrees(value: number, constrain?: boolean): number</code>
             <ul class="params">
               <li><code>value</code> - The value to constrain</li>
               <li>
@@ -2985,6 +3054,10 @@ function pointerActive(state) {
                 false)
               </li>
             </ul>
+            <p>
+              returns the degree value corresponding to the input value in
+              radians, optionally constrained to [0, 360] (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -3012,7 +3085,7 @@ function pointerActive(state) {
           <li>
             <code
               >dist(x1: number, y1: number, x2: number, y2: number):
-              {number}</code
+              number</code
             >
             <ul class="params">
               <li><code>x1</code> - The first point's x pixel value</li>
@@ -3020,6 +3093,10 @@ function pointerActive(state) {
               <li><code>x2</code> - The second point's x pixel value</li>
               <li><code>y2</code> - The second point's y pixel value</li>
             </ul>
+            <p>
+              returns the euclidean distance between the two coordinates
+              (<code>number</code>)
+            </p>
           </li>
           <li>
             <code>dist(p1: PointLike, p2: PointLike)</code>
@@ -3040,7 +3117,7 @@ function pointerActive(state) {
             <code
               >map(value: number, originalStart: number, originalEnd: number,
               newStart: number, newEnd: number, constrain?: boolean):
-              {number}</code
+              number</code
             >
             <ul class="params">
               <li><code>value</code> - Our input value</li>
@@ -3060,6 +3137,11 @@ function pointerActive(state) {
                 false)
               </li>
             </ul>
+            <p>
+              returns the result of mapping our value from our domain interval
+              to our target interval, optionally constrained to the target
+              interval. (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -3079,7 +3161,7 @@ function pointerActive(state) {
         <h1><a href="#radians">radians</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>radians(value: number, constrain?: boolean): {number}</code>
+            <code>radians(value: number, constrain?: boolean): number</code>
             <ul class="params">
               <li><code>value</code> - The value to constrain</li>
               <li>
@@ -3088,6 +3170,10 @@ function pointerActive(state) {
                 false)
               </li>
             </ul>
+            <p>
+              returns the radians value corresponding to the input value in
+              degrees, optionally constrained to [0, TAU] (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -3113,21 +3199,33 @@ function pointerActive(state) {
         <h1><a href="#random">random</a> <a href="#top">top</a></h1>
         <ol class="signatures">
           <li>
-            <code>random(): {number}</code>
+            <code>random(): number</code>
             <ul class="params"></ul>
+            <p>
+              returns a random number in the interval [0,1)
+              (<code>number</code>)
+            </p>
           </li>
           <li>
-            <code>random(a: number): {number}</code>
+            <code>random(a: number): number</code>
             <ul class="params">
               <li><code>a</code> - The upper bound for the random number</li>
             </ul>
+            <p>
+              returns a random number in the interval [0,a)
+              (<code>number</code>)
+            </p>
           </li>
           <li>
-            <code>random(a: number, b: number): {number}</code>
+            <code>random(a: number, b: number): number</code>
             <ul class="params">
               <li><code>a</code> - The lower bound for the random number</li>
               <li><code>b</code> - The upper bound for the random number</li>
             </ul>
+            <p>
+              returns a random number in the interval [a, b)
+              (<code>number</code>)
+            </p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -3138,10 +3236,11 @@ function pointerActive(state) {
         <h1><a href="#sec">sec</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>sec(value: number): {number}</code>
+            <code>sec(value: number): number</code>
             <ul class="params">
               <li><code>value</code> - The input value, in radians.</li>
             </ul>
+            <p>returns the secant of our value. (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
@@ -3159,17 +3258,26 @@ function pointerActive(state) {
         <h1><a href="#project">project</a> <a href="#top">top</a></h1>
         <ol class="signatures">
           <li>
-            <code>project(x: *, y: *, z: *, p: *)</code>
+            <code>project(x: number, y: number, z: number): PointLike</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y</code> -</li>
-              <li><code>z</code> -</li>
-              <li><code>p</code> -</li>
+              <li><code>x</code> - The 3D coordinate's x value</li>
+              <li><code>y</code> - The 3D coordinate's x value</li>
+              <li><code>z</code> - The 3D coordinate's x value</li>
             </ul>
+            <p>
+              returns p The projected 2D {x,y} coordinate
+              (<code>PointLike</code>)
+            </p>
           </li>
           <li>
-            <code>project(): p</code>
-            <ul class="params"></ul>
+            <code>project(p: PointLike): PointLike</code>
+            <ul class="params">
+              <li><code>p</code> - The 2D coordinate as {x,y,z} coordinate</li>
+            </ul>
+            <p>
+              returns p The projected 2D {x,y} coordinate
+              (<code>PointLike</code>)
+            </p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -3237,11 +3345,20 @@ function draw() {
         </h1>
         <ul class="signatures">
           <li>
-            <code>rotateProjector(x: *, y: *, z: *)</code>
+            <code>rotateProjector(x: number, y: number, z: number)</code>
             <ul class="params">
-              <li><code>x</code> -</li>
-              <li><code>y</code> -</li>
-              <li><code>z</code> -</li>
+              <li>
+                <code>x</code> - The angle of rotation over the x axis in
+                radians
+              </li>
+              <li>
+                <code>y</code> - The angle of rotation over the y axis in
+                radians
+              </li>
+              <li>
+                <code>z</code> - The angle of rotation over the z axis in
+                radians
+              </li>
             </ul>
           </li>
         </ul>
@@ -3403,10 +3520,16 @@ function draw() {
         <h1><a href="#setBorder">setBorder</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setBorder(width: *, color: *)</code>
+            <code>setBorder(width?: number|boolean, color?: string)</code>
             <ul class="params">
-              <li><code>width</code> -</li>
-              <li><code>color</code> -</li>
+              <li>
+                <code>width?</code> - The width of the border in pixels,
+                disabling the border omitted
+              </li>
+              <li>
+                <code>color?</code> - The CSS color to use for the border
+                (default = black)
+              </li>
             </ul>
           </li>
         </ul>
@@ -3437,9 +3560,9 @@ function setup() {
         <h1><a href="#setColor">setColor</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setColor(color: *)</code>
+            <code>setColor(color: string)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
+              <li><code>color</code> - The CSS color to use for the border</li>
             </ul>
           </li>
         </ul>
@@ -3472,19 +3595,22 @@ function draw() {
         <h1><a href="#setCursor">setCursor</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setCursor(type: *)</code>
+            <code>setCursor(type: string)</code>
             <ul class="params">
-              <li><code>type</code> -</li>
+              <li><code>type</code> - The CSS cursor type</li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
         <p>Change the cursor to a specific icon:</p>
-        <p>
-          AUTO - use whatever the browser would otherwise use CROSS - use a
-          cross-hair icon POINTER - use the &quot;pointer&quot; icon that is
-          also used for clickable links
-        </p>
+        <ul>
+          <li>AUTO - use whatever the browser would otherwise use</li>
+          <li>CROSS - use a cross-hair icon</li>
+          <li>
+            POINTER - use the &quot;pointer&quot; icon that is also used for
+            clickable links
+          </li>
+        </ul>
         <p>
           Use any other string found over on the MDN cursor article to set a
           cursor not covered by the above constants.
@@ -3495,9 +3621,12 @@ function draw() {
         <h1><a href="#setFill">setFill</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setFill(color: *)</code>
+            <code>setFill(color: string)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
+              <li>
+                <code>color</code> - The CSS color to use for the border
+                (default = black)
+              </li>
             </ul>
           </li>
         </ul>
@@ -3532,13 +3661,19 @@ function draw() {
         <h1><a href="#setFont">setFont</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setFont(font: *)</code>
+            <code>setFont(font: string)</code>
             <ul class="params">
-              <li><code>font</code> -</li>
+              <li><code>font</code> - A CSS shorthand font property</li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
+        <p>
+          Set the current font using a single string. For the syntax, see
+          <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font"
+            >https://developer.mozilla.org/en-US/docs/Web/CSS/font</a
+          >
+        </p>
       </section>
 
       <section id="setFontFamily">
@@ -3547,26 +3682,28 @@ function draw() {
         </h1>
         <ul class="signatures">
           <li>
-            <code>setFontFamily(name: *)</code>
+            <code>setFontFamily(name: string)</code>
             <ul class="params">
-              <li><code>name</code> -</li>
+              <li><code>name</code> - The CSS font family name</li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
+        <p>Set the current font family.</p>
       </section>
 
       <section id="setFontSize">
         <h1><a href="#setFontSize">setFontSize</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setFontSize(px: *)</code>
+            <code>setFontSize(px: number)</code>
             <ul class="params">
-              <li><code>px</code> -</li>
+              <li><code>px</code> - The font size in pixels</li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
+        <p>Set the current font size</p>
       </section>
 
       <section id="setFontWeight">
@@ -3575,23 +3712,33 @@ function draw() {
         </h1>
         <ul class="signatures">
           <li>
-            <code>setFontWeight(val: *)</code>
+            <code>setFontWeight(val: number|string)</code>
             <ul class="params">
-              <li><code>val</code> -</li>
+              <li>
+                <code>val</code> - The CSS weight number or either of the
+                special strings "normal", "bold", "bolder", or "lighter".
+              </li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
+        <p>Set the current font weight</p>
       </section>
 
       <section id="setGrid">
         <h1><a href="#setGrid">setGrid</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setGrid(spacing: *, color: *)</code>
+            <code>setGrid(spacing?: number, color?: string)</code>
             <ul class="params">
-              <li><code>spacing</code> -</li>
-              <li><code>color</code> -</li>
+              <li>
+                <code>spacing?</code> - The spacing between grid lines in pixels
+                (default = 20)
+              </li>
+              <li>
+                <code>color?</code> - The CSS color to use for the border
+                (default = lightgrey)
+              </li>
             </ul>
           </li>
         </ul>
@@ -3631,9 +3778,9 @@ function draw() {
         </h1>
         <ul class="signatures">
           <li>
-            <code>setHighlightColor(color: *)</code>
+            <code>setHighlightColor(color: string)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
+              <li><code>color</code> - The CSS color to use for the border</li>
             </ul>
           </li>
         </ul>
@@ -3689,9 +3836,9 @@ function pointerActive(state) {
         <h1><a href="#setLineDash">setLineDash</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setLineDash(values: any[])</code>
+            <code>setLineDash(...values: number[])</code>
             <ul class="params">
-              <li><code>values</code> -</li>
+              <li><code>...values</code> - The dash intervals in pixel</li>
             </ul>
           </li>
         </ul>
@@ -3712,9 +3859,11 @@ function pointerActive(state) {
         <h1><a href="#setLineWidth">setLineWidth</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setLineWidth(width: *)</code>
+            <code>setLineWidth(width?: number)</code>
             <ul class="params">
-              <li><code>width</code> -</li>
+              <li>
+                <code>width?</code> - The line width in pixels (default = 1)
+              </li>
             </ul>
           </li>
         </ul>
@@ -3753,9 +3902,12 @@ function draw() {
         <h1><a href="#setStroke">setStroke</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setStroke(color: *)</code>
+            <code>setStroke(color: string)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
+              <li>
+                <code>color</code> - The CSS color to use for the border
+                (default = black)
+              </li>
             </ul>
           </li>
         </ul>
@@ -3790,34 +3942,52 @@ function draw() {
         <h1><a href="#setTextAlign">setTextAlign</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>setTextAlign(xAlign: *, yAlign: *)</code>
+            <code>setTextAlign(xAlign: string, yAlign: string)</code>
             <ul class="params">
-              <li><code>xAlign</code> -</li>
-              <li><code>yAlign</code> -</li>
+              <li><code>xAlign</code> - The CSS horizontal alignment</li>
+              <li><code>yAlign</code> - The CSS vertical alignment</li>
             </ul>
           </li>
         </ul>
         <h3>Description</h3>
         <p>Set the current text alignment values.</p>
         <p>Valid <code>xAlign</code> values are:</p>
-        <p>
-          CENTER - the text anchor is in the middle of the text. Text is placed
-          evenly on either side. END - the text anchor is on the right for LTR
-          text, and on the left for RTL text. LEFT - the text anchor is on the
-          left side of the text. all text is to the right. RIGHT - the text
-          anchor is on the right side of the text. All text is to the left.
-          START - the text anchor is on the left for LTR text, and on the right
-          for RTL text.
-        </p>
+        <ul>
+          <li>
+            CENTER - the text anchor is in the middle of the text. Text is
+            placed evenly on either side.
+          </li>
+          <li>
+            END - the text anchor is on the right for LTR text, and on the left
+            for RTL text.
+          </li>
+          <li>
+            LEFT - the text anchor is on the left side of the text. all text is
+            to the right.
+          </li>
+          <li>
+            RIGHT - the text anchor is on the right side of the text. All text
+            is to the left.
+          </li>
+          <li>
+            START - the text anchor is on the left for LTR text, and on the
+            right for RTL text.
+          </li>
+        </ul>
         <p>Valid <code>yAlign</code> values are:</p>
-        <p>
-          ALPHABETIC - standard text alignment (default) BOTTOM - the text is
-          aligned to the bottom of the bounding box HANGING - relevant for
-          Tibetan and other Indic scripts. IDEOGRAPHIC - relevant for
-          ideographic CJKV text. MIDDLE - The vertical equivalent of
-          &quot;center&quot;. TOP - The text is aligned to the top of the
-          typographic &quot;em square&quot;.
-        </p>
+        <ul>
+          <li>ALPHABETIC - standard text alignment (default)</li>
+          <li>
+            BOTTOM - the text is aligned to the bottom of the bounding box
+          </li>
+          <li>HANGING - relevant for Tibetan and other Indic scripts.</li>
+          <li>IDEOGRAPHIC - relevant for ideographic CJKV text.</li>
+          <li>MIDDLE - The vertical equivalent of &quot;center&quot;.</li>
+          <li>
+            TOP - The text is aligned to the top of the typographic &quot;em
+            square&quot;.
+          </li>
+        </ul>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
@@ -3867,10 +4037,13 @@ function draw() {
         </h1>
         <ul class="signatures">
           <li>
-            <code>setTextStroke(color: *, width: *)</code>
+            <code>setTextStroke(color: string, width?: number)</code>
             <ul class="params">
-              <li><code>color</code> -</li>
-              <li><code>width</code> -</li>
+              <li><code>color</code> - The CSS color to use for the border</li>
+              <li>
+                <code>width?</code> - The text stroke width in pixels (default =
+                1)
+              </li>
             </ul>
           </li>
         </ul>
@@ -4115,17 +4288,19 @@ function draw() {
         </h1>
         <ol class="signatures">
           <li>
-            <code>screenToWorld(x: *, y: *): p</code>
+            <code>screenToWorld(x: *, y: *): PointLike</code>
             <ul class="params">
               <li><code>x</code> -</li>
               <li><code>y</code> -</li>
             </ul>
+            <p>returns p (<code>PointLike</code>)</p>
           </li>
           <li>
-            <code>screenToWorld(p: *): p</code>
+            <code>screenToWorld(p: *): PointLike</code>
             <ul class="params">
               <li><code>p</code> -</li>
             </ul>
+            <p>returns p (<code>PointLike</code>)</p>
           </li>
         </ol>
         <h3>Description</h3>
@@ -4253,17 +4428,19 @@ function draw() {
         </h1>
         <ol class="signatures">
           <li>
-            <code>worldToScreen(x: *, y: *): p</code>
+            <code>worldToScreen(x: *, y: *): PointLike</code>
             <ul class="params">
               <li><code>x</code> -</li>
               <li><code>y</code> -</li>
             </ul>
+            <p>returns p (<code>PointLike</code>)</p>
           </li>
           <li>
-            <code>worldToScreen(p: *): p</code>
+            <code>worldToScreen(p: *): PointLike</code>
             <ul class="params">
               <li><code>p</code> -</li>
             </ul>
+            <p>returns p (<code>PointLike</code>)</p>
           </li>
         </ol>
         <h3>Description</h3>

@@ -2,12 +2,13 @@
  * Turn a reasonably well JSDoc'd JavaScript file into a typescript declarations.
  */
 import fs from "node:fs";
+import { sep } from "node:path";
 import { glob } from "glob";
 import { format } from "prettier";
 import { marked } from "marked";
 
 const declarations = {};
-const examples = {};
+const metadata = {};
 
 // ---------------------------------DFA---------------------------------
 
@@ -77,6 +78,10 @@ function fileToDTS(filename) {
   const blocks = [];
   parse(stream, blocks);
 
+  const namespace = filename
+    .substring(filename.lastIndexOf(sep) + 1)
+    .split(`.`)[0];
+
   blocks.forEach((block) => {
     const { fname, comment } = block;
 
@@ -89,11 +94,13 @@ function fileToDTS(filename) {
     if (commentString === `/`) return;
 
     // extract the example code
-    examples[fname] = getExamples(fname, comment.slice());
+    metadata[fname] = getMetaData(fname, comment.slice());
 
     // Then get the JSDoc @things from the comment stream.
     const params = getParamsAndReturn(fname, comment);
     declarations[fname] = {
+      fname,
+      namespace,
       comment: commentString,
       params,
       declarations: [],
@@ -116,7 +123,7 @@ function fileToDTS(filename) {
 /**
  * Get all examples from a comment block
  */
-function getExamples(fname, comment) {
+function getMetaData(fname, comment) {
   comment = comment.join(``);
 
   // Where does the description... you know... end?
@@ -147,7 +154,7 @@ function getExamples(fname, comment) {
         .trim()
     );
 
-  return { description, blocks: blocks ?? [] };
+  return { description, examples: blocks ?? [] };
 }
 
 /**
@@ -293,65 +300,68 @@ fs.writeFileSync(
  */
 const pageCode = (
   await Promise.all(
-    Object.entries(examples).map(async ([key, value]) => {
-      // Include the call signature(s)
-      const signatures = await declarations[key].declarations
-        .map((v, pos) => {
-          // call signature
-          const signature = v
-            .replace(`declare function `, ``)
-            .replace(`: void`, ``)
-            .replace(`;`, ``);
+    Object.entries(metadata)
+      .sort(([a, _], [b, __]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(async ([key, value]) => {
+        // Include the call signature(s)
+        const signatures = await declarations[key].declarations
+          .map((v, pos) => {
+            // call signature
+            const signature = v
+              .replace(`declare function `, ``)
+              .replace(`: void`, ``)
+              .replace(`;`, ``);
 
-          // call parameters
-          let params = ``;
-          if (declarations[key].params[pos]) {
-            const { returnType, see, ...rest } = declarations[key].params[pos];
-            params =
-              `<ul class="params">` +
-              Object.entries(rest)
-                .map(([key, { type, desc }]) => {
-                  return `<li><code>${key}</code> - ${desc}</li>`;
-                })
-                .join(``) +
-              `</ul>` +
-              (returnType.type !== `void`
-                ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
-                : ``);
-          }
+            // call parameters
+            let params = ``;
+            if (declarations[key].params[pos]) {
+              const { returnType, see, ...rest } =
+                declarations[key].params[pos];
+              params =
+                `<ul class="params">` +
+                Object.entries(rest)
+                  .map(([key, { type, desc }]) => {
+                    return `<li><code>${key}</code> - ${desc}</li>`;
+                  })
+                  .join(``) +
+                `</ul>` +
+                (returnType.type !== `void`
+                  ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
+                  : ``);
+            }
 
-          return `<li><code>${signature}</code>${params}</li>`;
-        })
-        .join(`\n`);
+            return `<li><code>${signature}</code>${params}</li>`;
+          })
+          .join(`\n`);
 
-      // If there's 1 signature, use an unordered list, but if there are
-      // two or more, use an ordered (numbered) list.
-      const siglist = declarations[key].declarations.length > 1 ? `ol` : `ul`;
+        // If there's 1 signature, use an unordered list, but if there are
+        // two or more, use an ordered (numbered) list.
+        const siglist = declarations[key].declarations.length > 1 ? `ol` : `ul`;
 
-      // With the example as both a graphics element and <pre>'d source code.
-      const gfxAndCode = (
-        await Promise.all(
-          value.blocks.map(async (block) => {
-            const code = await cleanUpCode(block);
-            return `<!-- prettier-ignore -->
+        // With the example as both a graphics element and <pre>'d source code.
+        const gfxAndCode = (
+          await Promise.all(
+            value.examples.map(async (block) => {
+              const code = await cleanUpCode(block);
+              return `<!-- prettier-ignore -->
           <graphics-element width="200px" height="200px">
             <graphics-source>\n${code}\n</graphics-source>
           </graphics-element>
           <pre>${escape(code)}</pre>`;
-          })
-        )
-      ).join(`\n\n`);
+            })
+          )
+        ).join(`\n\n`);
 
-      let seeAlso = ``;
-      let { see } = declarations[key];
-      if (see && see.length) {
-        seeAlso =
-          `<h3>See also:</h3><ul>` +
-          see.map((v) => `<li><a href="#${v}">${v}</a></li>`).join(``) +
-          `</ul>`;
-      }
+        let seeAlso = ``;
+        let { see } = declarations[key];
+        if (see && see.length) {
+          seeAlso =
+            `<h3>See also:</h3><ul>` +
+            see.map((v) => `<li><a href="#${v}">${v}</a></li>`).join(``) +
+            `</ul>`;
+        }
 
-      return `
+        return `
         <section id="${key}">
           <h1><a href="#${key}">${key}</a> <a href="#top">top</a></h1>
           <${siglist} class="signatures">${signatures}</${siglist}>
@@ -362,15 +372,33 @@ const pageCode = (
           ${seeAlso}
         </section>
     `;
-    })
+      })
   )
 ).join(`\n\n`);
 
+const dValues = Object.values(declarations).sort((a, b) => {
+  const { namespace: na, fname: fa } = a;
+  const { namespace: nb, fname: fb } = b;
+  if (na === nb) return fa < fb ? -1 : fa > fb ? 1 : 0;
+  return na < nb ? -1 : na > nb ? 1 : 0;
+});
 const toc =
+  `<h4 class="sep">${dValues[0].namespace} functions</h4>` +
   `<ul>` +
-  Object.keys(declarations)
-    .sort()
-    .map((v) => `<li><a href="#${v}">${v}</a></li>`)
+  dValues
+    .map((a, pos, data) => {
+      const b = data[pos + 1];
+      if (b && a.namespace !== b.namespace) {
+        b.__sep = true;
+      }
+      return a;
+    })
+    .map(
+      (v, pos) =>
+        (v.__sep && pos
+          ? `</ul><h4 class="sep">${v.namespace} functions</h4><ul>`
+          : ``) + `<li><a href="#${v.fname}">${v.fname}</a></li>`
+    )
     .join(``) +
   `</ul>`;
 
@@ -407,6 +435,14 @@ fs.writeFileSync(
           padding: 1em 0 2em;
           ul {
             margin: 0;
+          }
+          h4.sep {
+            text-transform: capitalize;
+            margin: 0.5em 0;
+            margin-top: 0.5em;
+            &:first-child {
+              margin-top: 0;
+            }
           }
         }
         a {

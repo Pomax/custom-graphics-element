@@ -27,6 +27,14 @@
             ul {
               margin: 0;
             }
+            h4.sep {
+              text-transform: capitalize;
+              margin: 0.5em 0;
+              margin-top: 0.5em;
+              &:first-child {
+                margin-top: 0;
+              }
+            }
           }
           a {
             &:link,
@@ -62,33 +70,15 @@
         stack instead of needing some kind of build system.
       </p>
       <section id="toc">
+        <h4 class="sep">DOM functions</h4>
         <ul>
           <li><a href="#addButton">addButton</a></li>
           <li><a href="#addSlider">addSlider</a></li>
-          <li><a href="#arc">arc</a></li>
-          <li><a href="#array">array</a></li>
-          <li><a href="#axes">axes</a></li>
-          <li><a href="#bezier">bezier</a></li>
-          <li><a href="#bspline">bspline</a></li>
-          <li><a href="#circle">circle</a></li>
-          <li><a href="#clear">clear</a></li>
           <li><a href="#clearButtons">clearButtons</a></li>
-          <li><a href="#clearMovable">clearMovable</a></li>
           <li><a href="#clearSliders">clearSliders</a></li>
-          <li><a href="#color">color</a></li>
-          <li><a href="#constrain">constrain</a></li>
-          <li><a href="#copy">copy</a></li>
-          <li><a href="#csc">csc</a></li>
-          <li><a href="#ctn">ctn</a></li>
-          <li><a href="#degrees">degrees</a></li>
-          <li><a href="#dist">dist</a></li>
-          <li><a href="#end">end</a></li>
-          <li><a href="#highlight">highlight</a></li>
-          <li><a href="#image">image</a></li>
-          <li><a href="#isMovable">isMovable</a></li>
-          <li><a href="#line">line</a></li>
-          <li><a href="#map">map</a></li>
-          <li><a href="#millis">millis</a></li>
+        </ul>
+        <h4 class="sep">disabling functions</h4>
+        <ul>
           <li><a href="#noBorder">noBorder</a></li>
           <li><a href="#noColor">noColor</a></li>
           <li><a href="#noCursor">noCursor</a></li>
@@ -97,25 +87,67 @@
           <li><a href="#noLineDash">noLineDash</a></li>
           <li><a href="#noStroke">noStroke</a></li>
           <li><a href="#noTextStroke">noTextStroke</a></li>
-          <li><a href="#pause">pause</a></li>
-          <li><a href="#play">play</a></li>
+        </ul>
+        <h4 class="sep">draw functions</h4>
+        <ul>
+          <li><a href="#arc">arc</a></li>
+          <li><a href="#axes">axes</a></li>
+          <li><a href="#bezier">bezier</a></li>
+          <li><a href="#bspline">bspline</a></li>
+          <li><a href="#circle">circle</a></li>
+          <li><a href="#clear">clear</a></li>
+          <li><a href="#end">end</a></li>
+          <li><a href="#image">image</a></li>
+          <li><a href="#line">line</a></li>
           <li><a href="#plot">plot</a></li>
           <li><a href="#plotData">plotData</a></li>
           <li><a href="#point">point</a></li>
-          <li><a href="#project">project</a></li>
-          <li><a href="#radians">radians</a></li>
-          <li><a href="#random">random</a></li>
+          <li><a href="#rect">rect</a></li>
+          <li><a href="#spline">spline</a></li>
+          <li><a href="#start">start</a></li>
+          <li><a href="#text">text</a></li>
+          <li><a href="#triangle">triangle</a></li>
+          <li><a href="#vertex">vertex</a></li>
+        </ul>
+        <h4 class="sep">general functions</h4>
+        <ul>
+          <li><a href="#array">array</a></li>
+          <li><a href="#clearMovable">clearMovable</a></li>
+          <li><a href="#color">color</a></li>
+          <li><a href="#copy">copy</a></li>
+          <li><a href="#highlight">highlight</a></li>
+          <li><a href="#isMovable">isMovable</a></li>
+          <li><a href="#millis">millis</a></li>
+          <li><a href="#pause">pause</a></li>
+          <li><a href="#play">play</a></li>
           <li><a href="#randomColor">randomColor</a></li>
           <li><a href="#range">range</a></li>
-          <li><a href="#rect">rect</a></li>
-          <li><a href="#resetTransform">resetTransform</a></li>
           <li><a href="#restore">restore</a></li>
-          <li><a href="#rotate">rotate</a></li>
-          <li><a href="#rotateProjector">rotateProjector</a></li>
           <li><a href="#save">save</a></li>
-          <li><a href="#scale">scale</a></li>
-          <li><a href="#screenToWorld">screenToWorld</a></li>
+          <li><a href="#setMovable">setMovable</a></li>
+          <li><a href="#toDataURL">toDataURL</a></li>
+          <li><a href="#togglePlay">togglePlay</a></li>
+        </ul>
+        <h4 class="sep">math functions</h4>
+        <ul>
+          <li><a href="#constrain">constrain</a></li>
+          <li><a href="#csc">csc</a></li>
+          <li><a href="#ctn">ctn</a></li>
+          <li><a href="#degrees">degrees</a></li>
+          <li><a href="#dist">dist</a></li>
+          <li><a href="#map">map</a></li>
+          <li><a href="#radians">radians</a></li>
+          <li><a href="#random">random</a></li>
           <li><a href="#sec">sec</a></li>
+        </ul>
+        <h4 class="sep">projection functions</h4>
+        <ul>
+          <li><a href="#project">project</a></li>
+          <li><a href="#rotateProjector">rotateProjector</a></li>
+          <li><a href="#setProjector">setProjector</a></li>
+        </ul>
+        <h4 class="sep">setter functions</h4>
+        <ul>
           <li><a href="#setBorder">setBorder</a></li>
           <li><a href="#setColor">setColor</a></li>
           <li><a href="#setCursor">setCursor</a></li>
@@ -128,22 +160,1523 @@
           <li><a href="#setHighlightColor">setHighlightColor</a></li>
           <li><a href="#setLineDash">setLineDash</a></li>
           <li><a href="#setLineWidth">setLineWidth</a></li>
-          <li><a href="#setMovable">setMovable</a></li>
-          <li><a href="#setProjector">setProjector</a></li>
           <li><a href="#setStroke">setStroke</a></li>
           <li><a href="#setTextAlign">setTextAlign</a></li>
           <li><a href="#setTextStroke">setTextStroke</a></li>
-          <li><a href="#spline">spline</a></li>
-          <li><a href="#start">start</a></li>
-          <li><a href="#text">text</a></li>
-          <li><a href="#toDataURL">toDataURL</a></li>
-          <li><a href="#togglePlay">togglePlay</a></li>
+        </ul>
+        <h4 class="sep">transform functions</h4>
+        <ul>
+          <li><a href="#resetTransform">resetTransform</a></li>
+          <li><a href="#rotate">rotate</a></li>
+          <li><a href="#scale">scale</a></li>
+          <li><a href="#screenToWorld">screenToWorld</a></li>
           <li><a href="#transform">transform</a></li>
           <li><a href="#translate">translate</a></li>
-          <li><a href="#triangle">triangle</a></li>
-          <li><a href="#vertex">vertex</a></li>
           <li><a href="#worldToScreen">worldToScreen</a></li>
         </ul>
+      </section>
+
+      <section id="addButton">
+        <h1><a href="#addButton">addButton</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >addButton(label: string, onClick: function):
+              HTMLButtonElement</code
+            >
+            <ul class="params">
+              <li><code>label</code> - The text label for your button</li>
+              <li>
+                <code>onClick</code> - The click handling function, see
+                description.
+              </li>
+            </ul>
+            <p>
+              returns the button element this added to the page
+              (<code>HTMLButtonElement</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Add a button below your figure that can trigger event-based code,
+          which is especially important if you want your graphics to be useable
+          by users who don&#39;t have, or cannot use, a mouse.
+        </p>
+        <p>
+          onClick is similar to the standard JS event handler, except that the
+          call argument is a reference to your button, not the click event.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const colors = [`white`, `black`];
+let bgColor = 0;
+
+function setup() {
+  setSize(200, 200);
+  addButton(`flip background`, (button) => {
+    bgColor = -(bgColor - 1);
+    redraw();
+  });
+}
+
+function draw() {
+  clear(colors[bgColor]);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const colors = [`white`, `black`];
+let bgColor = 0;
+
+function setup() {
+  setSize(200, 200);
+  addButton(`flip background`, (button) =&gt; {
+    bgColor = -(bgColor - 1);
+    redraw();
+  });
+}
+
+function draw() {
+  clear(colors[bgColor]);
+}
+</pre
+        >
+      </section>
+
+      <section id="addSlider">
+        <h1><a href="#addSlider">addSlider</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >addSlider(varName: string, options: object):
+              HTMLInputElement</code
+            >
+            <ul class="params">
+              <li>
+                <code>varName</code> - The name for the variable this slider
+                gets tied to.
+              </li>
+              <li><code>options</code> - See description</li>
+            </ul>
+            <p>
+              returns the HTML input element for this slider
+              (<code>HTMLInputElement</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Add a slider to your figure, allowing users to control a variable in
+          your graphics code directly by interacting with that on-page slider,
+          which is especially important if you want your graphics to be useable
+          by users who don&#39;t have, or cannot use, a mouse.
+        </p>
+        <p>
+          The <code>propLabel</code> value should be the name of the variable
+          that your graphics code uses, and should <em>not</em> be
+          &quot;preallocated&quot; in your code with a const, let, or var: it
+          will automatically get added as part of the source loading process.
+        </p>
+        <p>The options object accepts the following properties and values:</p>
+        <ul>
+          <li>min:number - the slider&#39;s minimum value, defaults to 0</li>
+          <li>max:number - the slider&#39;s maximum value, defaults to 1</li>
+          <li>step - the step size, defaults to (max - min)/10</li>
+          <li>value - the initial value, defaults to (max + min)/2</li>
+          <li>
+            classes - the CSS classes that will be used, defaults to
+            <code>&quot;slider&quot;</code>
+          </li>
+          <li>transform - a value preprocessor defaults to (v) =&gt; v</li>
+        </ul>
+        <p>
+          The <code>transform</code> pre-processor runs after the user updates
+          the slider, but before its value gets assigned to your variable, so
+          that you can map it to something else (for instance, numbers in one
+          range to numbers in a completely different range, or even numbers to
+          strings or entire objects)
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(400, 200);
+  addSlider(`bgColor`, {
+    min: 0,
+    max: 255,
+    step: 1,
+    value: 200,
+    transform: (v) => {
+      // convert v into a hex color code
+      v = v.toString(16).padStart(2, `0`);
+      return `#${v}${v}${v}`;
+    },
+  });
+}
+
+function draw() {
+  clear(bgColor);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(400, 200);
+  addSlider(`bgColor`, {
+    min: 0,
+    max: 255,
+    step: 1,
+    value: 200,
+    transform: (v) =&gt; {
+      // convert v into a hex color code
+      v = v.toString(16).padStart(2, `0`);
+      return `#${v}${v}${v}`;
+    },
+  });
+}
+
+function draw() {
+  clear(bgColor);
+}
+</pre
+        >
+      </section>
+
+      <section id="arc">
+        <h1><a href="#arc">arc</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >arc(x: number, y: number, radius: number, startAngle: number,
+              endAngle: number, drawWedge: boolean)</code
+            >
+            <ul class="params">
+              <li><code>x</code> - The circular center x pixel value</li>
+              <li><code>y</code> - The circular center y pixel value</li>
+              <li><code>radius</code> - The radius of this arc in pixels</li>
+              <li>
+                <code>startAngle</code> - The start angle for this arc in
+                radians
+              </li>
+              <li>
+                <code>endAngle</code> - The end angle for this arc in radians
+              </li>
+              <li>
+                <code>drawWedge</code> - A boolean indicating whether to draw a
+                wedge or capped circle (default=circle)
+              </li>
+            </ul>
+          </li>
+          <li>
+            <code
+              >arc(point: PointLike, radius: number, startAngle: number,
+              endAngle: number, drawWedge: boolean)</code
+            >
+            <ul class="params">
+              <li><code>point</code> - The circular center {x,y} coordinate</li>
+              <li><code>radius</code> - The radius of this arc in pixels</li>
+              <li>
+                <code>startAngle</code> - The start angle for this arc in
+                radians
+              </li>
+              <li>
+                <code>endAngle</code> - The end angle for this arc in radians
+              </li>
+              <li>
+                <code>drawWedge</code> - A boolean indicating whether to draw a
+                wedge or capped circle (default=circle)
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>
+          Draw a circular arc with radius <code>r</code> at (x,y), starting at
+          angle <code>s</code> and ending at angle <code>e</code>. If
+          <code>wedge</code> is true, this will draw a closed shape that is
+          anchored at (x,y). If omitted or explicitly set to false, this will
+          draw an open shape with a fill that connects the first and last point
+          on the arc, but no closing stroke.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
+  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
+  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
+}
+</pre
+        >
+      </section>
+
+      <section id="array">
+        <h1><a href="#array">array</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>array(length: number, fillFunction?: function)</code>
+            <ul class="params">
+              <li><code>length</code> - The size of the array you want</li>
+              <li>
+                <code>fillFunction?</code> - The optional function that gets
+                used to fill the array
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Create an array of specified length, optionally filled using the same
+          kind of function you&#39;d normall use with .map()
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  noFill();
+  translate(0, height / 2);
+  let data = array(width, (_, i) => [i, (height / 2) * sin(i / 25)]);
+  plotData(data, 0, 1);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  noFill();
+  translate(0, height / 2);
+  let data = array(width, (_, i) =&gt; [i, (height / 2) * sin(i / 25)]);
+  plotData(data, 0, 1);
+}
+</pre
+        >
+      </section>
+
+      <section id="axes">
+        <h1><a href="#axes">axes</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >axes(hLabel: string, hs: number, he: number, vLabel: string, vs:
+              number, ve: number, hsLabel?: string, heLabel?: string, vsLabel?:
+              string, veLabel?: string)</code
+            >
+            <ul class="params">
+              <li><code>hLabel</code> - the horizontal axis label</li>
+              <li>
+                <code>hs</code> - the start (left) pixel value for the
+                horizontal axis
+              </li>
+              <li>
+                <code>he</code> - the end (right) pixel value for the horizontal
+                axis
+              </li>
+              <li><code>vLabel</code> - the vertical axis label</li>
+              <li>
+                <code>vs</code> - the start (top) pixel value for the vertical
+                axis
+              </li>
+              <li>
+                <code>ve</code> - the end (bottom) pixel value for the vertical
+                axis
+              </li>
+              <li>
+                <code>hsLabel?</code> - an optional label for the start (left)
+                of the horizontal axis
+              </li>
+              <li>
+                <code>heLabel?</code> - an optional label for the end (right) of
+                the horizontal axis
+              </li>
+              <li>
+                <code>vsLabel?</code> - an optional label for the start (top) of
+                the vertical axis
+              </li>
+              <li>
+                <code>veLabel?</code> - an optional label for the end (bottom)
+                of the vertical axis
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Draw a pair of horizontal and vertical axes.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  setBorder(1, `black`);
+  setGrid(50, `lightgrey`);
+}
+
+function draw() {
+  setCursor(`none`);
+  clear(`#fffef7`);
+  setColor(`#333`);
+  translate(25, 25);
+  axes(
+    `time (s)`,
+    0,
+    width - 50,
+    `distance (km)`,
+    0,
+    height - 50,
+    "0",
+    "60",
+    "0",
+    "500",
+  );
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setBorder(1, `black`);
+  setGrid(50, `lightgrey`);
+}
+
+function draw() {
+  setCursor(`none`);
+  clear(`#fffef7`);
+  setColor(`#333`);
+  translate(25, 25);
+  axes(
+    `time (s)`,
+    0,
+    width - 50,
+    `distance (km)`,
+    0,
+    height - 50,
+    &quot;0&quot;,
+    &quot;60&quot;,
+    &quot;0&quot;,
+    &quot;500&quot;,
+  );
+}
+</pre
+        >
+      </section>
+
+      <section id="bezier">
+        <h1><a href="#bezier">bezier</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >bezier(...coordinates: number[8], ...additionalCoordinates?:
+              number[6n])</code
+            >
+            <ul class="params">
+              <li><code>...coordinates</code> - Eight x, y values.</li>
+              <li>
+                <code>...additionalCoordinates?</code> - Multiples of six x, y
+                values.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <code
+              >bezier(...coordinates: PointLike[4], ...additionalCoordinates?:
+              PointLike[3n])</code
+            >
+            <ul class="params">
+              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
+              <li>
+                <code>...additionalCoordinates?</code> - Multiples of three
+                {x,y} coordinates.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>
+          Draw one or more Bezier curves from an array of Point or Point-likes
+          that implement:
+        </p>
+        <pre><code>{
+  x: number
+  y: number
+}
+</code></pre>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  bezier(
+    new Point(20, height - 55),
+    new Point(20, 25),
+    { x: width - 20, y: 25 },
+    { x: width - 20, y: height - 55 },
+  );
+  noFill();
+  bezier(
+    new Point(0, height - 20),
+    new Point(width - 20, height - 20),
+    { x: 20, y: 20 },
+    { x: width, y: 20 },
+  );
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  bezier(
+    new Point(20, height - 55),
+    new Point(20, 25),
+    { x: width - 20, y: 25 },
+    { x: width - 20, y: height - 55 },
+  );
+  noFill();
+  bezier(
+    new Point(0, height - 20),
+    new Point(width - 20, height - 20),
+    { x: 20, y: 20 },
+    { x: width, y: 20 },
+  );
+}
+</pre
+        >
+      </section>
+
+      <section id="bspline">
+        <h1><a href="#bspline">bspline</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >bspline(...coordinates: number[8], ...additionalCoordinates?:
+              number[2n])</code
+            >
+            <ul class="params">
+              <li><code>...coordinates</code> - Eight x, y values.</li>
+              <li>
+                <code>...additionalCoordinates?</code> - Multiples of x, y
+                values.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <code
+              >bspline(...coordinates: PointLike[4], ...additionalCoordinates?:
+              PointLike[n])</code
+            >
+            <ul class="params">
+              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
+              <li>
+                <code>...additionalCoordinates?</code> - Zero or more {x,y}
+                coordinates.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>
+          Draw a B-spline using four or more Point or Point-likes that
+          implement:
+        </p>
+        <pre><code>{
+  x: number
+  y: number
+}
+</code></pre>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+
+function setup() {
+  setSize(200, 200);
+  range(0, TAU, PI / 5, (a) =>
+    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
+  );
+  setMovable(...points);
+}
+
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
+  noStroke();
+  setFill(`#0002`);
+  bspline(...points);
+  setColor(`red`);
+  points.forEach((p) => point(p));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+
+function setup() {
+  setSize(200, 200);
+  range(0, TAU, PI / 5, (a) =&gt;
+    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
+  );
+  setMovable(...points);
+}
+
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
+  noStroke();
+  setFill(`#0002`);
+  bspline(...points);
+  setColor(`red`);
+  points.forEach((p) =&gt; point(p));
+}
+</pre
+        >
+      </section>
+
+      <section id="circle">
+        <h1><a href="#circle">circle</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code>circle(x: number, y: number, r: number)</code>
+            <ul class="params">
+              <li><code>x</code> - The circle's center x pixel value</li>
+              <li><code>y</code> - The circle's center y pixel value</li>
+              <li><code>r</code> - The circle's radius in pixels</li>
+            </ul>
+          </li>
+          <li>
+            <code>circle(p: PointLike, r: number)</code>
+            <ul class="params">
+              <li><code>p</code> - The circle's center {x,y} coordinate</li>
+              <li><code>r</code> - The circle's radius in pixels</li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Draw a circle with radius <code>r</code> at <code>x,y</code>.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  circle(width / 2, height / 2, 80);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`#F002`);
+  circle(width / 2, height / 2, 80);
+}
+</pre
+        >
+      </section>
+
+      <section id="clear">
+        <h1><a href="#clear">clear</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>clear(color?: color)</code>
+            <ul class="params">
+              <li>
+                <code>color?</code> - The (CSS) background color to use (default
+                = `white`)
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Clear the canvas, and set it to a specific (CSS) colour. If no
+          <code>noGrid()</code> call was made, this will then also draw the
+          background grid.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`pink`);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`pink`);
+}
+</pre
+        >
+      </section>
+
+      <section id="clearButtons">
+        <h1><a href="#clearButtons">clearButtons</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>clearButtons()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Remove all buttons for your figure from the page.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  addButton(`this does nothing`, () => {});
+}
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
+
+function pointerDown() {
+  clearButtons();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  addButton(`this does nothing`, () =&gt; {});
+}
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
+
+function pointerDown() {
+  clearButtons();
+}
+</pre
+        >
+      </section>
+
+      <section id="clearMovable">
+        <h1><a href="#clearMovable">clearMovable</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>clearMovable()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Empty the list of movable points in your graphic.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () => {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () =&gt; {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+</pre
+        >
+      </section>
+
+      <section id="clearSliders">
+        <h1><a href="#clearSliders">clearSliders</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>clearSliders()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Remove all sliders for your figure from the page.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  addSlider(`x`);
+}
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
+
+function pointerDown() {
+  clearSliders();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  addSlider(`x`);
+}
+
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(`click to clear`, width / 2, height / 2);
+}
+
+function pointerDown() {
+  clearSliders();
+}
+</pre
+        >
+      </section>
+
+      <section id="color">
+        <h1><a href="#color">color</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >color(hue: number, saturation: number, lightness: number,
+              opacity: number): string</code
+            >
+            <ul class="params">
+              <li><code>hue</code> - in the range [0, 360]</li>
+              <li><code>saturation</code> - in the range [0, 100]</li>
+              <li><code>lightness</code> - in the range [0, 100]</li>
+              <li><code>opacity</code> - in the range [0, 1]</li>
+            </ul>
+            <p>returns a CSS hsla color string (<code>string</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Generates a color based on the HSL color space.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(color(45, 80, 90));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(color(45, 80, 90));
+}
+</pre
+        >
+      </section>
+
+      <section id="constrain">
+        <h1><a href="#constrain">constrain</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >constrain(value: number, lowerBound: number, upperBound: number):
+              number</code
+            >
+            <ul class="params">
+              <li><code>value</code> - The value to constrain</li>
+              <li><code>lowerBound</code> - The lower bound on our value</li>
+              <li><code>upperBound</code> - The upper bound on our value</li>
+            </ul>
+            <p>
+              returns the value, if it falls withing [lowerBound,upperBound],
+              otherwise one of those bounds. (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Constrain a number to within a given range. This is really nothing
+          more than a convenient function wrapper around the statement:
+        </p>
+        <pre><code>v &lt; s ? s : v &gt; e ? e : v
+</code></pre>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#constrainMap">constrainMap</a></li>
+        </ul>
+      </section>
+
+      <section id="copy">
+        <h1><a href="#copy">copy</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>copy(): HTMLCanvasElement</code>
+            <ul class="params"></ul>
+            <p>
+              returns a copy of the current canvas
+              (<code>HTMLCanvasElement</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Create a copy of the current canvas element for use somewhere else in
+          your own code.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`pink`);
+}
+function pointerDown(x, y) {
+  document.dispatchEvent(
+    new CustomEvent(`graphics:update`, {
+      detail: {
+        canvas: copy(),
+      },
+    }),
+  );
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`pink`);
+}
+function pointerDown(x, y) {
+  document.dispatchEvent(
+    new CustomEvent(`graphics:update`, {
+      detail: {
+        canvas: copy(),
+      },
+    }),
+  );
+}
+</pre
+        >
+      </section>
+
+      <section id="csc">
+        <h1><a href="#csc">csc</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>csc(value: number): number</code>
+            <ul class="params">
+              <li><code>value</code> - The input value, in radians.</li>
+            </ul>
+            <p>returns the cosecant of our value. (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>The cosecant function, which is:</p>
+        <pre><code>1 / sin(v)
+</code></pre>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#sec">sec</a></li>
+        </ul>
+      </section>
+
+      <section id="ctn">
+        <h1><a href="#ctn">ctn</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>ctn(value: number): number</code>
+            <ul class="params">
+              <li><code>value</code> - The input value, in radians.</li>
+            </ul>
+            <p>returns the cotangent of our value. (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>The cotangent function, which is:</p>
+        <pre><code>cos(v) / sin(v)
+</code></pre>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#tan">tan</a></li>
+        </ul>
+      </section>
+
+      <section id="degrees">
+        <h1><a href="#degrees">degrees</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>degrees(value: number, constrain?: boolean): number</code>
+            <ul class="params">
+              <li><code>value</code> - The value to constrain</li>
+              <li>
+                <code>constrain?</code> - A boolean that determines whether or
+                not to constrain the resultant value to [0, 360] (default =
+                false)
+              </li>
+            </ul>
+            <p>
+              returns the degree value corresponding to the input value in
+              radians, optionally constrained to [0, 360] (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Convert a number in radians to a number in degrees. This is really
+          nothing more than a convenient function wrapper around the statement:
+        </p>
+        <pre><code>v/PI * 180
+</code></pre>
+        <p>
+          With one trick, in that it allows you to constrain the resultant value
+          to the standard [0, 360] interval.
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#radians">radians</a></li>
+          <li><a href="#constrain">constrain</a></li>
+        </ul>
+      </section>
+
+      <section id="dist">
+        <h1><a href="#dist">dist</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >dist(x1: number, y1: number, x2: number, y2: number):
+              number</code
+            >
+            <ul class="params">
+              <li><code>x1</code> - The first point's x pixel value</li>
+              <li><code>y1</code> - The first point's y pixel value</li>
+              <li><code>x2</code> - The second point's x pixel value</li>
+              <li><code>y2</code> - The second point's y pixel value</li>
+            </ul>
+            <p>
+              returns the euclidean distance between the two coordinates
+              (<code>number</code>)
+            </p>
+          </li>
+          <li>
+            <code>dist(p1: PointLike, p2: PointLike)</code>
+            <ul class="params">
+              <li><code>p1</code> - The first point's {x,y} coordinate</li>
+              <li><code>p2</code> - The second point's {x,y} coordinate</li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Calculate the 2D Euclidean distance between two points.</p>
+      </section>
+
+      <section id="end">
+        <h1><a href="#end">end</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>end(close?: boolean)</code>
+            <ul class="params">
+              <li>
+                <code>close?</code> - A boolean that indicates whether or not to
+                close the path (default = false)
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Counterpart to start(), finalizes the current shape and colours it. If
+          <code>close</code> is true, it will close the path before colouring.
+        </p>
+        <p>
+          If <code>noFill()</code> is in effect, the shape will not be filled.
+          if <code>noStroke()</code> is in effect, the shape outline will not be
+          coloured.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+</pre
+        >
+      </section>
+
+      <section id="highlight">
+        <h1><a href="#highlight">highlight</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>highlight(color: color|boolean)</code>
+            <ul class="params">
+              <li>
+                <code>color</code> - Set the color that should get replaced with
+                the highlight color, or disable highlight when color is `false`
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Mark a specific color as the highlight color, which causes the graphic
+          to redraw with that color replaced by whichever color you picked as
+          highlight color.
+        </p>
+        <p>Note that you can only use named (CSS) colors with this function.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  setHighlightColor(`lime`);
+}
+function draw() {
+  clear();
+  setColor(`red`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text("let's go", width / 2, height / 2);
+}
+function pointerActive(state) {
+  if (state) highlight(`red`);
+  else highlight(false);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setHighlightColor(`lime`);
+}
+function draw() {
+  clear();
+  setColor(`red`);
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  text(&quot;let&apos;s go&quot;, width / 2, height / 2);
+}
+function pointerActive(state) {
+  if (state) highlight(`red`);
+  else highlight(false);
+}
+</pre
+        >
+      </section>
+
+      <section id="image">
+        <h1><a href="#image">image</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >image(imgOrURL: Image|string, x: number, y: number, w: number, h:
+              number): Image</code
+            >
+            <ul class="params">
+              <li>
+                <code>imgOrURL</code> - The image to draw either as Image
+                object, or image URL.
+              </li>
+              <li><code>x</code> - The draw position's x pixel value</li>
+              <li><code>y</code> - The draw position's y pixel value</li>
+              <li><code>w</code> - The width over which to draw the image</li>
+              <li><code>h</code> - The height over which to draw the image</li>
+            </ul>
+            <p>returns the drawn image (<code>Image</code>)</p>
+          </li>
+          <li>
+            <code
+              >image(imgOrURL: Image|string, p: PointLike, w: number, h:
+              number): Image</code
+            >
+            <ul class="params">
+              <li>
+                <code>imgOrURL</code> - The image to draw either as Image
+                object, or image URL.
+              </li>
+              <li><code>p</code> - The draw position as {x,y} coordinate</li>
+              <li><code>w</code> - The width over which to draw the image</li>
+              <li><code>h</code> - The height over which to draw the image</li>
+            </ul>
+            <p>returns the drawn image (<code>Image</code>)</p>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>
+          Draw an image in a given location with an optional width and height.
+          If omitted, the width and height will be the image&#39;s own
+          dimensions. Note that the image may be either a URL, or an
+          <img /> element.
+        </p>
+        <p>
+          Note that this is an async function: if it is important that nothing
+          gets drawn until the image has been drawn, remember to
+          <code>await</code> its call.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+async function draw() {
+  clear(`white`);
+  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+async function draw() {
+  clear(`white`);
+  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
+}
+</pre
+        >
+      </section>
+
+      <section id="isMovable">
+        <h1><a href="#isMovable">isMovable</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>isMovable(The: PointLike): boolean</code>
+            <ul class="params">
+              <li>
+                <code>The</code> - point that we want to check "movability" for
+              </li>
+            </ul>
+            <p>
+              returns true if our point is in the list of movable points,
+              otherwise false (<code>boolean</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Check whether a point is registered as movable.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () => {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  addButton(`lock`, () =&gt; {
+    clearMovable();
+    redraw();
+  });
+}
+function draw() {
+  clear(`white`);
+  for (let p of points) {
+    setColor(isMovable(p) ? `red` : `grey`);
+    point(p);
+  }
+}
+function pointerDown(x, y) {
+  if (currentPoint) return;
+  const p = new Point(x, y);
+  points.push(p);
+  setMovable(p);
+  redraw();
+}
+</pre
+        >
+      </section>
+
+      <section id="line">
+        <h1><a href="#line">line</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code>line(x1: number, y1: number, x2: number, y2: number)</code>
+            <ul class="params">
+              <li><code>x1</code> - The first point's x pixel value</li>
+              <li><code>y1</code> - The first point's y pixel value</li>
+              <li><code>x2</code> - The second point's x pixel value</li>
+              <li><code>y2</code> - The second point's y pixel value</li>
+            </ul>
+          </li>
+          <li>
+            <code>line(p1: PointLike, p2: PointLike)</code>
+            <ul class="params">
+              <li><code>p1</code> - The first point's {x,y} coordinate</li>
+              <li><code>p2</code> - The second point's {x,y} coordinate</li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Draw a line from one coordinate to another.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  range(0, height, 20, (i) => line(0, 0, width, i));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  range(0, height, 20, (i) =&gt; line(0, 0, width, i));
+}
+</pre
+        >
+      </section>
+
+      <section id="map">
+        <h1><a href="#map">map</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >map(value: number, originalStart: number, originalEnd: number,
+              newStart: number, newEnd: number, constrain?: boolean):
+              number</code
+            >
+            <ul class="params">
+              <li><code>value</code> - Our input value</li>
+              <li>
+                <code>originalStart</code> - The lower bound of our domain
+              </li>
+              <li><code>originalEnd</code> - The upper bound of our domain</li>
+              <li>
+                <code>newStart</code> - The lower bound of our target interval
+              </li>
+              <li>
+                <code>newEnd</code> - The upper bound on our target interval
+              </li>
+              <li>
+                <code>constrain?</code> - A boolean that determines whether or
+                not to constrain the resultant value to [0,360] (default =
+                false)
+              </li>
+            </ul>
+            <p>
+              returns the result of mapping our value from our domain interval
+              to our target interval, optionally constrained to the target
+              interval. (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Map a value from one interval to another, optionally constrained to
+          the target interval.
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#constrain">constrain</a></li>
+          <li><a href="#constrainMap">constrainMap</a></li>
+        </ul>
+      </section>
+
+      <section id="millis">
+        <h1><a href="#millis">millis</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>millis(): number</code>
+            <ul class="params"></ul>
+            <p>
+              returns number of milliseconds since the graphic loaded in
+              (<code>number</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Get the number of milliseconds that this graphic has been running.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000) | 0;
+  text(`${seconds}s`, width / 2, height / 2);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000) | 0;
+  text(`${seconds}s`, width / 2, height / 2);
+}
+</pre
+        >
       </section>
 
       <section id="noBorder">
@@ -566,118 +2099,16 @@ function draw() {
         >
       </section>
 
-      <section id="addSlider">
-        <h1><a href="#addSlider">addSlider</a> <a href="#top">top</a></h1>
+      <section id="pause">
+        <h1><a href="#pause">pause</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code
-              >addSlider(varName: string, options: object):
-              HTMLInputElement</code
-            >
-            <ul class="params">
-              <li>
-                <code>varName</code> - The name for the variable this slider
-                gets tied to.
-              </li>
-              <li><code>options</code> - See description</li>
-            </ul>
-            <p>
-              returns the HTML input element for this slider
-              (<code>HTMLInputElement</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Add a slider to your figure, allowing users to control a variable in
-          your graphics code directly by interacting with that on-page slider,
-          which is especially important if you want your graphics to be useable
-          by users who don&#39;t have, or cannot use, a mouse.
-        </p>
-        <p>
-          The <code>propLabel</code> value should be the name of the variable
-          that your graphics code uses, and should <em>not</em> be
-          &quot;preallocated&quot; in your code with a const, let, or var: it
-          will automatically get added as part of the source loading process.
-        </p>
-        <p>The options object accepts the following properties and values:</p>
-        <ul>
-          <li>min:number - the slider&#39;s minimum value, defaults to 0</li>
-          <li>max:number - the slider&#39;s maximum value, defaults to 1</li>
-          <li>step - the step size, defaults to (max - min)/10</li>
-          <li>value - the initial value, defaults to (max + min)/2</li>
-          <li>
-            classes - the CSS classes that will be used, defaults to
-            <code>&quot;slider&quot;</code>
-          </li>
-          <li>transform - a value preprocessor defaults to (v) =&gt; v</li>
-        </ul>
-        <p>
-          The <code>transform</code> pre-processor runs after the user updates
-          the slider, but before its value gets assigned to your variable, so
-          that you can map it to something else (for instance, numbers in one
-          range to numbers in a completely different range, or even numbers to
-          strings or entire objects)
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(400, 200);
-  addSlider(`bgColor`, {
-    min: 0,
-    max: 255,
-    step: 1,
-    value: 200,
-    transform: (v) => {
-      // convert v into a hex color code
-      v = v.toString(16).padStart(2, `0`);
-      return `#${v}${v}${v}`;
-    },
-  });
-}
-
-function draw() {
-  clear(bgColor);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(400, 200);
-  addSlider(`bgColor`, {
-    min: 0,
-    max: 255,
-    step: 1,
-    value: 200,
-    transform: (v) =&gt; {
-      // convert v into a hex color code
-      v = v.toString(16).padStart(2, `0`);
-      return `#${v}${v}${v}`;
-    },
-  });
-}
-
-function draw() {
-  clear(bgColor);
-}
-</pre
-        >
-      </section>
-
-      <section id="clearSliders">
-        <h1><a href="#clearSliders">clearSliders</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>clearSliders()</code>
+            <code>pause()</code>
             <ul class="params"></ul>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>Remove all sliders for your figure from the page.</p>
+        <p>Pause the graphic if its currently playing.</p>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
@@ -685,19 +2116,22 @@ function draw() {
             <graphics-source>
 function setup() {
   setSize(200, 200);
-  addSlider(`x`);
-}
-
-function draw() {
-  clear(`white`);
   setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
-
-function pointerDown() {
-  clearSliders();
+function pointerActive(state) {
+  if (state) {
+    pause();
+  } else {
+    play();
+  }
 }
 
 </graphics-source>
@@ -705,776 +2139,97 @@ function pointerDown() {
         <pre>
 function setup() {
   setSize(200, 200);
-  addSlider(`x`);
-}
-
-function draw() {
-  clear(`white`);
   setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
-
-function pointerDown() {
-  clearSliders();
-}
-</pre
-        >
-      </section>
-
-      <section id="addButton">
-        <h1><a href="#addButton">addButton</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >addButton(label: string, onClick: function):
-              HTMLButtonElement</code
-            >
-            <ul class="params">
-              <li><code>label</code> - The text label for your button</li>
-              <li>
-                <code>onClick</code> - The click handling function, see
-                description.
-              </li>
-            </ul>
-            <p>
-              returns the button element this added to the page
-              (<code>HTMLButtonElement</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Add a button below your figure that can trigger event-based code,
-          which is especially important if you want your graphics to be useable
-          by users who don&#39;t have, or cannot use, a mouse.
-        </p>
-        <p>
-          onClick is similar to the standard JS event handler, except that the
-          call argument is a reference to your button, not the click event.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-const colors = [`white`, `black`];
-let bgColor = 0;
-
-function setup() {
-  setSize(200, 200);
-  addButton(`flip background`, (button) => {
-    bgColor = -(bgColor - 1);
-    redraw();
-  });
-}
-
-function draw() {
-  clear(colors[bgColor]);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-const colors = [`white`, `black`];
-let bgColor = 0;
-
-function setup() {
-  setSize(200, 200);
-  addButton(`flip background`, (button) =&gt; {
-    bgColor = -(bgColor - 1);
-    redraw();
-  });
-}
-
-function draw() {
-  clear(colors[bgColor]);
+function pointerActive(state) {
+  if (state) {
+    pause();
+  } else {
+    play();
+  }
 }
 </pre
         >
       </section>
 
-      <section id="clearButtons">
-        <h1><a href="#clearButtons">clearButtons</a> <a href="#top">top</a></h1>
+      <section id="play">
+        <h1><a href="#play">play</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>clearButtons()</code>
+            <code>play()</code>
             <ul class="params"></ul>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>Remove all buttons for your figure from the page.</p>
+        <p>
+          Start playing your graphic, meaning it will call draw() at whatever
+          rate the requestAnimationFrame loop is allowed to run on your
+          computer.
+        </p>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
         <graphics-element width="200px" height="200px">
             <graphics-source>
+let fps = 0;
+let checked = false;
+let lastFrameCheck = 0;
 function setup() {
   setSize(200, 200);
-  addButton(`this does nothing`, () => {});
-}
-
-function draw() {
-  clear(`white`);
   setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
-}
-
-function pointerDown() {
-  clearButtons();
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`fps: ${fps}`, width / 2, height / 2);
+  if (seconds.endsWith(`.0`)) {
+    if (!checked) {
+      checked = true;
+      fps = frame - lastFrameCheck;
+      lastFrameCheck = frame;
+    }
+  } else {
+    checked = false;
+  }
 }
 
 </graphics-source>
           </graphics-element>
         <pre>
+let fps = 0;
+let checked = false;
+let lastFrameCheck = 0;
 function setup() {
   setSize(200, 200);
-  addButton(`this does nothing`, () =&gt; {});
-}
-
-function draw() {
-  clear(`white`);
   setColor(`black`);
+  play();
+}
+function draw() {
+  clear();
   setFontSize(25);
   setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
-}
-
-function pointerDown() {
-  clearButtons();
-}
-</pre
-        >
-      </section>
-
-      <section id="arc">
-        <h1><a href="#arc">arc</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >arc(x: number, y: number, radius: number, startAngle: number,
-              endAngle: number, drawWedge: boolean)</code
-            >
-            <ul class="params">
-              <li><code>x</code> - The circular center x pixel value</li>
-              <li><code>y</code> - The circular center y pixel value</li>
-              <li><code>radius</code> - The radius of this arc in pixels</li>
-              <li>
-                <code>startAngle</code> - The start angle for this arc in
-                radians
-              </li>
-              <li>
-                <code>endAngle</code> - The end angle for this arc in radians
-              </li>
-              <li>
-                <code>drawWedge</code> - A boolean indicating whether to draw a
-                wedge or capped circle (default=circle)
-              </li>
-            </ul>
-          </li>
-          <li>
-            <code
-              >arc(point: PointLike, radius: number, startAngle: number,
-              endAngle: number, drawWedge: boolean)</code
-            >
-            <ul class="params">
-              <li><code>point</code> - The circular center {x,y} coordinate</li>
-              <li><code>radius</code> - The radius of this arc in pixels</li>
-              <li>
-                <code>startAngle</code> - The start angle for this arc in
-                radians
-              </li>
-              <li>
-                <code>endAngle</code> - The end angle for this arc in radians
-              </li>
-              <li>
-                <code>drawWedge</code> - A boolean indicating whether to draw a
-                wedge or capped circle (default=circle)
-              </li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw a circular arc with radius <code>r</code> at (x,y), starting at
-          angle <code>s</code> and ending at angle <code>e</code>. If
-          <code>wedge</code> is true, this will draw a closed shape that is
-          anchored at (x,y). If omitted or explicitly set to false, this will
-          draw an open shape with a fill that connects the first and last point
-          on the arc, but no closing stroke.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
-  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
-  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
-}
-</pre
-        >
-      </section>
-
-      <section id="axes">
-        <h1><a href="#axes">axes</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >axes(hLabel: string, hs: number, he: number, vLabel: string, vs:
-              number, ve: number, hsLabel?: string, heLabel?: string, vsLabel?:
-              string, veLabel?: string)</code
-            >
-            <ul class="params">
-              <li><code>hLabel</code> - the horizontal axis label</li>
-              <li>
-                <code>hs</code> - the start (left) pixel value for the
-                horizontal axis
-              </li>
-              <li>
-                <code>he</code> - the end (right) pixel value for the horizontal
-                axis
-              </li>
-              <li><code>vLabel</code> - the vertical axis label</li>
-              <li>
-                <code>vs</code> - the start (top) pixel value for the vertical
-                axis
-              </li>
-              <li>
-                <code>ve</code> - the end (bottom) pixel value for the vertical
-                axis
-              </li>
-              <li>
-                <code>hsLabel?</code> - an optional label for the start (left)
-                of the horizontal axis
-              </li>
-              <li>
-                <code>heLabel?</code> - an optional label for the end (right) of
-                the horizontal axis
-              </li>
-              <li>
-                <code>vsLabel?</code> - an optional label for the start (top) of
-                the vertical axis
-              </li>
-              <li>
-                <code>veLabel?</code> - an optional label for the end (bottom)
-                of the vertical axis
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Draw a pair of horizontal and vertical axes.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setBorder(1, `black`);
-  setGrid(50, `lightgrey`);
-}
-
-function draw() {
-  setCursor(`none`);
-  clear(`#fffef7`);
-  setColor(`#333`);
-  translate(25, 25);
-  axes(
-    `time (s)`,
-    0,
-    width - 50,
-    `distance (km)`,
-    0,
-    height - 50,
-    "0",
-    "60",
-    "0",
-    "500",
-  );
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setBorder(1, `black`);
-  setGrid(50, `lightgrey`);
-}
-
-function draw() {
-  setCursor(`none`);
-  clear(`#fffef7`);
-  setColor(`#333`);
-  translate(25, 25);
-  axes(
-    `time (s)`,
-    0,
-    width - 50,
-    `distance (km)`,
-    0,
-    height - 50,
-    &quot;0&quot;,
-    &quot;60&quot;,
-    &quot;0&quot;,
-    &quot;500&quot;,
-  );
-}
-</pre
-        >
-      </section>
-
-      <section id="bezier">
-        <h1><a href="#bezier">bezier</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >bezier(...coordinates: number[8], ...additionalCoordinates?:
-              number[6n])</code
-            >
-            <ul class="params">
-              <li><code>...coordinates</code> - Eight x, y values.</li>
-              <li>
-                <code>...additionalCoordinates?</code> - Multiples of six x, y
-                values.
-              </li>
-            </ul>
-          </li>
-          <li>
-            <code
-              >bezier(...coordinates: PointLike[4], ...additionalCoordinates?:
-              PointLike[3n])</code
-            >
-            <ul class="params">
-              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
-              <li>
-                <code>...additionalCoordinates?</code> - Multiples of three
-                {x,y} coordinates.
-              </li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw one or more Bezier curves from an array of Point or Point-likes
-          that implement:
-        </p>
-        <pre><code>{
-  x: number
-  y: number
-}
-</code></pre>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  bezier(
-    new Point(20, height - 55),
-    new Point(20, 25),
-    { x: width - 20, y: 25 },
-    { x: width - 20, y: height - 55 },
-  );
-  noFill();
-  bezier(
-    new Point(0, height - 20),
-    new Point(width - 20, height - 20),
-    { x: 20, y: 20 },
-    { x: width, y: 20 },
-  );
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  bezier(
-    new Point(20, height - 55),
-    new Point(20, 25),
-    { x: width - 20, y: 25 },
-    { x: width - 20, y: height - 55 },
-  );
-  noFill();
-  bezier(
-    new Point(0, height - 20),
-    new Point(width - 20, height - 20),
-    { x: 20, y: 20 },
-    { x: width, y: 20 },
-  );
-}
-</pre
-        >
-      </section>
-
-      <section id="bspline">
-        <h1><a href="#bspline">bspline</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >bspline(...coordinates: number[8], ...additionalCoordinates?:
-              number[2n])</code
-            >
-            <ul class="params">
-              <li><code>...coordinates</code> - Eight x, y values.</li>
-              <li>
-                <code>...additionalCoordinates?</code> - Multiples of x, y
-                values.
-              </li>
-            </ul>
-          </li>
-          <li>
-            <code
-              >bspline(...coordinates: PointLike[4], ...additionalCoordinates?:
-              PointLike[n])</code
-            >
-            <ul class="params">
-              <li><code>...coordinates</code> - Four {x,y} coordinates.</li>
-              <li>
-                <code>...additionalCoordinates?</code> - Zero or more {x,y}
-                coordinates.
-              </li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw a B-spline using four or more Point or Point-likes that
-          implement:
-        </p>
-        <pre><code>{
-  x: number
-  y: number
-}
-</code></pre>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-const points = [];
-
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =>
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  noStroke();
-  setFill(`#0002`);
-  bspline(...points);
-  setColor(`red`);
-  points.forEach((p) => point(p));
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-const points = [];
-
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =&gt;
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  noStroke();
-  setFill(`#0002`);
-  bspline(...points);
-  setColor(`red`);
-  points.forEach((p) =&gt; point(p));
-}
-</pre
-        >
-      </section>
-
-      <section id="circle">
-        <h1><a href="#circle">circle</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code>circle(x: number, y: number, r: number)</code>
-            <ul class="params">
-              <li><code>x</code> - The circle's center x pixel value</li>
-              <li><code>y</code> - The circle's center y pixel value</li>
-              <li><code>r</code> - The circle's radius in pixels</li>
-            </ul>
-          </li>
-          <li>
-            <code>circle(p: PointLike, r: number)</code>
-            <ul class="params">
-              <li><code>p</code> - The circle's center {x,y} coordinate</li>
-              <li><code>r</code> - The circle's radius in pixels</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Draw a circle with radius <code>r</code> at <code>x,y</code>.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  circle(width / 2, height / 2, 80);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  circle(width / 2, height / 2, 80);
-}
-</pre
-        >
-      </section>
-
-      <section id="clear">
-        <h1><a href="#clear">clear</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>clear(color?: color)</code>
-            <ul class="params">
-              <li>
-                <code>color?</code> - The (CSS) background color to use (default
-                = `white`)
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Clear the canvas, and set it to a specific (CSS) colour. If no
-          <code>noGrid()</code> call was made, this will then also draw the
-          background grid.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`pink`);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`pink`);
-}
-</pre
-        >
-      </section>
-
-      <section id="end">
-        <h1><a href="#end">end</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>end(close?: boolean)</code>
-            <ul class="params">
-              <li>
-                <code>close?</code> - A boolean that indicates whether or not to
-                close the path (default = false)
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Counterpart to start(), finalizes the current shape and colours it. If
-          <code>close</code> is true, it will close the path before colouring.
-        </p>
-        <p>
-          If <code>noFill()</code> is in effect, the shape will not be filled.
-          if <code>noStroke()</code> is in effect, the shape outline will not be
-          coloured.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
-</pre
-        >
-      </section>
-
-      <section id="image">
-        <h1><a href="#image">image</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >image(imgOrURL: Image|string, x: number, y: number, w: number, h:
-              number): Image</code
-            >
-            <ul class="params">
-              <li>
-                <code>imgOrURL</code> - The image to draw either as Image
-                object, or image URL.
-              </li>
-              <li><code>x</code> - The draw position's x pixel value</li>
-              <li><code>y</code> - The draw position's y pixel value</li>
-              <li><code>w</code> - The width over which to draw the image</li>
-              <li><code>h</code> - The height over which to draw the image</li>
-            </ul>
-            <p>returns the drawn image (<code>Image</code>)</p>
-          </li>
-          <li>
-            <code
-              >image(imgOrURL: Image|string, p: PointLike, w: number, h:
-              number): Image</code
-            >
-            <ul class="params">
-              <li>
-                <code>imgOrURL</code> - The image to draw either as Image
-                object, or image URL.
-              </li>
-              <li><code>p</code> - The draw position as {x,y} coordinate</li>
-              <li><code>w</code> - The width over which to draw the image</li>
-              <li><code>h</code> - The height over which to draw the image</li>
-            </ul>
-            <p>returns the drawn image (<code>Image</code>)</p>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw an image in a given location with an optional width and height.
-          If omitted, the width and height will be the image&#39;s own
-          dimensions. Note that the image may be either a URL, or an
-          <img /> element.
-        </p>
-        <p>
-          Note that this is an async function: if it is important that nothing
-          gets drawn until the image has been drawn, remember to
-          <code>await</code> its call.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-async function draw() {
-  clear(`white`);
-  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-async function draw() {
-  clear(`white`);
-  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
-}
-</pre
-        >
-      </section>
-
-      <section id="line">
-        <h1><a href="#line">line</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code>line(x1: number, y1: number, x2: number, y2: number)</code>
-            <ul class="params">
-              <li><code>x1</code> - The first point's x pixel value</li>
-              <li><code>y1</code> - The first point's y pixel value</li>
-              <li><code>x2</code> - The second point's x pixel value</li>
-              <li><code>y2</code> - The second point's y pixel value</li>
-            </ul>
-          </li>
-          <li>
-            <code>line(p1: PointLike, p2: PointLike)</code>
-            <ul class="params">
-              <li><code>p1</code> - The first point's {x,y} coordinate</li>
-              <li><code>p2</code> - The second point's {x,y} coordinate</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Draw a line from one coordinate to another.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  range(0, height, 20, (i) => line(0, 0, width, i));
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  range(0, height, 20, (i) =&gt; line(0, 0, width, i));
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`fps: ${fps}`, width / 2, height / 2);
+  if (seconds.endsWith(`.0`)) {
+    if (!checked) {
+      checked = true;
+      fps = frame - lastFrameCheck;
+      lastFrameCheck = frame;
+    }
+  } else {
+    checked = false;
+  }
 }
 </pre
         >
@@ -1672,946 +2427,164 @@ function draw() {
         >
       </section>
 
-      <section id="rect">
-        <h1><a href="#rect">rect</a> <a href="#top">top</a></h1>
+      <section id="project">
+        <h1><a href="#project">project</a> <a href="#top">top</a></h1>
         <ol class="signatures">
           <li>
-            <code>rect(x: number, y: number, w: number, h: number)</code>
+            <code>project(x: number, y: number, z: number): PointLike</code>
             <ul class="params">
-              <li><code>x</code> - The rect's corner x pixel value</li>
-              <li><code>y</code> - The rect's corner y pixel value</li>
-              <li><code>w</code> - The width over which to draw the image</li>
-              <li><code>h</code> - The height over which to draw the image</li>
+              <li><code>x</code> - The 3D coordinate's x value</li>
+              <li><code>y</code> - The 3D coordinate's x value</li>
+              <li><code>z</code> - The 3D coordinate's x value</li>
             </ul>
-          </li>
-          <li>
-            <code>rect(p: PointLike, w: number, h: number)</code>
-            <ul class="params">
-              <li><code>p</code> - The rect;s corder {x,y} coordinate</li>
-              <li><code>w</code> - The width over which to draw the image</li>
-              <li><code>h</code> - The height over which to draw the image</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw a rectangle at the specified coordinate, with the specific width
-          and height.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  rect(40, 40, width - 80, height - 80);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  rect(40, 40, width - 80, height - 80);
-}
-</pre
-        >
-      </section>
-
-      <section id="spline">
-        <h1><a href="#spline">spline</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >spline(...points: PointLike[], virtual?: boolean, tightness?:
-              number)</code
-            >
-            <ul class="params">
-              <li>
-                <code>...points</code> - The points across which to fit a spline
-              </li>
-              <li>
-                <code>virtual?</code> - Whether or not to invent new
-                mathematical points that ensure the curve starts and ends at the
-                provided start and end points. (default = true)
-              </li>
-              <li>
-                <code>tightness?</code> - How tight this spline should be fit
-                through the points provided. The higher the tightness, the more
-                polygonal the curve becomes (default = 1)
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Draw a cardinal (hermite) spline that passes through each point
-          provided, using a mathematically virtual start and end to ensure the
-          curve starts and ends at the provided start and end point. This can be
-          bypassed by setting the <code>virtual</code> argument to
-          <code>false</code>.
-        </p>
-        <p>
-          Additionally, the spline&#39;s tightness, which controls how
-          &quot;bendy&quot; the spline is (the tighter the spline, the sharper
-          bends become) can be controlled by setting the
-          <code>tightness</code> value.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-const points = [];
-
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =>
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  setFill(`#0002`);
-  spline(...points);
-  setColor(`red`);
-  points.forEach((p) => point(p));
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-const points = [];
-
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =&gt;
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  setFill(`#0002`);
-  spline(...points);
-  setColor(`red`);
-  points.forEach((p) =&gt; point(p));
-}
-</pre
-        >
-      </section>
-
-      <section id="start">
-        <h1><a href="#start">start</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>start()</code>
-            <ul class="params"></ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Starts a (new) shape.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
-</pre
-        >
-      </section>
-
-      <section id="text">
-        <h1><a href="#text">text</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >text(str: string, x: number, y: number, xAlign?: string, yAlign?:
-              string)</code
-            >
-            <ul class="params">
-              <li><code>str</code> - The text we want to show</li>
-              <li><code>x</code> - The text location's x pixel value</li>
-              <li><code>y</code> - The text location's y pixel value</li>
-              <li>
-                <code>xAlign?</code> - An optional horizontal alignment string
-              </li>
-              <li>
-                <code>yAlign?</code> - An optional vertical alignment string
-              </li>
-            </ul>
-          </li>
-          <li>
-            <code
-              >text(str: string, p: PointLike, xAlign?: string, yAlign?:
-              string)</code
-            >
-            <ul class="params">
-              <li><code>str</code> - The text we want to show</li>
-              <li><code>p</code> - The text location's {x,y} coordinate</li>
-              <li>
-                <code>xAlign?</code> - An optional horizontal alignment string
-              </li>
-              <li>
-                <code>yAlign?</code> - An optional vertical alignment string
-              </li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>
-          Draw some text to the screen. Its placement is determined by both the
-          coordinate provided, and the x/y alignment provided. Valid
-          <code>xAlign</code> values are:
-        </p>
-        <ul>
-          <li>
-            CENTER - the text anchor is in the middle of the text. Text is
-            placed evenly on either side.
-          </li>
-          <li>
-            END - the text anchor is on the right for LTR text, and on the left
-            for RTL text.
-          </li>
-          <li>
-            LEFT - the text anchor is on the left side of the text. all text is
-            to the right.
-          </li>
-          <li>
-            RIGHT - the text anchor is on the right side of the text. All text
-            is to the left.
-          </li>
-          <li>
-            START - the text anchor is on the left for LTR text, and on the
-            right for RTL text.
-          </li>
-        </ul>
-        <p>Valid <code>yAlign</code> values are:</p>
-        <ul>
-          <li>ALPHABETIC - standard text alignment</li>
-          <li>
-            BOTTOM - the text is aligned to the bottom of the bounding box
-          </li>
-          <li>HANGING - relevant for Tibetan and other Indic scripts.</li>
-          <li>IDEOGRAPHIC - relevant for ideographic CJKV text.</li>
-          <li>MIDDLE - The vertical equivalent of &quot;center&quot;.</li>
-          <li>
-            TOP - The text is aligned to the top of the typographic &quot;em
-            square&quot;.
-          </li>
-        </ul>
-        <p>
-          Note that the primary text colour uses the fill colour. If text
-          stroking is enabled, the the text outline will be coloured using the
-          current stroke colour.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setFontSize(25);
-  text("normal text", width / 2, 60, CENTER, CENTER);
-  noFill();
-  setTextStroke(1);
-  text("unfilled text", width / 2, 100, CENTER, CENTER);
-  setStroke(`red`);
-  setFill(`yellow`);
-  text("fancy text", width / 2, 140, CENTER, CENTER);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setFontSize(25);
-  text(&quot;normal text&quot;, width / 2, 60, CENTER, CENTER);
-  noFill();
-  setTextStroke(1);
-  text(&quot;unfilled text&quot;, width / 2, 100, CENTER, CENTER);
-  setStroke(`red`);
-  setFill(`yellow`);
-  text(&quot;fancy text&quot;, width / 2, 140, CENTER, CENTER);
-}
-</pre
-        >
-      </section>
-
-      <section id="triangle">
-        <h1><a href="#triangle">triangle</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >triangle(x1: number, y1: number, x2: number, y2: number, x3:
-              number, y3: number)</code
-            >
-            <ul class="params">
-              <li><code>x1</code> - The first point's x pixel value</li>
-              <li><code>y1</code> - The first point's y pixel value</li>
-              <li><code>x2</code> - The second point's x pixel value</li>
-              <li><code>y2</code> - The second point's y pixel value</li>
-              <li><code>x3</code> - The third point's x pixel value</li>
-              <li><code>y3</code> - The third point's y pixel value</li>
-            </ul>
-          </li>
-          <li>
-            <code>triangle(p1: PointLike, p2: PointLike, p3: PointLike)</code>
-            <ul class="params">
-              <li><code>p1</code> - The first point's {x,y} coordinate</li>
-              <li><code>p2</code> - The second point's {x,y} coordinate</li>
-              <li><code>p3</code> - The third point's {x,y} coordinate</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Draw a triangle.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
-}
-</pre
-        >
-      </section>
-
-      <section id="vertex">
-        <h1><a href="#vertex">vertex</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code>vertex(x: number, y: number)</code>
-            <ul class="params">
-              <li><code>x</code> - The vertex's x pixel value</li>
-              <li><code>y</code> - The vertex's y pixel value</li>
-            </ul>
-          </li>
-          <li>
-            <code>vertex(p: PointLike)</code>
-            <ul class="params">
-              <li><code>p</code> - The vertex {x,y} coordinate</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Add a vertex to the currently active shape.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  start();
-  vertex(width / 2, 30);
-  vertex((1 / 4) * width, 160);
-  vertex((3 / 4) * width, 110);
-  end();
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  start();
-  vertex(width / 2, 30);
-  vertex((1 / 4) * width, 160);
-  vertex((3 / 4) * width, 110);
-  end();
-}
-</pre
-        >
-      </section>
-
-      <section id="array">
-        <h1><a href="#array">array</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>array(length: number, fillFunction?: function)</code>
-            <ul class="params">
-              <li><code>length</code> - The size of the array you want</li>
-              <li>
-                <code>fillFunction?</code> - The optional function that gets
-                used to fill the array
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Create an array of specified length, optionally filled using the same
-          kind of function you&#39;d normall use with .map()
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`white`);
-  noFill();
-  translate(0, height / 2);
-  let data = array(width, (_, i) => [i, (height / 2) * sin(i / 25)]);
-  plotData(data, 0, 1);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`white`);
-  noFill();
-  translate(0, height / 2);
-  let data = array(width, (_, i) =&gt; [i, (height / 2) * sin(i / 25)]);
-  plotData(data, 0, 1);
-}
-</pre
-        >
-      </section>
-
-      <section id="clearMovable">
-        <h1><a href="#clearMovable">clearMovable</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>clearMovable()</code>
-            <ul class="params"></ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Empty the list of movable points in your graphic.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-const points = [];
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () => {
-    clearMovable();
-    redraw();
-  });
-}
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-const points = [];
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () =&gt; {
-    clearMovable();
-    redraw();
-  });
-}
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-</pre
-        >
-      </section>
-
-      <section id="copy">
-        <h1><a href="#copy">copy</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>copy(): HTMLCanvasElement</code>
-            <ul class="params"></ul>
             <p>
-              returns a copy of the current canvas
-              (<code>HTMLCanvasElement</code>)
+              returns p The projected 2D {x,y} coordinate
+              (<code>PointLike</code>)
+            </p>
+          </li>
+          <li>
+            <code>project(p: PointLike): PointLike</code>
+            <ul class="params">
+              <li><code>p</code> - The 2D coordinate as {x,y,z} coordinate</li>
+            </ul>
+            <p>
+              returns p The projected 2D {x,y} coordinate
+              (<code>PointLike</code>)
+            </p>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Project a 3D coordinate to 2D.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+</pre
+        >
+      </section>
+
+      <section id="radians">
+        <h1><a href="#radians">radians</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>radians(value: number, constrain?: boolean): number</code>
+            <ul class="params">
+              <li><code>value</code> - The value to constrain</li>
+              <li>
+                <code>constrain?</code> - A boolean that determines whether or
+                not to constrain the resultant value to [0, TAU] (default =
+                false)
+              </li>
+            </ul>
+            <p>
+              returns the radians value corresponding to the input value in
+              degrees, optionally constrained to [0, TAU] (<code>number</code>)
             </p>
           </li>
         </ul>
         <h3>Description</h3>
         <p>
-          Create a copy of the current canvas element for use somewhere else in
-          your own code.
+          Convert a number in degrees to a number in radians. This is really
+          nothing more than a convenient function wrapper around the statement:
         </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(`pink`);
-}
-function pointerDown(x, y) {
-  document.dispatchEvent(
-    new CustomEvent(`graphics:update`, {
-      detail: {
-        canvas: copy(),
-      },
-    }),
-  );
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(`pink`);
-}
-function pointerDown(x, y) {
-  document.dispatchEvent(
-    new CustomEvent(`graphics:update`, {
-      detail: {
-        canvas: copy(),
-      },
-    }),
-  );
-}
-</pre
-        >
-      </section>
-
-      <section id="color">
-        <h1><a href="#color">color</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >color(hue: number, saturation: number, lightness: number,
-              opacity: number): string</code
-            >
-            <ul class="params">
-              <li><code>hue</code> - in the range [0, 360]</li>
-              <li><code>saturation</code> - in the range [0, 100]</li>
-              <li><code>lightness</code> - in the range [0, 100]</li>
-              <li><code>opacity</code> - in the range [0, 1]</li>
-            </ul>
-            <p>returns a CSS hsla color string (<code>string</code>)</p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Generates a color based on the HSL color space.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  clear(color(45, 80, 90));
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  clear(color(45, 80, 90));
-}
-</pre
-        >
-      </section>
-
-      <section id="highlight">
-        <h1><a href="#highlight">highlight</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>highlight(color: color|boolean)</code>
-            <ul class="params">
-              <li>
-                <code>color</code> - Set the color that should get replaced with
-                the highlight color, or disable highlight when color is `false`
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
+        <pre><code>v/180 * PI
+</code></pre>
         <p>
-          Mark a specific color as the highlight color, which causes the graphic
-          to redraw with that color replaced by whichever color you picked as
-          highlight color.
+          With one trick, in that it allows you to constrain the resultant value
+          to the standard [0, TAU] interval.
         </p>
-        <p>Note that you can only use named (CSS) colors with this function.</p>
 
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setHighlightColor(`lime`);
-}
-function draw() {
-  clear();
-  setColor(`red`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text("let's go", width / 2, height / 2);
-}
-function pointerActive(state) {
-  if (state) highlight(`red`);
-  else highlight(false);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setHighlightColor(`lime`);
-}
-function draw() {
-  clear();
-  setColor(`red`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text(&quot;let&apos;s go&quot;, width / 2, height / 2);
-}
-function pointerActive(state) {
-  if (state) highlight(`red`);
-  else highlight(false);
-}
-</pre
-        >
-      </section>
-
-      <section id="isMovable">
-        <h1><a href="#isMovable">isMovable</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>isMovable(The: PointLike): boolean</code>
-            <ul class="params">
-              <li>
-                <code>The</code> - point that we want to check "movability" for
-              </li>
-            </ul>
-            <p>
-              returns true if our point is in the list of movable points,
-              otherwise false (<code>boolean</code>)
-            </p>
-          </li>
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#degrees">degrees</a></li>
+          <li><a href="#constrain">constrain</a></li>
         </ul>
-        <h3>Description</h3>
-        <p>Check whether a point is registered as movable.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-const points = [];
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () => {
-    clearMovable();
-    redraw();
-  });
-}
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-const points = [];
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () =&gt; {
-    clearMovable();
-    redraw();
-  });
-}
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-</pre
-        >
       </section>
 
-      <section id="millis">
-        <h1><a href="#millis">millis</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
+      <section id="random">
+        <h1><a href="#random">random</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
           <li>
-            <code>millis(): number</code>
+            <code>random(): number</code>
             <ul class="params"></ul>
             <p>
-              returns number of milliseconds since the graphic loaded in
+              returns a random number in the interval [0,1)
               (<code>number</code>)
             </p>
           </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Get the number of milliseconds that this graphic has been running.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000) | 0;
-  text(`${seconds}s`, width / 2, height / 2);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000) | 0;
-  text(`${seconds}s`, width / 2, height / 2);
-}
-</pre
-        >
-      </section>
-
-      <section id="pause">
-        <h1><a href="#pause">pause</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
           <li>
-            <code>pause()</code>
-            <ul class="params"></ul>
+            <code>random(a: number): number</code>
+            <ul class="params">
+              <li><code>a</code> - The upper bound for the random number</li>
+            </ul>
+            <p>
+              returns a random number in the interval [0,a)
+              (<code>number</code>)
+            </p>
           </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Pause the graphic if its currently playing.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-function pointerActive(state) {
-  if (state) {
-    pause();
-  } else {
-    play();
-  }
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-function pointerActive(state) {
-  if (state) {
-    pause();
-  } else {
-    play();
-  }
-}
-</pre
-        >
-      </section>
-
-      <section id="play">
-        <h1><a href="#play">play</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
           <li>
-            <code>play()</code>
-            <ul class="params"></ul>
+            <code>random(a: number, b: number): number</code>
+            <ul class="params">
+              <li><code>a</code> - The lower bound for the random number</li>
+              <li><code>b</code> - The upper bound for the random number</li>
+            </ul>
+            <p>
+              returns a random number in the interval [a, b)
+              (<code>number</code>)
+            </p>
           </li>
-        </ul>
+        </ol>
         <h3>Description</h3>
-        <p>
-          Start playing your graphic, meaning it will call draw() at whatever
-          rate the requestAnimationFrame loop is allowed to run on your
-          computer.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-let fps = 0;
-let checked = false;
-let lastFrameCheck = 0;
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`fps: ${fps}`, width / 2, height / 2);
-  if (seconds.endsWith(`.0`)) {
-    if (!checked) {
-      checked = true;
-      fps = frame - lastFrameCheck;
-      lastFrameCheck = frame;
-    }
-  } else {
-    checked = false;
-  }
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-let fps = 0;
-let checked = false;
-let lastFrameCheck = 0;
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`fps: ${fps}`, width / 2, height / 2);
-  if (seconds.endsWith(`.0`)) {
-    if (!checked) {
-      checked = true;
-      fps = frame - lastFrameCheck;
-      lastFrameCheck = frame;
-    }
-  } else {
-    checked = false;
-  }
-}
-</pre
-        >
+        <p>Generate a random number.</p>
       </section>
 
       <section id="randomColor">
@@ -2717,61 +2690,133 @@ function draw() {
         >
       </section>
 
-      <section id="setMovable">
-        <h1><a href="#setMovable">setMovable</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
+      <section id="rect">
+        <h1><a href="#rect">rect</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
           <li>
-            <code>setMovable(points: PointLike[n])</code>
+            <code>rect(x: number, y: number, w: number, h: number)</code>
             <ul class="params">
-              <li>
-                <code>points</code> - One or more points to mark as movable.
-              </li>
+              <li><code>x</code> - The rect's corner x pixel value</li>
+              <li><code>y</code> - The rect's corner y pixel value</li>
+              <li><code>w</code> - The width over which to draw the image</li>
+              <li><code>h</code> - The height over which to draw the image</li>
             </ul>
           </li>
-        </ul>
+          <li>
+            <code>rect(p: PointLike, w: number, h: number)</code>
+            <ul class="params">
+              <li><code>p</code> - The rect;s corder {x,y} coordinate</li>
+              <li><code>w</code> - The width over which to draw the image</li>
+              <li><code>h</code> - The height over which to draw the image</li>
+            </ul>
+          </li>
+        </ol>
         <h3>Description</h3>
         <p>
-          Mark one or more points as movable, meaning that the user can
-          reposition the point around on the canvas by touch/click-dragging.
+          Draw a rectangle at the specified coordinate, with the specific width
+          and height.
         </p>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
         <graphics-element width="200px" height="200px">
             <graphics-source>
-const points = [];
-function setup() {
-  setSize(200, 200);
-  for (let i = 40; i < 200; i += 20) {
-    points.push(new Point(i - 20, 120));
-  }
-  setMovable(...points);
-}
 function draw() {
-  clear();
-  noFill();
-  setStroke(`purple`);
-  bspline(...points);
-  for (let p of points) point(p);
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  rect(40, 40, width - 80, height - 80);
 }
 
 </graphics-source>
           </graphics-element>
         <pre>
-const points = [];
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  rect(40, 40, width - 80, height - 80);
+}
+</pre
+        >
+      </section>
+
+      <section id="resetTransform">
+        <h1>
+          <a href="#resetTransform">resetTransform</a> <a href="#top">top</a>
+        </h1>
+        <ul class="signatures">
+          <li>
+            <code>resetTransform()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Reset the coordinate transform matrix.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
 function setup() {
   setSize(200, 200);
-  for (let i = 40; i &lt; 200; i += 20) {
-    points.push(new Point(i - 20, 120));
-  }
-  setMovable(...points);
+  noGrid();
 }
 function draw() {
-  clear();
-  noFill();
-  setStroke(`purple`);
-  bspline(...points);
-  for (let p of points) point(p);
+  clear(`lightgrey`);
+  setColor(`red`);
+  translate(50, 50);
+  line(0, 0, 100, 0);
+  point(0, 0);
+  setColor(`darkgreen`);
+  point(10, 0);
+  rotate(PI / 4);
+  point(10, 0);
+  line(0, 0, 100, 0);
+  setColor(`blue`);
+  rotate(-PI / 6);
+  point(100, 0);
+  scale(0.5, 0.5);
+  point(100, 0);
+  line(100, 0, 200, 0);
+  resetTransform();
+  setColor(`black`);
+  line(0, 3, 100, 3);
+  point(0, 3);
+  point(10, 3);
+  point(100, 3);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  setColor(`red`);
+  translate(50, 50);
+  line(0, 0, 100, 0);
+  point(0, 0);
+  setColor(`darkgreen`);
+  point(10, 0);
+  rotate(PI / 4);
+  point(10, 0);
+  line(0, 0, 100, 0);
+  setColor(`blue`);
+  rotate(-PI / 6);
+  point(100, 0);
+  scale(0.5, 0.5);
+  point(100, 0);
+  line(100, 0, 200, 0);
+  resetTransform();
+  setColor(`black`);
+  line(0, 3, 100, 3);
+  point(0, 3);
+  point(10, 3);
+  point(100, 3);
 }
 </pre
         >
@@ -2833,507 +2878,61 @@ function draw() {
         >
       </section>
 
-      <section id="save">
-        <h1><a href="#save">save</a> <a href="#top">top</a></h1>
+      <section id="rotate">
+        <h1><a href="#rotate">rotate</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>save()</code>
-            <ul class="params"></ul>
+            <code>rotate(angle: number)</code>
+            <ul class="params">
+              <li>
+                <code>angle</code> - The angle by which to rotate the coordinate
+                system in radians
+              </li>
+            </ul>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>
-          Save the current graphics context (transforms, current colors, etc) so
-          that those can be restored after changing them.
-        </p>
+        <p>Rotate the coordinate system wrt the current origin.</p>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
         <graphics-element width="200px" height="200px">
             <graphics-source>
-const points = [];
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
 function draw() {
-  clear();
+  clear(`lightgrey`);
   translate(width / 2, height / 2);
-  setColor(`blue`);
-  line(0, 0, 80, 0);
-  save();
+  setColor(`black`);
+  point(0, 0);
   setColor(`darkgreen`);
-  range(0, 5, 1, (a) => {
-    rotate(PI / 8);
-    line(0, 0, 80, 0);
-  });
-  restore();
-  line(-20, 0, -80, 0);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  line(0, 0, 20, 20);
+  point(20, 20);
 }
 
 </graphics-source>
           </graphics-element>
         <pre>
-const points = [];
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
 function draw() {
-  clear();
+  clear(`lightgrey`);
   translate(width / 2, height / 2);
-  setColor(`blue`);
-  line(0, 0, 80, 0);
-  save();
+  setColor(`black`);
+  point(0, 0);
   setColor(`darkgreen`);
-  range(0, 5, 1, (a) =&gt; {
-    rotate(PI / 8);
-    line(0, 0, 80, 0);
-  });
-  restore();
-  line(-20, 0, -80, 0);
-}
-</pre
-        >
-      </section>
-
-      <section id="toDataURL">
-        <h1><a href="#toDataURL">toDataURL</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>toDataURL(): string</code>
-            <ul class="params"></ul>
-            <p>
-              returns the current canvas as PNG data URL (<code>string</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Convert the current canvas into an data URL that represents a PNG
-          image.
-        </p>
-      </section>
-
-      <section id="togglePlay">
-        <h1><a href="#togglePlay">togglePlay</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>togglePlay(): boolean</code>
-            <ul class="params"></ul>
-            <p>returns the new play state (<code>boolean</code>)</p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          If the graphic is currently playing, pause it, and if it&#39;s paused,
-          play it.
-        </p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-function pointerActive(state) {
-  togglePlay();
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-function pointerActive(state) {
-  togglePlay();
-}
-</pre
-        >
-      </section>
-
-      <section id="constrain">
-        <h1><a href="#constrain">constrain</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >constrain(value: number, lowerBound: number, upperBound: number):
-              number</code
-            >
-            <ul class="params">
-              <li><code>value</code> - The value to constrain</li>
-              <li><code>lowerBound</code> - The lower bound on our value</li>
-              <li><code>upperBound</code> - The upper bound on our value</li>
-            </ul>
-            <p>
-              returns the value, if it falls withing [lowerBound,upperBound],
-              otherwise one of those bounds. (<code>number</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Constrain a number to within a given range. This is really nothing
-          more than a convenient function wrapper around the statement:
-        </p>
-        <pre><code>v &lt; s ? s : v &gt; e ? e : v
-</code></pre>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#constrainMap">constrainMap</a></li>
-        </ul>
-      </section>
-
-      <section id="csc">
-        <h1><a href="#csc">csc</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>csc(value: number): number</code>
-            <ul class="params">
-              <li><code>value</code> - The input value, in radians.</li>
-            </ul>
-            <p>returns the cosecant of our value. (<code>number</code>)</p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>The cosecant function, which is:</p>
-        <pre><code>1 / sin(v)
-</code></pre>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#sec">sec</a></li>
-        </ul>
-      </section>
-
-      <section id="ctn">
-        <h1><a href="#ctn">ctn</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>ctn(value: number): number</code>
-            <ul class="params">
-              <li><code>value</code> - The input value, in radians.</li>
-            </ul>
-            <p>returns the cotangent of our value. (<code>number</code>)</p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>The cotangent function, which is:</p>
-        <pre><code>cos(v) / sin(v)
-</code></pre>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#tan">tan</a></li>
-        </ul>
-      </section>
-
-      <section id="degrees">
-        <h1><a href="#degrees">degrees</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>degrees(value: number, constrain?: boolean): number</code>
-            <ul class="params">
-              <li><code>value</code> - The value to constrain</li>
-              <li>
-                <code>constrain?</code> - A boolean that determines whether or
-                not to constrain the resultant value to [0, 360] (default =
-                false)
-              </li>
-            </ul>
-            <p>
-              returns the degree value corresponding to the input value in
-              radians, optionally constrained to [0, 360] (<code>number</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Convert a number in radians to a number in degrees. This is really
-          nothing more than a convenient function wrapper around the statement:
-        </p>
-        <pre><code>v/PI * 180
-</code></pre>
-        <p>
-          With one trick, in that it allows you to constrain the resultant value
-          to the standard [0, 360] interval.
-        </p>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#radians">radians</a></li>
-          <li><a href="#constrain">constrain</a></li>
-        </ul>
-      </section>
-
-      <section id="dist">
-        <h1><a href="#dist">dist</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code
-              >dist(x1: number, y1: number, x2: number, y2: number):
-              number</code
-            >
-            <ul class="params">
-              <li><code>x1</code> - The first point's x pixel value</li>
-              <li><code>y1</code> - The first point's y pixel value</li>
-              <li><code>x2</code> - The second point's x pixel value</li>
-              <li><code>y2</code> - The second point's y pixel value</li>
-            </ul>
-            <p>
-              returns the euclidean distance between the two coordinates
-              (<code>number</code>)
-            </p>
-          </li>
-          <li>
-            <code>dist(p1: PointLike, p2: PointLike)</code>
-            <ul class="params">
-              <li><code>p1</code> - The first point's {x,y} coordinate</li>
-              <li><code>p2</code> - The second point's {x,y} coordinate</li>
-            </ul>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Calculate the 2D Euclidean distance between two points.</p>
-      </section>
-
-      <section id="map">
-        <h1><a href="#map">map</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code
-              >map(value: number, originalStart: number, originalEnd: number,
-              newStart: number, newEnd: number, constrain?: boolean):
-              number</code
-            >
-            <ul class="params">
-              <li><code>value</code> - Our input value</li>
-              <li>
-                <code>originalStart</code> - The lower bound of our domain
-              </li>
-              <li><code>originalEnd</code> - The upper bound of our domain</li>
-              <li>
-                <code>newStart</code> - The lower bound of our target interval
-              </li>
-              <li>
-                <code>newEnd</code> - The upper bound on our target interval
-              </li>
-              <li>
-                <code>constrain?</code> - A boolean that determines whether or
-                not to constrain the resultant value to [0,360] (default =
-                false)
-              </li>
-            </ul>
-            <p>
-              returns the result of mapping our value from our domain interval
-              to our target interval, optionally constrained to the target
-              interval. (<code>number</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Map a value from one interval to another, optionally constrained to
-          the target interval.
-        </p>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#constrain">constrain</a></li>
-          <li><a href="#constrainMap">constrainMap</a></li>
-        </ul>
-      </section>
-
-      <section id="radians">
-        <h1><a href="#radians">radians</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>radians(value: number, constrain?: boolean): number</code>
-            <ul class="params">
-              <li><code>value</code> - The value to constrain</li>
-              <li>
-                <code>constrain?</code> - A boolean that determines whether or
-                not to constrain the resultant value to [0, TAU] (default =
-                false)
-              </li>
-            </ul>
-            <p>
-              returns the radians value corresponding to the input value in
-              degrees, optionally constrained to [0, TAU] (<code>number</code>)
-            </p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>
-          Convert a number in degrees to a number in radians. This is really
-          nothing more than a convenient function wrapper around the statement:
-        </p>
-        <pre><code>v/180 * PI
-</code></pre>
-        <p>
-          With one trick, in that it allows you to constrain the resultant value
-          to the standard [0, TAU] interval.
-        </p>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#degrees">degrees</a></li>
-          <li><a href="#constrain">constrain</a></li>
-        </ul>
-      </section>
-
-      <section id="random">
-        <h1><a href="#random">random</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code>random(): number</code>
-            <ul class="params"></ul>
-            <p>
-              returns a random number in the interval [0,1)
-              (<code>number</code>)
-            </p>
-          </li>
-          <li>
-            <code>random(a: number): number</code>
-            <ul class="params">
-              <li><code>a</code> - The upper bound for the random number</li>
-            </ul>
-            <p>
-              returns a random number in the interval [0,a)
-              (<code>number</code>)
-            </p>
-          </li>
-          <li>
-            <code>random(a: number, b: number): number</code>
-            <ul class="params">
-              <li><code>a</code> - The lower bound for the random number</li>
-              <li><code>b</code> - The upper bound for the random number</li>
-            </ul>
-            <p>
-              returns a random number in the interval [a, b)
-              (<code>number</code>)
-            </p>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Generate a random number.</p>
-      </section>
-
-      <section id="sec">
-        <h1><a href="#sec">sec</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>sec(value: number): number</code>
-            <ul class="params">
-              <li><code>value</code> - The input value, in radians.</li>
-            </ul>
-            <p>returns the secant of our value. (<code>number</code>)</p>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>The secant function, which is:</p>
-        <pre><code>1 / cos(v)
-</code></pre>
-
-        <h3>See also:</h3>
-        <ul>
-          <li><a href="#csc">csc</a></li>
-        </ul>
-      </section>
-
-      <section id="project">
-        <h1><a href="#project">project</a> <a href="#top">top</a></h1>
-        <ol class="signatures">
-          <li>
-            <code>project(x: number, y: number, z: number): PointLike</code>
-            <ul class="params">
-              <li><code>x</code> - The 3D coordinate's x value</li>
-              <li><code>y</code> - The 3D coordinate's x value</li>
-              <li><code>z</code> - The 3D coordinate's x value</li>
-            </ul>
-            <p>
-              returns p The projected 2D {x,y} coordinate
-              (<code>PointLike</code>)
-            </p>
-          </li>
-          <li>
-            <code>project(p: PointLike): PointLike</code>
-            <ul class="params">
-              <li><code>p</code> - The 2D coordinate as {x,y,z} coordinate</li>
-            </ul>
-            <p>
-              returns p The projected 2D {x,y} coordinate
-              (<code>PointLike</code>)
-            </p>
-          </li>
-        </ol>
-        <h3>Description</h3>
-        <p>Project a 3D coordinate to 2D.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  line(0, 0, 20, 20);
+  point(20, 20);
 }
 </pre
         >
@@ -3430,34 +3029,156 @@ function draw() {
         >
       </section>
 
-      <section id="setProjector">
-        <h1><a href="#setProjector">setProjector</a> <a href="#top">top</a></h1>
+      <section id="save">
+        <h1><a href="#save">save</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code
-              >setProjector(xOffset: number, yOffset: number, scale: number,
-              cabinet: number)</code
-            >
-            <ul class="params">
-              <li>
-                <code>xOffset</code> - of the projection wrt the canvas (default
-                = 0)
-              </li>
-              <li>
-                <code>yOffset</code> - of the projection wrt the canvas (default
-                = 0)
-              </li>
-              <li>
-                <code>scale</code> - factor for the 3D input (default = 1)
-              </li>
-              <li><code>cabinet</code> - angle in radians (default = -pi/6)</li>
-            </ul>
+            <code>save()</code>
+            <ul class="params"></ul>
           </li>
         </ul>
         <h3>Description</h3>
         <p>
-          Set the project parameters. Currently, only cabinet project is
-          supported, which accepts the following parameters:
+          Save the current graphics context (transforms, current colors, etc) so
+          that those can be restored after changing them.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  setColor(`blue`);
+  line(0, 0, 80, 0);
+  save();
+  setColor(`darkgreen`);
+  range(0, 5, 1, (a) => {
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
+  });
+  restore();
+  line(-20, 0, -80, 0);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+function draw() {
+  clear();
+  translate(width / 2, height / 2);
+  setColor(`blue`);
+  line(0, 0, 80, 0);
+  save();
+  setColor(`darkgreen`);
+  range(0, 5, 1, (a) =&gt; {
+    rotate(PI / 8);
+    line(0, 0, 80, 0);
+  });
+  restore();
+  line(-20, 0, -80, 0);
+}
+</pre
+        >
+      </section>
+
+      <section id="scale">
+        <h1><a href="#scale">scale</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>scale(x: number, y?: number)</code>
+            <ul class="params">
+              <li>
+                <code>x</code> - The amount by which to scale the x coordinates.
+              </li>
+              <li>
+                <code>y?</code> - The amount by which to scale the x coordinates
+                (default = same as x)
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>Scale the coordinate system wrt the current origin.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  setColor(`black`);
+  point(0, 0);
+  setColor(`darkgreen`);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  scale(2);
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  noGrid();
+}
+function draw() {
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  setColor(`black`);
+  point(0, 0);
+  setColor(`darkgreen`);
+  line(0, 0, 20, 20);
+  point(20, 20);
+  rotate(PI / 4);
+  scale(2);
+  line(0, 0, 20, 20);
+  point(20, 20);
+}
+</pre
+        >
+      </section>
+
+      <section id="screenToWorld">
+        <h1>
+          <a href="#screenToWorld">screenToWorld</a> <a href="#top">top</a>
+        </h1>
+        <ol class="signatures">
+          <li>
+            <code>screenToWorld(x: number, y: number): PointLike</code>
+            <ul class="params">
+              <li>
+                <code>x</code> - The screen coordinate's x value in pixels
+              </li>
+              <li>
+                <code>y</code> - The screen coordinate's y value in pixels
+              </li>
+            </ul>
+            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
+          </li>
+          <li>
+            <code>screenToWorld(p: PointLike): PointLike</code>
+            <ul class="params">
+              <li><code>p</code> - The screen {x,y} coordinate</li>
+            </ul>
+            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>
+          Convert a screen (e.g. browser) coordinate into its corresponding
+          &quot;transformed&quot; coordinate.
         </p>
 
         <h3>Examples</h3>
@@ -3466,25 +3187,22 @@ function draw() {
             <graphics-source>
 function setup() {
   setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  noGrid();
 }
 function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  rotate(PI / 4);
+  scale(0.5);
+  if (pointer.active) {
+    setColor(`red`);
+    point(pointer.x, pointer.y);
+    setColor(`blue`);
+    point(screenToWorld(pointer.x, pointer.y));
+  }
+}
+function pointerMove() {
+  redraw();
 }
 
 </graphics-source>
@@ -3492,28 +3210,47 @@ function draw() {
         <pre>
 function setup() {
   setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  noGrid();
 }
 function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  clear(`lightgrey`);
+  translate(width / 2, height / 2);
+  rotate(PI / 4);
+  scale(0.5);
+  if (pointer.active) {
+    setColor(`red`);
+    point(pointer.x, pointer.y);
+    setColor(`blue`);
+    point(screenToWorld(pointer.x, pointer.y));
+  }
+}
+function pointerMove() {
+  redraw();
 }
 </pre
         >
+      </section>
+
+      <section id="sec">
+        <h1><a href="#sec">sec</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>sec(value: number): number</code>
+            <ul class="params">
+              <li><code>value</code> - The input value, in radians.</li>
+            </ul>
+            <p>returns the secant of our value. (<code>number</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>The secant function, which is:</p>
+        <pre><code>1 / cos(v)
+</code></pre>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#csc">csc</a></li>
+        </ul>
       </section>
 
       <section id="setBorder">
@@ -3898,6 +3635,152 @@ function draw() {
         >
       </section>
 
+      <section id="setMovable">
+        <h1><a href="#setMovable">setMovable</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>setMovable(points: PointLike[n])</code>
+            <ul class="params">
+              <li>
+                <code>points</code> - One or more points to mark as movable.
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Mark one or more points as movable, meaning that the user can
+          reposition the point around on the canvas by touch/click-dragging.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  for (let i = 40; i < 200; i += 20) {
+    points.push(new Point(i - 20, 120));
+  }
+  setMovable(...points);
+}
+function draw() {
+  clear();
+  noFill();
+  setStroke(`purple`);
+  bspline(...points);
+  for (let p of points) point(p);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+function setup() {
+  setSize(200, 200);
+  for (let i = 40; i &lt; 200; i += 20) {
+    points.push(new Point(i - 20, 120));
+  }
+  setMovable(...points);
+}
+function draw() {
+  clear();
+  noFill();
+  setStroke(`purple`);
+  bspline(...points);
+  for (let p of points) point(p);
+}
+</pre
+        >
+      </section>
+
+      <section id="setProjector">
+        <h1><a href="#setProjector">setProjector</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code
+              >setProjector(xOffset: number, yOffset: number, scale: number,
+              cabinet: number)</code
+            >
+            <ul class="params">
+              <li>
+                <code>xOffset</code> - of the projection wrt the canvas (default
+                = 0)
+              </li>
+              <li>
+                <code>yOffset</code> - of the projection wrt the canvas (default
+                = 0)
+              </li>
+              <li>
+                <code>scale</code> - factor for the 3D input (default = 1)
+              </li>
+              <li><code>cabinet</code> - angle in radians (default = -pi/6)</li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Set the project parameters. Currently, only cabinet project is
+          supported, which accepts the following parameters:
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(200, 200);
+  setProjector(width / 2, height / 2, 50, -0.4);
+}
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  line(project(-1, -1, -1), project(1, -1, -1));
+  line(project(-1, -1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(1, 1, -1));
+  line(project(-1, 1, 1), project(1, 1, 1));
+  setColor(`blue`);
+  line(project(-1, -1, -1), project(-1, -1, 1));
+  line(project(-1, 1, -1), project(-1, 1, 1));
+  line(project(1, -1, -1), project(1, -1, 1));
+  line(project(1, 1, -1), project(1, 1, 1));
+  setColor(`green`);
+  line(project(1, 1, -1), project(1, -1, -1));
+  line(project(1, 1, 1), project(1, -1, 1));
+  line(project(-1, 1, -1), project(-1, -1, -1));
+  line(project(-1, 1, 1), project(-1, -1, 1));
+}
+</pre
+        >
+      </section>
+
       <section id="setStroke">
         <h1><a href="#setStroke">setStroke</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -4084,241 +3967,291 @@ function draw() {
         >
       </section>
 
-      <section id="resetTransform">
-        <h1>
-          <a href="#resetTransform">resetTransform</a> <a href="#top">top</a>
-        </h1>
+      <section id="spline">
+        <h1><a href="#spline">spline</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>resetTransform()</code>
+            <code
+              >spline(...points: PointLike[], virtual?: boolean, tightness?:
+              number)</code
+            >
+            <ul class="params">
+              <li>
+                <code>...points</code> - The points across which to fit a spline
+              </li>
+              <li>
+                <code>virtual?</code> - Whether or not to invent new
+                mathematical points that ensure the curve starts and ends at the
+                provided start and end points. (default = true)
+              </li>
+              <li>
+                <code>tightness?</code> - How tight this spline should be fit
+                through the points provided. The higher the tightness, the more
+                polygonal the curve becomes (default = 1)
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Draw a cardinal (hermite) spline that passes through each point
+          provided, using a mathematically virtual start and end to ensure the
+          curve starts and ends at the provided start and end point. This can be
+          bypassed by setting the <code>virtual</code> argument to
+          <code>false</code>.
+        </p>
+        <p>
+          Additionally, the spline&#39;s tightness, which controls how
+          &quot;bendy&quot; the spline is (the tighter the spline, the sharper
+          bends become) can be controlled by setting the
+          <code>tightness</code> value.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+const points = [];
+
+function setup() {
+  setSize(200, 200);
+  range(0, TAU, PI / 5, (a) =>
+    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
+  );
+  setMovable(...points);
+}
+
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
+  setFill(`#0002`);
+  spline(...points);
+  setColor(`red`);
+  points.forEach((p) => point(p));
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+const points = [];
+
+function setup() {
+  setSize(200, 200);
+  range(0, TAU, PI / 5, (a) =&gt;
+    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
+  );
+  setMovable(...points);
+}
+
+function draw() {
+  clear(`white`);
+  translate(width / 2, height / 2);
+  setFill(`#0002`);
+  spline(...points);
+  setColor(`red`);
+  points.forEach((p) =&gt; point(p));
+}
+</pre
+        >
+      </section>
+
+      <section id="start">
+        <h1><a href="#start">start</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>start()</code>
             <ul class="params"></ul>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>Reset the coordinate transform matrix.</p>
+        <p>Starts a (new) shape.</p>
 
         <h3>Examples</h3>
         <!-- prettier-ignore -->
         <graphics-element width="200px" height="200px">
             <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
 function draw() {
-  clear(`lightgrey`);
-  setColor(`red`);
-  translate(50, 50);
-  line(0, 0, 100, 0);
-  point(0, 0);
-  setColor(`darkgreen`);
-  point(10, 0);
-  rotate(PI / 4);
-  point(10, 0);
-  line(0, 0, 100, 0);
-  setColor(`blue`);
-  rotate(-PI / 6);
-  point(100, 0);
-  scale(0.5, 0.5);
-  point(100, 0);
-  line(100, 0, 200, 0);
-  resetTransform();
-  setColor(`black`);
-  line(0, 3, 100, 3);
-  point(0, 3);
-  point(10, 3);
-  point(100, 3);
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
 }
 
 </graphics-source>
           </graphics-element>
         <pre>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
 function draw() {
-  clear(`lightgrey`);
-  setColor(`red`);
-  translate(50, 50);
-  line(0, 0, 100, 0);
-  point(0, 0);
-  setColor(`darkgreen`);
-  point(10, 0);
-  rotate(PI / 4);
-  point(10, 0);
-  line(0, 0, 100, 0);
-  setColor(`blue`);
-  rotate(-PI / 6);
-  point(100, 0);
-  scale(0.5, 0.5);
-  point(100, 0);
-  line(100, 0, 200, 0);
-  resetTransform();
-  setColor(`black`);
-  line(0, 3, 100, 3);
-  point(0, 3);
-  point(10, 3);
-  point(100, 3);
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
 }
 </pre
         >
       </section>
 
-      <section id="rotate">
-        <h1><a href="#rotate">rotate</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>rotate(angle: number)</code>
-            <ul class="params">
-              <li>
-                <code>angle</code> - The angle by which to rotate the coordinate
-                system in radians
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Rotate the coordinate system wrt the current origin.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-</pre
-        >
-      </section>
-
-      <section id="scale">
-        <h1><a href="#scale">scale</a> <a href="#top">top</a></h1>
-        <ul class="signatures">
-          <li>
-            <code>scale(x: number, y?: number)</code>
-            <ul class="params">
-              <li>
-                <code>x</code> - The amount by which to scale the x coordinates.
-              </li>
-              <li>
-                <code>y?</code> - The amount by which to scale the x coordinates
-                (default = same as x)
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>Description</h3>
-        <p>Scale the coordinate system wrt the current origin.</p>
-
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  scale(2);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  scale(2);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-</pre
-        >
-      </section>
-
-      <section id="screenToWorld">
-        <h1>
-          <a href="#screenToWorld">screenToWorld</a> <a href="#top">top</a>
-        </h1>
+      <section id="text">
+        <h1><a href="#text">text</a> <a href="#top">top</a></h1>
         <ol class="signatures">
           <li>
-            <code>screenToWorld(x: number, y: number): PointLike</code>
+            <code
+              >text(str: string, x: number, y: number, xAlign?: string, yAlign?:
+              string)</code
+            >
             <ul class="params">
+              <li><code>str</code> - The text we want to show</li>
+              <li><code>x</code> - The text location's x pixel value</li>
+              <li><code>y</code> - The text location's y pixel value</li>
               <li>
-                <code>x</code> - The screen coordinate's x value in pixels
+                <code>xAlign?</code> - An optional horizontal alignment string
               </li>
               <li>
-                <code>y</code> - The screen coordinate's y value in pixels
+                <code>yAlign?</code> - An optional vertical alignment string
               </li>
             </ul>
-            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
           </li>
           <li>
-            <code>screenToWorld(p: PointLike): PointLike</code>
+            <code
+              >text(str: string, p: PointLike, xAlign?: string, yAlign?:
+              string)</code
+            >
             <ul class="params">
-              <li><code>p</code> - The screen {x,y} coordinate</li>
+              <li><code>str</code> - The text we want to show</li>
+              <li><code>p</code> - The text location's {x,y} coordinate</li>
+              <li>
+                <code>xAlign?</code> - An optional horizontal alignment string
+              </li>
+              <li>
+                <code>yAlign?</code> - An optional vertical alignment string
+              </li>
             </ul>
-            <p>returns p The world {x,y} coordinate (<code>PointLike</code>)</p>
           </li>
         </ol>
         <h3>Description</h3>
         <p>
-          Convert a screen (e.g. browser) coordinate into its corresponding
-          &quot;transformed&quot; coordinate.
+          Draw some text to the screen. Its placement is determined by both the
+          coordinate provided, and the x/y alignment provided. Valid
+          <code>xAlign</code> values are:
+        </p>
+        <ul>
+          <li>
+            CENTER - the text anchor is in the middle of the text. Text is
+            placed evenly on either side.
+          </li>
+          <li>
+            END - the text anchor is on the right for LTR text, and on the left
+            for RTL text.
+          </li>
+          <li>
+            LEFT - the text anchor is on the left side of the text. all text is
+            to the right.
+          </li>
+          <li>
+            RIGHT - the text anchor is on the right side of the text. All text
+            is to the left.
+          </li>
+          <li>
+            START - the text anchor is on the left for LTR text, and on the
+            right for RTL text.
+          </li>
+        </ul>
+        <p>Valid <code>yAlign</code> values are:</p>
+        <ul>
+          <li>ALPHABETIC - standard text alignment</li>
+          <li>
+            BOTTOM - the text is aligned to the bottom of the bounding box
+          </li>
+          <li>HANGING - relevant for Tibetan and other Indic scripts.</li>
+          <li>IDEOGRAPHIC - relevant for ideographic CJKV text.</li>
+          <li>MIDDLE - The vertical equivalent of &quot;center&quot;.</li>
+          <li>
+            TOP - The text is aligned to the top of the typographic &quot;em
+            square&quot;.
+          </li>
+        </ul>
+        <p>
+          Note that the primary text colour uses the fill colour. If text
+          stroking is enabled, the the text outline will be coloured using the
+          current stroke colour.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  text("normal text", width / 2, 60, CENTER, CENTER);
+  noFill();
+  setTextStroke(1);
+  text("unfilled text", width / 2, 100, CENTER, CENTER);
+  setStroke(`red`);
+  setFill(`yellow`);
+  text("fancy text", width / 2, 140, CENTER, CENTER);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setColor(`black`);
+  setFontSize(25);
+  text(&quot;normal text&quot;, width / 2, 60, CENTER, CENTER);
+  noFill();
+  setTextStroke(1);
+  text(&quot;unfilled text&quot;, width / 2, 100, CENTER, CENTER);
+  setStroke(`red`);
+  setFill(`yellow`);
+  text(&quot;fancy text&quot;, width / 2, 140, CENTER, CENTER);
+}
+</pre
+        >
+      </section>
+
+      <section id="toDataURL">
+        <h1><a href="#toDataURL">toDataURL</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>toDataURL(): string</code>
+            <ul class="params"></ul>
+            <p>
+              returns the current canvas as PNG data URL (<code>string</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Convert the current canvas into an data URL that represents a PNG
+          image.
+        </p>
+      </section>
+
+      <section id="togglePlay">
+        <h1><a href="#togglePlay">togglePlay</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>togglePlay(): boolean</code>
+            <ul class="params"></ul>
+            <p>returns the new play state (<code>boolean</code>)</p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          If the graphic is currently playing, pause it, and if it&#39;s paused,
+          play it.
         </p>
 
         <h3>Examples</h3>
@@ -4327,22 +4260,18 @@ function draw() {
             <graphics-source>
 function setup() {
   setSize(200, 200);
-  noGrid();
+  setColor(`black`);
+  play();
 }
 function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  rotate(PI / 4);
-  scale(0.5);
-  if (pointer.active) {
-    setColor(`red`);
-    point(pointer.x, pointer.y);
-    setColor(`blue`);
-    point(screenToWorld(pointer.x, pointer.y));
-  }
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
-function pointerMove() {
-  redraw();
+function pointerActive(state) {
+  togglePlay();
 }
 
 </graphics-source>
@@ -4350,22 +4279,18 @@ function pointerMove() {
         <pre>
 function setup() {
   setSize(200, 200);
-  noGrid();
+  setColor(`black`);
+  play();
 }
 function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  rotate(PI / 4);
-  scale(0.5);
-  if (pointer.active) {
-    setColor(`red`);
-    point(pointer.x, pointer.y);
-    setColor(`blue`);
-    point(screenToWorld(pointer.x, pointer.y));
-  }
+  clear();
+  setFontSize(25);
+  setTextAlign(CENTER, MIDDLE);
+  const seconds = (millis() / 1000).toFixed(1);
+  text(`${seconds}s`, width / 2, height / 2);
 }
-function pointerMove() {
-  redraw();
+function pointerActive(state) {
+  togglePlay();
 }
 </pre
         >
@@ -4450,6 +4375,111 @@ function draw() {
   clear();
   translate(width / 2, height / 2);
   point(0, 0);
+}
+</pre
+        >
+      </section>
+
+      <section id="triangle">
+        <h1><a href="#triangle">triangle</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code
+              >triangle(x1: number, y1: number, x2: number, y2: number, x3:
+              number, y3: number)</code
+            >
+            <ul class="params">
+              <li><code>x1</code> - The first point's x pixel value</li>
+              <li><code>y1</code> - The first point's y pixel value</li>
+              <li><code>x2</code> - The second point's x pixel value</li>
+              <li><code>y2</code> - The second point's y pixel value</li>
+              <li><code>x3</code> - The third point's x pixel value</li>
+              <li><code>y3</code> - The third point's y pixel value</li>
+            </ul>
+          </li>
+          <li>
+            <code>triangle(p1: PointLike, p2: PointLike, p3: PointLike)</code>
+            <ul class="params">
+              <li><code>p1</code> - The first point's {x,y} coordinate</li>
+              <li><code>p2</code> - The second point's {x,y} coordinate</li>
+              <li><code>p3</code> - The third point's {x,y} coordinate</li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Draw a triangle.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
+}
+</pre
+        >
+      </section>
+
+      <section id="vertex">
+        <h1><a href="#vertex">vertex</a> <a href="#top">top</a></h1>
+        <ol class="signatures">
+          <li>
+            <code>vertex(x: number, y: number)</code>
+            <ul class="params">
+              <li><code>x</code> - The vertex's x pixel value</li>
+              <li><code>y</code> - The vertex's y pixel value</li>
+            </ul>
+          </li>
+          <li>
+            <code>vertex(p: PointLike)</code>
+            <ul class="params">
+              <li><code>p</code> - The vertex {x,y} coordinate</li>
+            </ul>
+          </li>
+        </ol>
+        <h3>Description</h3>
+        <p>Add a vertex to the currently active shape.</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  start();
+  vertex(width / 2, 30);
+  vertex((1 / 4) * width, 160);
+  vertex((3 / 4) * width, 110);
+  end();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`red`);
+  start();
+  vertex(width / 2, 30);
+  vertex((1 / 4) * width, 160);
+  vertex((3 / 4) * width, 110);
+  end();
 }
 </pre
         >

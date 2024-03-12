@@ -9,6 +9,7 @@
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`red`);
@@ -59,7 +60,8 @@ function project(x, y, z) {
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *       play();
- *     }**
+ *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       const m = millis() / 5000;
@@ -109,6 +111,7 @@ function rotateProjector(x, y, z) {
  *       setSize(200, 200);
  *       setProjector(width / 2, height / 2, 50, -0.4);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       setColor(`red`);

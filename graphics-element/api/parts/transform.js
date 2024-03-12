@@ -9,6 +9,7 @@
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       setColor(`red`);
@@ -51,6 +52,7 @@ function resetTransform() {
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -83,6 +85,7 @@ function rotate(angle = 0) {
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -118,6 +121,7 @@ function scale(x = 1, y = x) {
  *       setSize(200, 200);
  *       noGrid();
  *     }
+ *
  *     function draw() {
  *       clear(`lightgrey`);
  *       translate(width/2, height/2);
@@ -130,6 +134,7 @@ function scale(x = 1, y = x) {
  *         point(screenToWorld(pointer.x, pointer.y));
  *       }
  *     }
+ *
  *     function pointerMove() {
  *       redraw();
  *     }
@@ -217,6 +222,7 @@ function translate(x = 0, y = 0) {
  *       setSize(200, 200);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       translate(width / 2, height / 2);

@@ -36,6 +36,7 @@ function array(len, fillFunction) {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       addButton(`lock`, () => {
@@ -43,6 +44,7 @@ function array(len, fillFunction) {
  *         redraw();
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       for(let p of points) {
@@ -50,6 +52,7 @@ function array(len, fillFunction) {
  *         point(p);
  *       }
  *     }
+ *
  *     function pointerDown(x,y) {
  *       if (currentPoint) return;
  *       const p = new Point(x,y);
@@ -75,6 +78,7 @@ function clearMovable() {
  *     function draw() {
  *       clear(`pink`);
  *     }
+ *
  *     function pointerDown(x,y) {
  *       document.dispatchEvent(
  *         new CustomEvent(`graphics:update`, {
@@ -138,6 +142,7 @@ function color(h = __current_hue, s = 50, l = 50, a = 1) {
  *       setSize(200, 200);
  *       setHighlightColor(`lime`);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setColor(`red`);
@@ -145,6 +150,7 @@ function color(h = __current_hue, s = 50, l = 50, a = 1) {
  *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if (state) highlight(`red`);
  *       else highlight(false);
@@ -171,6 +177,7 @@ function highlight(color) {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       addButton(`lock`, () => {
@@ -178,6 +185,7 @@ function highlight(color) {
  *         redraw();
  *       });
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *       for(let p of points) {
@@ -185,6 +193,7 @@ function highlight(color) {
  *         point(p);
  *       }
  *     }
+ *
  *     function pointerDown(x,y) {
  *       if (currentPoint) return;
  *       const p = new Point(x,y);
@@ -215,6 +224,7 @@ function isMovable(point) {
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -243,6 +253,7 @@ function millis() {
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -250,6 +261,7 @@ function millis() {
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if(state) {
  *         pause();
@@ -276,11 +288,13 @@ function pause() {
  *     let fps = 0;
  *     let checked = false;
  *     let lastFrameCheck = 0;
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -318,6 +332,7 @@ function play() {
  *     function draw() {
  *       clear(randomColor());
  *     }
+ *
  *     function pointerDown() {
  *       redraw();
  *     }
@@ -376,6 +391,7 @@ function range(start, end, step, runFunction) {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function setup() {
  *       setSize(200, 200);
  *       for (let i = 40; i < 200; i += 20) {
@@ -383,6 +399,7 @@ function range(start, end, step, runFunction) {
  *       }
  *       setMovable(...points);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       noFill();
@@ -413,6 +430,7 @@ function setMovable(...points) {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -444,6 +462,7 @@ function restore() {
  * <graphics-element>
  *   <graphics-source>
  *     const points = [];
+ *
  *     function draw() {
  *       clear();
  *       translate(width/2, height/2);
@@ -487,6 +506,7 @@ function toDataURL() {
  *       setColor(`black`);
  *       play();
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setFontSize(25);
@@ -494,6 +514,7 @@ function toDataURL() {
  *       const seconds = (millis()/1000).toFixed(1);
  *       text(`${seconds}s`, width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       togglePlay();
  *     }

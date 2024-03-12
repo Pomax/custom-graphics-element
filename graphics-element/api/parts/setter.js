@@ -55,6 +55,28 @@ function setColor(color) {
  *
  * Use any other string found over on the MDN cursor article to set a cursor not covered by the above constants.
  *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`#FF02`);
+ *       rect(0, 0, width/2, height);
+ *       setColor(`#0FF2`);
+ *       rect(width/2, 0, width/2, height);
+ *     }
+ *
+ *     function pointerMove(x, y) {
+ *       if (x < width/2) {
+ *         setCursor(AUTO);
+ *       } else {
+ *         noCursor();
+ *       }
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
  * @param {string} type The CSS cursor type
  */
 function setCursor(type) {
@@ -136,6 +158,7 @@ function setFontWeight(val) {
  *       setSize(200, 200);
  *       setGrid(20, `lavender`);
  *     }
+ *
  *     function draw() {
  *       clear(`white`);
  *     }
@@ -163,6 +186,7 @@ function setGrid(spacing = 20, color = `lightgrey`) {
  *       setSize(200, 200);
  *       setHighlightColor(`lime`);
  *     }
+ *
  *     function draw() {
  *       clear();
  *       setColor(`red`);
@@ -170,6 +194,7 @@ function setGrid(spacing = 20, color = `lightgrey`) {
  *       setTextAlign(CENTER, MIDDLE);
  *       text("let's go", width/2, height/2)
  *     }
+ *
  *     function pointerActive(state) {
  *       if (state) highlight(`red`);
  *       else highlight(false);

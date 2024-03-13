@@ -509,7 +509,6 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
     end();
     save();
     noFill();
-    console.log({ i, x, y, py, dy, pdy });
     point(x * xscale, py * yscale);
     point(x * xscale, y * yscale);
     restore();

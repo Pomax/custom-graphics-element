@@ -55,12 +55,15 @@ function parseComment(stream, blocks) {
  * parse a function name out of the stream.
  */
 function parseFName(stream) {
-  const copy = stream.slice(0, 100).join(``);
-  // console.log(copy);
-  let fmatch = copy.match(/function (\S+)\(/)?.[1];
-  let cmatch = copy.match(/^\s*(\S+),/)?.[1];
-  let rnmatch = copy.match(/^\s*\S+\s*:\s*(\S+),/)?.[1];
-  const fname = cmatch ?? rnmatch ?? fmatch;
+  while (stream[0].trim() === "") stream.shift();
+  const copy = stream.slice(0, stream.indexOf(`\n`)).join(``);
+
+  const functionMatch = copy.match(/function (\S+)\(/)?.[1];
+  const varMatch = copy.match(/(const|let) ([^\s;]+)/)?.[2];
+  const destructureMatch = copy.match(/^\s*(\S+),/)?.[1];
+  const renamedMatch = copy.match(/^\s*\S+\s*:\s*(\S+),/)?.[1];
+  const fname = functionMatch ?? varMatch ?? destructureMatch ?? renamedMatch;
+
   stream.splice(0, copy.indexOf(fname) + fname.length);
   return fname.trim();
 }
@@ -244,7 +247,7 @@ function getParamsAndReturn(fname, comment) {
     const next = comment.slice(0, 4).join(``);
     if (next === `\n *\n` && set.__updated) {
       // FIXME: This is somewhat brittle and relies on indent. That's
-      //        fine for now, but may be a promblem in the future.
+      //        fine for now, but may be a problem in the future.
       saveSet();
     }
   }
@@ -416,12 +419,36 @@ const pageCode = (
   )
 ).join(`\n\n`);
 
-const dValues = Object.values(declarations).sort((a, b) => {
-  const { namespace: na, fname: fa } = a;
-  const { namespace: nb, fname: fb } = b;
-  if (na === nb) return fa < fb ? -1 : fa > fb ? 1 : 0;
-  return na < nb ? -1 : na > nb ? 1 : 0;
-});
+// Derive the Table of Content HTML
+
+const dValues = Object.values(declarations)
+  // let's make sure we know whether something's a constant
+  .map((v) => {
+    v.constant = v.declarations.some((v) => v.includes(`declare const`));
+    return v;
+  })
+  // Then let's sort them on namespace first, then on whether
+  // or not they're constants, and then alphabetically.
+  .sort((a, b) => {
+    const { namespace: na, fname: fa } = a;
+    const { namespace: nb, fname: fb } = b;
+
+    // same namesace?
+    if (na === nb) {
+      // constant
+      const ac = a.constant;
+      const bc = b.constant;
+      if (ac || bc) {
+        if (ac && !bc) return -1;
+        if (!ac && bc) return 1;
+      }
+      // either both constants, or both functions
+      return fa < fb ? -1 : fa > fb ? 1 : 0;
+    }
+    // different namespace.
+    return na < nb ? -1 : na > nb ? 1 : 0;
+  });
+
 const toc =
   `<h4 class="sep">${dValues[0].namespace} functions</h4>` +
   `<ul>` +
@@ -437,7 +464,8 @@ const toc =
       (v, pos) =>
         (v.__sep && pos
           ? `</ul><h4 class="sep">${v.namespace} functions</h4><ul>`
-          : ``) + `<li><a href="#${v.fname}">${v.fname}</a></li>`
+          : ``) +
+        `<li><a href="#${v.fname}" class="${v.constant ? `const` : `fn`}">${v.fname}</a></li>`
     )
     .join(``) +
   `</ul>`;
@@ -454,74 +482,23 @@ fs.writeFileSync(
     <title>example test</title>
     <script type="module" src="dist/graphics-element.js" async></script>
     <link rel="stylesheet" href="dist/graphics-element.css" async />
-    <style>
-      body {
-        font-family: Helvetica;
-        width: 800px;
-        margin: auto;
-        border: 1px solid black;
-        border-width: 0px 1px;
-        padding: 0 1rem;
-        h1 {
-          background: #f8f8f8;
-          margin: 0 -1rem;
-          padding: 0 1rem;
-          span {
-            vertical-align: -0.05em;
-          }
-        }
-        #toc {
-          column-count: 3;
-          padding: 1em 0 2em;
-          ul {
-            margin: 0;
-          }
-          h4.sep {
-            text-transform: capitalize;
-            margin: 0.5em 0;
-            margin-top: 0.5em;
-            &:first-child {
-              margin-top: 0;
-            }
-          }
-        }
-        a {
-          &:link,
-          &:visited,
-          &:active,
-          &:hover,
-          &:focus {
-            color: #06c;
-          }
-          text-decoration: none;
-          &[href="#top"] {
-            float: right;
-            font-size: 0.8em;
-            margin-top: 0.2em;
-          }
-        }
-        section {
-          graphics-element {
-            min-width: 200px;
-            min-height: 200px;
-          }
-          code.const {
-            display: block;
-            margin-top: 1em;
-            margin-left: 2em;
-          }
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="graphics-element-api.css" async />
   </head>
   <body>
-  <h1 id="top" style="text-align: center; font-size: 2.5em">The <span>&lt;</span>graphics-element<span>&gt;</span> API</h1>
+  <h1 id="top" style="text-align: center; font-size: 2.5em">
+    The <a href=".."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
+  </h1>
   <p>
-      This is the API documentation for &lt;graphics-element&gt; source code,
-      which at its code is simply plain JavaScript with a bunch of extra global
-      constants and functions to allow you to quickly but cleanly get (interactive,
-      and animated) graphics onto a page using the native web stack instead of
-      needing some kind of build system.
+    This is the API documentation for &lt;graphics-element&gt; source code,
+    which at its code is simply plain JavaScript with a bunch of extra global
+    constants and functions to allow you to quickly but cleanly get (interactive,
+    and animated) graphics onto a page using the native web stack instead of
+    needing some kind of build system.
+  </p>
+  <p>
+    Note that the index just below is ordered by category, but the full list
+    itself is ordered alphabetically to allow you to search by scrolling
+    as well as searcing the index.
   </p>
   <section id="toc">
   ${toc}

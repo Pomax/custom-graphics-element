@@ -5,69 +5,12 @@
       <title>example test</title>
       <script type="module" src="dist/graphics-element.js" async></script>
       <link rel="stylesheet" href="dist/graphics-element.css" async />
-      <style>
-        body {
-          font-family: Helvetica;
-          width: 800px;
-          margin: auto;
-          border: 1px solid black;
-          border-width: 0px 1px;
-          padding: 0 1rem;
-          h1 {
-            background: #f8f8f8;
-            margin: 0 -1rem;
-            padding: 0 1rem;
-            span {
-              vertical-align: -0.05em;
-            }
-          }
-          #toc {
-            column-count: 3;
-            padding: 1em 0 2em;
-            ul {
-              margin: 0;
-            }
-            h4.sep {
-              text-transform: capitalize;
-              margin: 0.5em 0;
-              margin-top: 0.5em;
-              &:first-child {
-                margin-top: 0;
-              }
-            }
-          }
-          a {
-            &:link,
-            &:visited,
-            &:active,
-            &:hover,
-            &:focus {
-              color: #06c;
-            }
-            text-decoration: none;
-            &[href="#top"] {
-              float: right;
-              font-size: 0.8em;
-              margin-top: 0.2em;
-            }
-          }
-          section {
-            graphics-element {
-              min-width: 200px;
-              min-height: 200px;
-            }
-            code.const {
-              display: block;
-              margin-top: 1em;
-              margin-left: 2em;
-            }
-          }
-        }
-      </style>
+      <link rel="stylesheet" href="graphics-element-api.css" async />
     </head>
     <body>
       <h1 id="top" style="text-align: center; font-size: 2.5em">
-        The <span>&lt;</span>graphics-element<span>&gt;</span> API
+        The
+        <a href=".."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
       </h1>
       <p>
         This is the API documentation for &lt;graphics-element&gt; source code,
@@ -76,148 +19,165 @@
         (interactive, and animated) graphics onto a page using the native web
         stack instead of needing some kind of build system.
       </p>
+      <p>
+        Note that the index just below is ordered by category, but the full list
+        itself is ordered alphabetically to allow you to search by scrolling as
+        well as searcing the index.
+      </p>
       <section id="toc">
         <h4 class="sep">DOM functions</h4>
         <ul>
-          <li><a href="#addButton">addButton</a></li>
-          <li><a href="#addSlider">addSlider</a></li>
-          <li><a href="#clearButtons">clearButtons</a></li>
-          <li><a href="#clearSliders">clearSliders</a></li>
+          <li><a href="#addButton" class="fn">addButton</a></li>
+          <li><a href="#addSlider" class="fn">addSlider</a></li>
+          <li><a href="#clearButtons" class="fn">clearButtons</a></li>
+          <li><a href="#clearSliders" class="fn">clearSliders</a></li>
         </ul>
         <h4 class="sep">disabling functions</h4>
         <ul>
-          <li><a href="#noBorder">noBorder</a></li>
-          <li><a href="#noColor">noColor</a></li>
-          <li><a href="#noCursor">noCursor</a></li>
-          <li><a href="#noFill">noFill</a></li>
-          <li><a href="#noGrid">noGrid</a></li>
-          <li><a href="#noLineDash">noLineDash</a></li>
-          <li><a href="#noStroke">noStroke</a></li>
-          <li><a href="#noTextStroke">noTextStroke</a></li>
+          <li><a href="#noBorder" class="fn">noBorder</a></li>
+          <li><a href="#noColor" class="fn">noColor</a></li>
+          <li><a href="#noCursor" class="fn">noCursor</a></li>
+          <li><a href="#noFill" class="fn">noFill</a></li>
+          <li><a href="#noGrid" class="fn">noGrid</a></li>
+          <li><a href="#noLineDash" class="fn">noLineDash</a></li>
+          <li><a href="#noStroke" class="fn">noStroke</a></li>
+          <li><a href="#noTextStroke" class="fn">noTextStroke</a></li>
         </ul>
         <h4 class="sep">draw functions</h4>
         <ul>
-          <li><a href="#arc">arc</a></li>
-          <li><a href="#axes">axes</a></li>
-          <li><a href="#bezier">bezier</a></li>
-          <li><a href="#bspline">bspline</a></li>
-          <li><a href="#circle">circle</a></li>
-          <li><a href="#clear">clear</a></li>
-          <li><a href="#end">end</a></li>
-          <li><a href="#image">image</a></li>
-          <li><a href="#line">line</a></li>
-          <li><a href="#plot">plot</a></li>
-          <li><a href="#plotData">plotData</a></li>
-          <li><a href="#point">point</a></li>
-          <li><a href="#rect">rect</a></li>
-          <li><a href="#spline">spline</a></li>
-          <li><a href="#start">start</a></li>
-          <li><a href="#text">text</a></li>
-          <li><a href="#triangle">triangle</a></li>
-          <li><a href="#vertex">vertex</a></li>
+          <li><a href="#arc" class="fn">arc</a></li>
+          <li><a href="#axes" class="fn">axes</a></li>
+          <li><a href="#bezier" class="fn">bezier</a></li>
+          <li><a href="#bspline" class="fn">bspline</a></li>
+          <li><a href="#circle" class="fn">circle</a></li>
+          <li><a href="#clear" class="fn">clear</a></li>
+          <li><a href="#end" class="fn">end</a></li>
+          <li><a href="#image" class="fn">image</a></li>
+          <li><a href="#line" class="fn">line</a></li>
+          <li><a href="#plot" class="fn">plot</a></li>
+          <li><a href="#plotData" class="fn">plotData</a></li>
+          <li><a href="#point" class="fn">point</a></li>
+          <li><a href="#rect" class="fn">rect</a></li>
+          <li><a href="#spline" class="fn">spline</a></li>
+          <li><a href="#start" class="fn">start</a></li>
+          <li><a href="#text" class="fn">text</a></li>
+          <li><a href="#triangle" class="fn">triangle</a></li>
+          <li><a href="#vertex" class="fn">vertex</a></li>
         </ul>
         <h4 class="sep">general functions</h4>
         <ul>
-          <li><a href="#array">array</a></li>
-          <li><a href="#clearMovable">clearMovable</a></li>
-          <li><a href="#color">color</a></li>
-          <li><a href="#copy">copy</a></li>
-          <li><a href="#highlight">highlight</a></li>
-          <li><a href="#isMovable">isMovable</a></li>
-          <li><a href="#millis">millis</a></li>
-          <li><a href="#pause">pause</a></li>
-          <li><a href="#play">play</a></li>
-          <li><a href="#randomColor">randomColor</a></li>
-          <li><a href="#range">range</a></li>
-          <li><a href="#restore">restore</a></li>
-          <li><a href="#save">save</a></li>
-          <li><a href="#setMovable">setMovable</a></li>
-          <li><a href="#toDataURL">toDataURL</a></li>
-          <li><a href="#togglePlay">togglePlay</a></li>
+          <li><a href="#currentPoint" class="const">currentPoint</a></li>
+          <li><a href="#frame" class="const">frame</a></li>
+          <li><a href="#frameDelta" class="const">frameDelta</a></li>
+          <li><a href="#height" class="const">height</a></li>
+          <li><a href="#keyboard" class="const">keyboard</a></li>
+          <li><a href="#playing" class="const">playing</a></li>
+          <li><a href="#pointer" class="const">pointer</a></li>
+          <li><a href="#width" class="const">width</a></li>
+          <li><a href="#array" class="fn">array</a></li>
+          <li><a href="#clearMovable" class="fn">clearMovable</a></li>
+          <li><a href="#color" class="fn">color</a></li>
+          <li><a href="#copy" class="fn">copy</a></li>
+          <li><a href="#find" class="fn">find</a></li>
+          <li><a href="#findAll" class="fn">findAll</a></li>
+          <li><a href="#highlight" class="fn">highlight</a></li>
+          <li><a href="#isMovable" class="fn">isMovable</a></li>
+          <li><a href="#millis" class="fn">millis</a></li>
+          <li><a href="#pause" class="fn">pause</a></li>
+          <li><a href="#play" class="fn">play</a></li>
+          <li><a href="#randomColor" class="fn">randomColor</a></li>
+          <li><a href="#range" class="fn">range</a></li>
+          <li><a href="#redraw" class="fn">redraw</a></li>
+          <li><a href="#restore" class="fn">restore</a></li>
+          <li><a href="#save" class="fn">save</a></li>
+          <li><a href="#setMovable" class="fn">setMovable</a></li>
+          <li><a href="#setSize" class="fn">setSize</a></li>
+          <li><a href="#toDataURL" class="fn">toDataURL</a></li>
+          <li><a href="#togglePlay" class="fn">togglePlay</a></li>
         </ul>
         <h4 class="sep">math functions</h4>
         <ul>
-          <li><a href="#E">E</a></li>
-          <li><a href="#PI">PI</a></li>
-          <li><a href="#TAU">TAU</a></li>
-          <li><a href="#abs">abs</a></li>
-          <li><a href="#acos">acos</a></li>
-          <li><a href="#acosh">acosh</a></li>
-          <li><a href="#asin">asin</a></li>
-          <li><a href="#asinh">asinh</a></li>
-          <li><a href="#atan">atan</a></li>
-          <li><a href="#atan2">atan2</a></li>
-          <li><a href="#atanh">atanh</a></li>
-          <li><a href="#cbrt">cbrt</a></li>
-          <li><a href="#ceil">ceil</a></li>
-          <li><a href="#clz32">clz32</a></li>
-          <li><a href="#constrain">constrain</a></li>
-          <li><a href="#cos">cos</a></li>
-          <li><a href="#cosh">cosh</a></li>
-          <li><a href="#csc">csc</a></li>
-          <li><a href="#ctn">ctn</a></li>
-          <li><a href="#degrees">degrees</a></li>
-          <li><a href="#dist">dist</a></li>
-          <li><a href="#epsilon">epsilon</a></li>
-          <li><a href="#exp">exp</a></li>
-          <li><a href="#expm1">expm1</a></li>
-          <li><a href="#floor">floor</a></li>
-          <li><a href="#fround">fround</a></li>
-          <li><a href="#huge">huge</a></li>
-          <li><a href="#hypot">hypot</a></li>
-          <li><a href="#imul">imul</a></li>
-          <li><a href="#ln">ln</a></li>
-          <li><a href="#log">log</a></li>
-          <li><a href="#log2">log2</a></li>
-          <li><a href="#map">map</a></li>
-          <li><a href="#max">max</a></li>
-          <li><a href="#min">min</a></li>
-          <li><a href="#pow">pow</a></li>
-          <li><a href="#radians">radians</a></li>
-          <li><a href="#random">random</a></li>
-          <li><a href="#round">round</a></li>
-          <li><a href="#sec">sec</a></li>
-          <li><a href="#sign">sign</a></li>
-          <li><a href="#sin">sin</a></li>
-          <li><a href="#sinh">sinh</a></li>
-          <li><a href="#sqrt">sqrt</a></li>
-          <li><a href="#tan">tan</a></li>
-          <li><a href="#tanh">tanh</a></li>
-          <li><a href="#trunc">trunc</a></li>
+          <li><a href="#E" class="const">E</a></li>
+          <li><a href="#PI" class="const">PI</a></li>
+          <li><a href="#TAU" class="const">TAU</a></li>
+          <li><a href="#epsilon" class="const">epsilon</a></li>
+          <li><a href="#huge" class="const">huge</a></li>
+          <li><a href="#abs" class="fn">abs</a></li>
+          <li><a href="#acos" class="fn">acos</a></li>
+          <li><a href="#acosh" class="fn">acosh</a></li>
+          <li><a href="#asin" class="fn">asin</a></li>
+          <li><a href="#asinh" class="fn">asinh</a></li>
+          <li><a href="#atan" class="fn">atan</a></li>
+          <li><a href="#atan2" class="fn">atan2</a></li>
+          <li><a href="#atanh" class="fn">atanh</a></li>
+          <li><a href="#cbrt" class="fn">cbrt</a></li>
+          <li><a href="#ceil" class="fn">ceil</a></li>
+          <li><a href="#clz32" class="fn">clz32</a></li>
+          <li><a href="#constrain" class="fn">constrain</a></li>
+          <li><a href="#cos" class="fn">cos</a></li>
+          <li><a href="#cosh" class="fn">cosh</a></li>
+          <li><a href="#csc" class="fn">csc</a></li>
+          <li><a href="#ctn" class="fn">ctn</a></li>
+          <li><a href="#degrees" class="fn">degrees</a></li>
+          <li><a href="#dist" class="fn">dist</a></li>
+          <li><a href="#exp" class="fn">exp</a></li>
+          <li><a href="#floor" class="fn">floor</a></li>
+          <li><a href="#fround" class="fn">fround</a></li>
+          <li><a href="#hypot" class="fn">hypot</a></li>
+          <li><a href="#imul" class="fn">imul</a></li>
+          <li><a href="#ln" class="fn">ln</a></li>
+          <li><a href="#log" class="fn">log</a></li>
+          <li><a href="#log2" class="fn">log2</a></li>
+          <li><a href="#map" class="fn">map</a></li>
+          <li><a href="#max" class="fn">max</a></li>
+          <li><a href="#min" class="fn">min</a></li>
+          <li><a href="#pow" class="fn">pow</a></li>
+          <li><a href="#radians" class="fn">radians</a></li>
+          <li><a href="#random" class="fn">random</a></li>
+          <li><a href="#round" class="fn">round</a></li>
+          <li><a href="#sec" class="fn">sec</a></li>
+          <li><a href="#sign" class="fn">sign</a></li>
+          <li><a href="#sin" class="fn">sin</a></li>
+          <li><a href="#sinh" class="fn">sinh</a></li>
+          <li><a href="#sqrt" class="fn">sqrt</a></li>
+          <li><a href="#tan" class="fn">tan</a></li>
+          <li><a href="#tanh" class="fn">tanh</a></li>
+          <li><a href="#trunc" class="fn">trunc</a></li>
         </ul>
         <h4 class="sep">projection functions</h4>
         <ul>
-          <li><a href="#project">project</a></li>
-          <li><a href="#rotateProjector">rotateProjector</a></li>
-          <li><a href="#setProjector">setProjector</a></li>
+          <li><a href="#project" class="fn">project</a></li>
+          <li><a href="#rotateProjector" class="fn">rotateProjector</a></li>
+          <li><a href="#setProjector" class="fn">setProjector</a></li>
         </ul>
         <h4 class="sep">setter functions</h4>
         <ul>
-          <li><a href="#setBorder">setBorder</a></li>
-          <li><a href="#setColor">setColor</a></li>
-          <li><a href="#setCursor">setCursor</a></li>
-          <li><a href="#setFill">setFill</a></li>
-          <li><a href="#setFont">setFont</a></li>
-          <li><a href="#setFontFamily">setFontFamily</a></li>
-          <li><a href="#setFontSize">setFontSize</a></li>
-          <li><a href="#setFontWeight">setFontWeight</a></li>
-          <li><a href="#setGrid">setGrid</a></li>
-          <li><a href="#setHighlightColor">setHighlightColor</a></li>
-          <li><a href="#setLineDash">setLineDash</a></li>
-          <li><a href="#setLineWidth">setLineWidth</a></li>
-          <li><a href="#setStroke">setStroke</a></li>
-          <li><a href="#setTextAlign">setTextAlign</a></li>
-          <li><a href="#setTextStroke">setTextStroke</a></li>
+          <li><a href="#setBorder" class="fn">setBorder</a></li>
+          <li><a href="#setColor" class="fn">setColor</a></li>
+          <li><a href="#setCursor" class="fn">setCursor</a></li>
+          <li><a href="#setFill" class="fn">setFill</a></li>
+          <li><a href="#setFont" class="fn">setFont</a></li>
+          <li><a href="#setFontFamily" class="fn">setFontFamily</a></li>
+          <li><a href="#setFontSize" class="fn">setFontSize</a></li>
+          <li><a href="#setFontWeight" class="fn">setFontWeight</a></li>
+          <li><a href="#setGrid" class="fn">setGrid</a></li>
+          <li><a href="#setHighlightColor" class="fn">setHighlightColor</a></li>
+          <li><a href="#setLineDash" class="fn">setLineDash</a></li>
+          <li><a href="#setLineWidth" class="fn">setLineWidth</a></li>
+          <li><a href="#setStroke" class="fn">setStroke</a></li>
+          <li><a href="#setTextAlign" class="fn">setTextAlign</a></li>
+          <li><a href="#setTextStroke" class="fn">setTextStroke</a></li>
         </ul>
         <h4 class="sep">transform functions</h4>
         <ul>
-          <li><a href="#resetTransform">resetTransform</a></li>
-          <li><a href="#rotate">rotate</a></li>
-          <li><a href="#scale">scale</a></li>
-          <li><a href="#screenToWorld">screenToWorld</a></li>
-          <li><a href="#transform">transform</a></li>
-          <li><a href="#translate">translate</a></li>
-          <li><a href="#worldToScreen">worldToScreen</a></li>
+          <li><a href="#center" class="fn">center</a></li>
+          <li><a href="#resetTransform" class="fn">resetTransform</a></li>
+          <li><a href="#rotate" class="fn">rotate</a></li>
+          <li><a href="#scale" class="fn">scale</a></li>
+          <li><a href="#screenToWorld" class="fn">screenToWorld</a></li>
+          <li><a href="#transform" class="fn">transform</a></li>
+          <li><a href="#translate" class="fn">translate</a></li>
+          <li><a href="#worldToScreen" class="fn">worldToScreen</a></li>
         </ul>
       </section>
 
@@ -237,6 +197,29 @@
         </ul>
         <h3>Description</h3>
         <p>Get the absolute value for some input</p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  setCursor(`none`);
+  clear(`white`);
+  center();
+  plot((x) => abs(x), -width / 2, width / 2);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  setCursor(`none`);
+  clear(`white`);
+  center();
+  plot((x) =&gt; abs(x), -width / 2, width / 2);
+}
+</pre
+        >
       </section>
 
       <section id="acos">
@@ -255,100 +238,6 @@
         <h3>Description</h3>
         <p>The inverse cosine function</p>
 
-        <h3>Examples</h3>
-        <!-- prettier-ignore -->
-        <graphics-element width="200px" height="200px">
-            <graphics-source>
-function draw() {
-  setCursor(`none`);
-  clear(`white`);
-  translate(20, 30);
-  const a = PI / 3;
-  const x = cos(a);
-  const y = sin(a);
-  const s = width - 60;
-  axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1);
-  scale(s);
-  setLineWidth(1 / s);
-
-  noFill();
-  arc(0, 0, 1, 0, PI / 2);
-  arc(0, 0, 1.1, 0, PI / 3.5);
-  line(x + 25 / s, y, x + 35 / s, y - 2 / s);
-  line(x + 25 / s, y, x + 30 / s, y - 10 / s);
-
-  setColor(`black`);
-  circle(x, y, 3 / s);
-  setFontSize(16 / s);
-  text(`pi/3`, x + 5 / s, y + 15 / s);
-
-  setLineWidth(2 / s);
-  setColor(`red`);
-  line(0, 0, x, 0);
-  line(0, y, x, y);
-  text(`cos`, x / 3, -2 / s);
-
-  setColor(`blue`);
-  line(0, 0, 0, y);
-  line(x, 0, x, y);
-  text(`sin`, 2 / s, y / 2);
-
-  noFill();
-  setStroke(`#d2d`);
-  arc(0, 0, 1, 0, PI / 3);
-
-  setColor(`purple`);
-  text(`acos(red)`, 100 / s, 75 / s);
-  text(`asin(blue)`, 100 / s, 53 / s);
-}
-
-</graphics-source>
-          </graphics-element>
-        <pre>
-function draw() {
-  setCursor(`none`);
-  clear(`white`);
-  translate(20, 30);
-  const a = PI / 3;
-  const x = cos(a);
-  const y = sin(a);
-  const s = width - 60;
-  axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1);
-  scale(s);
-  setLineWidth(1 / s);
-
-  noFill();
-  arc(0, 0, 1, 0, PI / 2);
-  arc(0, 0, 1.1, 0, PI / 3.5);
-  line(x + 25 / s, y, x + 35 / s, y - 2 / s);
-  line(x + 25 / s, y, x + 30 / s, y - 10 / s);
-
-  setColor(`black`);
-  circle(x, y, 3 / s);
-  setFontSize(16 / s);
-  text(`pi/3`, x + 5 / s, y + 15 / s);
-
-  setLineWidth(2 / s);
-  setColor(`red`);
-  line(0, 0, x, 0);
-  line(0, y, x, y);
-  text(`cos`, x / 3, -2 / s);
-
-  setColor(`blue`);
-  line(0, 0, 0, y);
-  line(x, 0, x, y);
-  text(`sin`, 2 / s, y / 2);
-
-  noFill();
-  setStroke(`#d2d`);
-  arc(0, 0, 1, 0, PI / 3);
-
-  setColor(`purple`);
-  text(`acos(red)`, 100 / s, 75 / s);
-  text(`asin(blue)`, 100 / s, 53 / s);
-}
-</pre
-        >
         <h3>See also:</h3>
         <ul>
           <li><a href="#asin">asin</a></li>
@@ -362,13 +251,28 @@ function draw() {
           <li>
             <code>acosh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The hyperbolic inverse cosine (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic inverse cosine function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#asinh">asinh</a></li>
+          <li><a href="#acos">acos</a></li>
+        </ul>
       </section>
 
       <section id="addButton">
@@ -692,13 +596,19 @@ function draw() {
           <li>
             <code>asin(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The inverse sine (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The inverse sine function</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#acos">acos</a></li>
+          <li><a href="#asinh">asinh</a></li>
+        </ul>
       </section>
 
       <section id="asinh">
@@ -707,13 +617,28 @@ function draw() {
           <li>
             <code>asinh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The hyperbolic inverse sine (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic inverse sine function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#acosh">acosh</a></li>
+          <li><a href="#asin">asin</a></li>
+        </ul>
       </section>
 
       <section id="atan">
@@ -722,28 +647,42 @@ function draw() {
           <li>
             <code>atan(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The inverse tangent (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The inverse tangent function</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#tan">tan</a></li>
+        </ul>
       </section>
 
       <section id="atan2">
         <h1><a href="#atan2">atan2</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>atan2(input: number): number</code>
+            <code>atan2(input: x): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The atan2 angle for this number pair
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The &quot;atan2&quot; function</p>
+        <p>
+          See
+          <a href="https://en.wikipedia.org/wiki/Atan2"
+            >https://en.wikipedia.org/wiki/Atan2</a
+          >
+        </p>
       </section>
 
       <section id="atanh">
@@ -752,13 +691,30 @@ function draw() {
           <li>
             <code>atanh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The hyperbolic inverse tangent
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic inverse tangent function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#tan">tan</a></li>
+          <li><a href="#acosh">acosh</a></li>
+          <li><a href="#asinh">asinh</a></li>
+        </ul>
       </section>
 
       <section id="axes">
@@ -1067,13 +1023,21 @@ function draw() {
           <li>
             <code>cbrt(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The (real) cube root of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The cube root function</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#sqrt">sqrt</a></li>
+        </ul>
       </section>
 
       <section id="ceil">
@@ -1082,13 +1046,82 @@ function draw() {
           <li>
             <code>ceil(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The integer result after rounding up.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The &quot;round up to the nearest integer&quot; function.</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#floor">floor</a></li>
+          <li><a href="#round">round</a></li>
+        </ul>
+      </section>
+
+      <section id="center">
+        <h1><a href="#center">center</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>center()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Centers the coordinate system on your graphic. This is equivalent to
+          calling:
+        </p>
+        <pre><code>translate(width/2, height/2);
+</code></pre>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  center();
+  setColor(`black`);
+  line(0, -huge, 0, huge);
+  line(-huge, 0, huge, 0);
+  setColor(randomColor());
+  point(10, 10);
+  setColor(randomColor());
+  point(10, -10);
+  setColor(randomColor());
+  point(-10, -10);
+  setColor(randomColor());
+  point(-10, 10);
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  clear(`white`);
+  setColor(`red`);
+  center();
+  setColor(`black`);
+  line(0, -huge, 0, huge);
+  line(-huge, 0, huge, 0);
+  setColor(randomColor());
+  point(10, 10);
+  setColor(randomColor());
+  point(10, -10);
+  setColor(randomColor());
+  point(-10, -10);
+  setColor(randomColor());
+  point(-10, 10);
+}
+</pre
+        >
       </section>
 
       <section id="circle">
@@ -1381,13 +1414,19 @@ function pointerDown() {
           <li>
             <code>clz32(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The number of leading zero bits in the 32-bit
+              binary representation of that number. (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          Get the number of leading zero bits in the 32-bit binary
+          representation of a number
+        </p>
       </section>
 
       <section id="color">
@@ -1527,13 +1566,18 @@ function pointerDown(x, y) {
           <li>
             <code>cos(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The cosine (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The cosine function</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#sin">sin</a></li>
+        </ul>
       </section>
 
       <section id="cosh">
@@ -1542,13 +1586,26 @@ function pointerDown(x, y) {
           <li>
             <code>cosh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The hyperbolic cosine (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic cosine function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#cos">cos</a></li>
+          <li><a href="#acosh">acosh</a></li>
+        </ul>
       </section>
 
       <section id="csc">
@@ -1593,6 +1650,18 @@ function pointerDown(x, y) {
         <ul>
           <li><a href="#tan">tan</a></li>
         </ul>
+      </section>
+
+      <section id="currentPoint">
+        <h1><a href="#currentPoint">currentPoint</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>
+          If any points were registered as movable, and the pointer is near
+          enough to a movable point, this value will point to that movable
+          point, or <code>false</code> if the pointer is not near any movable
+          point (or, of course, there are no movable points)
+        </p>
       </section>
 
       <section id="degrees">
@@ -1761,28 +1830,71 @@ function draw() {
           <li>
             <code>exp(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The value of E raised to that number's power
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The exponent function, that is: e^x</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#E">E</a></li>
+        </ul>
       </section>
 
-      <section id="expm1">
-        <h1><a href="#expm1">expm1</a> <a href="#top">top</a></h1>
+      <section id="find">
+        <h1><a href="#find">find</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>expm1(input: number): number</code>
+            <code>find(querySelector: string): HTMLElement|null</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>querySelector</code> - A query selector</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns the matched element, or null if there was no match.
+              (<code>HTMLElement|null</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          Find an HTML element inside your graphics-element by query selector.
+          This is equivalent to:
+        </p>
+        <pre><code>yourElement.querySelector(qs)
+</code></pre>
+      </section>
+
+      <section id="findAll">
+        <h1><a href="#findAll">findAll</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>findAll(querySelector: string): HTMLElement[]</code>
+            <ul class="params">
+              <li><code>querySelector</code> - A query selector</li>
+            </ul>
+            <p>
+              returns an array with all matching elements, [] if there were no
+              matches. (<code>HTMLElement[]</code>)
+            </p>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Find all HTML elements inside your graphics-element that match a given
+          query selector. This is equivalent to:
+        </p>
+        <pre><code>yourElement.querySelectorAll(qs)
+</code></pre>
+        <p>
+          Note that this function does <em>not</em> return a NodeList and
+          instead returns a plain array.
+        </p>
       </section>
 
       <section id="floor">
@@ -1791,13 +1903,36 @@ function draw() {
           <li>
             <code>floor(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The integer result after rounding down.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The &quot;round down to the nearest integer&quot; function.</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#ceil">ceil</a></li>
+          <li><a href="#round">round</a></li>
+        </ul>
+      </section>
+
+      <section id="frame">
+        <h1><a href="#frame">frame</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The current frame number</p>
+      </section>
+
+      <section id="frameDelta">
+        <h1><a href="#frameDelta">frameDelta</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The number of milliseconds since the last frame.</p>
       </section>
 
       <section id="fround">
@@ -1806,13 +1941,31 @@ function draw() {
           <li>
             <code>fround(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The number after rounding to the nearest 32 bit
+              floating point representation. (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          Round a number to the nearest 32 bit, rather than the standard JS 64
+          bit, floating point representation.
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#round">round</a></li>
+        </ul>
+      </section>
+
+      <section id="height">
+        <h1><a href="#height">height</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The height of the canvas in pixels</p>
       </section>
 
       <section id="highlight">
@@ -1900,15 +2053,18 @@ function pointerActive(state) {
         <h1><a href="#hypot">hypot</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>hypot(input: number): number</code>
+            <code>hypot(...input: number[]): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>...input</code> - Two or more numbers</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The hypotenuse given those numbers.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The Euclidean hypotenuse function</p>
       </section>
 
       <section id="image">
@@ -1985,15 +2141,19 @@ async function draw() {
         <h1><a href="#imul">imul</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>imul(input: number): number</code>
+            <code>imul(a: number, b: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>a</code> - Any 32 bit integer</li>
+              <li><code>b</code> - Any 32 bit integer</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The 32 bit integer result of a * b
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The 32 bit integer multiplication function.</p>
       </section>
 
       <section id="isMovable">
@@ -2082,6 +2242,25 @@ function pointerDown(x, y) {
         </ul>
       </section>
 
+      <section id="keyboard">
+        <h1><a href="#keyboard">keyboard</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>
+          The <code>keyboard</code> object is a truth table that can be checked
+          to see if any key is currently pressed, and if so, when that keypress
+          was initiated, by storing:
+        </p>
+        <pre><code>{
+  [key:string]: datetime
+}
+</code></pre>
+        <p>
+          When a key is released, its mapping is removed entirely, rather than
+          it being set to a falsey value.
+        </p>
+      </section>
+
       <section id="line">
         <h1><a href="#line">line</a> <a href="#top">top</a></h1>
         <ol class="signatures">
@@ -2133,13 +2312,26 @@ function draw() {
           <li>
             <code>ln(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The natural logarithm of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The natural logarithm function, i.e. the base-E logarithm</p>
+        <p>
+          (Note that in JS this function is called &quot;log&quot; rather than
+          &quot;ln&quot;)
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#E">E</a></li>
+          <li><a href="#log">log</a></li>
+        </ul>
       </section>
 
       <section id="log">
@@ -2148,13 +2340,27 @@ function draw() {
           <li>
             <code>log(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The common logarithm of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          The &quot;common logarithm&quot; function, i.e. the base-10 logarithm.
+        </p>
+        <p>
+          (Note that in JS this function is called &quot;log10&quot; rather than
+          &quot;log&quot;)
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#ln">ln</a></li>
+        </ul>
       </section>
 
       <section id="log2">
@@ -2163,13 +2369,22 @@ function draw() {
           <li>
             <code>log2(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The base 2 logarithm of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The binary logarithm function, i.e. the base-2 logarithm.</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#ln">ln</a></li>
+          <li><a href="#log">log</a></li>
+        </ul>
       </section>
 
       <section id="map">
@@ -2223,15 +2438,23 @@ function draw() {
         <h1><a href="#max">max</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>max(input: number): number</code>
+            <code>max(...input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>...input</code> - Any two or more numbers</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The highest valued number from among the input.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>Find the maximum value in a set of numbers</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#min">min</a></li>
+        </ul>
       </section>
 
       <section id="millis">
@@ -2293,15 +2516,23 @@ function draw() {
         <h1><a href="#min">min</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>min(input: number): number</code>
+            <code>min(...input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>...input</code> - Any two or more numbers</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The lowest valued number from among the input.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>Find the minimum value in a set of numbers</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#max">max</a></li>
+        </ul>
       </section>
 
       <section id="noBorder">
@@ -2920,6 +3151,13 @@ function draw() {
         </ul>
       </section>
 
+      <section id="playing">
+        <h1><a href="#playing">playing</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The current play state</p>
+      </section>
+
       <section id="plot">
         <h1><a href="#plot">plot</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -3124,19 +3362,64 @@ function draw() {
         </ul>
       </section>
 
+      <section id="pointer">
+        <h1><a href="#pointer">pointer</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>
+          The <code>pointer</code> object represents the mouse cursor (when
+          using a mouse) or finger position (for touch devices), and models
+          several aspects:
+        </p>
+        <ul>
+          <li>
+            <code>active</code> (boolean) Whether the pointer is even on or over
+            the canvas.
+          </li>
+          <li>
+            <code>x</code> (number) The pointer&#39;s x offset in pixels with
+            respect to the canvas
+          </li>
+          <li>
+            <code>y</code> (number) The pointer&#39;s y offset in pixels with
+            respect to the canvas
+          </li>
+          <li>
+            <code>down</code> (boolean) Whether the pointer is
+            &quot;engaged&quot; or not
+          </li>
+          <li>
+            <code>drag</code> (boolean) Whether a click/touch-drag is in
+            progress
+          </li>
+          <li>
+            <code>mark</code> ({x,y}) When dragging, this represents the
+            original coordinate of the pointer &quot;down&quot; event
+          </li>
+        </ul>
+      </section>
+
       <section id="pow">
         <h1><a href="#pow">pow</a> <a href="#top">top</a></h1>
         <ul class="signatures">
           <li>
-            <code>pow(input: number): number</code>
+            <code>pow(a: number, b: number): number|NaN</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>a</code> - Any number</li>
+              <li><code>b</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output a ** b or NaN if that is undefined
+              (<code>number|NaN</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The power function.</p>
+        <p>
+          Note that this function is a holdover from before JS had the
+          <code>**</code> operator for performing this calculation.
+        </p>
       </section>
 
       <section id="project">
@@ -3465,6 +3748,51 @@ function draw() {
         >
       </section>
 
+      <section id="redraw">
+        <h1><a href="#redraw">redraw</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>redraw()</code>
+            <ul class="params"></ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Safely trigger a new draw pass. If the graphic is running in animated
+          mode, or a redraw() is triggered <em>during</em> a redraw(), this call
+          will do nothing.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function draw() {
+  const h = map(pointer.x, 0, width, 0, 360);
+  const l = map(pointer.y, 0, height, 50, 0);
+  clear(color(h, 100, l));
+}
+
+function pointerMove() {
+  redraw();
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function draw() {
+  const h = map(pointer.x, 0, width, 0, 360);
+  const l = map(pointer.y, 0, height, 50, 0);
+  clear(color(h, 100, l));
+}
+
+function pointerMove() {
+  redraw();
+}
+</pre
+        >
+      </section>
+
       <section id="resetTransform">
         <h1>
           <a href="#resetTransform">resetTransform</a> <a href="#top">top</a>
@@ -3784,13 +4112,25 @@ function draw() {
           <li>
             <code>round(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The integer result after rounding.
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          The &quot;round to the nearest integer&quot; function, rounding any
+          value [x.0, x.4999...] to x, and any value [x.5, x.999...] to x + 1.
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#ceil">ceil</a></li>
+          <li><a href="#floor">floor</a></li>
+        </ul>
       </section>
 
       <section id="save">
@@ -4689,6 +5029,72 @@ function draw() {
         </ul>
       </section>
 
+      <section id="setSize">
+        <h1><a href="#setSize">setSize</a> <a href="#top">top</a></h1>
+        <ul class="signatures">
+          <li>
+            <code>setSize(width: number, height: number)</code>
+            <ul class="params">
+              <li><code>width</code> - The graphics width in pixels</li>
+              <li><code>height</code> - The graphics height in pixels</li>
+            </ul>
+          </li>
+        </ul>
+        <h3>Description</h3>
+        <p>
+          Set (or change) the graphic&#39;s size. Note that your width and
+          height values will get rounded to integer values.
+        </p>
+        <p>
+          Note that <code>setSize</code> will immediately trigger a redraw,
+          whether you want it to or not, because changing canvas dimensions
+          clears the canvas, necessitating a redraw.
+        </p>
+
+        <h3>Examples</h3>
+        <!-- prettier-ignore -->
+        <graphics-element width="200px" height="200px">
+            <graphics-source>
+function setup() {
+  setSize(400, 200);
+}
+
+function draw() {
+  clear();
+  center();
+  setColor(`black`);
+  setFontSize(25);
+  text(`${width}/${height}`, 0, 0, CENTER, MIDDLE);
+}
+
+function pointerUp() {
+  setSize(random(100, 400), 200);
+  // Note that there is no redraw() here!
+}
+
+</graphics-source>
+          </graphics-element>
+        <pre>
+function setup() {
+  setSize(400, 200);
+}
+
+function draw() {
+  clear();
+  center();
+  setColor(`black`);
+  setFontSize(25);
+  text(`${width}/${height}`, 0, 0, CENTER, MIDDLE);
+}
+
+function pointerUp() {
+  setSize(random(100, 400), 200);
+  // Note that there is no redraw() here!
+}
+</pre
+        >
+      </section>
+
       <section id="setStroke">
         <h1><a href="#setStroke">setStroke</a> <a href="#top">top</a></h1>
         <ul class="signatures">
@@ -4891,13 +5297,16 @@ function draw() {
           <li>
             <code>sign(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output +1 if the number was positive, -1 if it was
+              negative, or 0 if the input was zero. (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>Get the sign of a number</p>
       </section>
 
       <section id="sin">
@@ -4906,13 +5315,18 @@ function draw() {
           <li>
             <code>sin(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The sine (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The cosine function</p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#cos">cos</a></li>
+        </ul>
       </section>
 
       <section id="sinh">
@@ -4921,13 +5335,26 @@ function draw() {
           <li>
             <code>sinh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The hyperbolic sine (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic sine function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#sin">sin</a></li>
+          <li><a href="#acosh">acosh</a></li>
+        </ul>
       </section>
 
       <section id="spline">
@@ -5029,13 +5456,27 @@ function draw() {
           <li>
             <code>sqrt(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The square root of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The square root function.</p>
+        <p>
+          Note that this function is a holdover from before JS had the
+          <code>**</code> operator for performing this calculation by using
+          <code>x ** 0.5</code>.
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#cbrt">cbrt</a></li>
+          <li><a href="#pow">pow</a></li>
+        </ul>
       </section>
 
       <section id="start">
@@ -5094,13 +5535,13 @@ function draw() {
           <li>
             <code>tan(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The tangent (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The tangent function</p>
       </section>
 
       <section id="tanh">
@@ -5109,13 +5550,27 @@ function draw() {
           <li>
             <code>tanh(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>returns output The hyperbolic tangent (<code>number</code>)</p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>The hyperbolic tangent function</p>
+        <p>
+          See
+          <a
+            href="https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms"
+            >https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms</a
+          >
+        </p>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#tan">tan</a></li>
+          <li><a href="#asinh">asinh</a></li>
+          <li><a href="#acosh">acosh</a></li>
+        </ul>
       </section>
 
       <section id="TAU">
@@ -5498,13 +5953,30 @@ function draw() {
           <li>
             <code>trunc(input: number): number</code>
             <ul class="params">
-              <li><code>input</code> -</li>
+              <li><code>input</code> - Any number</li>
             </ul>
-            <p>returns output (<code>number</code>)</p>
+            <p>
+              returns output The integer part only of that number
+              (<code>number</code>)
+            </p>
           </li>
         </ul>
         <h3>Description</h3>
-        <p>...</p>
+        <p>
+          Truncate a fraction to an integer by simply dropping the fractional
+          part. Note that this differs from the <code>floor</code> function:
+        </p>
+        <pre><code>floor(4.2);  // 4
+floor(-4.2); // -5
+
+trunc(4.2);  // 4
+trunc(-4.2); // -4
+</code></pre>
+
+        <h3>See also:</h3>
+        <ul>
+          <li><a href="#floor">floor</a></li>
+        </ul>
       </section>
 
       <section id="vertex">
@@ -5564,6 +6036,13 @@ function draw() {
         </ul>
       </section>
 
+      <section id="width">
+        <h1><a href="#width">width</a> <a href="#top">top</a></h1>
+        <code class="const">constant</code>
+        <h3>Description</h3>
+        <p>The width of the canvas in pixels</p>
+      </section>
+
       <section id="worldToScreen">
         <h1>
           <a href="#worldToScreen">worldToScreen</a> <a href="#top">top</a>
@@ -5608,15 +6087,17 @@ function setup() {
 function draw() {
   clear();
   translate(width / 2, height / 2);
+
   rotate(millis() / 2000);
-  const p = new Point(30, 0);
-  const s = worldToScreen(p);
   setFontSize(25);
+  const p = new Point(30, 0);
   point(p);
   text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+
+  const { x, y } = worldToScreen(p);
   resetTransform();
   setFontSize(16);
-  text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+  text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15);
 }
 
 </graphics-source>
@@ -5630,15 +6111,17 @@ function setup() {
 function draw() {
   clear();
   translate(width / 2, height / 2);
+
   rotate(millis() / 2000);
-  const p = new Point(30, 0);
-  const s = worldToScreen(p);
   setFontSize(25);
+  const p = new Point(30, 0);
   point(p);
   text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+
+  const { x, y } = worldToScreen(p);
   resetTransform();
   setFontSize(16);
-  text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+  text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15);
 }
 </pre
         >

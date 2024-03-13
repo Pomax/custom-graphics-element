@@ -1,4 +1,39 @@
 /**
+ * Centers the coordinate system on your graphic.
+ * This is equivalent to calling:
+ *
+ * ```
+ * translate(width/2, height/2);
+ * ```
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`red`);
+ *       center();
+ *       setColor(`black`);
+ *       line(0, -huge, 0, huge);
+ *       line(-huge, 0, huge, 0);
+ *       setColor(randomColor());
+ *       point( 10,  10);
+ *       setColor(randomColor());
+ *       point( 10, -10);
+ *       setColor(randomColor());
+ *       point(-10, -10);
+ *       setColor(randomColor());
+ *       point(-10,  10);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ */
+function center() {
+  translate(width / 2, height / 2);
+}
+
+/**
  * Reset the coordinate transform matrix.
  *
  * Example:
@@ -189,7 +224,7 @@ function screenToWorld(x, y) {
  * @param {number} e (default = 1)
  * @param {number} f (default = 0)
  *
-  * @see {@link resetTransform}
+ * @see {@link resetTransform}
  */
 function transform(a = 1, b = 0, c = 0, d = 0, e = 1, f = 0) {
   __ctx.transform(a, b, c, d, e, f);
@@ -242,15 +277,17 @@ function translate(x = 0, y = 0) {
  *     function draw() {
  *       clear();
  *       translate(width / 2, height / 2);
+ *
  *       rotate(millis() / 2000);
- *       const p = new Point(30, 0);
- *       const s = worldToScreen(p);
  *       setFontSize(25);
+ *       const p = new Point(30, 0);
  *       point(p);
  *       text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+ *
+ *       const {x, y} = worldToScreen(p);
  *       resetTransform();
  *       setFontSize(16);
- *       text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+ *       text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15);
  *     }
  *   </graphics-source>
  * </graphics-element>

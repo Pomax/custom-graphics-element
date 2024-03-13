@@ -1,15 +1,6 @@
-// math functions
 const {
   /**
    * Get the absolute value for some input
-   *
-   * @param {number} v Any number
-   * @returns {number} The input value with its sign set to positive
-   */
-  abs,
-
-  /**
-   * The inverse cosine function
    *
    * Example:
    *
@@ -18,47 +9,19 @@ const {
    *     function draw() {
    *       setCursor(`none`);
    *       clear(`white`);
-   *       translate(20, 30);
-   *       const a = PI / 3;
-   *       const x = cos(a);
-   *       const y = sin(a);
-   *       const s = (width - 60)
-   *       axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1)
-   *       scale(s);
-   *       setLineWidth(1 / s);*
-   *
-   *       noFill();
-   *       arc(0, 0, 1, 0, PI / 2);
-   *       arc(0, 0, 1.1, 0, PI / 3.5);
-   *       line(x+25/s, y, x+35/s, y-2/s);
-   *       line(x+25/s, y, x+30/s, y-10/s);
-   *
-   *       setColor(`black`);
-   *       circle(x, y, 3/s);
-   *       setFontSize(16 / s);
-   *       text(`pi/3`, x+5/s, y+15/s);
-   *
-   *       setLineWidth(2 / s);
-   *       setColor(`red`);
-   *       line(0, 0, x, 0);
-   *       line(0, y, x, y);
-   *       text(`cos`, x/3, -2/s);
-   *
-   *       setColor(`blue`);
-   *       line(0, 0, 0, y);
-   *       line(x, 0, x, y);
-   *       text(`sin`, 2/s, y/2);
-   *
-   *       noFill();
-   *       setStroke(`#d2d`)
-   *       arc(0, 0, 1, 0, PI / 3)
-   *
-   *       setColor(`purple`)
-   *       text(`acos(red)`, 100 / s, 75 / s)
-   *       text(`asin(blue)`, 100 / s, 53 / s)
+   *       center();
+   *       plot(x => abs(x), -width/2, width/2);
    *     }
    *   </graphics-source>
    * </graphics-element>
+   *
+   * @param {number} v Any number
+   * @returns {number} The input value with its sign set to positive
+   */
+  abs,
+
+  /**
+   * The inverse cosine function
    *
    * @param {number} v Any number
    * @returns {number} The inverse cosine of that number
@@ -69,250 +32,344 @@ const {
   acos,
 
   /**
-   * ...
+   * The hyperbolic inverse cosine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic inverse cosine
+   *
+   * @see {@link asinh}
+   * @see {@link acos}
    */
   acosh,
 
   /**
-   * ...
+   * The inverse sine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The inverse sine
+   *
+   * @see {@link acos}
+   * @see {@link asinh}
    */
   asin,
 
   /**
-   * ...
+   * The hyperbolic inverse sine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic inverse sine
+   *
+   * @see {@link acosh}
+   * @see {@link asin}
    */
   asinh,
 
   /**
-   * ...
+   * The inverse tangent function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The inverse tangent
+   *
+   * @see {@link tan}
    */
   atan,
 
   /**
-   * ...
+   * The "atan2" function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Atan2
+   *
+   * @param {y} input Any number
+   * @param {x} input Any number
+   * @returns {number} output The atan2 angle for this number pair
    */
   atan2,
 
   /**
-   * ...
+   * The hyperbolic inverse tangent function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic inverse tangent
+   *
+   * @see {@link tan}
+   * @see {@link acosh}
+   * @see {@link asinh}
    */
   atanh,
 
   /**
-   * ...
+   * The cube root function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The (real) cube root of that number
+   *
+   * @see {@link sqrt}
    */
   cbrt,
 
   /**
-   * ...
+   * The "round up to the nearest integer" function.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The integer result after rounding up.
+   *
+   * @see {@link floor}
+   * @see {@link round}
    */
   ceil,
 
   /**
-   * ...
+   * Get the number of leading zero bits in the 32-bit binary representation of a number
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The number of leading zero bits in the 32-bit binary representation of that number.
    */
   clz32,
 
   /**
-   * ...
+   * The cosine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The cosine
+   *
+   * @see {@link sin}
    */
   cos,
 
   /**
-   * ...
+   * The hyperbolic cosine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic cosine
+   *
+   * @see {@link cos}
+   * @see {@link acosh}
    */
   cosh,
 
   /**
-   * ...
+   * The exponent function, that is: e^x
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The value of E raised to that number's power
+   *
+   * @see {@link E}
    */
   exp,
 
   /**
-   * ...
+   * The "round down to the nearest integer" function.
    *
-   * @param {number} input
-   * @returns {number} output
-   */
-  expm1,
-
-  /**
-   * ...
+   * @param {number} input Any number
+   * @returns {number} output The integer result after rounding down.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @see {@link ceil}
+   * @see {@link round}
    */
   floor,
 
   /**
-   * ...
+   * Round a number to the nearest 32 bit, rather than the
+   * standard JS 64 bit, floating point representation.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The number after rounding to the nearest 32 bit floating point representation.
+   *
+   * @see {@link round}
    */
   fround,
 
   /**
-   * ...
+   * The Euclidean hypotenuse function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number[]} ...input Two or more numbers
+   * @returns {number} output The hypotenuse given those numbers.
    */
   hypot,
 
   /**
-   * ...
+   * The 32 bit integer multiplication function.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} a Any 32 bit integer
+   * @param {number} b Any 32 bit integer
+   * @returns {number} output The 32 bit integer result of a * b
    */
   imul,
 
   /**
-   * ...
+   * The natural logarithm function, i.e. the base-E logarithm
    *
-   * @param {number} input
-   * @returns {number} output
+   * (Note that in JS this function is called "log" rather than "ln")
+   *
+   * @param {number} input Any number
+   * @returns {number} output The natural logarithm of that number
+   *
+   * @see {@link E}
+   * @see {@link log}
    */
-  log: ln, // The natural logarithm is called "ln". If you call it "log", you don't math.
+  log: ln,
 
   /**
-   * ...
+   * The "common logarithm" function, i.e. the base-10 logarithm.
    *
-   * @param {number} input
-   * @returns {number} output
+   * (Note that in JS this function is called "log10" rather than "log")
+   *
+   * @param {number} input Any number
+   * @returns {number} output The common logarithm of that number
+   *
+   * @see {@link ln}
    */
-  log10: log, // The function called "log" is the "common logarithm", which is base 10.
+  log10: log,
 
   /**
-   * ...
+   * The binary logarithm function, i.e. the base-2 logarithm.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The base 2 logarithm of that number
+   *
+   * @see {@link ln}
+   * @see {@link log}
    */
   log2,
 
   /**
-   * ...
+   * Find the maximum value in a set of numbers
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} ...input Any two or  more numbers
+   * @returns {number} output The highest valued number from among the input.
+   *
+   * @see {@link min}
    */
   max,
 
   /**
-   * ...
+   * Find the minimum value in a set of numbers
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} ...input Any two or  more numbers
+   * @returns {number} output The lowest valued number from among the input.
+   *
+   * @see {@link max}
    */
   min,
 
   /**
-   * ...
+   * The power function.
    *
-   * @param {number} input
-   * @returns {number} output
+   * Note that this function is a holdover from before JS
+   * had the `**` operator for performing this calculation.
+   *
+   * @param {number} a Any number
+   * @param {number} b Any number
+   * @returns {number|NaN} output a ** b or NaN if that is undefined
    */
   pow,
 
   /**
-   * ...
+   * The "round to the nearest integer" function, rounding any
+   * value [x.0, x.4999...] to x, and any value [x.5, x.999...]
+   * to x + 1.
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The integer result after rounding.
+   *
+   * @see {@link ceil}
+   * @see {@link floor}
    */
   round,
 
   /**
-   * ...
+   * Get the sign of a number
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output +1 if the number was positive, -1 if it was negative, or 0 if the input was zero.
    */
   sign,
 
   /**
-   * ...
+   * The cosine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The sine
+   *
+   * @see {@link cos}
    */
   sin,
 
   /**
-   * ...
+   * The hyperbolic sine function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic sine
+   *
+   * @see {@link sin}
+   * @see {@link acosh}
    */
   sinh,
 
   /**
-   * ...
+   * The square root function.
    *
-   * @param {number} input
-   * @returns {number} output
+   *
+   * Note that this function is a holdover from before JS
+   * had the `**` operator for performing this calculation
+   * by using `x ** 0.5`.
+   *
+   * @param {number} input Any number
+   * @returns {number} output The square root of that number
+   *
+   * @see {@link cbrt}
+   * @see {@link pow}
    */
   sqrt,
 
   /**
-   * ...
+   * The tangent function
    *
-   * @param {number} input
-   * @returns {number} output
+   * @param {number} input Any number
+   * @returns {number} output The tangent
    */
   tan,
 
   /**
-   * ...
+   * The hyperbolic tangent function
    *
-   * @param {number} input
-   * @returns {number} output
+   * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
+   *
+   * @param {number} input Any number
+   * @returns {number} output The hyperbolic tangent
+   *
+   * @see {@link tan}
+   * @see {@link asinh}
+   * @see {@link acosh}
    */
   tanh,
 
   /**
-   * ...
+   * Truncate a fraction to an integer by simply dropping the fractional part.
+   * Note that this differs from the `floor` function:
    *
-   * @param {number} input
-   * @returns {number} output
+   * ```
+   * floor(4.2);  // 4
+   * floor(-4.2); // -5
+   *
+   * trunc(4.2);  // 4
+   * trunc(-4.2); // -4
+   * ```
+   *
+   * @param {number} input Any number
+   * @returns {number} output The integer part only of that number
+   *
+   * @see {@link floor}
    */
   trunc,
 } = Math;
@@ -468,7 +525,9 @@ function dist(x1, y1, x2, y2) {
     y1 = x1.y;
     x1 = x1.y;
   }
-  return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5;
+  const dx = x2 - x2;
+  const dy = y1 - y1;
+  return hypot(dx, dy);
 }
 
 /**

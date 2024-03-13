@@ -19,17 +19,6 @@ const TOP = `top`;
 const TOP_LEFT = `top-left`;
 const TOP_RIGHT = `top-right`;
 
-const pointer = { x: 0, y: 0 };
-const keyboard = {};
-
-// "public" vars
-let currentPoint;
-let frame;
-let frameDelta;
-let height;
-let width;
-let playing;
-
 // "internal" vars
 
 let __canvas = document.createElement(`canvas`);
@@ -55,14 +44,6 @@ let __start_time;
 let __style_stack;
 let __textStroke;
 let __last_frame;
-
-function find(qs) {
-  return __element.querySelector(qs);
-}
-
-function findAll(qs) {
-  return __element.querySelectorAll(qs);
-}
 
 async function reset(element = __element) {
   __element = element;
@@ -133,14 +114,6 @@ async function __setup() {
   if (!width && !height) setSize();
 }
 
-function setSize(w = 400, h = 200) {
-  width = __canvas.width = w;
-  height = __canvas.height = h;
-  __element.style.maxWidth = `calc(2em + ${width}px`;
-  __ctx = __canvas.getContext(`2d`);
-  __draw();
-}
-
 async function __draw() {
   if (!__finished_setup) return;
   if (!__drawing) {
@@ -155,12 +128,4 @@ async function __draw() {
     __last_frame = now;
     if (playing) requestAnimationFrame(() => __draw());
   }
-}
-
-function redraw() {
-  if (__redrawing) return;
-  if (playing) return;
-  __redrawing = true;
-  __draw();
-  __redrawing = false;
 }

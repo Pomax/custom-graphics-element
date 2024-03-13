@@ -1046,6 +1046,69 @@ declare function triangle(p1: PointLike, p2: PointLike, p3: PointLike): void;
 declare function vertex(x: number, y: number): void;
 declare function vertex(p: PointLike): void;
 /**
+ * The current frame number
+ *
+ */
+declare const frame: number;
+/**
+ * The number of milliseconds since the last frame.
+ *
+ */
+declare const frameDelta: number;
+/**
+ * The height of the canvas in pixels
+ *
+ */
+declare const height: number;
+/**
+ * The width of the canvas in pixels
+ *
+ */
+declare const width: number;
+/**
+ * The current play state
+ *
+ */
+declare const playing: boolean;
+/**
+ * The `pointer` object represents the mouse cursor (when using
+ * a mouse) or finger position (for touch devices), and models
+ * several aspects:
+ *
+ * - `active` (boolean) Whether the pointer is even on or over the canvas.
+ * - `x` (number) The pointer's x offset in pixels with respect to the canvas
+ * - `y` (number) The pointer's y offset in pixels with respect to the canvas
+ * - `down` (boolean) Whether the pointer is "engaged" or not
+ * - `drag` (boolean) Whether a click/touch-drag is in progress
+ * - `mark` ({x,y}) When dragging, this represents the original coordinate of the pointer "down" event
+ *
+ */
+declare const pointer: object;
+/**
+ * If any points were registered as movable, and the pointer is
+ * near enough to a movable point, this value will point to
+ * that movable point, or `false` if the pointer is not near
+ * any movable point (or, of course, there are no movable points)
+ *
+ */
+declare const currentPoint: PointLike | false;
+/**
+ * The `keyboard` object is a truth table that can be checked to
+ * see if any key is currently pressed, and if so, when that
+ * keypress was initiated, by storing:
+ *
+ * ```
+ * {
+ *   [key:string]: datetime
+ * }
+ * ```
+ *
+ * When a key is released, its mapping is removed entirely,
+ * rather than it being set to a falsey value.
+ *
+ */
+declare const keyboard: object;
+/**
  * Create an array of specified length, optionally
  * filled using the same kind of function you'd normall
  * use with .map()
@@ -1149,6 +1212,29 @@ declare function color(
   lightness: number,
   opacity: number,
 ): string;
+/**
+ * Find an HTML element inside your graphics-element
+ * by query selector. This is equivalent to:
+ *
+ * ```
+ * yourElement.querySelector(qs)
+ * ```
+ *
+ */
+declare function find(querySelector: string): HTMLElement | null;
+/**
+ * Find all HTML elements inside your graphics-element
+ * that match a given query selector. This is equivalent to:
+ *
+ * ```
+ * yourElement.querySelectorAll(qs)
+ * ```
+ *
+ * Note that this function does _not_ return a NodeList
+ * and instead returns a plain array.
+ *
+ */
+declare function findAll(querySelector: string): HTMLElement[];
 /**
  * Mark a specific color as the highlight color,
  * which causes the graphic to redraw with that
@@ -1360,7 +1446,6 @@ declare function randomColor(opacity: number, cycle?: number): void;
  *   </graphics-source>
  * </graphics-element>
  *
- *
  */
 declare function range(
   start: number,
@@ -1368,6 +1453,58 @@ declare function range(
   step?: number,
   runFunction: function,
 ): void;
+/**
+ * Safely trigger a new draw pass. If the graphic is running
+ * in animated mode, or a redraw() is triggered _during_ a
+ * redraw(), this call will do nothing.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       const h = map(pointer.x, 0, width, 0, 360);
+ *       const l = map(pointer.y, 0, height, 50, 0);
+ *       clear(color(h, 100, l));
+ *     }
+ *
+ *     function pointerMove() {
+ *       redraw();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ */
+declare function redraw(): void;
+/**
+ * Restore the graphics context (transforms,
+ * current colors, etc) to what they were
+ * when save() was called.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *
+ *     function draw() {
+ *       clear();
+ *       translate(width/2, height/2);
+ *       setColor(`blue`);
+ *       line(0,0,80,0);
+ *       save();
+ *       setColor(`darkgreen`)
+ *       range(0, 5, 1, (a) => {
+ *         rotate(PI/8);
+ *         line(0,0,80,0);
+ *       });
+ *       restore();
+ *       line(-20,0,-80,0);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function restore(): void;
 /**
  * Mark one or more points as movable, meaning
  * that the user can reposition the point around on
@@ -1400,35 +1537,38 @@ declare function range(
  */
 declare function setMovable(points: PointLike[n]): void;
 /**
- * Restore the graphics context (transforms,
- * current colors, etc) to what they were
- * when save() was called.
+ * Set (or change) the graphic's size. Note that your width
+ * and height values will get rounded to integer values.
+ *
+ * Note that `setSize` will immediately trigger a redraw,
+ * whether you want it to or not, because changing canvas
+ * dimensions clears the canvas, necessitating a redraw.
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     const points = [];
+ *     function setup() {
+ *       setSize(400, 200);
+ *     }
  *
  *     function draw() {
  *       clear();
- *       translate(width/2, height/2);
- *       setColor(`blue`);
- *       line(0,0,80,0);
- *       save();
- *       setColor(`darkgreen`)
- *       range(0, 5, 1, (a) => {
- *         rotate(PI/8);
- *         line(0,0,80,0);
- *       });
- *       restore();
- *       line(-20,0,-80,0);
+ *       center();
+ *       setColor(`black`)
+ *       setFontSize(25);
+ *       text(`${width}/${height}`, 0, 0, CENTER, MIDDLE);
+ *     }
+ *
+ *     function pointerUp() {
+ *       setSize(random(100,400), 200);
+ *       // Note that there is no redraw() here!
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
  */
-declare function restore(): void;
+declare function setSize(width: number, height: number): void;
 /**
  * Save the current graphics context (transforms,
  * current colors, etc) so that those can be restored
@@ -1498,11 +1638,6 @@ declare function togglePlay(): boolean;
 /**
  * Get the absolute value for some input
  *
- */
-declare function abs(v: number): number;
-/**
- * The inverse cosine function
- *
  * Example:
  *
  * <graphics-element>
@@ -1510,202 +1645,204 @@ declare function abs(v: number): number;
  *     function draw() {
  *       setCursor(`none`);
  *       clear(`white`);
- *       translate(20, 30);
- *       const a = PI / 3;
- *       const x = cos(a);
- *       const y = sin(a);
- *       const s = (width - 60)
- *       axes(`x`, 0, s, `y`, 0, s, 0, 1, 0, 1)
- *       scale(s);
- *       setLineWidth(1 / s);*
- *
- *       noFill();
- *       arc(0, 0, 1, 0, PI / 2);
- *       arc(0, 0, 1.1, 0, PI / 3.5);
- *       line(x+25/s, y, x+35/s, y-2/s);
- *       line(x+25/s, y, x+30/s, y-10/s);
- *
- *       setColor(`black`);
- *       circle(x, y, 3/s);
- *       setFontSize(16 / s);
- *       text(`pi/3`, x+5/s, y+15/s);
- *
- *       setLineWidth(2 / s);
- *       setColor(`red`);
- *       line(0, 0, x, 0);
- *       line(0, y, x, y);
- *       text(`cos`, x/3, -2/s);
- *
- *       setColor(`blue`);
- *       line(0, 0, 0, y);
- *       line(x, 0, x, y);
- *       text(`sin`, 2/s, y/2);
- *
- *       noFill();
- *       setStroke(`#d2d`)
- *       arc(0, 0, 1, 0, PI / 3)
- *
- *       setColor(`purple`)
- *       text(`acos(red)`, 100 / s, 75 / s)
- *       text(`asin(blue)`, 100 / s, 53 / s)
+ *       center();
+ *       plot(x => abs(x), -width/2, width/2);
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
  */
+declare function abs(v: number): number;
+/**
+ * The inverse cosine function
+ *
+ */
 declare function acos(v: number): number;
 /**
- * ...
+ * The hyperbolic inverse cosine function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function acosh(input: number): number;
 /**
- * ...
+ * The inverse sine function
  *
  */
 declare function asin(input: number): number;
 /**
- * ...
+ * The hyperbolic inverse sine function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function asinh(input: number): number;
 /**
- * ...
+ * The inverse tangent function
  *
  */
 declare function atan(input: number): number;
 /**
- * ...
+ * The "atan2" function
+ *
+ * See https://en.wikipedia.org/wiki/Atan2
  *
  */
-declare function atan2(input: number): number;
+declare function atan2(input: x): number;
 /**
- * ...
+ * The hyperbolic inverse tangent function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function atanh(input: number): number;
 /**
- * ...
+ * The cube root function
  *
  */
 declare function cbrt(input: number): number;
 /**
- * ...
+ * The "round up to the nearest integer" function.
  *
  */
 declare function ceil(input: number): number;
 /**
- * ...
+ * Get the number of leading zero bits in the 32-bit binary representation of a number
  *
  */
 declare function clz32(input: number): number;
 /**
- * ...
+ * The cosine function
  *
  */
 declare function cos(input: number): number;
 /**
- * ...
+ * The hyperbolic cosine function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function cosh(input: number): number;
 /**
- * ...
+ * The exponent function, that is: e^x
  *
  */
 declare function exp(input: number): number;
 /**
- * ...
- *
- */
-declare function expm1(input: number): number;
-/**
- * ...
+ * The "round down to the nearest integer" function.
  *
  */
 declare function floor(input: number): number;
 /**
- * ...
+ * Round a number to the nearest 32 bit, rather than the
+ * standard JS 64 bit, floating point representation.
  *
  */
 declare function fround(input: number): number;
 /**
- * ...
+ * The Euclidean hypotenuse function
  *
  */
-declare function hypot(input: number): number;
+declare function hypot(...input: number[]): number;
 /**
- * ...
+ * The 32 bit integer multiplication function.
  *
  */
-declare function imul(input: number): number;
+declare function imul(a: number, b: number): number;
 /**
- * ...
+ * The natural logarithm function, i.e. the base-E logarithm
+ *
+ * (Note that in JS this function is called "log" rather than "ln")
  *
  */
 declare function ln(input: number): number;
 /**
- * ...
+ * The "common logarithm" function, i.e. the base-10 logarithm.
+ *
+ * (Note that in JS this function is called "log10" rather than "log")
  *
  */
 declare function log(input: number): number;
 /**
- * ...
+ * The binary logarithm function, i.e. the base-2 logarithm.
  *
  */
 declare function log2(input: number): number;
 /**
- * ...
+ * Find the maximum value in a set of numbers
  *
  */
-declare function max(input: number): number;
+declare function max(...input: number): number;
 /**
- * ...
+ * Find the minimum value in a set of numbers
  *
  */
-declare function min(input: number): number;
+declare function min(...input: number): number;
 /**
- * ...
+ * The power function.
+ *
+ * Note that this function is a holdover from before JS
+ * had the `**` operator for performing this calculation.
  *
  */
-declare function pow(input: number): number;
+declare function pow(a: number, b: number): number | NaN;
 /**
- * ...
+ * The "round to the nearest integer" function, rounding any
+ * value [x.0, x.4999...] to x, and any value [x.5, x.999...]
+ * to x + 1.
  *
  */
 declare function round(input: number): number;
 /**
- * ...
+ * Get the sign of a number
  *
  */
 declare function sign(input: number): number;
 /**
- * ...
+ * The cosine function
  *
  */
 declare function sin(input: number): number;
 /**
- * ...
+ * The hyperbolic sine function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function sinh(input: number): number;
 /**
- * ...
+ * The square root function.
+ *
+ *
+ * Note that this function is a holdover from before JS
+ * had the `**` operator for performing this calculation
+ * by using `x ** 0.5`.
  *
  */
 declare function sqrt(input: number): number;
 /**
- * ...
+ * The tangent function
  *
  */
 declare function tan(input: number): number;
 /**
- * ...
+ * The hyperbolic tangent function
+ *
+ * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
  *
  */
 declare function tanh(input: number): number;
 /**
- * ...
+ * Truncate a fraction to an integer by simply dropping the fractional part.
+ * Note that this differs from the `floor` function:
+ *
+ * ```
+ * floor(4.2);  // 4
+ * floor(-4.2); // -5
+ *
+ * trunc(4.2);  // 4
+ * trunc(-4.2); // -4
+ * ```
  *
  */
 declare function trunc(input: number): number;
@@ -2225,6 +2362,38 @@ declare function setTextAlign(xAlign: string, yAlign: string): void;
  */
 declare function setTextStroke(color: string, width?: number): void;
 /**
+ * Centers the coordinate system on your graphic.
+ * This is equivalent to calling:
+ *
+ * ```
+ * translate(width/2, height/2);
+ * ```
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`red`);
+ *       center();
+ *       setColor(`black`);
+ *       line(0, -huge, 0, huge);
+ *       line(-huge, 0, huge, 0);
+ *       setColor(randomColor());
+ *       point( 10,  10);
+ *       setColor(randomColor());
+ *       point( 10, -10);
+ *       setColor(randomColor());
+ *       point(-10, -10);
+ *       setColor(randomColor());
+ *       point(-10,  10);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ */
+declare function center(): void;
+/**
  * Reset the coordinate transform matrix.
  *
  * Example:
@@ -2414,15 +2583,17 @@ declare function translate(p: PointLike): void;
  *     function draw() {
  *       clear();
  *       translate(width / 2, height / 2);
+ *
  *       rotate(millis() / 2000);
- *       const p = new Point(30, 0);
- *       const s = worldToScreen(p);
  *       setFontSize(25);
+ *       const p = new Point(30, 0);
  *       point(p);
  *       text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
+ *
+ *       const {x, y} = worldToScreen(p);
  *       resetTransform();
  *       setFontSize(16);
- *       text(`${s.x.toFixed()},${s.y.toFixed()}`, s.x - 25, s.y - 15);
+ *       text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15);
  *     }
  *   </graphics-source>
  * </graphics-element>

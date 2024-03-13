@@ -1,0 +1,67 @@
+body {
+  font-family: Helvetica;
+  width: 800px;
+  margin: 0.5em auto;
+  border: 1px solid black;
+  padding: 0 1rem;
+
+  box-shadow:
+    2px 0 10px lightgrey,
+    -2px 0 10px lightgrey;
+
+  h1 {
+    background: #f8f8f8;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+    span {
+      vertical-align: -0.05em;
+    }
+  }
+  #toc {
+    column-count: 3;
+    padding: 1em 0 2em;
+    ul {
+      margin: 0;
+    }
+    h4.sep {
+      text-transform: capitalize;
+      margin: 0.5em 0;
+      margin-top: 0.5em;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  li:has(a.const) + li:has(a.fn) {
+    margin-top: 0.5em;
+  }
+  a {
+    &:link,
+    &:visited,
+    &:active,
+    &:hover,
+    &:focus {
+      color: #06c;
+    }
+    text-decoration: none;
+    &.fn::after {
+      content: "()";
+    }
+    &[href="#top"] {
+      float: right;
+      font-size: 0.8em;
+      margin-top: 0.2em;
+    }
+  }
+  section {
+    graphics-element {
+      min-width: 200px;
+      min-height: 200px;
+    }
+    code.const {
+      display: block;
+      margin-top: 1em;
+      margin-left: 2em;
+    }
+  }
+}

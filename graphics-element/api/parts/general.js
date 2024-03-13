@@ -1,4 +1,83 @@
 /**
+ * The current frame number
+ *
+ * @constant {number}
+ */
+let frame = 0;
+
+/**
+ * The number of milliseconds since the last frame.
+ *
+ * @constant {number}
+ */
+let frameDelta = 0;
+
+/**
+ * The height of the canvas in pixels
+ *
+ * @constant {number}
+ */
+let height = 0;
+
+/**
+ * The width of the canvas in pixels
+ *
+ * @constant {number}
+ */
+let width = 0;
+
+/**
+ * The current play state
+ *
+ * @constant {boolean}
+ */
+let playing = false;
+
+/**
+ * The `pointer` object represents the mouse cursor (when using
+ * a mouse) or finger position (for touch devices), and models
+ * several aspects:
+ *
+ * - `active` (boolean) Whether the pointer is even on or over the canvas.
+ * - `x` (number) The pointer's x offset in pixels with respect to the canvas
+ * - `y` (number) The pointer's y offset in pixels with respect to the canvas
+ * - `down` (boolean) Whether the pointer is "engaged" or not
+ * - `drag` (boolean) Whether a click/touch-drag is in progress
+ * - `mark` ({x,y}) When dragging, this represents the original coordinate of the pointer "down" event
+ *
+ * @constant {object}
+ */
+const pointer = { x: 0, y: 0 };
+
+/**
+ * If any points were registered as movable, and the pointer is
+ * near enough to a movable point, this value will point to
+ * that movable point, or `false` if the pointer is not near
+ * any movable point (or, of course, there are no movable points)
+ *
+ * @constant {PointLike|false}
+ */
+let currentPoint = false;
+
+/**
+ * The `keyboard` object is a truth table that can be checked to
+ * see if any key is currently pressed, and if so, when that
+ * keypress was initiated, by storing:
+ *
+ * ```
+ * {
+ *   [key:string]: datetime
+ * }
+ * ```
+ *
+ * When a key is released, its mapping is removed entirely,
+ * rather than it being set to a falsey value.
+ *
+ * @constant {object}
+ */
+const keyboard = {};
+
+/**
  * Create an array of specified length, optionally
  * filled using the same kind of function you'd normall
  * use with .map()
@@ -128,6 +207,39 @@ function copy() {
  */
 function color(h = __current_hue, s = 50, l = 50, a = 1) {
   return `hsla(${h},${s}%,${l}%,${a})`;
+}
+
+/**
+ * Find an HTML element inside your graphics-element
+ * by query selector. This is equivalent to:
+ *
+ * ```
+ * yourElement.querySelector(qs)
+ * ```
+ *
+ * @param {string} querySelector A query selector
+ * @returns {HTMLElement|null} The matched element, or null if there was no match.
+ */
+function find(qs) {
+  return __element.querySelector(qs);
+}
+
+/**
+ * Find all HTML elements inside your graphics-element
+ * that match a given query selector. This is equivalent to:
+ *
+ * ```
+ * yourElement.querySelectorAll(qs)
+ * ```
+ *
+ * Note that this function does _not_ return a NodeList
+ * and instead returns a plain array.
+ *
+ * @param {string} querySelector A query selector
+ * @returns {HTMLElement[]} An array with all matching elements, [] if there were no matches.
+ */
+function findAll(qs) {
+  return [...__element.querySelectorAll(qs)];
 }
 
 /**
@@ -383,7 +495,6 @@ function randomColor(a = 1.0, cycle = true) {
  *   </graphics-source>
  * </graphics-element>
  *
- *
  * @param {number} start The equivalent of a for loop's initial `let i = ...`
  * @param {number} end The equivalent of a for loop's `i < end`
  * @param {number} step? The step size by which to increment at each iteration (defaults = `(start-end)/10`)
@@ -397,6 +508,69 @@ function range(start, end, step, runFunction) {
   for (let i = start; i < end; i += step) {
     runFunction(i);
   }
+}
+
+/**
+ * Safely trigger a new draw pass. If the graphic is running
+ * in animated mode, or a redraw() is triggered _during_ a
+ * redraw(), this call will do nothing.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       const h = map(pointer.x, 0, width, 0, 360);
+ *       const l = map(pointer.y, 0, height, 50, 0);
+ *       clear(color(h, 100, l));
+ *     }
+ *
+ *     function pointerMove() {
+ *       redraw();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ */
+function redraw() {
+  if (__redrawing) return;
+  if (playing) return;
+  __redrawing = true;
+  __draw();
+  __redrawing = false;
+}
+
+/**
+ * Restore the graphics context (transforms,
+ * current colors, etc) to what they were
+ * when save() was called.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const points = [];
+ *
+ *     function draw() {
+ *       clear();
+ *       translate(width/2, height/2);
+ *       setColor(`blue`);
+ *       line(0,0,80,0);
+ *       save();
+ *       setColor(`darkgreen`)
+ *       range(0, 5, 1, (a) => {
+ *         rotate(PI/8);
+ *         line(0,0,80,0);
+ *       });
+ *       restore();
+ *       line(-20,0,-80,0);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @see {@link save}
+ */
+function restore() {
+  __ctx.restore();
 }
 
 /**
@@ -442,37 +616,45 @@ function setMovable(...points) {
 }
 
 /**
- * Restore the graphics context (transforms,
- * current colors, etc) to what they were
- * when save() was called.
+ * Set (or change) the graphic's size. Note that your width
+ * and height values will get rounded to integer values.
+ *
+ * Note that `setSize` will immediately trigger a redraw,
+ * whether you want it to or not, because changing canvas
+ * dimensions clears the canvas, necessitating a redraw.
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     const points = [];
+ *     function setup() {
+ *       setSize(400, 200);
+ *     }
  *
  *     function draw() {
  *       clear();
- *       translate(width/2, height/2);
- *       setColor(`blue`);
- *       line(0,0,80,0);
- *       save();
- *       setColor(`darkgreen`)
- *       range(0, 5, 1, (a) => {
- *         rotate(PI/8);
- *         line(0,0,80,0);
- *       });
- *       restore();
- *       line(-20,0,-80,0);
+ *       center();
+ *       setColor(`black`)
+ *       setFontSize(25);
+ *       text(`${width}/${height}`, 0, 0, CENTER, MIDDLE);
+ *     }
+ *
+ *     function pointerUp() {
+ *       setSize(random(100,400), 200);
+ *       // Note that there is no redraw() here!
  *     }
  *   </graphics-source>
  * </graphics-element>
  *
- * @see {@link save}
+ * @param {number} width The graphics width in pixels
+ * @param {number} height The graphics height in pixels
  */
-function restore() {
-  __ctx.restore();
+function setSize(w = 400, h = 200) {
+  width = __canvas.width = w | 0;
+  height = __canvas.height = h | 0;
+  __element.style.maxWidth = `calc(2em + ${width}px`;
+  __ctx = __canvas.getContext(`2d`);
+  __draw();
 }
 
 /**

@@ -106,7 +106,13 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
           }
         }
       }
+    } else if (typeof userCode === `function`) {
+      console.warn(
+        `.loadSource() called with a function rather than string data: use .loadFromFunction() instead.`
+      );
+      return this.loadFromFunction(userCode);
     }
+
     this.userCode = userCode;
 
     // If there are `<source>` elements, load those in too
@@ -407,6 +413,12 @@ class GraphicsSource extends CustomElement {
   constructor() {
     super();
     this.style.display = `none`;
+  }
+  handleAttributeChange() {
+    // not applicable
+  }
+  handleChildChanges() {
+    // not applicable
   }
 }
 

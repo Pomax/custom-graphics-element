@@ -1,7 +1,6 @@
 /**
- * Create an array of specified length, optionally
- * filled using the same kind of function you'd normall
- * use with .map()
+ * Create an array of specified length, optionally filled using a
+ * that takes an index as single input argument function.
  *
  * Example:
  *
@@ -11,7 +10,7 @@
  *       clear(`white`);
  *       noFill();
  *       translate(0, height/2);
- *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       let data = array(width, (i) => [i, height/2 * sin(i/25)]);
  *       plotData(data, 0, 1);
  *      }
  *   </graphics-source>
@@ -23,7 +22,7 @@
 function array(len, fillFunction) {
   const arr = new Array(len).fill();
   if (fillFunction) {
-    return arr.map(fillFunction);
+    return arr.map((_, i) => fillFunction(i));
   }
   return arr;
 }

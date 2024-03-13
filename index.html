@@ -1,16 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>let's do some graphics</title>
+    <title>The &lt;graphics-element&gt; HTML element</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="index.css" />
+
     <!-- the only HTML code we need to make sweet graphics work: -->
     <script type="module" src="dist/graphics-element.js" async></script>
     <link rel="stylesheet" href="dist/graphics-element.css" async />
+    <link rel="stylesheet" href="index.css" async />
     <style>
       graphics-element table.slider-wrapper {
         background: #ececec;
@@ -19,12 +20,34 @@
     </style>
   </head>
   <body>
-    <h1>Putting (interactive) graphics on a web page</h1>
+    <header>
+      <h1 id="top" style="text-align: center; font-size: 2.5em">
+        The
+        <a href="."><span>&lt;</span>graphics-element<span>&gt;</span></a>
+      </h1>
+      <h3>For putting (interactive) graphics on a web page</h3>
+    </header>
+
+    <ul>
+      <li>Visit <a href=".">the main page</a> (wait, you're already here!)</li>
+      <li>Read <a href="docs.html">the documentation</a></li>
+      <li>Check out the <a href="api.html">API</a></li>
+      <li>Try the <a href="edit/">editor playground</a></li>
+      <li>
+        View the project
+        <a href="https://github.com/pomax/custom-graphics-element">on GitHub</a>
+      </li>
+    </ul>
 
     <p>
-      If you just want to play with this yourself, hit up the
-      <a href="edit/">editor playground</a>, but if you want to know what this
-      even is, read on!
+      And, if this made a difference in your dev life, consider (temporarily,
+      even?) becoming a patron of my work over on
+      <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or send
+      a one-time donatation to
+      <a
+        href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
+        >help keep this project, and others like it, funded</a
+      >. Any amount is appreciated!
     </p>
 
     <h2>What is this?</h2>
@@ -95,6 +118,8 @@
       ensure that "eventually" the signal matches the desired output.
     </p>
 
+    <h4 class="example">example</h4>
+
     <graphics-element
       title="an example using a PID controller"
       src="./pid-example.js"
@@ -127,6 +152,8 @@
       click-draggable", you instead say which points can be moved around, and
       done: they can now be moved around. So let's look at an example of that.
     </p>
+
+    <h4 class="example">example</h4>
 
     <graphics-element
       title="an example with interactive points"
@@ -175,6 +202,8 @@
 
     <p>Sounds good to me, let's go:</p>
 
+    <h4 class="example">example</h4>
+
     <graphics-element
       title="an example with a play button as well as tap-to-play"
       src="./animated-example.js"
@@ -188,6 +217,8 @@
     </p>
 
     <p>In fact, let's take that one step further:</p>
+
+    <h4 class="example">example</h4>
 
     <graphics-element
       src="./trigonometry.js"
@@ -245,49 +276,39 @@
     <h2>How do I use this?</h2>
 
     <p>
+      &lt;graphics-element&gt; is conveniently available from CDN,
       <a href="https://cdnjs.com/libraries/graphics-element"
-        >Just visit the graphics-element page on CDN.js</a
+        >just visit the graphics-element page on <code>cdnjs</code></a
       >. And that's it, you too can now add &lt;graphics-element&gt; to your
-      page.
+      page in the exact same way as you're adding <code>&lt;h1&gt;</code>,
+      <code>&lt;p&gt;</code>, etc.
     </p>
 
     <p>
-      (Alternative, you can download unversioned files from this page, to put
-      them in your own asset dir if you don't want to rely on a CDN:
-      <a href="dist/graphics-element.js" download="graphics-element.js"
-        >graphics-element.js</a
-      >,
-      <a href="dist/graphics-element.css" download="graphics-element.css"
-        >graphics-element.css</a
-      >)
+      Also have a look at <a href="api">API documentation</a>, which contains
+      documentation for every constant and function you can use in addition to
+      plain javascript, with <em>loads</em> of examples for you to learn from.
     </p>
 
-    <h2>Okay but how do I <em>use</em> this? What functions do I call, etc?</h2>
-
     <p>
-      I'm still working on getting the documentation worked into the live site,
-      but in the mean time the
-      <a href="https://github.com/Pomax/custom-graphics-element/tree/main"
-        >project page on GitHub</a
-      >
-      is both the documentation on how to use this element yourself, as well as
-      the API docs that cover all the things you won't have to implement
-      yourself if you just want to put graphics on a page or web app. And of
-      course, if you want examples... scroll up, and click those "view source"
-      links, or click through to the <a href="edit/">editor playground</a> and
-      see how far you get =)
+      And if you want to put that to the test, you can head on over to the
+      <a href="edit/">editor playground</a> to see some more elaborate examples,
+      as well as a blank project that you can use to experiment with!
     </p>
 
     <h2>How do I contact you?</h2>
 
     <p>
-      Either file an issue over on
+      If you think you've found a bug, or you think something's missing, or you
+      have an idea that you think might work well for the
+      &ltgraphics-element&gt;, please file an issue over on
       <a href="https://github.com/Pomax/custom-graphics-element/issues"
         >the issue tracker</a
-      >, or just send me a message on Mastodon, where I'm
+      >, or if you just want give me a shout you can message me on Mastodon,
+      where I can be found as
       <a href="https://mastodon.social/@TheRealPomax"
         >@TheRealPomax on mastodon.social</a
-      >
+      >.
     </p>
   </body>
 </html>

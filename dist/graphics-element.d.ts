@@ -215,6 +215,148 @@ declare const huge: number;
  */
 declare const TAU: number;
 /**
+ * Add a slider to your figure, allowing users to control
+ * a variable in your graphics code directly by interacting
+ * with that on-page slider, which is especially important if
+ * you want your graphics to be useable by users who don't
+ * have, or cannot use, a mouse.
+ *
+ * The `propLabel` value should be the name of the variable
+ * that your graphics code uses, and should _not_ be "preallocated"
+ * in your code with a const, let, or var: it will automatically
+ * get added as part of the source loading process.
+ *
+ * The options object accepts the following properties and values:
+ *
+ * - min:number - the slider's minimum value, defaults to 0
+ * - max:number - the slider's maximum value, defaults to 1
+ * - step - the step size, defaults to (max - min)/10
+ * - value - the initial value, defaults to (max + min)/2
+ * - classes - the CSS classes that will be used, defaults to `"slider"`
+ * - transform - a value preprocessor  defaults to (v) => v
+ *
+ * The `transform` pre-processor runs after the user updates
+ * the slider, but before its value gets assigned to your variable,
+ * so that you can map it to something else (for instance, numbers
+ * in one range to numbers in a completely different range, or even
+ * numbers to strings or entire objects)
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(400, 200);
+ *       addSlider(`bgColor`, {
+ *         min: 0,
+ *         max: 255,
+ *         step: 1,
+ *         value: 200,
+ *         transform: (v) => {
+ *           // convert v into a hex color code
+ *           v = (v).toString(16).padStart(2, `0`);
+ *           return `#${v}${v}${v}`;
+ *         }
+ *       });
+ *     }
+ *
+ *     function draw() {
+ *       clear(bgColor);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function addSlider(varName: string, options: object): HTMLInputElement;
+/**
+ * Remove all sliders for your figure from the page.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addSlider(`x`);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *
+ *     function pointerDown() {
+ *       clearSliders();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function clearSliders(): void;
+/**
+ * Add a button below your figure that can trigger event-based
+ * code, which is especially important if you want your graphics
+ * to be useable by users who don't have, or cannot use, a mouse.
+ *
+ * onClick is similar to the standard JS event handler, except
+ * that the call argument is a reference to your button, not
+ * the click event.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const colors = [`white`, `black`];
+ *     let bgColor = 0;
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`flip background`, (button) => {
+ *         bgColor = -(bgColor - 1);
+ *         redraw();
+ *       });
+ *     }
+ *
+ *     function draw() {
+ *       clear(colors[bgColor]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function addButton(label: string, onClick: function): HTMLButtonElement;
+/**
+ * Remove all buttons for your figure from the page.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`this does nothing`, () => {});
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *
+ *     function pointerDown() {
+ *       clearButtons();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function clearButtons(): void;
+/**
  * Ensure that there is no border around the canvas element.
  *
  * Example:
@@ -423,148 +565,6 @@ declare function noStroke(): void;
  *
  */
 declare function noTextStroke(): void;
-/**
- * Add a slider to your figure, allowing users to control
- * a variable in your graphics code directly by interacting
- * with that on-page slider, which is especially important if
- * you want your graphics to be useable by users who don't
- * have, or cannot use, a mouse.
- *
- * The `propLabel` value should be the name of the variable
- * that your graphics code uses, and should _not_ be "preallocated"
- * in your code with a const, let, or var: it will automatically
- * get added as part of the source loading process.
- *
- * The options object accepts the following properties and values:
- *
- * - min:number - the slider's minimum value, defaults to 0
- * - max:number - the slider's maximum value, defaults to 1
- * - step - the step size, defaults to (max - min)/10
- * - value - the initial value, defaults to (max + min)/2
- * - classes - the CSS classes that will be used, defaults to `"slider"`
- * - transform - a value preprocessor  defaults to (v) => v
- *
- * The `transform` pre-processor runs after the user updates
- * the slider, but before its value gets assigned to your variable,
- * so that you can map it to something else (for instance, numbers
- * in one range to numbers in a completely different range, or even
- * numbers to strings or entire objects)
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(400, 200);
- *       addSlider(`bgColor`, {
- *         min: 0,
- *         max: 255,
- *         step: 1,
- *         value: 200,
- *         transform: (v) => {
- *           // convert v into a hex color code
- *           v = (v).toString(16).padStart(2, `0`);
- *           return `#${v}${v}${v}`;
- *         }
- *       });
- *     }
- *
- *     function draw() {
- *       clear(bgColor);
- *     }
- *   </graphics-source>
- * </graphics-element>
- *
- */
-declare function addSlider(varName: string, options: object): HTMLInputElement;
-/**
- * Remove all sliders for your figure from the page.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *       addSlider(`x`);
- *     }
- *
- *     function draw() {
- *       clear(`white`);
- *       setColor(`black`);
- *       setFontSize(25);
- *       setTextAlign(CENTER, MIDDLE);
- *       text(`click to clear`, width/2, height/2);
- *     }
- *
- *     function pointerDown() {
- *       clearSliders();
- *     }
- *   </graphics-source>
- * </graphics-element>
- *
- */
-declare function clearSliders(): void;
-/**
- * Add a button below your figure that can trigger event-based
- * code, which is especially important if you want your graphics
- * to be useable by users who don't have, or cannot use, a mouse.
- *
- * onClick is similar to the standard JS event handler, except
- * that the call argument is a reference to your button, not
- * the click event.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     const colors = [`white`, `black`];
- *     let bgColor = 0;
- *
- *     function setup() {
- *       setSize(200, 200);
- *       addButton(`flip background`, (button) => {
- *         bgColor = -(bgColor - 1);
- *         redraw();
- *       });
- *     }
- *
- *     function draw() {
- *       clear(colors[bgColor]);
- *     }
- *   </graphics-source>
- * </graphics-element>
- *
- */
-declare function addButton(label: string, onClick: function): HTMLButtonElement;
-/**
- * Remove all buttons for your figure from the page.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *       addButton(`this does nothing`, () => {});
- *     }
- *
- *     function draw() {
- *       clear(`white`);
- *       setColor(`black`);
- *       setFontSize(25);
- *       setTextAlign(CENTER, MIDDLE);
- *       text(`click to clear`, width/2, height/2);
- *     }
- *
- *     function pointerDown() {
- *       clearButtons();
- *     }
- *   </graphics-source>
- * </graphics-element>
- *
- */
-declare function clearButtons(): void;
 /**
  * Draw a circular arc with radius `r` at (x,y),
  * starting at angle `s` and ending at angle `e`.
@@ -865,7 +865,9 @@ declare function line(p1: PointLike, p2: PointLike): void;
  * to the domain [0,1] you wouldn't be able to see the
  * result without scaling).
  *
- * This function is aware of, and will plot, discontinuities.
+ * This function is aware of, and will plot, discontinuities
+ * using the standard open circle notation, unless instructed
+ * not to do so using the `ignoreDiscontinuity` boolean flag.
  *
  * Example:
  *
@@ -885,11 +887,12 @@ declare function line(p1: PointLike, p2: PointLike): void;
  */
 declare function plot(
   f: function,
-  a: number,
-  b: number,
-  steps: number,
+  a?: number,
+  b?: number,
+  steps?: number,
   xscale?: number,
   yscale?: number,
+  ignoreDiscontinuity?: boolean,
 ): void;
 /**
  * Plot a 2D graph using a collection of any-dimensional data,
@@ -909,11 +912,11 @@ declare function plot(
  *       translate(0, height/2);
  *
  *       setStroke(`darkgreen`);
- *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       let data = array(width, (i) => [i, height/2 * sin(i/25)]);
  *       plotData(data, 0, 1);
  *
  *       setStroke(`purple`);
- *       data = array(width, (_,i) => ({
+ *       data = array(width, (i) => ({
  *         meep: i,
  *         moop: height/2 * cos(i/25)
  *       }));
@@ -1146,9 +1149,8 @@ declare function triangle(p1: PointLike, p2: PointLike, p3: PointLike): void;
 declare function vertex(x: number, y: number): void;
 declare function vertex(p: PointLike): void;
 /**
- * Create an array of specified length, optionally
- * filled using the same kind of function you'd normall
- * use with .map()
+ * Create an array of specified length, optionally filled using a
+ * that takes an index as single input argument function.
  *
  * Example:
  *
@@ -1158,7 +1160,7 @@ declare function vertex(p: PointLike): void;
  *       clear(`white`);
  *       noFill();
  *       translate(0, height/2);
- *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       let data = array(width, (i) => [i, height/2 * sin(i/25)]);
  *       plotData(data, 0, 1);
  *      }
  *   </graphics-source>
@@ -1687,7 +1689,7 @@ declare function togglePlay(): boolean;
  *       line(-huge, 0, huge, 0);
  *
  *       const w2 = width/2;
- *       const data = array(width, (_, x) => [x, x - w2, abs(x - w2)]);
+ *       const data = array(width, (x) => [x, x - w2, abs(x - w2)]);
  *
  *       setStroke(`red`);
  *       plotData(data, 0, 1);

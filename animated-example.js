@@ -1,5 +1,5 @@
 // we're going to animate this graphic by varying an angle.
-let a = Math.PI / 2 + 0.0001;
+let a = PI / 2 + 0.0001;
 const radius = 100;
 let playButton;
 
@@ -81,27 +81,21 @@ function renderIdentities(w, h, a, flipped) {
   vertex(w, h + cosecant);
   end(true);
 
+  // Show all the things!
   setStroke(`red`);
   line(x, y, x, h);
-
   setStroke(`green`);
   line(x, y, w, y);
-
   setStroke(`orange`);
   line(x, y, w + secant, h);
-
   setStroke(`purple`);
   line(x, y, w, h + cosecant);
-
   setStroke(`blue`);
   line(w, h, w + sec, h);
-
   setStroke(`gold`);
   line(x, y, w + secant, h);
-
   setStroke(`black`);
   line(w, h, x, y);
-
   setFill(`red`);
   circle(x, y, 3);
 }

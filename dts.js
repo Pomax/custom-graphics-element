@@ -392,7 +392,7 @@ const pageCode = (
           <graphics-element width="200px" height="200px">
             <graphics-source>\n${code}\n</graphics-source>
           </graphics-element>
-          <pre>${escape(code)}</pre>`;
+          <pre><code class="language-js">${escape(code)}</code></pre>`;
             })
           )
         ).join(`\n\n`);
@@ -473,39 +473,73 @@ const toc =
   `</ul>`;
 
 /**
- * Create a test.html, let's see what this looks like
+ * Create a api.html file
  */
 fs.writeFileSync(
-  `test.html`,
-  `<doctype html>
+  `api.html`,
+  `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>example test</title>
+    <title>The &lt;graphics-element&gt; API</title>
     <script type="module" src="dist/graphics-element.js" async></script>
     <link rel="stylesheet" href="dist/graphics-element.css" async />
-    <link rel="stylesheet" href="graphics-element-api.css" async />
+    <link rel="stylesheet" href="index.css" async />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+      async
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/lioshi.min.css"
+      media="(prefers-color-scheme: dark)"
+      async
+    />
   </head>
   <body>
-  <h1 id="top" style="text-align: center; font-size: 2.5em">
-    The <a href=".."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
-  </h1>
-  <p>
-    This is the API documentation for &lt;graphics-element&gt; source code,
-    which at its code is simply plain JavaScript with a bunch of extra global
-    constants and functions to allow you to quickly but cleanly get (interactive,
-    and animated) graphics onto a page using the native web stack instead of
-    needing some kind of build system.
-  </p>
-  <p>
-    Note that the index just below is ordered by category, but the full list
-    itself is ordered alphabetically to allow you to search by scrolling
-    as well as searcing the index.
-  </p>
-  <section id="toc">
-  ${toc}
-  </section>
-  ${pageCode}
+
+    <h1 id="top" style="text-align: center; font-size: 2.5em">
+      The <a href="."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
+    </h1>
+
+    <p>
+      This is the API documentation for &lt;graphics-element&gt; source code,
+      which at its code is simply plain JavaScript with a bunch of extra global
+      constants and functions to allow you to quickly but cleanly get (interactive,
+      and animated) graphics onto a page using the native web stack instead of
+      needing some kind of build system.
+    </p>
+
+    <p>
+      Note that the index just below is ordered by category, but the full list
+      itself is ordered alphabetically to allow you to search by scrolling
+      as well as searcing the index.
+    </p>
+
+    <p>
+      Also, if this made a difference in your dev life, consider (temporarily,
+      even?) becoming a patron of my work over on
+      <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or send
+      a one-time donatation to
+      <a
+        href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
+        >help keep this project, and others like it, funded</a
+      >. Any amount is appreciated!
+    </p>
+
+    <section id="toc">
+    ${toc}
+    </section>
+
+    ${pageCode}
+
+    <!-- ===================code syntax highlighting====================== -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll({ language: "javascript" });
+    </script>
   </body>
 </html>`
 );

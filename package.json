@@ -18,7 +18,7 @@
     "types:remove": "rm -f dist/graphics-element.d.ts",
     "types:compile": "node dts.js",
     "types:assemble": "cp graphics-element/base.d.ts dist && cat dist/*.ts > dist/graphics-element.d && rm dist/*.d.ts && mv dist/graphics-element.d dist/graphics-element.d.ts",
-    "types:clean": "prettier dist/graphics-element.d.ts --write && prettier test.html --write",
+    "types:clean": "prettier dist/graphics-element.d.ts --write && prettier api.html --write",
     "open": "open-cli \"http://localhost:3000\""
   },
   "author": "Pomax",

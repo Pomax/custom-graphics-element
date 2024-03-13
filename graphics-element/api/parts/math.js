@@ -14,7 +14,7 @@ const {
    *       line(-huge, 0, huge, 0);
    *
    *       const w2 = width/2;
-   *       const data = array(width, (_, x) => [x, x - w2, abs(x - w2)]);
+   *       const data = array(width, (x) => [x, x - w2, abs(x - w2)]);
    *
    *       setStroke(`red`);
    *       plotData(data, 0, 1);

@@ -26,18 +26,21 @@ function drawAxes() {
 }
 
 function drawBox() {
+  // The four "x-axis aligned" edges
   setColor(`red`);
   line(project(-1, -1, -1), project(1, -1, -1));
   line(project(-1, -1, 1), project(1, -1, 1));
   line(project(-1, 1, -1), project(1, 1, -1));
   line(project(-1, 1, 1), project(1, 1, 1));
 
+  // The four "z-axis aligned" edges
   setColor(`blue`);
   line(project(-1, -1, -1), project(-1, -1, 1));
   line(project(-1, 1, -1), project(-1, 1, 1));
   line(project(1, -1, -1), project(1, -1, 1));
   line(project(1, 1, -1), project(1, 1, 1));
 
+  // The four "y-axis aligned" edges
   setColor(`green`);
   line(project(1, 1, -1), project(1, -1, -1));
   line(project(1, 1, 1), project(1, -1, 1));

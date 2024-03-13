@@ -474,7 +474,9 @@ function line(x1, y1, x2, y2) {
  * to the domain [0,1] you wouldn't be able to see the
  * result without scaling).
  *
- * This function is aware of, and will plot, discontinuities.
+ * This function is aware of, and will plot, discontinuities
+ * using the standard open circle notation, unless instructed
+ * not to do so using the `ignoreDiscontinuity` boolean flag.
  *
  * Example:
  *
@@ -492,15 +494,24 @@ function line(x1, y1, x2, y2) {
  * </graphics-element>
  *
  * @param {function} f the `y = f(x)` function to plot
- * @param {number} a The lower bound for the input value (default = 0)
- * @param {number} b The upper bound for the input value (default = 1)
- * @param {number} steps The number of plot points to plot over the interval [a,b] (default = 100)
+ * @param {number} a? The lower bound for the input value (default = 0)
+ * @param {number} b? The upper bound for the input value (default = 1)
+ * @param {number} steps? The number of plot points to plot over the interval [a,b] (default = 100)
  * @param {number} xscale? An optional scaling factor to apply to each plot point's x value (default = 1)
  * @param {number} yscale? An optional scaling factor to apply to each plot point's y value (default = 1)
+ * @param {boolean} ignoreDiscontinuity? Do not draw special elements for discontinuities (default = false)
  *
  * @see {@link plotData}
  */
-function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
+function plot(
+  f,
+  a = 0,
+  b = 1,
+  steps = 100,
+  xscale = 1,
+  yscale = 1,
+  ignoreDiscontinuity = false
+) {
   const interval = b - a;
   start();
   let [py, dy, pdy] = [0, 0, 0];
@@ -520,11 +531,13 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
     // If f(x) changes in violation of what its f'(x) suggested,
     // that's a discontinuity and we draw an asymptote.
     dy = (y - py) * step;
-    if (pdy !== null && sign(y - py) !== sign(pdy) && abs(pdy) > 0.01) {
-      discontinuity(i, x, y);
-      pdy = null;
-    } else {
-      pdy = dy;
+    if (!ignoreDiscontinuity) {
+      if (pdy !== null && sign(y - py) !== sign(pdy) && abs(pdy) > 0.01) {
+        discontinuity(i, x, y);
+        pdy = null;
+      } else {
+        pdy = dy;
+      }
     }
     vertex(x * xscale, y * yscale);
     py = y;
@@ -550,11 +563,11 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
  *       translate(0, height/2);
  *
  *       setStroke(`darkgreen`);
- *       let data = array(width, (_,i) => [i, height/2 * sin(i/25)]);
+ *       let data = array(width, (i) => [i, height/2 * sin(i/25)]);
  *       plotData(data, 0, 1);
  *
  *       setStroke(`purple`);
- *       data = array(width, (_,i) => ({
+ *       data = array(width, (i) => ({
  *         meep: i,
  *         moop: height/2 * cos(i/25)
  *       }));

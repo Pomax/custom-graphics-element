@@ -1,28 +1,129 @@
+:root {
+  --bg-color: white;
+  --shadow-color: #888;
+  --code-block: #eee;
+  --text-color: #333;
+  --link-color: #06c;
+  --banner-color: #f8f8f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #333;
+    --shadow-color: #ccc;
+    --code-block: #222;
+    --text-color: #fffbea;
+    --link-color: #80c6e8;
+    --banner-color: #555;
+  }
+}
+
 :root,
 html,
 body {
   margin: 0;
   padding: 0;
-  --bg: #444;
-  --fg: #fffbea;
-  background: var(--bg);
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 body {
-  padding: 2em;
-  max-width: 800px;
-  margin: -2em auto -2em auto;
-  font-family: Inter, sans-serif;
-  text-align: justify;
-  background: white;
-  border: 1px solid var(--fg);
-  border-width: 0 1px 0 1px;
-}
+  font-family: Helvetica;
+  width: 800px;
+  margin: 0.5em auto;
+  border: 1px solid var(--text-color);
+  padding: 0 1rem;
 
-pre {
-  margin: 0;
-  padding: 1em;
-  background: var(--bg);
-  color: var(--fg);
-  font-weight: bold;
+  box-shadow: 0 0 10px var(--shadow-color);
+
+  h1,
+  h2 {
+    background: var(--banner-color);
+    margin: 0 -1rem;
+    padding: 0.3em 1rem 0.1em;
+    span {
+      vertical-align: -0.05em;
+    }
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+
+  h4 {
+    &.example {
+      display: table;
+      background-color: var(--banner-color);
+      border: 1px solid var(--text-color);
+      border-left: none;
+      position: relative;
+      left: calc(-1rem - 1px);
+      padding: 0.1em 0.5em 0.1em 1em;
+    }
+  }
+
+  #toc {
+    column-count: 3;
+    padding: 1em 0 2em;
+    ul {
+      margin: 0;
+    }
+    h4 {
+      &.sep {
+        text-transform: capitalize;
+        margin: 0.5em 0;
+        margin-top: 0.5em;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+
+    &:link,
+    &:visited,
+    &:active,
+    &:hover,
+    &:focus {
+      color: var(--link-color);
+    }
+
+    &[href="#top"] {
+      float: right;
+      font-size: 0.8em;
+      margin-top: 0.2em;
+    }
+  }
+
+  section {
+    graphics-element {
+      min-width: 200px;
+      min-height: 200px;
+    }
+    pre {
+      margin: 0;
+      padding: 1em;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-weight: bold;
+    }
+    code.const {
+      display: block;
+      margin-top: 1em;
+      margin-left: 2em;
+    }
+    .signatures {
+      code {
+        background-color: inherit !important;
+      }
+    }
+  }
+
+  code {
+    font-size: 0.9rem;
+    background-color: var(--code-block) !important;
+  }
 }

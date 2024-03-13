@@ -1,0 +1,697 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>The &lt;graphics-element&gt; documentation</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- the only HTML code we need to make sweet graphics work: -->
+    <script type="module" src="dist/graphics-element.js" async></script>
+    <link rel="stylesheet" href="dist/graphics-element.css" async />
+
+    <link rel="stylesheet" href="index.css" async />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+      async
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/lioshi.min.css"
+      media="(prefers-color-scheme: dark)"
+      async
+    />
+  </head>
+  <body>
+    <header>
+      <h1 id="top" style="text-align: center; font-size: 2.5em">
+        The
+        <a href="."><span>&lt;</span>graphics-element<span>&gt;</span></a>
+        documentation
+      </h1>
+    </header>
+
+    <p>
+      What if you could just put graphics on your web page, or in your web app,
+      by just writing graphics JavaScript code and then using a
+      &lt;graphics-element src="..."&gt; the same way you'd put regular
+      JavaScript on a page using a &lt;script&gt; tag? As it turns out, that's
+      not a "what if", it's something that the modern web supports, so if that's
+      something you want, or need: maybe the &lt;graphics-element&gt; is for
+      you!
+    </p>
+
+    <p>
+      The live site shows off a bunch of things you might want to use this for,
+      if you need inspiration, but keep reading if you want to to know how to
+      use this element yourself, and what API it supports.
+    </p>
+
+    <p>
+      Also, if this made a difference in your dev life, consider (temporarily,
+      even?) becoming a patron of my work over on
+      <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or send
+      a one-time donatation to
+      <a
+        href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
+        >help keep this project, and others like it, funded</a
+      >. Any amount is appreciated!
+    </p>
+
+    <h2>Table of contents</h2>
+
+    <ul>
+      <li>
+        <a href="#writing-graphics-source-code">Writing graphics source code</a>
+      </li>
+      <li><a href="#global-variables">Global variables</a></li>
+      <li><a href="#slider-based-variables">Slider-based variables</a></li>
+      <li><a href="#adding-buttons">Adding buttons</a></li>
+      <li><a href="#movable-entities">Movable entities</a></li>
+      <li><a href="#pointer-handling">Pointer handling</a></li>
+      <li><a href="#keyboard-handling">Keyboard handling</a></li>
+      <li>
+        <a href="#linking-guide-text-and-graphics"
+          >Linking guide text and graphics</a
+        >
+      </li>
+      <li>
+        <a href="#spreading-code-over-multiple-source-files"
+          >Spreading code over multiple source files</a
+        >
+        <ul>
+          <li>
+            <a href="#overloading-parent-functions"
+              >Overloading &quot;parent&quot; functions</a
+            >
+          </li>
+          <li>
+            <a href="#why-use-source-to-load-code-when-js-imports-exist"
+              >Why use &lt;source&gt; to load code when JS imports exist?</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <section>
+      <h2 id="writing-graphics-source-code">
+        <a href="#writing-graphics-source-code">Writing graphics source code</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>The &lt;graphics-element&gt; tag supports the following attributes:</p>
+
+      <ul>
+        <li>
+          <code>title</code> - this is both the standard HTML title attribute,
+          as well as the text that gets used as figure caption underneath your
+          graphic. Omitting this will result in a warning on the console.
+          (always label your figures =)
+        </li>
+        <li>
+          <code>src</code> - this is the standard HTML attribute for indicating
+          the source code for this element.
+        </li>
+        <li>
+          <code>width</code> - the (unitless) width for your graphic. This value
+          is optional, but your graphics code must use <code>setSize</code> if
+          omitted.
+        </li>
+        <li>
+          <code>height</code> - the (unitless) height for your graphic. This
+          value is optional, but your graphics code must use
+          <code>setSize</code> if omitted.
+        </li>
+        <li>
+          <code>centered</code> - an optional &quot;valueless&quot; attribute
+          that will center your graphic on the page.
+        </li>
+        <li>
+          <code>float</code> - an optional attribute that takes values
+          <code>left</code> or <code>right</code>, to float your graphic inside
+          your other page content.
+        </li>
+      </ul>
+
+      <p>
+        Additionally, a &lt;graphics-element&gt; is just a normal HTML tag, and
+        allows child content. This means that if you wish to add guide text,
+        that&#39;s as easy as just adding a paragraph:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; src=&quot;...&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
+  &lt;p&gt;This guide text will render inside the graphics-element &quot;box&quot;.&lt;/p&gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        Graphics source code uses standard JavaScript, with all graphics API
+        functions available as globals. While the smallest source code is just
+        an empty file, the recommended minimal code is:
+      </p>
+
+      <pre><code class="language-js">function setup() {
+  setSize(123, 456);
+}
+
+function draw() {
+  clear(`white`);
+}</code></pre>
+
+      <p>
+        Both of these functions are technically optional, but omitting them
+        doesn&#39;t make a lot of sense: by default the &lt;graphics-element&gt;
+        will first run <code>setup</code>, and will then run <code>draw</code>,
+        once. The <code>setSize(width, height)</code> call is optional as long
+        as you&#39;ve specified the <code>width</code> and
+        <code>height</code> attributes on the
+        <code>&lt;graphics-element&gt;</code> tag itself, but must be present if
+        you decide to omit them (and note that <code>setSize()</code> can be
+        called at any time to resize your graphic).
+      </p>
+
+      <p>
+        If you cannot link to a source code URL, you may also inline your code
+        using a
+        <code>&lt;graphics-source&gt;</code> element:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
+  &lt;graphics-source&gt;
+    function setup() { // ... } function draw() { // ... }
+  &lt;/graphics-source&gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        Or you may inject it using a source code function if you&#39;re working
+        purely in JS:
+      </p>
+
+      <pre><code class="language-javascript">const graphicsElement = document.createElement(`graphics-element`);
+
+function sourceCode() {
+  function setup() {
+    setSize(300, 100);
+  }
+
+  function draw() {
+    clear(`yellow`);
+  }
+}
+
+// load the code once the custom element loader is done:
+customElements.whenDefined(`graphics-element`).then(() =&gt; {
+  graphicsElement.loadFromFunction(sourceCode);
+});</code></pre>
+
+      <p>
+        In order to simplify certain aspects of graphics programming, several
+        pieces of key functionality have been baked into the code runner:
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="global-variables">
+        <a href="#global-variables">Global variables</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>Several globals exist to make your graphics life easier:</p>
+
+      <ul>
+        <li><code>width</code> - the width of your graphic, in pixels.</li>
+        <li><code>height</code> - the height of your graphic, in pixels.</li>
+        <li>
+          <code>playing</code> - a boolean indicating whether this graphic is
+          currently running in animated mode or not.
+        </li>
+        <li>
+          <code>frame</code> - the current frame&#39;s number. Every time
+          <code>draw</code> runs, this number will increase by 1.
+        </li>
+        <li>
+          <code>frameDelta</code> - the time in milliseconds since the previous
+          frame finished drawing.
+        </li>
+        <li>
+          <code>pointer</code> - an object representing the mouse/stylus/touch
+          input &quot;cursor&quot; (see below).
+        </li>
+        <li>
+          <code>keyboard</code> - an object that tracks which keys are currently
+          being pressed (see below).
+        </li>
+        <li>
+          <code>currentPoint</code> - when using movable points, this will
+          represent the movable point under the pointer, if there is one.
+        </li>
+      </ul>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="slider-based-variables">
+        <a href="#slider-based-variables">Slider-based variables</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        You can automatically declare slider-controlled variables, which adds a
+        slider to the on-page graphics element box, and automatically creates a
+        global variable for your code to use. For example, to declare a variable
+        <code>radius</code> that can range from 0 to 1, with slider steps of
+        0.001 and a starting value of 0.5, you would use:
+      </p>
+
+      <pre><code class="language-js">function setup() {
+  addSlider(`radius`, { min: 0, max: 1, step: 0.001, value: 0.5 });
+}</code></pre>
+
+      <p>
+        After this, the <code>radius</code> variable will be globally available,
+        so that this code will &quot;just work&quot;:
+      </p>
+
+      <pre><code class="language-js">function draw() {
+  circle(width / 2, height / 2, radius);
+}</code></pre>
+
+      <p>
+        For convenience, any variable that ends in a number will have that
+        number shown using subscript styling, so a slider for
+        <code>t1</code> will show &quot;t<sub>1</sub>&quot; rather than
+        &quot;t1&quot; as its slider label, and any variable with
+        <code>_</code> in it will subscript the part after the underscore, so
+        that <code>k_p</code> becomes &quot;k<sub>p</sub>&quot; rather than
+        &quot;kp&quot;. Because your code doesn&#39;t care, but your users do,
+        and subscripted variables are much nicer to look at.
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="adding-buttons"><a href="#adding-buttons">Adding buttons</a></h2>
+
+      <p>
+        Sometimes you want buttons to do things that you <em>could</em> do with
+        click handlers, but would be much nicer with a normal button. In those
+        cases, you can use the <code>addButton</code> function:
+      </p>
+      <pre><code class="language-js">let p;
+
+function setup() {
+  addButton(`play`, (btn) =&gt; {
+    btn.textContent = togglePlay() ? `pause` : `play`;
+  });
+  p = new Point(width / 2, height / 2);
+}
+
+function draw() {
+  clear();
+  setColor(`black`);
+  point(p.x, p.y);
+  p.x += random(-2, 2);
+  p.y += random(-2, 2);
+}</code></pre>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="movable-entities">
+        <a href="#movable-entities">Movable entities</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        Rather than having to write your own click-drag logic, you can mark
+        things as &quot;movable&quot; by calling <code>setMovable(...)</code>.
+        This can either be <code>Point</code> instances or an array of
+        <code>Point</code> instances. After marking them as movable, the API
+        does the rest. When the pointer is over movable points it will update
+        the global <code>currentPoint</code> value and change to the typically
+        pointing finger icon, with click-dragging (or touch-dragging)
+        automatically updating your point&#39;s coordinates.
+      </p>
+      <pre><code class="language-js">const p;
+
+function setup() {
+  setSize(400, 400);
+  p = new Point(200, 200);
+  setMovable(p);
+}
+
+function draw() {
+  clear(`#eee`);
+  setColor(`#444`);
+  point(p.x, p.y);
+}</code></pre>
+
+      <p>
+        That&#39;s all the code we need: users can now click/tap/touch-drag our
+        point around.
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="pointer-handling">
+        <a href="#pointer-handling">Pointer handling</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        Graphics interaction is based on &quot;the pointer&quot;, which is a
+        unified handler for mouse, stylus, and touch handling, so you don&#39;t
+        have to care whether your code runs on a desktop computer, a laptop, a
+        tablet, a phone, or anything else. Event handling uses five functions:
+      </p>
+      <pre><code class="language-js">function pointerActive(trueOrFalse) {
+  // the pointer either entered or left the canvas region.
+}
+
+function pointerDown(x, y) {
+  // a mouse down, stylus down, or touch start at
+  // graphics coordinate x/y (not screen coordinate).
+}
+
+function pointerUp(x, y) {
+  // a mouse up, stylus up, or touch end at
+  // graphics coordinate x/y.
+}
+
+function pointerClick(x, y) {
+  // a shorthand function for a pointerdown followed
+  // by a pointerup on the same x/y coordinate
+}
+
+function pointerMove(x, y) {
+  // a mouse move/drag, stylus move/drag, or touch
+  // move/drag at graphics coordinate x/y.
+}
+
+function pointerDrag(x, y) {
+  // a shorthand function for a pointer move at some
+  // time after a pointer down, but before pointer up.
+}</code></pre>
+
+      <p>
+        In addition to this, there is the global <code>pointer</code> object
+        that can be consulted in any of your code, with the following
+        properties:
+      </p>
+
+      <ul>
+        <li>
+          <code>active</code> - true/false based on whether or not the pointer
+          is currently on/over the canvas.
+        </li>
+        <li>
+          <code>x</code> - the current graphics x coordinate for the pointer
+        </li>
+        <li>
+          <code>y</code> - the current graphics y coordinate for the pointer
+        </li>
+        <li>
+          <code>down</code> - true/false based on whether the pointer is
+          currently down or not.
+        </li>
+        <li>
+          <code>drag</code> - whether we&#39;re currently dragging the pointer.
+        </li>
+        <li>
+          <code>mark</code> - when the pointer is down, this is an object
+          <code>{x, y}</code> representing where the pointer down event
+          happened.
+        </li>
+      </ul>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="keyboard-handling">
+        <a href="#keyboard-handling">Keyboard handling</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        When focus is on the &lt;graphics-element&gt;, keyboard input will be
+        sent into your graphics code, using the following functions:
+      </p>
+
+      <pre><code class="language-js">function keyDown(key, shift, alt, ctrl, meta) {
+  // the &quot;key&quot; value is the key name being pressed,
+  // shift, alt, ctrl, and meta are boolean flags
+}
+
+function keyUp(key, shift, alt, ctrl, meta) {
+  // as above
+}</code></pre>
+
+      <p>
+        Note that there is no &quot;key typed&quot; handler, you get to decide
+        whether down or up counts as &quot;typing&quot;. There is a global
+        <code>keyboard</code> object that tracks which keys are down: if a key
+        is down, it will have a corresponding
+        <code>keyboard[keyName]</code> entry, with its value being the
+        <code>Date.now()</code> timestamp when the key got pressed. Once the key
+        is released, its entry gets removed from <code>keyboard</code> (not just
+        set to a falsey value).
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="linking-guide-text-and-graphics">
+        <a href="#linking-guide-text-and-graphics"
+          >Linking guide text and graphic</a
+        >
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        The graphics element supports automatic highlighting of parts of your
+        graphic by using color tags. For example, the following graphics code:
+      </p>
+
+      <pre><code class="language-js">function draw() {
+  setColor(`red`);
+  line(0, 0, width, height);
+  text(`the center of the universe`, width / 2, height / 2);
+}</code></pre>
+
+      <p>
+        can be combined with guide text that includes a highlighting tag for the
+        corresponding color:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element title=&quot;...&quot; src=&quot;...&quot;&gt;
+  &lt;p&gt;Let&#39;s highlight &lt;red&gt;the universe&lt;/red&gt;!&lt;/p&gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        Now, whenever a user places their pointer (mouse, stylus, or touch) on
+        that marked-up text, the corresponding color will get highlighted in the
+        graphic. All
+        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/named-color"
+          >named CSS colors</a
+        >
+        are supported for this purpose.
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="spreading-code-over-multiple-source-files">
+        <a href="#spreading-code-over-multiple-source-files"
+          >Spreading code over multiple source files</a
+        >
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        The &lt;graphics-element&gt; element allows you to specify
+        <em>multiple</em> source files, with one &quot;main &quot;file indicated
+        using the <code>src=&quot;...&quot;</code> attribute, and additional
+        sources through the use of the <code>&lt;source&gt;</code> element:
+      </p>
+
+      <pre><code class="language-html">&lt;p&gt;Let&#39;s look at the base case:&lt;/p&gt;
+
+&lt;graphics-element
+  title=&quot;multiple sources&quot;
+  src=&quot;./base-code.js&quot;
+&gt;&lt;/graphics-element&gt;
+
+&lt;p&gt;We can extend this by using the standard approach:&lt;/p&gt;
+
+&lt;graphics-element title=&quot;established convention&quot; src=&quot;./base-code.js&quot;&gt;
+  &lt;source src=&quot;variation-01.js&quot; /&gt;
+&lt;/graphics-element&gt;
+
+&lt;p&gt;But there&#39;s a more interesting way to tackle this:&lt;/p&gt;
+
+&lt;graphics-element title=&quot;a creative variation&quot; src=&quot;./base-code.js&quot;&gt;
+  &lt;source src=&quot;variation-02.js&quot; /&gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        This will create a single source file, but allows you to split up your
+        code in a way that lets you reuse the same code across multiple graphics
+        elements with only the differences stored in each extra source file.
+      </p>
+
+      <h3>Overloading &quot;parent&quot; functions</h3>
+
+      <p>
+        Your additional sources
+        <strong>may contain additional setup() and draw() functions</strong>,
+        which will be run at the end of the main <code>setup()</code> and
+        <code>draw()</code> functions, in the same order of your
+        <code>&lt;source&gt;</code> elements.
+      </p>
+
+      <p>
+        You cannot use this to &quot;redeclare&quot; any other function, though:
+        if the main source file contains
+        <code>function test() { ... }</code> and your additional source file
+        also specifies <code>function test() { ... }</code>, then you&#39;ll see
+        an error in your Developer Tools &quot;console&quot; tab along the lines
+        of:
+      </p>
+
+      <pre><code>Uncaught (in promise) SyntaxError: redeclaration of function test
+note: Previously declared at line 123, column 45</code></pre>
+
+      <h3>Why use &lt;source&gt; to load code when JS imports exist?</h3>
+
+      <p>
+        The way additional sources are included <em>fundamentally</em> differs
+        from the standard module import mechanism: JS imports are loaded in
+        their own, isolated, scope and <em><strong>will not</strong></em> have
+        access to any of the graphics functions and constants, whereas code
+        loaded through a <code>&lt;source&gt;</code> element effectively gets
+        packed up as a single bundle with the &quot;main&quot; graphics source
+        code and so <em><strong>will</strong></em> have access to all the
+        graphics API functions.
+      </p>
+
+      <p>
+        As such, if you need pure JS code imported, use an
+        <code>import</code> statement in your source code, but if you need
+        something like a class that knows how to draw itself by calling graphics
+        API functions, you can load that same code as a
+        <code>&lt;source&gt;</code> and things will work just fine.
+      </p>
+
+      <p>
+        As example, pure utility code that doesn&#39;t do any sort of drawing
+        should always be imported:
+      </p>
+
+      <pre><code class="language-js">class PID {
+  constructor(p, i, d, ...) {
+    this.kp = p;
+    this.ki = i;
+    this.kd = d;
+    ...
+  }
+
+  getRecommendation(current, target) {
+    const error = target - current;
+    const P = (kp * error) / dt;
+    const I = ...
+    // ...
+    return P + I + D;
+  }
+}</code></pre>
+
+      <p>
+        Nothing in the above code has anything to do with drawing things, and is
+        pure JS utility code. As such, we can simply import it directly:
+      </p>
+
+      <pre><code class="language-js">import { PID } from &quot;./pid.js&quot;;
+
+let pid;
+
+function setup() {
+  pid = new PID(1, 0, 0);
+}
+
+// ...</code></pre>
+
+      <p>
+        However, the following kind of code should be a
+        <code>&lt;source&gt;</code> inclusion:
+      </p>
+
+      <pre><code class="language-js">class Airplane extends Circle {
+  heading = 0;
+
+  constructor(x, y, heading) {
+    super(x, y, 100);
+    this.heading = heading;
+  }
+
+  draw() {
+    save();
+    translate(this.x, this.y);
+    rotate(this.heading);
+    line(0, 0, 20, 0);
+    restore();
+  }
+}</code></pre>
+
+      <p>
+        This code heavily relies on the graphics API, and so trying to
+        <code>import</code> it will throw errors at runtime.
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="further-reading">
+        <a href="#further-reading">Further reading</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        That covers the "regular" documentation, but head on over to the
+        <a href="api.html">API documentation</a> to learn all about which
+        constants and functions you can use to create cool graphics!
+      </p>
+
+      <p>
+        And if this made a difference in your dev life, consider (temporarily,
+        even?) becoming a patron of my work over on
+        <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or
+        send a one-time donatation to
+        <a
+          href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
+          >help keep this project, and others like it, funded</a
+        >. Any amount is appreciated!
+      </p>
+    </section>
+
+    <!-- ===================code syntax highlighting====================== -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll({ language: "javascript" });
+    </script>
+  </body>
+</html>

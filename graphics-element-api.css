@@ -10,9 +10,9 @@ body {
     -2px 0 10px lightgrey;
 
   h1 {
-    background: #f8f8f8;
+    background: #f8f8f8;    
     margin: 0 -1rem;
-    padding: 0 1rem;
+    padding: 0.3em 1rem 0.1em;
     span {
       vertical-align: -0.05em;
     }

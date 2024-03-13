@@ -10,7 +10,7 @@ body {
     -2px 0 10px lightgrey;
 
   h1 {
-    background: #f8f8f8;    
+    background: #f8f8f8;
     margin: 0 -1rem;
     padding: 0.3em 1rem 0.1em;
     span {
@@ -32,9 +32,6 @@ body {
       }
     }
   }
-  li:has(a.const) + li:has(a.fn) {
-    margin-top: 0.5em;
-  }
   a {
     &:link,
     &:visited,
@@ -44,9 +41,6 @@ body {
       color: #06c;
     }
     text-decoration: none;
-    &.fn::after {
-      content: "()";
-    }
     &[href="#top"] {
       float: right;
       font-size: 0.8em;

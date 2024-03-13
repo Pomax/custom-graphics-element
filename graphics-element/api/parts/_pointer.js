@@ -1,6 +1,11 @@
 function __checkForCurrentPoint(x, y, type) {
+  currentPoint = false;
+
+  if (!__movable_points.length) return;
+
   const matches = [];
   const matchPadding = type.includes(`mouse`) ? 10 : 30;
+
   __movable_points.forEach((p, pos) => {
     let x2 = p[0] === undefined ? p.x : p[0];
     let y2 = p[1] === undefined ? p.y : p[1];
@@ -9,8 +14,9 @@ function __checkForCurrentPoint(x, y, type) {
       matches.push({ p, d });
     }
   });
-  currentPoint = false;
+
   __canvas.style.cursor = `auto`;
+
   if (matches.length) {
     matches.sort((a, b) => a.d - b.d);
     currentPoint = matches[0].p;

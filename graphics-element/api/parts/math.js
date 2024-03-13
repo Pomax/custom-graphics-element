@@ -7,10 +7,20 @@ const {
    * <graphics-element>
    *   <graphics-source>
    *     function draw() {
-   *       setCursor(`none`);
    *       clear(`white`);
-   *       center();
-   *       plot(x => abs(x), -width/2, width/2);
+   *       translate(0, height/2);
+   *       noFill();
+   *       setStroke(`black`);
+   *       line(-huge, 0, huge, 0);
+   *
+   *       const w2 = width/2;
+   *       const data = array(width, (_, x) => [x, x - w2, abs(x - w2)]);
+   *
+   *       setStroke(`red`);
+   *       plotData(data, 0, 1);
+   *
+   *       setStroke(`blue`);
+   *       plotData(data, 0, 2);
    *     }
    *   </graphics-source>
    * </graphics-element>
@@ -374,59 +384,6 @@ const {
   trunc,
 } = Math;
 
-// constants...
-const {
-  /**
-   * The ratio of a circle's circumference to its diameter.
-   *
-   * See https://en.wikipedia.org/wiki/Pi
-   *
-   * @constant {number}
-   *
-   * @see {@link TAU}
-   */
-  PI,
-
-  /**
-   * The base for the natural logarithm.
-   *
-   * See https://en.wikipedia.org/wiki/E_(mathematical_constant)
-   *
-   * @constant {number}
-   */
-  E,
-} = Math;
-
-const {
-  /**
-   * A very small value for performing imprecise math operations
-   * such as checking whether a value is approximately the same
-   * as some other value.
-   *
-   * @constant {number}
-   */
-  epsilon,
-
-  /**
-   * A very large value that can still be used to draw things
-   * on the canvas (such as lines from -huge to +huge).
-   *
-   * @constant {number}
-   */
-  huge,
-
-  /**
-   * The ratio of a circle's circumference to its radius.
-   *
-   * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
-   *
-   * @constant {number}
-   *
-   * @see {@link PI}
-   */
-  TAU,
-} = { epsilon: 1e-10, huge: 1_000_000, TAU: PI * 2 };
-
 /**
  * Constrain a number to within a given range.
  * This is really nothing more than a convenient
@@ -525,8 +482,8 @@ function dist(x1, y1, x2, y2) {
     y1 = x1.y;
     x1 = x1.y;
   }
-  const dx = x2 - x2;
-  const dy = y1 - y1;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
   return hypot(dx, dy);
 }
 

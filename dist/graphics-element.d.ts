@@ -118,147 +118,102 @@ declare type keyboard = {
   [letter: string]: number;
 };
 /**
- * Add a slider to your figure, allowing users to control
- * a variable in your graphics code directly by interacting
- * with that on-page slider, which is especially important if
- * you want your graphics to be useable by users who don't
- * have, or cannot use, a mouse.
- *
- * The `propLabel` value should be the name of the variable
- * that your graphics code uses, and should _not_ be "preallocated"
- * in your code with a const, let, or var: it will automatically
- * get added as part of the source loading process.
- *
- * The options object accepts the following properties and values:
- *
- * - min:number - the slider's minimum value, defaults to 0
- * - max:number - the slider's maximum value, defaults to 1
- * - step - the step size, defaults to (max - min)/10
- * - value - the initial value, defaults to (max + min)/2
- * - classes - the CSS classes that will be used, defaults to `"slider"`
- * - transform - a value preprocessor  defaults to (v) => v
- *
- * The `transform` pre-processor runs after the user updates
- * the slider, but before its value gets assigned to your variable,
- * so that you can map it to something else (for instance, numbers
- * in one range to numbers in a completely different range, or even
- * numbers to strings or entire objects)
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(400, 200);
- *       addSlider(`bgColor`, {
- *         min: 0,
- *         max: 255,
- *         step: 1,
- *         value: 200,
- *         transform: (v) => {
- *           // convert v into a hex color code
- *           v = (v).toString(16).padStart(2, `0`);
- *           return `#${v}${v}${v}`;
- *         }
- *       });
- *     }
- *
- *     function draw() {
- *       clear(bgColor);
- *     }
- *   </graphics-source>
- * </graphics-element>
+ * The current frame number
  *
  */
-declare function addSlider(varName: string, options: object): HTMLInputElement;
+declare const frame: number;
 /**
- * Remove all sliders for your figure from the page.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *       addSlider(`x`);
- *     }
- *
- *     function draw() {
- *       clear(`white`);
- *       setColor(`black`);
- *       setFontSize(25);
- *       setTextAlign(CENTER, MIDDLE);
- *       text(`click to clear`, width/2, height/2);
- *     }
- *
- *     function pointerDown() {
- *       clearSliders();
- *     }
- *   </graphics-source>
- * </graphics-element>
+ * The number of milliseconds since the last frame.
  *
  */
-declare function clearSliders(): void;
+declare const frameDelta: number;
 /**
- * Add a button below your figure that can trigger event-based
- * code, which is especially important if you want your graphics
- * to be useable by users who don't have, or cannot use, a mouse.
- *
- * onClick is similar to the standard JS event handler, except
- * that the call argument is a reference to your button, not
- * the click event.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     const colors = [`white`, `black`];
- *     let bgColor = 0;
- *
- *     function setup() {
- *       setSize(200, 200);
- *       addButton(`flip background`, (button) => {
- *         bgColor = -(bgColor - 1);
- *         redraw();
- *       });
- *     }
- *
- *     function draw() {
- *       clear(colors[bgColor]);
- *     }
- *   </graphics-source>
- * </graphics-element>
+ * The height of the canvas in pixels
  *
  */
-declare function addButton(label: string, onClick: function): HTMLButtonElement;
+declare const height: number;
 /**
- * Remove all buttons for your figure from the page.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *       addButton(`this does nothing`, () => {});
- *     }
- *
- *     function draw() {
- *       clear(`white`);
- *       setColor(`black`);
- *       setFontSize(25);
- *       setTextAlign(CENTER, MIDDLE);
- *       text(`click to clear`, width/2, height/2);
- *     }
- *
- *     function pointerDown() {
- *       clearButtons();
- *     }
- *   </graphics-source>
- * </graphics-element>
+ * The width of the canvas in pixels
  *
  */
-declare function clearButtons(): void;
+declare const width: number;
+/**
+ * The current play state
+ *
+ */
+declare const playing: boolean;
+/**
+ * The `pointer` object represents the mouse cursor (when using
+ * a mouse) or finger position (for touch devices), and models
+ * several aspects:
+ *
+ * - `active` (boolean) Whether the pointer is even on or over the canvas.
+ * - `x` (number) The pointer's x offset in pixels with respect to the canvas
+ * - `y` (number) The pointer's y offset in pixels with respect to the canvas
+ * - `down` (boolean) Whether the pointer is "engaged" or not
+ * - `drag` (boolean) Whether a click/touch-drag is in progress
+ * - `mark` ({x,y}) When dragging, this represents the original coordinate of the pointer "down" event
+ *
+ */
+declare const pointer: object;
+/**
+ * If any points were registered as movable, and the pointer is
+ * near enough to a movable point, this value will point to
+ * that movable point, or `false` if the pointer is not near
+ * any movable point (or, of course, there are no movable points)
+ *
+ */
+declare const currentPoint: PointLike | false;
+/**
+ * The `keyboard` object is a truth table that can be checked to
+ * see if any key is currently pressed, and if so, when that
+ * keypress was initiated, by storing:
+ *
+ * ```
+ * {
+ *   [key:string]: datetime
+ * }
+ * ```
+ *
+ * When a key is released, its mapping is removed entirely,
+ * rather than it being set to a falsey value.
+ *
+ */
+declare const keyboard: object;
+/**
+ * The ratio of a circle's circumference to its diameter.
+ *
+ * See https://en.wikipedia.org/wiki/Pi
+ *
+ */
+declare const PI: number;
+/**
+ * The base for the natural logarithm.
+ *
+ * See https://en.wikipedia.org/wiki/E_(mathematical_constant)
+ *
+ */
+declare const E: number;
+/**
+ * A very small value for performing imprecise math operations
+ * such as checking whether a value is approximately the same
+ * as some other value.
+ *
+ */
+declare const epsilon: number;
+/**
+ * A very large value that can still be used to draw things
+ * on the canvas (such as lines from -huge to +huge).
+ *
+ */
+declare const huge: number;
+/**
+ * The ratio of a circle's circumference to its radius.
+ *
+ * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
+ *
+ */
+declare const TAU: number;
 /**
  * Ensure that there is no border around the canvas element.
  *
@@ -468,6 +423,148 @@ declare function noStroke(): void;
  *
  */
 declare function noTextStroke(): void;
+/**
+ * Add a slider to your figure, allowing users to control
+ * a variable in your graphics code directly by interacting
+ * with that on-page slider, which is especially important if
+ * you want your graphics to be useable by users who don't
+ * have, or cannot use, a mouse.
+ *
+ * The `propLabel` value should be the name of the variable
+ * that your graphics code uses, and should _not_ be "preallocated"
+ * in your code with a const, let, or var: it will automatically
+ * get added as part of the source loading process.
+ *
+ * The options object accepts the following properties and values:
+ *
+ * - min:number - the slider's minimum value, defaults to 0
+ * - max:number - the slider's maximum value, defaults to 1
+ * - step - the step size, defaults to (max - min)/10
+ * - value - the initial value, defaults to (max + min)/2
+ * - classes - the CSS classes that will be used, defaults to `"slider"`
+ * - transform - a value preprocessor  defaults to (v) => v
+ *
+ * The `transform` pre-processor runs after the user updates
+ * the slider, but before its value gets assigned to your variable,
+ * so that you can map it to something else (for instance, numbers
+ * in one range to numbers in a completely different range, or even
+ * numbers to strings or entire objects)
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(400, 200);
+ *       addSlider(`bgColor`, {
+ *         min: 0,
+ *         max: 255,
+ *         step: 1,
+ *         value: 200,
+ *         transform: (v) => {
+ *           // convert v into a hex color code
+ *           v = (v).toString(16).padStart(2, `0`);
+ *           return `#${v}${v}${v}`;
+ *         }
+ *       });
+ *     }
+ *
+ *     function draw() {
+ *       clear(bgColor);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function addSlider(varName: string, options: object): HTMLInputElement;
+/**
+ * Remove all sliders for your figure from the page.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addSlider(`x`);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *
+ *     function pointerDown() {
+ *       clearSliders();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function clearSliders(): void;
+/**
+ * Add a button below your figure that can trigger event-based
+ * code, which is especially important if you want your graphics
+ * to be useable by users who don't have, or cannot use, a mouse.
+ *
+ * onClick is similar to the standard JS event handler, except
+ * that the call argument is a reference to your button, not
+ * the click event.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const colors = [`white`, `black`];
+ *     let bgColor = 0;
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`flip background`, (button) => {
+ *         bgColor = -(bgColor - 1);
+ *         redraw();
+ *       });
+ *     }
+ *
+ *     function draw() {
+ *       clear(colors[bgColor]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function addButton(label: string, onClick: function): HTMLButtonElement;
+/**
+ * Remove all buttons for your figure from the page.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function setup() {
+ *       setSize(200, 200);
+ *       addButton(`this does nothing`, () => {});
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(25);
+ *       setTextAlign(CENTER, MIDDLE);
+ *       text(`click to clear`, width/2, height/2);
+ *     }
+ *
+ *     function pointerDown() {
+ *       clearButtons();
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ */
+declare function clearButtons(): void;
 /**
  * Draw a circular arc with radius `r` at (x,y),
  * starting at angle `s` and ending at angle `e`.
@@ -797,7 +894,10 @@ declare function plot(
 /**
  * Plot a 2D graph using a collection of any-dimensional data,
  * by indicating which dimension should be treated as the `x`
- * and which dimension should be treated as the `y`.
+ * and which dimension should be treated as the `y`. If no `x`
+ * and `y` are provided, `data` will be treated a 1D array and
+ * will plot with the array index as `x` and element at that
+ * index as `y`.
  *
  * Example:
  *
@@ -825,8 +925,8 @@ declare function plot(
  */
 declare function plotData(
   data: object[],
-  x: number | string,
-  y: number | string,
+  x?: number | string,
+  y?: number | string,
 ): void;
 /**
  * Draw a point (either from x/y or point-like).
@@ -1045,69 +1145,6 @@ declare function triangle(p1: PointLike, p2: PointLike, p3: PointLike): void;
  */
 declare function vertex(x: number, y: number): void;
 declare function vertex(p: PointLike): void;
-/**
- * The current frame number
- *
- */
-declare const frame: number;
-/**
- * The number of milliseconds since the last frame.
- *
- */
-declare const frameDelta: number;
-/**
- * The height of the canvas in pixels
- *
- */
-declare const height: number;
-/**
- * The width of the canvas in pixels
- *
- */
-declare const width: number;
-/**
- * The current play state
- *
- */
-declare const playing: boolean;
-/**
- * The `pointer` object represents the mouse cursor (when using
- * a mouse) or finger position (for touch devices), and models
- * several aspects:
- *
- * - `active` (boolean) Whether the pointer is even on or over the canvas.
- * - `x` (number) The pointer's x offset in pixels with respect to the canvas
- * - `y` (number) The pointer's y offset in pixels with respect to the canvas
- * - `down` (boolean) Whether the pointer is "engaged" or not
- * - `drag` (boolean) Whether a click/touch-drag is in progress
- * - `mark` ({x,y}) When dragging, this represents the original coordinate of the pointer "down" event
- *
- */
-declare const pointer: object;
-/**
- * If any points were registered as movable, and the pointer is
- * near enough to a movable point, this value will point to
- * that movable point, or `false` if the pointer is not near
- * any movable point (or, of course, there are no movable points)
- *
- */
-declare const currentPoint: PointLike | false;
-/**
- * The `keyboard` object is a truth table that can be checked to
- * see if any key is currently pressed, and if so, when that
- * keypress was initiated, by storing:
- *
- * ```
- * {
- *   [key:string]: datetime
- * }
- * ```
- *
- * When a key is released, its mapping is removed entirely,
- * rather than it being set to a falsey value.
- *
- */
-declare const keyboard: object;
 /**
  * Create an array of specified length, optionally
  * filled using the same kind of function you'd normall
@@ -1643,10 +1680,20 @@ declare function togglePlay(): boolean;
  * <graphics-element>
  *   <graphics-source>
  *     function draw() {
- *       setCursor(`none`);
  *       clear(`white`);
- *       center();
- *       plot(x => abs(x), -width/2, width/2);
+ *       translate(0, height/2);
+ *       noFill();
+ *       setStroke(`black`);
+ *       line(-huge, 0, huge, 0);
+ *
+ *       const w2 = width/2;
+ *       const data = array(width, (_, x) => [x, x - w2, abs(x - w2)]);
+ *
+ *       setStroke(`red`);
+ *       plotData(data, 0, 1);
+ *
+ *       setStroke(`blue`);
+ *       plotData(data, 0, 2);
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -1846,40 +1893,6 @@ declare function tanh(input: number): number;
  *
  */
 declare function trunc(input: number): number;
-/**
- * The ratio of a circle's circumference to its diameter.
- *
- * See https://en.wikipedia.org/wiki/Pi
- *
- */
-declare const PI: number;
-/**
- * The base for the natural logarithm.
- *
- * See https://en.wikipedia.org/wiki/E_(mathematical_constant)
- *
- */
-declare const E: number;
-/**
- * A very small value for performing imprecise math operations
- * such as checking whether a value is approximately the same
- * as some other value.
- *
- */
-declare const epsilon: number;
-/**
- * A very large value that can still be used to draw things
- * on the canvas (such as lines from -huge to +huge).
- *
- */
-declare const huge: number;
-/**
- * The ratio of a circle's circumference to its radius.
- *
- * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
- *
- */
-declare const TAU: number;
 /**
  * Constrain a number to within a given range.
  * This is really nothing more than a convenient

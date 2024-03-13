@@ -304,7 +304,9 @@ function markdownToHTML(markdown) {
  * Abstract declarations and comments:
  */
 const fileList = await glob(`./graphics-element/api/parts/[!_]*.js`);
-fileList.sort().forEach((filename) => fileToDTS(filename));
+[`./graphics-element/api/constants.js`, ...fileList.sort()].forEach(
+  (filename) => fileToDTS(filename)
+);
 
 /**
  * Then create our graphics-element.d.ts file.
@@ -450,7 +452,7 @@ const dValues = Object.values(declarations)
   });
 
 const toc =
-  `<h4 class="sep">${dValues[0].namespace} functions</h4>` +
+  `<h4 class="sep">${dValues[0].namespace} ${dValues[0].namespace !== `constants` ? `functions` : ``}</h4>` +
   `<ul>` +
   dValues
     .map((a, pos, data) => {

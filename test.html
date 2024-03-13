@@ -10,7 +10,7 @@
     <body>
       <h1 id="top" style="text-align: center; font-size: 2.5em">
         The
-        <a href="."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
+        <a href=".."><span>&lt;</span>graphics-element<span>&gt;</span></a> API
       </h1>
       <p>
         This is the API documentation for &lt;graphics-element&gt; source code,
@@ -25,12 +25,21 @@
         well as searcing the index.
       </p>
       <section id="toc">
-        <h4 class="sep">DOM functions</h4>
+        <h4 class="sep">constants</h4>
         <ul>
-          <li><a href="#addButton" class="fn">addButton</a></li>
-          <li><a href="#addSlider" class="fn">addSlider</a></li>
-          <li><a href="#clearButtons" class="fn">clearButtons</a></li>
-          <li><a href="#clearSliders" class="fn">clearSliders</a></li>
+          <li><a href="#E" class="const">E</a></li>
+          <li><a href="#PI" class="const">PI</a></li>
+          <li><a href="#TAU" class="const">TAU</a></li>
+          <li><a href="#currentPoint" class="const">currentPoint</a></li>
+          <li><a href="#epsilon" class="const">epsilon</a></li>
+          <li><a href="#frame" class="const">frame</a></li>
+          <li><a href="#frameDelta" class="const">frameDelta</a></li>
+          <li><a href="#height" class="const">height</a></li>
+          <li><a href="#huge" class="const">huge</a></li>
+          <li><a href="#keyboard" class="const">keyboard</a></li>
+          <li><a href="#playing" class="const">playing</a></li>
+          <li><a href="#pointer" class="const">pointer</a></li>
+          <li><a href="#width" class="const">width</a></li>
         </ul>
         <h4 class="sep">disabling functions</h4>
         <ul>
@@ -42,6 +51,13 @@
           <li><a href="#noLineDash" class="fn">noLineDash</a></li>
           <li><a href="#noStroke" class="fn">noStroke</a></li>
           <li><a href="#noTextStroke" class="fn">noTextStroke</a></li>
+        </ul>
+        <h4 class="sep">dom functions</h4>
+        <ul>
+          <li><a href="#addButton" class="fn">addButton</a></li>
+          <li><a href="#addSlider" class="fn">addSlider</a></li>
+          <li><a href="#clearButtons" class="fn">clearButtons</a></li>
+          <li><a href="#clearSliders" class="fn">clearSliders</a></li>
         </ul>
         <h4 class="sep">draw functions</h4>
         <ul>
@@ -66,14 +82,6 @@
         </ul>
         <h4 class="sep">general functions</h4>
         <ul>
-          <li><a href="#currentPoint" class="const">currentPoint</a></li>
-          <li><a href="#frame" class="const">frame</a></li>
-          <li><a href="#frameDelta" class="const">frameDelta</a></li>
-          <li><a href="#height" class="const">height</a></li>
-          <li><a href="#keyboard" class="const">keyboard</a></li>
-          <li><a href="#playing" class="const">playing</a></li>
-          <li><a href="#pointer" class="const">pointer</a></li>
-          <li><a href="#width" class="const">width</a></li>
           <li><a href="#array" class="fn">array</a></li>
           <li><a href="#clearMovable" class="fn">clearMovable</a></li>
           <li><a href="#color" class="fn">color</a></li>
@@ -97,11 +105,6 @@
         </ul>
         <h4 class="sep">math functions</h4>
         <ul>
-          <li><a href="#E" class="const">E</a></li>
-          <li><a href="#PI" class="const">PI</a></li>
-          <li><a href="#TAU" class="const">TAU</a></li>
-          <li><a href="#epsilon" class="const">epsilon</a></li>
-          <li><a href="#huge" class="const">huge</a></li>
           <li><a href="#abs" class="fn">abs</a></li>
           <li><a href="#acos" class="fn">acos</a></li>
           <li><a href="#acosh" class="fn">acosh</a></li>
@@ -203,20 +206,40 @@
         <graphics-element width="200px" height="200px">
             <graphics-source>
 function draw() {
-  setCursor(`none`);
   clear(`white`);
-  center();
-  plot((x) => abs(x), -width / 2, width / 2);
+  translate(0, height / 2);
+  noFill();
+  setStroke(`black`);
+  line(-huge, 0, huge, 0);
+
+  const w2 = width / 2;
+  const data = array(width, (_, x) => [x, x - w2, abs(x - w2)]);
+
+  setStroke(`red`);
+  plotData(data, 0, 1);
+
+  setStroke(`blue`);
+  plotData(data, 0, 2);
 }
 
 </graphics-source>
           </graphics-element>
         <pre>
 function draw() {
-  setCursor(`none`);
   clear(`white`);
-  center();
-  plot((x) =&gt; abs(x), -width / 2, width / 2);
+  translate(0, height / 2);
+  noFill();
+  setStroke(`black`);
+  line(-huge, 0, huge, 0);
+
+  const w2 = width / 2;
+  const data = array(width, (_, x) =&gt; [x, x - w2, abs(x - w2)]);
+
+  setStroke(`red`);
+  plotData(data, 0, 1);
+
+  setStroke(`blue`);
+  plotData(data, 0, 2);
 }
 </pre
         >
@@ -3238,7 +3261,7 @@ function draw() {
         <ul class="signatures">
           <li>
             <code
-              >plotData(data: object[], x: number|string, y:
+              >plotData(data: object[], x?: number|string, y?:
               number|string)</code
             >
             <ul class="params">
@@ -3247,11 +3270,11 @@ function draw() {
                 one dimension again another
               </li>
               <li>
-                <code>x</code> - The property name or individual element array
+                <code>x?</code> - The property name or individual element array
                 index to use as x dimension
               </li>
               <li>
-                <code>y</code> - The property name or individual element array
+                <code>y?</code> - The property name or individual element array
                 index to use as y dimension
               </li>
             </ul>
@@ -3261,7 +3284,10 @@ function draw() {
         <p>
           Plot a 2D graph using a collection of any-dimensional data, by
           indicating which dimension should be treated as the <code>x</code> and
-          which dimension should be treated as the <code>y</code>.
+          which dimension should be treated as the <code>y</code>. If no
+          <code>x</code> and <code>y</code> are provided, <code>data</code> will
+          be treated a 1D array and will plot with the array index as
+          <code>x</code> and element at that index as <code>y</code>.
         </p>
 
         <h3>Examples</h3>

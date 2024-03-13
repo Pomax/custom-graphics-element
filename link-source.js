@@ -11,6 +11,9 @@ let api = fs
   .readFileSync(`./graphics-element/graphics-api.js`)
   .toString(`utf-8`);
 
+// inject the const/let that we need up front:
+api += fs.readFileSync(`./graphics-element/api/constants.js`).toString(`utf-8`);
+
 // Add in all the distinct parts
 const baseDir = `./graphics-element/api/parts`;
 fs.readdirSync(baseDir).forEach((filename) => {

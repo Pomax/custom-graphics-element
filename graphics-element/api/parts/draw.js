@@ -535,7 +535,10 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
 /**
  * Plot a 2D graph using a collection of any-dimensional data,
  * by indicating which dimension should be treated as the `x`
- * and which dimension should be treated as the `y`.
+ * and which dimension should be treated as the `y`. If no `x`
+ * and `y` are provided, `data` will be treated a 1D array and
+ * will plot with the array index as `x` and element at that
+ * index as `y`.
  *
  * Example:
  *
@@ -561,19 +564,22 @@ function plot(f, a = 0, b = 1, steps = 100, xscale = 1, yscale = 1) {
  * </graphics-element>
  *
  * @param {object[]} data The any-dimensional data from which to plot one dimension again another
- * @param {number|string} x The property name or individual element array index to use as x dimension
- * @param {number|string} y The property name or individual element array index to use as y dimension
+ * @param {number|string} x? The property name or individual element array index to use as x dimension
+ * @param {number|string} y? The property name or individual element array index to use as y dimension
  *
  * @see {@link plot}
  */
 function plotData(data, x, y) {
-  if (x.x !== undefined && x.y !== undefined) {
-    y = x.y;
-    x = x.x;
-  }
-
   start();
-  data.forEach((p) => vertex(p[x], p[y]));
+  if (x !== undefined && y !== undefined) {
+    if (x.x !== undefined && x.y !== undefined) {
+      y = x.y;
+      x = x.x;
+    }
+    data.forEach((p) => vertex(p[x], p[y]));
+  } else {
+    data.forEach((y, x) => vertex(x, y));
+  }
   end();
 }
 

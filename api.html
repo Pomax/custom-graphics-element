@@ -31,6 +31,19 @@
       stack instead of needing some kind of build system.
     </p>
 
+    <ul>
+      <li>Visit <a href=".">the main page</a></li>
+      <li>Read <a href="docs.html">the documentation</a></li>
+      <li>
+        Check out the <a href="api.html">API</a> (wait, you're already here!)
+      </li>
+      <li>Try the <a href="edit/">editor playground</a></li>
+      <li>
+        View the project
+        <a href="https://github.com/pomax/custom-graphics-element">on GitHub</a>
+      </li>
+    </ul>
+
     <p>
       Note that the index just below is ordered by category, but the full list
       itself is ordered alphabetically to allow you to search by scrolling as
@@ -49,7 +62,7 @@
     </p>
 
     <section id="toc">
-      <h4 class="sep">functions</h4>
+      <h4 class="sep">constants</h4>
       <ul>
         <li><a href="#E" class="const">E</a></li>
         <li><a href="#PI" class="const">PI</a></li>
@@ -65,13 +78,6 @@
         <li><a href="#pointer" class="const">pointer</a></li>
         <li><a href="#width" class="const">width</a></li>
       </ul>
-      <h4 class="sep">DOM functions</h4>
-      <ul>
-        <li><a href="#addButton" class="fn">addButton</a></li>
-        <li><a href="#addSlider" class="fn">addSlider</a></li>
-        <li><a href="#clearButtons" class="fn">clearButtons</a></li>
-        <li><a href="#clearSliders" class="fn">clearSliders</a></li>
-      </ul>
       <h4 class="sep">disabling functions</h4>
       <ul>
         <li><a href="#noBorder" class="fn">noBorder</a></li>
@@ -82,6 +88,13 @@
         <li><a href="#noLineDash" class="fn">noLineDash</a></li>
         <li><a href="#noStroke" class="fn">noStroke</a></li>
         <li><a href="#noTextStroke" class="fn">noTextStroke</a></li>
+      </ul>
+      <h4 class="sep">dom functions</h4>
+      <ul>
+        <li><a href="#addButton" class="fn">addButton</a></li>
+        <li><a href="#addSlider" class="fn">addSlider</a></li>
+        <li><a href="#clearButtons" class="fn">clearButtons</a></li>
+        <li><a href="#clearSliders" class="fn">clearSliders</a></li>
       </ul>
       <h4 class="sep">draw functions</h4>
       <ul>
@@ -228,7 +241,7 @@
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   translate(0, height / 2);
@@ -247,7 +260,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(0, height / 2);
@@ -353,7 +366,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const colors = [`white`, `black`];
 let bgColor = 0;
 
@@ -370,7 +383,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const colors = [`white`, `black`];
 let bgColor = 0;
 
@@ -448,7 +461,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(400, 200);
   addSlider(`bgColor`, {
@@ -469,7 +482,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(400, 200);
   addSlider(`bgColor`, {
@@ -553,7 +566,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -563,7 +576,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -601,7 +614,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   noFill();
@@ -611,7 +624,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -801,7 +814,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setBorder(1, `black`);
@@ -828,7 +841,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(1, `black`);
@@ -900,7 +913,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -921,7 +934,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -990,7 +1003,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function setup() {
@@ -1012,7 +1025,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -1106,7 +1119,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`red`);
@@ -1125,7 +1138,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`red`);
@@ -1170,7 +1183,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1179,7 +1192,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1216,13 +1229,13 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`pink`);
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`pink`);
 }
@@ -1243,7 +1256,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   addButton(`this does nothing`, () => {});
@@ -1262,7 +1275,7 @@ function pointerDown() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   addButton(`this does nothing`, () =&gt; {});
@@ -1300,7 +1313,7 @@ function pointerDown() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function setup() {
@@ -1328,7 +1341,7 @@ function pointerDown(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -1376,7 +1389,7 @@ function pointerDown(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   addSlider(`x`);
@@ -1395,7 +1408,7 @@ function pointerDown() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   addSlider(`x`);
@@ -1463,13 +1476,13 @@ function pointerDown() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(color(45, 80, 90));
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(color(45, 80, 90));
 }
@@ -1534,7 +1547,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`pink`);
 }
@@ -1550,7 +1563,7 @@ function pointerDown(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`pink`);
 }
@@ -1782,7 +1795,7 @@ function pointerDown(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1796,7 +1809,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1994,7 +2007,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -2014,7 +2027,7 @@ function pointerActive(state) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -2119,14 +2132,14 @@ function pointerActive(state) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 async function draw() {
   clear(`white`);
   await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">async function draw() {
   clear(`white`);
   await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
@@ -2175,7 +2188,7 @@ async function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function setup() {
@@ -2203,7 +2216,7 @@ function pointerDown(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -2282,7 +2295,7 @@ function pointerDown(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -2290,7 +2303,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -2464,7 +2477,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -2480,7 +2493,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -2534,7 +2547,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setBorder(5, `red`);
@@ -2559,7 +2572,7 @@ function pointerDown(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(5, `red`);
@@ -2603,7 +2616,7 @@ function pointerDown(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2615,7 +2628,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2648,7 +2661,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -2666,7 +2679,7 @@ function pointerMove(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -2703,7 +2716,7 @@ function pointerMove(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2718,7 +2731,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2752,7 +2765,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2772,7 +2785,7 @@ function pointerDown(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2811,7 +2824,7 @@ function pointerDown(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2826,7 +2839,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2860,7 +2873,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2876,7 +2889,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2911,7 +2924,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2927,7 +2940,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2962,7 +2975,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -2986,7 +2999,7 @@ function pointerActive(state) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -3051,7 +3064,7 @@ function pointerActive(state) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
@@ -3080,7 +3093,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
@@ -3176,7 +3189,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   noFill();
@@ -3187,7 +3200,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -3240,7 +3253,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   noFill();
@@ -3259,7 +3272,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -3306,7 +3319,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3316,7 +3329,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3420,7 +3433,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -3446,7 +3459,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -3573,7 +3586,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(randomColor());
 }
@@ -3583,7 +3596,7 @@ function pointerDown() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(randomColor());
 }
@@ -3631,7 +3644,7 @@ function pointerDown() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3639,7 +3652,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3678,7 +3691,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -3687,7 +3700,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -3715,7 +3728,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   const h = map(pointer.x, 0, width, 0, 360);
   const l = map(pointer.y, 0, height, 50, 0);
@@ -3727,7 +3740,7 @@ function pointerMove() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   const h = map(pointer.x, 0, width, 0, 360);
   const l = map(pointer.y, 0, height, 50, 0);
@@ -3756,7 +3769,7 @@ function pointerMove() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   noGrid();
@@ -3788,7 +3801,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -3842,7 +3855,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function draw() {
@@ -3861,7 +3874,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function draw() {
@@ -3904,7 +3917,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   noGrid();
@@ -3924,7 +3937,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -3979,7 +3992,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4008,7 +4021,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4086,7 +4099,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function draw() {
@@ -4105,7 +4118,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function draw() {
@@ -4151,7 +4164,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   noGrid();
@@ -4172,7 +4185,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -4227,7 +4240,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   noGrid();
@@ -4251,7 +4264,7 @@ function pointerMove() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -4326,14 +4339,14 @@ function pointerMove() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setBorder(10, `red`);
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(10, `red`);
@@ -4361,7 +4374,7 @@ function setup() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear();
   setColor(`blue`);
@@ -4369,7 +4382,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setColor(`blue`);
@@ -4412,7 +4425,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -4430,7 +4443,7 @@ function pointerMove(x, y) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -4472,7 +4485,7 @@ function pointerMove(x, y) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear();
   setStroke(`black`);
@@ -4481,7 +4494,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setStroke(`black`);
@@ -4607,7 +4620,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
@@ -4618,7 +4631,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
@@ -4656,7 +4669,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -4676,7 +4689,7 @@ function pointerActive(state) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -4747,7 +4760,7 @@ function pointerActive(state) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`black`);
@@ -4758,7 +4771,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -4795,7 +4808,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function setup() {
@@ -4815,7 +4828,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -4872,7 +4885,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4898,7 +4911,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4954,7 +4967,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(400, 200);
 }
@@ -4973,7 +4986,7 @@ function pointerUp() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(400, 200);
 }
@@ -5012,7 +5025,7 @@ function pointerUp() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear();
   setStroke(`black`);
@@ -5021,7 +5034,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setStroke(`black`);
@@ -5088,7 +5101,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setFontSize(20);
@@ -5106,7 +5119,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setFontSize(20);
@@ -5145,7 +5158,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setFontSize(25);
@@ -5159,7 +5172,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setFontSize(25);
@@ -5288,7 +5301,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 const points = [];
 
 function setup() {
@@ -5309,7 +5322,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -5378,7 +5391,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5392,7 +5405,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5560,7 +5573,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setColor(`black`);
@@ -5575,7 +5588,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -5630,7 +5643,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -5650,7 +5663,7 @@ function pointerActive(state) {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -5746,7 +5759,7 @@ function pointerActive(state) {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -5754,7 +5767,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -5800,7 +5813,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5809,7 +5822,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5874,7 +5887,7 @@ trunc(-4.2); // -4
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5887,7 +5900,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5942,7 +5955,7 @@ function draw() {
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
-            <graphics-source>
+              <graphics-source>
 function setup() {
   setSize(200, 200);
   play();
@@ -5965,7 +5978,7 @@ function draw() {
 }
 
 </graphics-source>
-          </graphics-element>
+            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   play();

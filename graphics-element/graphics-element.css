@@ -26,43 +26,19 @@ graphics-element {
     So, first off: hide everything!
   */
 
-  &:not(:defined) > * {
+  &:not(:defined) {
+    border: none;
+  }
+
+  &:not(:defined) > *:not(.fallback) {
     display: none;
+
     /*
       And then we declare a more specific rule that does NOT hide the
       <fallback-image> element and its content.
     */
-    & fallback-image {
+    & img.fallback {
       display: block;
-      text-align: center;
-      padding: 0.5em;
-      margin: auto;
-
-      /*
-        Normally, images are inline elements, but in our case we want it to be
-        treated as a full block, so that the caption text shows up underneath
-        it, rather than next to it:
-      */
-      & > .view-source {
-        display: block;
-        position: relative;
-        top: -0.6em;
-        margin-bottom: -0.2em;
-        font-size: 60%;
-        color: #00000030;
-      }
-
-      & > label {
-        display: block;
-        font-style: italic;
-        font-size: 0.9em;
-        text-align: right;
-      }
-
-      & > img {
-        display: block;
-        border: 1px solid lightgrey;
-      }
     }
   }
 
@@ -81,7 +57,7 @@ graphics-element {
       And of course, once that's the case we actually want to make sure that
       the <fallback-image> does NOT show anymore!
     */
-    & fallback-image.loaded {
+    & img.fallback {
       display: none;
     }
   }
@@ -741,10 +717,15 @@ graphics-element {
   }
 }
 
-/* why does CSS nesting not work for this? */
 graphics-element[centered] {
   display: block;
   margin: 0 auto;
+  &:has(img.fallback) {
+    text-align: center;
+  }
+  &:defined {
+    text-align: auto;
+  }
 }
 
 graphics-element[float="right"] {

@@ -12,8 +12,7 @@ async function cleanUpCode(code) {
       .replace(/\<\/?graphics-[^>]+\>/g, ``)
       .split(`\n`)
       .map((l) => l.replace(/^(\s*\*)/, ``).replace(/\*+$/, ``))
-      .join(`\n`)
-      .trim(),
+      .join(`\n`),
     { semi: true, parser: "babel" }
   );
 }
@@ -256,14 +255,14 @@ export async function formAPIPage(declarations, metadata) {
     <p>
       Note that the index just below is ordered by category, but the full list
       itself is ordered alphabetically to allow you to search by scrolling
-      as well as searcing the index.
+      as well as searching the index.
     </p>
 
     <p>
       Also, if this made a difference in your dev life, consider (temporarily,
       even?) becoming a patron of my work over on
       <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or send
-      a one-time donatation to
+      a one-time donation to
       <a
         href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
         >help keep this project, and others like it, funded</a

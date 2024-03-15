@@ -17,6 +17,7 @@ function getDescription() {
  * The main setup function
  */
 function setup() {
+  setSize(650, 300);
   addSlider(`k_p`, { step: 0.001, value: 1 });
   addSlider(`k_i`, { min: -1, max: 1, step: 0.001, value: 0 });
   addSlider(`k_d`, { max: 20, step: 0.01, value: 0 });

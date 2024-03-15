@@ -104,11 +104,11 @@ body {
       min-height: 200px;
     }
     pre {
-      margin: 0;
-      padding: 1em;
-      background: var(--bg-color);
+      background: var(--code-block);
       color: var(--text-color);
       font-weight: bold;
+      padding: 1em;
+      margin: 1em 0;
     }
     code.const {
       display: block;
@@ -123,7 +123,12 @@ body {
   }
 
   code {
+    padding: 0;
     font-size: 0.9rem;
     background-color: var(--code-block) !important;
+  }
+
+  pre code.hljs {
+    padding: 0;
   }
 }

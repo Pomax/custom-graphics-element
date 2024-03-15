@@ -47,7 +47,10 @@
 
     <ul>
       <li>Visit <a href=".">the main page</a></li>
-      <li>Read <a href="docs.html">the documentation</a> (wait, you're already here!)</li>
+      <li>
+        Read <a href="docs.html">the documentation</a> (wait, you're already
+        here!)
+      </li>
       <li>Check out the <a href="api.html">API</a></li>
       <li>Try the <a href="edit/">editor playground</a></li>
       <li>
@@ -70,6 +73,11 @@
     <h2>Table of contents</h2>
 
     <ul>
+      <li>
+        <a href="#using-the-graphics-element-tag"
+          >Using the &lt;graphics-element&gt; tag</a
+        >
+      </li>
       <li>
         <a href="#writing-graphics-source-code">Writing graphics source code</a>
       </li>
@@ -104,19 +112,34 @@
     </ul>
 
     <section>
-      <h2 id="writing-graphics-source-code">
-        <a href="#writing-graphics-source-code">Writing graphics source code</a>
+      <h2 id="using-the-graphics-element-tag">
+        <a href="#using-the-graphics-element-tag"
+          >Using the &lt;graphics-element&gt; tag</a
+        >
         <a href="#top">top</a>
       </h2>
 
-      <p>The &lt;graphics-element&gt; tag supports the following attributes:</p>
+      <p>
+        Using the &lt;graphics-element&gt; is similar to writing any other HTML:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element attr1="val1" attr2="val2" ...&gt;&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        With the same universal attributes like <code>id</code> or
+        <code>class</code>
+        as well as the following tag-specific attributes:
+      </p>
 
       <ul>
         <li>
           <code>title</code> - this is both the standard HTML title attribute,
           as well as the text that gets used as figure caption underneath your
-          graphic. Omitting this will result in a warning on the console.
-          (always label your figures =)
+          graphic.
+          <strong
+            >Omitting this will result in a warning on the console.</strong
+          >
+          (always label your figures)
         </li>
         <li>
           <code>src</code> - this is the standard HTML attribute for indicating
@@ -124,13 +147,13 @@
         </li>
         <li>
           <code>width</code> - the (unitless) width for your graphic. This value
-          is optional, but your graphics code must use <code>setSize</code> if
-          omitted.
+          is optional, but your graphics code must use
+          <a href="api.html#setSize">setSize</a> if omitted.
         </li>
         <li>
           <code>height</code> - the (unitless) height for your graphic. This
           value is optional, but your graphics code must use
-          <code>setSize</code> if omitted.
+          <a href="api.html#setSize">setSize</a> if omitted.
         </li>
         <li>
           <code>centered</code> - an optional &quot;valueless&quot; attribute
@@ -138,8 +161,8 @@
         </li>
         <li>
           <code>float</code> - an optional attribute that takes values
-          <code>left</code> or <code>right</code>, to float your graphic inside
-          your other page content.
+          <code>"left"</code> or <code>"right"</code>, to float your graphic
+          inside your other page content.
         </li>
       </ul>
 
@@ -152,11 +175,67 @@
       <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; src=&quot;...&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
   &lt;p&gt;This guide text will render inside the graphics-element &quot;box&quot;.&lt;/p&gt;
 &lt;/graphics-element&gt;</code></pre>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="using-fallback-images">
+        <a href="#using-fallback-images"
+          >Using fallback images (for when JS is disabled)</a
+        >
+        <a href="#top">top</a>
+      </h2>
 
       <p>
-        Graphics source code uses standard JavaScript, with all graphics API
-        functions available as globals. While the smallest source code is just
-        an empty file, the recommended minimal code is:
+        Since the &lt;graphics-element&gt; tag is a custom element, the browser
+        will only load this tag in if JS is enabled. However, on the modern web
+        the baseline assumption should be that your users run both ad-blockers
+        <strong>and</strong> script blockers, so you'll want to have fallback
+        images in place for when JS is disabled.
+      </p>
+
+      <p>
+        This can be done using an &lt;img&gt; tag with the `fallback` class,
+        ideally with the same height and width as your &lt;graphics-element&gt;
+        will take up:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; src=&quot;...&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
+  &lt;img
+    class="fallback"
+    src="..."
+    width="...px"
+    height="...px"
+    title="Please enable JS to interact with this graphic"
+  &gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        In order to make adding placeholders to your pages easier, the
+        <a href="https://github.com/pomax/custom-graphics-element"
+          >&lt;graphics-element&gt; code repository</a
+        >
+        provides a tool that can be used with
+        <a href="https://nodejs.org">Node.js</a>
+        to automatically generate fallback images and update the code in an HTML
+        page, automatically making sure the correct width and height values are
+        set, with a placeholder text prefilled.
+      </p>
+    </section>
+
+    <!-- =================== next section ====================== -->
+
+    <section>
+      <h2 id="writing-graphics-source-code">
+        <a href="#writing-graphics-source-code">Writing graphics source code</a>
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        Graphics source code uses normal JavaScript, with all graphics API
+        functions available as global functions. While the smallest source code
+        is just an empty file, the recommended minimal code is:
       </p>
 
       <pre><code class="language-js">function setup() {
@@ -187,16 +266,22 @@ function draw() {
 
       <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
   &lt;graphics-source&gt;
-    function setup() { // ... } function draw() { // ... }
+    function setup() {
+      // ...
+    }
+
+    function draw() {
+      // ...
+    }
   &lt;/graphics-source&gt;
 &lt;/graphics-element&gt;</code></pre>
 
       <p>
-        Or you may inject it using a source code function if you&#39;re working
-        purely in JS:
+        Or you may inject it using a source code function if you&#39;re doing
+        all your work in JS:
       </p>
 
-      <pre><code class="language-javascript">const graphicsElement = document.createElement(`graphics-element`);
+      <pre><code class="language-javascript">const myGraphicsElement = document.createElement(`graphics-element`);
 
 function sourceCode() {
   function setup() {
@@ -210,13 +295,8 @@ function sourceCode() {
 
 // load the code once the custom element loader is done:
 customElements.whenDefined(`graphics-element`).then(() =&gt; {
-  graphicsElement.loadFromFunction(sourceCode);
+  myGraphicsElement.loadFromFunction(sourceCode);
 });</code></pre>
-
-      <p>
-        In order to simplify certain aspects of graphics programming, several
-        pieces of key functionality have been baked into the code runner:
-      </p>
     </section>
 
     <!-- =================== next section ====================== -->
@@ -227,7 +307,7 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
         <a href="#top">top</a>
       </h2>
 
-      <p>Several globals exist to make your graphics life easier:</p>
+      <p>Several global variables exist to make your graphics life easier:</p>
 
       <ul>
         <li><code>width</code> - the width of your graphic, in pixels.</li>
@@ -257,6 +337,12 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
           represent the movable point under the pointer, if there is one.
         </li>
       </ul>
+
+      <p>
+        Note that except for <code>pointer</code> and <code>keyboard</code>,
+        these values <em>can</em> be reassigned by your code, with unpredictable
+        results, so be careful what you name your own variables!
+      </p>
     </section>
 
     <!-- =================== next section ====================== -->
@@ -533,7 +619,9 @@ function keyUp(key, shift, alt, ctrl, meta) {
         sources through the use of the <code>&lt;source&gt;</code> element:
       </p>
 
-      <pre><code class="language-html">&lt;p&gt;Let&#39;s look at the base case:&lt;/p&gt;
+      <pre><code class="language-html">...
+
+&lt;p&gt;Let&#39;s look at the base case:&lt;/p&gt;
 
 &lt;graphics-element
   title=&quot;multiple sources&quot;
@@ -550,7 +638,9 @@ function keyUp(key, shift, alt, ctrl, meta) {
 
 &lt;graphics-element title=&quot;a creative variation&quot; src=&quot;./base-code.js&quot;&gt;
   &lt;source src=&quot;variation-02.js&quot; /&gt;
-&lt;/graphics-element&gt;</code></pre>
+&lt;/graphics-element&gt;
+
+...</code></pre>
 
       <p>
         This will create a single source file, but allows you to split up your

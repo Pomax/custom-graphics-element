@@ -47,14 +47,14 @@
     <p>
       Note that the index just below is ordered by category, but the full list
       itself is ordered alphabetically to allow you to search by scrolling as
-      well as searcing the index.
+      well as searching the index.
     </p>
 
     <p>
       Also, if this made a difference in your dev life, consider (temporarily,
       even?) becoming a patron of my work over on
       <a href="https://www.patreon.com/bezierinfo">my Patreon page</a>, or send
-      a one-time donatation to
+      a one-time donation to
       <a
         href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW"
         >help keep this project, and others like it, funded</a
@@ -62,7 +62,7 @@
     </p>
 
     <section id="toc">
-      <h4 class="sep">constants</h4>
+      <h4 class="sep">functions</h4>
       <ul>
         <li><a href="#E" class="const">E</a></li>
         <li><a href="#PI" class="const">PI</a></li>
@@ -240,27 +240,21 @@
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  translate(0, height / 2);
-  noFill();
-  setStroke(`black`);
-  line(-huge, 0, huge, 0);
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/88babac218b2c43d75ef58503298ac94.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); translate(0, height / 2); noFill();
+    setStroke(`black`); line(-huge, 0, huge, 0); const w2 = width / 2; const
+    data = array(width, (x) => [x, x - w2, abs(x - w2)]); setStroke(`red`);
+    plotData(data, 0, 1); setStroke(`blue`); plotData(data, 0, 2); }
+  </graphics-source>
+</graphics-element>
 
-  const w2 = width / 2;
-  const data = array(width, (x) => [x, x - w2, abs(x - w2)]);
-
-  setStroke(`red`);
-  plotData(data, 0, 1);
-
-  setStroke(`blue`);
-  plotData(data, 0, 2);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(0, height / 2);
@@ -365,25 +359,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const colors = [`white`, `black`];
-let bgColor = 0;
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/68f02f7c097c976020c47c2d98620087.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const colors = [`white`, `black`]; let bgColor = 0; function setup() {
+    setSize(200, 200); addButton(`flip background`, (button) => { bgColor =
+    -(bgColor - 1); redraw(); }); } function draw() { clear(colors[bgColor]); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  addButton(`flip background`, (button) => {
-    bgColor = -(bgColor - 1);
-    redraw();
-  });
-}
-
-function draw() {
-  clear(colors[bgColor]);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const colors = [`white`, `black`];
 let bgColor = 0;
 
@@ -460,29 +449,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(400, 200);
-  addSlider(`bgColor`, {
-    min: 0,
-    max: 255,
-    step: 1,
-    value: 200,
-    transform: (v) => {
-      // convert v into a hex color code
-      v = v.toString(16).padStart(2, `0`);
-      return `#${v}${v}${v}`;
-    },
-  });
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/9a9d8c8a6eee6d2b73baefe06c0b18a6.png"
+      width="94.13333129882812px"
+      height="36px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(400, 200); addSlider(`bgColor`, { min: 0, max:
+    255, step: 1, value: 200, transform: (v) => { // convert v into a hex color
+    code v = v.toString(16).padStart(2, `0`); return `#${v}${v}${v}`; }, }); }
+    function draw() { clear(bgColor); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(bgColor);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(400, 200);
   addSlider(`bgColor`, {
@@ -565,18 +546,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU);
-  arc(width / 2 - 30, height / 2 + 20, 40, 0, 0.66 * TAU, true);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/b4c0d2ba9010aa950ba9dfb982a68e8f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`#F002`);
+    arc(width / 2 + 30, height / 2 - 40, 40, 0, 0.66 * TAU); arc(width / 2 - 30,
+    height / 2 + 20, 40, 0, 0.66 * TAU, true); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -613,18 +596,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  noFill();
-  translate(0, height / 2);
-  let data = array(width, (i) => [i, (height / 2) * sin(i / 25)]);
-  plotData(data, 0, 1);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/9f2a92d0df9a0ffe0bac19d23a339116.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); noFill(); translate(0, height / 2); let
+    data = array(width, (i) => [i, (height / 2) * sin(i / 25)]); plotData(data,
+    0, 1); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -813,35 +798,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setBorder(1, `black`);
-  setGrid(50, `lightgrey`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/35e7ef771ef109d08d54b2b5a1ddb59b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setBorder(1, `black`); setGrid(50,
+    `lightgrey`); } function draw() { setCursor(`none`); clear(`#fffef7`);
+    setColor(`#333`); translate(25, 25); axes( `time (s)`, 0, width - 50,
+    `distance (km)`, 0, height - 50, "0", "60", "0", "500", ); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  setCursor(`none`);
-  clear(`#fffef7`);
-  setColor(`#333`);
-  translate(25, 25);
-  axes(
-    `time (s)`,
-    0,
-    width - 50,
-    `distance (km)`,
-    0,
-    height - 50,
-    "0",
-    "60",
-    "0",
-    "500",
-  );
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(1, `black`);
@@ -912,29 +883,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  bezier(
-    new Point(20, height - 55),
-    new Point(20, 25),
-    { x: width - 20, y: 25 },
-    { x: width - 20, y: height - 55 },
-  );
-  noFill();
-  bezier(
-    new Point(0, height - 20),
-    new Point(width - 20, height - 20),
-    { x: 20, y: 20 },
-    { x: width, y: 20 },
-  );
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/e29b75e2e1ae17524dc906259ea23267.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`#F002`);
+    bezier( new Point(20, height - 55), new Point(20, 25), { x: width - 20, y:
+    25 }, { x: width - 20, y: height - 55 }, ); noFill(); bezier( new Point(0,
+    height - 20), new Point(width - 20, height - 20), { x: 20, y: 20 }, { x:
+    width, y: 20 }, ); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1002,30 +966,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/75395681c6f899131f09ad59448e3bb3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function setup() { setSize(200, 200); range(0, TAU, PI /
+    5, (a) => points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 *
+    sin(a))), ); setMovable(...points); } function draw() { clear(`white`);
+    translate(width / 2, height / 2); noStroke(); setFill(`#0002`);
+    bspline(...points); setColor(`red`); points.forEach((p) => point(p)); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =>
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  noStroke();
-  setFill(`#0002`);
-  bspline(...points);
-  setColor(`red`);
-  points.forEach((p) => point(p));
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -1118,27 +1074,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  center();
-  setColor(`black`);
-  line(0, -huge, 0, huge);
-  line(-huge, 0, huge, 0);
-  setColor(randomColor());
-  point(10, 10);
-  setColor(randomColor());
-  point(10, -10);
-  setColor(randomColor());
-  point(-10, -10);
-  setColor(randomColor());
-  point(-10, 10);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/f8e832561ddc1a719fd2d01ecedf3b63.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`red`); center();
+    setColor(`black`); line(0, -huge, 0, huge); line(-huge, 0, huge, 0);
+    setColor(randomColor()); point(10, 10); setColor(randomColor()); point(10,
+    -10); setColor(randomColor()); point(-10, -10); setColor(randomColor());
+    point(-10, 10); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`red`);
@@ -1182,17 +1133,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`#F002`);
-  circle(width / 2, height / 2, 80);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/43ff991b37e7be92135339f95da5fff4.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`#F002`);
+    circle(width / 2, height / 2, 80); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -1228,14 +1181,16 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`pink`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/7ba5012430a95a6d2af0d3bdc46b3316.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source> function draw() { clear(`pink`); } </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`pink`);
 }
@@ -1255,27 +1210,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  addButton(`this does nothing`, () => {});
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/c6a17ec5dcc4e389781acce14af30577.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); addButton(`this does nothing`, () =>
+    {}); } function draw() { clear(`white`); setColor(`black`); setFontSize(25);
+    setTextAlign(CENTER, MIDDLE); text(`click to clear`, width / 2, height / 2);
+    } function pointerDown() { clearButtons(); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
-}
-
-function pointerDown() {
-  clearButtons();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   addButton(`this does nothing`, () =&gt; {});
@@ -1312,36 +1261,22 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/0cc849abd462a957824f1047d389db55.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function setup() { setSize(200, 200); addButton(`lock`,
+    () => { clearMovable(); redraw(); }); } function draw() { clear(`white`);
+    for (let p of points) { setColor(isMovable(p) ? `red` : `grey`); point(p); }
+    } function pointerDown(x, y) { if (currentPoint) return; const p = new
+    Point(x, y); points.push(p); setMovable(p); redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () => {
-    clearMovable();
-    redraw();
-  });
-}
-
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -1388,27 +1323,21 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  addSlider(`x`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/3ac5f8c2d09b4f2bbef199664a22a887.png"
+      width="250px"
+      height="267px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); addSlider(`x`); } function draw() {
+    clear(`white`); setColor(`black`); setFontSize(25); setTextAlign(CENTER,
+    MIDDLE); text(`click to clear`, width / 2, height / 2); } function
+    pointerDown() { clearSliders(); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text(`click to clear`, width / 2, height / 2);
-}
-
-function pointerDown() {
-  clearSliders();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   addSlider(`x`);
@@ -1475,14 +1404,18 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(color(45, 80, 90));
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/0dc82000cd4fa88bb16344511e96e070.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(color(45, 80, 90)); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(color(45, 80, 90));
 }
@@ -1546,24 +1479,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`pink`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/abba7b3cfa4b8500f1e2706aa6fbb8a2.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`pink`); } function pointerDown(x, y) {
+    document.dispatchEvent( new CustomEvent(`graphics:update`, { detail: {
+    canvas: copy(), }, }), ); }
+  </graphics-source>
+</graphics-element>
 
-function pointerDown(x, y) {
-  document.dispatchEvent(
-    new CustomEvent(`graphics:update`, {
-      detail: {
-        canvas: copy(),
-      },
-    }),
-  );
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`pink`);
 }
@@ -1794,22 +1723,20 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a14a80d1240251c74ffa8a96c3f96f1c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`gold`);
+    start(); vertex(0, height / 2); vertex(width / 2, 0); vertex(width, height /
+    2); vertex(width / 2, height); end(true); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -2006,28 +1933,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setHighlightColor(`lime`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/b720ba4b9ec8aa67c695b78e371ac49e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setHighlightColor(`lime`); } function
+    draw() { clear(); setColor(`red`); setFontSize(25); setTextAlign(CENTER,
+    MIDDLE); text("let's go", width / 2, height / 2); } function
+    pointerActive(state) { if (state) highlight(`red`); else highlight(false); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  setColor(`red`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text("let's go", width / 2, height / 2);
-}
-
-function pointerActive(state) {
-  if (state) highlight(`red`);
-  else highlight(false);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -2131,15 +2051,19 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-async function draw() {
-  clear(`white`);
-  await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a74b5076b04ef017482bb60ee9b487f1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    async function draw() { clear(`white`); await
+    image(`https://dummyimage.com/100x100`, 50, 50, 100, 100); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">async function draw() {
   clear(`white`);
   await image(`https://dummyimage.com/100x100`, 50, 50, 100, 100);
@@ -2187,36 +2111,22 @@ async function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/0cc849abd462a957824f1047d389db55.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function setup() { setSize(200, 200); addButton(`lock`,
+    () => { clearMovable(); redraw(); }); } function draw() { clear(`white`);
+    for (let p of points) { setColor(isMovable(p) ? `red` : `grey`); point(p); }
+    } function pointerDown(x, y) { if (currentPoint) return; const p = new
+    Point(x, y); points.push(p); setMovable(p); redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  addButton(`lock`, () => {
-    clearMovable();
-    redraw();
-  });
-}
-
-function draw() {
-  clear(`white`);
-  for (let p of points) {
-    setColor(isMovable(p) ? `red` : `grey`);
-    point(p);
-  }
-}
-
-function pointerDown(x, y) {
-  if (currentPoint) return;
-  const p = new Point(x, y);
-  points.push(p);
-  setMovable(p);
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -2294,16 +2204,19 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  range(0, height, 20, (i) => line(0, 0, width, i));
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/5b5f9cec48a4c1af2324216b26fafe74.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); range(0, height, 20,
+    (i) => line(0, 0, width, i)); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -2476,24 +2389,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/16d655a2239489b4701a51abc5c0cd02.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setColor(`black`); play(); } function
+    draw() { clear(); setFontSize(25); setTextAlign(CENTER, MIDDLE); const
+    seconds = (millis() / 1000) | 0; text(`${seconds}s`, width / 2, height / 2);
+    }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000) | 0;
-  text(`${seconds}s`, width / 2, height / 2);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -2546,33 +2456,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setBorder(5, `red`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/408f4fc8face1bca2bdef859a5aa92b3.png"
+      width="228px"
+      height="246px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setBorder(5, `red`); } function draw()
+    { clear(`white`); setColor(`black`); setTextAlign(CENTER, MIDDLE);
+    setFontSize(25); text(`click me`, width / 2, height / 2); } function
+    pointerUp(x, y) { setBorder(5, `red`); redraw(); } function pointerDown(x,
+    y) { noBorder(); redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  text(`click me`, width / 2, height / 2);
-}
-
-function pointerUp(x, y) {
-  setBorder(5, `red`);
-  redraw();
-}
-
-function pointerDown(x, y) {
-  noBorder();
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(5, `red`);
@@ -2615,20 +2514,20 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  text(`Now you see me`, width / 2, height / 2 - 25);
-  noColor();
-  text(`Now you don't`, width / 2, height / 2 + 25);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/6ce7790aee5afd5c21b0746693a03c0b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`black`); setTextAlign(CENTER,
+    MIDDLE); setFontSize(25); text(`Now you see me`, width / 2, height / 2 -
+    25); noColor(); text(`Now you don't`, width / 2, height / 2 + 25); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2660,26 +2559,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`#FF02`);
-  rect(0, 0, width / 2, height);
-  setColor(`#0FF2`);
-  rect(width / 2, 0, width / 2, height);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/802e23623831cc813c6b602f6301cd82.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`#FF02`); rect(0, 0, width / 2,
+    height); setColor(`#0FF2`); rect(width / 2, 0, width / 2, height); }
+    function pointerMove(x, y) { if (x < width / 2) { setCursor(AUTO); } else {
+    noCursor(); } }
+  </graphics-source>
+</graphics-element>
 
-function pointerMove(x, y) {
-  if (x < width / 2) {
-    setCursor(AUTO);
-  } else {
-    noCursor();
-  }
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -2715,23 +2609,21 @@ function pointerMove(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  setTextStroke(1);
-  setColor(`black`);
-  rect(20, 70, 20, 20);
-  text(`filled`, width / 2, height / 2 - 25);
-  noFill();
-  rect(30, 80, 20, 20);
-  text(`not filled`, width / 2, height / 2 + 25);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/52b32a905ca4108342311f261d947df1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setTextAlign(CENTER, MIDDLE);
+    setFontSize(25); setTextStroke(1); setColor(`black`); rect(20, 70, 20, 20);
+    text(`filled`, width / 2, height / 2 - 25); noFill(); rect(30, 80, 20, 20);
+    text(`not filled`, width / 2, height / 2 + 25); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2764,28 +2656,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  text(`click me`, width / 2, height / 2);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/d0257fa1925990ec24c7cfa1a61adc5e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`black`); setTextAlign(CENTER,
+    MIDDLE); setFontSize(25); text(`click me`, width / 2, height / 2); }
+    function pointerUp(x, y) { setGrid(20, `lightgrey`); redraw(); } function
+    pointerDown(x, y) { noGrid(); redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function pointerUp(x, y) {
-  setGrid(20, `lightgrey`);
-  redraw();
-}
-
-function pointerDown(x, y) {
-  noGrid();
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2823,23 +2708,20 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setLineDash(1);
-  line(0, 20, width, 50);
-  setLineDash(5);
-  line(0, 30, width, 90);
-  setLineDash(1, 2, 3, 4);
-  line(0, 40, width, 130);
-  noLineDash();
-  line(0, 50, width, 180);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a1c94714bc6b2efc9383ab15d5db7ae0.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`black`); setLineDash(1); line(0,
+    20, width, 50); setLineDash(5); line(0, 30, width, 90); setLineDash(1, 2, 3,
+    4); line(0, 40, width, 130); noLineDash(); line(0, 50, width, 180); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -2872,24 +2754,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  setTextStroke(1);
-  setColor(`red`);
-  setStroke(`black`);
-  rect(20, 70, 20, 20);
-  text(`stroked`, width / 2, height / 2 - 25);
-  noStroke();
-  rect(42, 82, 20, 20);
-  text(`not stroked`, width / 2, height / 2 + 25);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/51f006f4876446f95c5736ea398526c3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setTextAlign(CENTER, MIDDLE);
+    setFontSize(25); setTextStroke(1); setColor(`red`); setStroke(`black`);
+    rect(20, 70, 20, 20); text(`stroked`, width / 2, height / 2 - 25);
+    noStroke(); rect(42, 82, 20, 20); text(`not stroked`, width / 2, height / 2
+    + 25); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2923,24 +2803,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setTextAlign(CENTER, MIDDLE);
-  setFontSize(25);
-  setTextStroke(1);
-  setColor(`red`);
-  setStroke(`black`);
-  rect(20, 70, 20, 20);
-  text(`stroked`, width / 2, height / 2 - 25);
-  noTextStroke();
-  rect(42, 82, 20, 20);
-  text(`not stroked`, width / 2, height / 2 + 25);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/58613e13db33ba34618bfec4224b0515.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setTextAlign(CENTER, MIDDLE);
+    setFontSize(25); setTextStroke(1); setColor(`red`); setStroke(`black`);
+    rect(20, 70, 20, 20); text(`stroked`, width / 2, height / 2 - 25);
+    noTextStroke(); rect(42, 82, 20, 20); text(`not stroked`, width / 2, height
+    / 2 + 25); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setTextAlign(CENTER, MIDDLE);
@@ -2974,32 +2852,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/7068edd01222514fe11706b26c4c9aeb.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setColor(`black`); play(); } function
+    draw() { clear(); setFontSize(25); setTextAlign(CENTER, MIDDLE); const
+    seconds = (millis() / 1000).toFixed(1); text(`${seconds}s`, width / 2,
+    height / 2); } function pointerActive(state) { if (state) { pause(); } else
+    { play(); } }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-
-function pointerActive(state) {
-  if (state) {
-    pause();
-  } else {
-    play();
-  }
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -3063,37 +2931,23 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-let fps = 0;
-let checked = false;
-let lastFrameCheck = 0;
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/81fb6d07f5e9a578934ebfea9fdcd9d5.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    let fps = 0; let checked = false; let lastFrameCheck = 0; function setup() {
+    setSize(200, 200); setColor(`black`); play(); } function draw() { clear();
+    setFontSize(25); setTextAlign(CENTER, MIDDLE); const seconds = (millis() /
+    1000).toFixed(1); text(`fps: ${fps}`, width / 2, height / 2); if
+    (seconds.endsWith(`.0`)) { if (!checked) { checked = true; fps = frame -
+    lastFrameCheck; lastFrameCheck = frame; } } else { checked = false; } }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
-
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`fps: ${fps}`, width / 2, height / 2);
-  if (seconds.endsWith(`.0`)) {
-    if (!checked) {
-      checked = true;
-      fps = frame - lastFrameCheck;
-      lastFrameCheck = frame;
-    }
-  } else {
-    checked = false;
-  }
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">let fps = 0;
 let checked = false;
 let lastFrameCheck = 0;
@@ -3188,19 +3042,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  noFill();
-  setStroke(`black`);
-  translate(0, height / 2);
-  const fn = (x) => cos(x) ** 2 / sin(x);
-  plot(fn, 0, TAU, undefined, width / TAU, height / 2);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/db3b61e1059b4caccfbe6269097ddfa1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); noFill(); setStroke(`black`); translate(0,
+    height / 2); const fn = (x) => cos(x) ** 2 / sin(x); plot(fn, 0, TAU,
+    undefined, width / TAU, height / 2); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -3252,27 +3107,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  noFill();
-  translate(0, height / 2);
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/55255868bc74e4080692ed84524a5f09.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); noFill(); translate(0, height / 2);
+    setStroke(`darkgreen`); let data = array(width, (i) => [i, (height / 2) *
+    sin(i / 25)]); plotData(data, 0, 1); setStroke(`purple`); data =
+    array(width, (i) => ({ meep: i, moop: (height / 2) * cos(i / 25), }));
+    plotData(data, `meep`, `moop`); }
+  </graphics-source>
+</graphics-element>
 
-  setStroke(`darkgreen`);
-  let data = array(width, (i) => [i, (height / 2) * sin(i / 25)]);
-  plotData(data, 0, 1);
-
-  setStroke(`purple`);
-  data = array(width, (i) => ({
-    meep: i,
-    moop: (height / 2) * cos(i / 25),
-  }));
-  plotData(data, `meep`, `moop`);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   noFill();
@@ -3318,18 +3168,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  range(0, TAU, (a) => {
-    point(40 * cos(a), 40 * sin(a));
-  });
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/9a51c7c1d3d1d3239915eeffe1280b25.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); translate(width / 2, height / 2); range(0,
+    TAU, (a) => { point(40 * cos(a), 40 * sin(a)); }); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3432,34 +3283,28 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/dc94ade94b820906fda209ef230ed177.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setProjector(width / 2, height / 2,
+    50, -0.4); } function draw() { clear(`white`); setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1)); line(project(-1, -1, 1),
+    project(1, -1, 1)); line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1)); setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1)); line(project(-1, 1, -1),
+    project(-1, 1, 1)); line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1)); setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1)); line(project(1, 1, 1),
+    project(1, -1, 1)); line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1)); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -3585,18 +3430,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(randomColor());
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/4852ad37c2d849c6fe35114981ff616b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(randomColor()); } function pointerDown() { redraw();
+    }
+  </graphics-source>
+</graphics-element>
 
-function pointerDown() {
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(randomColor());
 }
@@ -3643,16 +3489,19 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  range(0, TAU, (a) => point(40 * cos(a), 40 * sin(a)));
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/b12fc3ac9e7ea4165f40f732d6e0e88f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); translate(width / 2, height / 2); range(0,
+    TAU, (a) => point(40 * cos(a), 40 * sin(a))); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   translate(width / 2, height / 2);
@@ -3690,17 +3539,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  rect(40, 40, width - 80, height - 80);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a9e0ec91e4f7810fc0c428c01d19e78f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`red`);
+    rect(40, 40, width - 80, height - 80); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -3727,20 +3578,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  const h = map(pointer.x, 0, width, 0, 360);
-  const l = map(pointer.y, 0, height, 50, 0);
-  clear(color(h, 100, l));
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/d78d1ebd0358ec87a43cfa217dfd6312.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { const h = map(pointer.x, 0, width, 0, 360); const l =
+    map(pointer.y, 0, height, 50, 0); clear(color(h, 100, l)); } function
+    pointerMove() { redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function pointerMove() {
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   const h = map(pointer.x, 0, width, 0, 360);
   const l = map(pointer.y, 0, height, 50, 0);
@@ -3768,40 +3619,24 @@ function pointerMove() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/88d16bedfe59de32f7cce303ce06d9ca.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); noGrid(); } function draw() {
+    clear(`lightgrey`); setColor(`red`); translate(50, 50); line(0, 0, 100, 0);
+    point(0, 0); setColor(`darkgreen`); point(10, 0); rotate(PI / 4); point(10,
+    0); line(0, 0, 100, 0); setColor(`blue`); rotate(-PI / 6); point(100, 0);
+    scale(0.5, 0.5); point(100, 0); line(100, 0, 200, 0); resetTransform();
+    setColor(`black`); line(0, 3, 100, 3); point(0, 3); point(10, 3); point(100,
+    3); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`lightgrey`);
-  setColor(`red`);
-  translate(50, 50);
-  line(0, 0, 100, 0);
-  point(0, 0);
-  setColor(`darkgreen`);
-  point(10, 0);
-  rotate(PI / 4);
-  point(10, 0);
-  line(0, 0, 100, 0);
-  setColor(`blue`);
-  rotate(-PI / 6);
-  point(100, 0);
-  scale(0.5, 0.5);
-  point(100, 0);
-  line(100, 0, 200, 0);
-  resetTransform();
-  setColor(`black`);
-  line(0, 3, 100, 3);
-  point(0, 3);
-  point(10, 3);
-  point(100, 3);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -3854,27 +3689,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/7bf02ab7ecaffff75e957265829c5344.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function draw() { clear(); translate(width / 2, height /
+    2); setColor(`blue`); line(0, 0, 80, 0); save(); setColor(`darkgreen`);
+    range(0, 5, 1, (a) => { rotate(PI / 8); line(0, 0, 80, 0); }); restore();
+    line(-20, 0, -80, 0); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  translate(width / 2, height / 2);
-  setColor(`blue`);
-  line(0, 0, 80, 0);
-  save();
-  setColor(`darkgreen`);
-  range(0, 5, 1, (a) => {
-    rotate(PI / 8);
-    line(0, 0, 80, 0);
-  });
-  restore();
-  line(-20, 0, -80, 0);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function draw() {
@@ -3916,28 +3745,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/bf6995b0812962ea8329d35c30572cec.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); noGrid(); } function draw() {
+    clear(`lightgrey`); translate(width / 2, height / 2); setColor(`black`);
+    point(0, 0); setColor(`darkgreen`); line(0, 0, 20, 20); point(20, 20);
+    rotate(PI / 4); line(0, 0, 20, 20); point(20, 20); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -3991,37 +3813,28 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-  play();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a41ce8b04c400bc39ef10f28d5580245.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setProjector(width / 2, height / 2,
+    50, -0.4); play(); } function draw() { clear(`white`); const m = millis() /
+    5000; rotateProjector(m, 2 * m, 3 * m); setColor(`red`); line(project(-1,
+    -1, -1), project(1, -1, -1)); line(project(-1, -1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(1, 1, -1)); line(project(-1, 1, 1),
+    project(1, 1, 1)); setColor(`blue`); line(project(-1, -1, -1), project(-1,
+    -1, 1)); line(project(-1, 1, -1), project(-1, 1, 1)); line(project(1, -1,
+    -1), project(1, -1, 1)); line(project(1, 1, -1), project(1, 1, 1));
+    setColor(`green`); line(project(1, 1, -1), project(1, -1, -1));
+    line(project(1, 1, 1), project(1, -1, 1)); line(project(-1, 1, -1),
+    project(-1, -1, -1)); line(project(-1, 1, 1), project(-1, -1, 1)); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  const m = millis() / 5000;
-  rotateProjector(m, 2 * m, 3 * m);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4098,27 +3911,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/7bf02ab7ecaffff75e957265829c5344.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function draw() { clear(); translate(width / 2, height /
+    2); setColor(`blue`); line(0, 0, 80, 0); save(); setColor(`darkgreen`);
+    range(0, 5, 1, (a) => { rotate(PI / 8); line(0, 0, 80, 0); }); restore();
+    line(-20, 0, -80, 0); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  translate(width / 2, height / 2);
-  setColor(`blue`);
-  line(0, 0, 80, 0);
-  save();
-  setColor(`darkgreen`);
-  range(0, 5, 1, (a) => {
-    rotate(PI / 8);
-    line(0, 0, 80, 0);
-  });
-  restore();
-  line(-20, 0, -80, 0);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function draw() {
@@ -4163,29 +3970,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/2d987c927bd47779adf6956eaee02d62.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); noGrid(); } function draw() {
+    clear(`lightgrey`); translate(width / 2, height / 2); setColor(`black`);
+    point(0, 0); setColor(`darkgreen`); line(0, 0, 20, 20); point(20, 20);
+    rotate(PI / 4); scale(2); line(0, 0, 20, 20); point(20, 20); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  setColor(`black`);
-  point(0, 0);
-  setColor(`darkgreen`);
-  line(0, 0, 20, 20);
-  point(20, 20);
-  rotate(PI / 4);
-  scale(2);
-  line(0, 0, 20, 20);
-  point(20, 20);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -4239,32 +4038,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  noGrid();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/8dc7398a2cb41cfbc90b3e4b16f24348.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); noGrid(); } function draw() {
+    clear(`lightgrey`); translate(width / 2, height / 2); rotate(PI / 4);
+    scale(0.5); if (pointer.active) { setColor(`red`); point(pointer.x,
+    pointer.y); setColor(`blue`); point(screenToWorld(pointer.x, pointer.y)); }
+    } function pointerMove() { redraw(); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`lightgrey`);
-  translate(width / 2, height / 2);
-  rotate(PI / 4);
-  scale(0.5);
-  if (pointer.active) {
-    setColor(`red`);
-    point(pointer.x, pointer.y);
-    setColor(`blue`);
-    point(screenToWorld(pointer.x, pointer.y));
-  }
-}
-
-function pointerMove() {
-  redraw();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   noGrid();
@@ -4338,15 +4127,18 @@ function pointerMove() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setBorder(10, `red`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/522858d25d7c0dcdb8ca71ef94040ad4.png"
+      width="238px"
+      height="256px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setBorder(10, `red`); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setBorder(10, `red`);
@@ -4373,16 +4165,18 @@ function setup() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear();
-  setColor(`blue`);
-  rect(50, 50, 100, 100);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/3be4b53a60f113093a3ba5299384a1b3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(); setColor(`blue`); rect(50, 50, 100, 100); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setColor(`blue`);
@@ -4424,26 +4218,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`#FF02`);
-  rect(0, 0, width / 2, height);
-  setColor(`#0FF2`);
-  rect(width / 2, 0, width / 2, height);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/802e23623831cc813c6b602f6301cd82.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`#FF02`); rect(0, 0, width / 2,
+    height); setColor(`#0FF2`); rect(width / 2, 0, width / 2, height); }
+    function pointerMove(x, y) { if (x < width / 2) { setCursor(AUTO); } else {
+    noCursor(); } }
+  </graphics-source>
+</graphics-element>
 
-function pointerMove(x, y) {
-  if (x < width / 2) {
-    setCursor(AUTO);
-  } else {
-    noCursor();
-  }
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`#FF02`);
@@ -4484,17 +4273,19 @@ function pointerMove(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear();
-  setStroke(`black`);
-  setFill(`red`);
-  rect(50, 50, 100, 100);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/eabc9f2698fd5a1b7cf6ed0a3c1e43b1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(); setStroke(`black`); setFill(`red`); rect(50, 50,
+    100, 100); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setStroke(`black`);
@@ -4619,19 +4410,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setGrid(20, `lavender`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/2395f1d2c7d8b00c3ac9f1c6b6372011.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setGrid(20, `lavender`); } function
+    draw() { clear(`white`); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setGrid(20, `lavender`);
@@ -4668,28 +4459,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setHighlightColor(`lime`);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/b720ba4b9ec8aa67c695b78e371ac49e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setHighlightColor(`lime`); } function
+    draw() { clear(); setColor(`red`); setFontSize(25); setTextAlign(CENTER,
+    MIDDLE); text("let's go", width / 2, height / 2); } function
+    pointerActive(state) { if (state) highlight(`red`); else highlight(false); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  setColor(`red`);
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  text("let's go", width / 2, height / 2);
-}
-
-function pointerActive(state) {
-  if (state) highlight(`red`);
-  else highlight(false);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setHighlightColor(`lime`);
@@ -4759,19 +4543,19 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  range(1, 10, (i) => {
-    setLineWidth(i);
-    line(20, i * 20, 180, i * 20);
-  });
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/c72db2a20f06c1b7045f8d17b45fb1cf.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`black`); range(1, 10, (i) => {
+    setLineWidth(i); line(20, i * 20, 180, i * 20); }); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -4807,28 +4591,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/3863cd5f37bd1608a78b29776068728a.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function setup() { setSize(200, 200); for (let i = 40; i
+    < 200; i += 20) { points.push(new Point(i - 20, 120)); }
+    setMovable(...points); } function draw() { clear(); noFill();
+    setStroke(`purple`); bspline(...points); for (let p of points) point(p); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  for (let i = 40; i < 200; i += 20) {
-    points.push(new Point(i - 20, 120));
-  }
-  setMovable(...points);
-}
-
-function draw() {
-  clear();
-  noFill();
-  setStroke(`purple`);
-  bspline(...points);
-  for (let p of points) point(p);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -4884,34 +4661,28 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/dc94ade94b820906fda209ef230ed177.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setProjector(width / 2, height / 2,
+    50, -0.4); } function draw() { clear(`white`); setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1)); line(project(-1, -1, 1),
+    project(1, -1, 1)); line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1)); setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1)); line(project(-1, 1, -1),
+    project(-1, 1, 1)); line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1)); setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1)); line(project(1, 1, 1),
+    project(1, -1, 1)); line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1)); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setProjector(width / 2, height / 2, 50, -0.4);
@@ -4966,27 +4737,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(400, 200);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/f0f16836feedfced966128f07c53b412.png"
+      width="94.13333129882812px"
+      height="36px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(400, 200); } function draw() { clear(); center();
+    setColor(`black`); setFontSize(25); text(`${width}/${height}`, 0, 0, CENTER,
+    MIDDLE); } function pointerUp() { setSize(random(100, 400), 200); // Note
+    that there is no redraw() here! }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  center();
-  setColor(`black`);
-  setFontSize(25);
-  text(`${width}/${height}`, 0, 0, CENTER, MIDDLE);
-}
-
-function pointerUp() {
-  setSize(random(100, 400), 200);
-  // Note that there is no redraw() here!
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(400, 200);
 }
@@ -5024,17 +4789,19 @@ function pointerUp() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear();
-  setStroke(`black`);
-  setFill(`red`);
-  rect(50, 50, 100, 100);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/eabc9f2698fd5a1b7cf6ed0a3c1e43b1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(); setStroke(`black`); setFill(`red`); rect(50, 50,
+    100, 100); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   setStroke(`black`);
@@ -5100,26 +4867,24 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setFontSize(20);
-  setColor(`black`);
-  line(width / 2, 0, width / 2, height);
-  line(0, height / 2, width, height / 2);
-  setTextAlign(CENTER, MIDDLE);
-  text("center middle", width / 2, height / 2);
-  line(0, height / 2 - 50, width, height / 2 - 50);
-  setTextAlign(RIGHT, TOP);
-  text("right top", width / 2, height / 2 - 50);
-  line(0, height / 2 + 50, width, height / 2 + 50);
-  setTextAlign(LEFT, BOTTOM);
-  text("left bottom", width / 2, height / 2 + 50);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/f07a6cd70ddeab9e44d96bea0f81879d.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setFontSize(20); setColor(`black`);
+    line(width / 2, 0, width / 2, height); line(0, height / 2, width, height /
+    2); setTextAlign(CENTER, MIDDLE); text("center middle", width / 2, height /
+    2); line(0, height / 2 - 50, width, height / 2 - 50); setTextAlign(RIGHT,
+    TOP); text("right top", width / 2, height / 2 - 50); line(0, height / 2 +
+    50, width, height / 2 + 50); setTextAlign(LEFT, BOTTOM); text("left bottom",
+    width / 2, height / 2 + 50); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setFontSize(20);
@@ -5157,22 +4922,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setFontSize(25);
-  setTextStroke(`red`, 1);
-  setFill(`yellow`);
-  text("fancy text", width / 2, 80, CENTER, CENTER);
-  setFontSize(65);
-  setTextStroke(`red`, 3);
-  setFill(`yellow`);
-  text("fancy text", width / 2, 140, CENTER, CENTER);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/3e4a43e2b943a3046aa7f85af250a63e.png"
+      width="94.13333129882812px"
+      height="36px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setFontSize(25); setTextStroke(`red`, 1);
+    setFill(`yellow`); text("fancy text", width / 2, 80, CENTER, CENTER);
+    setFontSize(65); setTextStroke(`red`, 3); setFill(`yellow`); text("fancy
+    text", width / 2, 140, CENTER, CENTER); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setFontSize(25);
@@ -5300,29 +5064,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-const points = [];
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/32be62994921893ddbb4c659495475ea.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    const points = []; function setup() { setSize(200, 200); range(0, TAU, PI /
+    5, (a) => points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 *
+    sin(a))), ); setMovable(...points); } function draw() { clear(`white`);
+    translate(width / 2, height / 2); setFill(`#0002`); spline(...points);
+    setColor(`red`); points.forEach((p) => point(p)); }
+  </graphics-source>
+</graphics-element>
 
-function setup() {
-  setSize(200, 200);
-  range(0, TAU, PI / 5, (a) =>
-    points.push(new Point(random(30) + 50 * cos(a), random(30) + 50 * sin(a))),
-  );
-  setMovable(...points);
-}
-
-function draw() {
-  clear(`white`);
-  translate(width / 2, height / 2);
-  setFill(`#0002`);
-  spline(...points);
-  setColor(`red`);
-  points.forEach((p) => point(p));
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">const points = [];
 
 function setup() {
@@ -5390,22 +5147,20 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
-  start();
-  vertex(0, height / 2);
-  vertex(width / 2, 0);
-  vertex(width, height / 2);
-  vertex(width / 2, height);
-  end(true);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/a14a80d1240251c74ffa8a96c3f96f1c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`gold`);
+    start(); vertex(0, height / 2); vertex(width / 2, 0); vertex(width, height /
+    2); vertex(width / 2, height); end(true); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5572,23 +5327,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setColor(`black`);
-  setFontSize(25);
-  text("normal text", width / 2, 60, CENTER, CENTER);
-  noFill();
-  setTextStroke(1);
-  text("unfilled text", width / 2, 100, CENTER, CENTER);
-  setStroke(`red`);
-  setFill(`yellow`);
-  text("fancy text", width / 2, 140, CENTER, CENTER);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/8e52dbd5444c166d56a70b4dd551a549.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setColor(`black`); setFontSize(25);
+    text("normal text", width / 2, 60, CENTER, CENTER); noFill();
+    setTextStroke(1); text("unfilled text", width / 2, 100, CENTER, CENTER);
+    setStroke(`red`); setFill(`yellow`); text("fancy text", width / 2, 140,
+    CENTER, CENTER); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setColor(`black`);
@@ -5642,28 +5396,21 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setColor(`black`);
-  play();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/51db1bf5c50f7b44cb52db631245b45c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); setColor(`black`); play(); } function
+    draw() { clear(); setFontSize(25); setTextAlign(CENTER, MIDDLE); const
+    seconds = (millis() / 1000).toFixed(1); text(`${seconds}s`, width / 2,
+    height / 2); } function pointerActive(state) { togglePlay(); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  setFontSize(25);
-  setTextAlign(CENTER, MIDDLE);
-  const seconds = (millis() / 1000).toFixed(1);
-  text(`${seconds}s`, width / 2, height / 2);
-}
-
-function pointerActive(state) {
-  togglePlay();
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   setColor(`black`);
@@ -5758,16 +5505,18 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear();
-  translate(width / 2, height / 2);
-  point(0, 0);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/739e96c2234477e7bff21df8deb03d25.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(); translate(width / 2, height / 2); point(0, 0); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear();
   translate(width / 2, height / 2);
@@ -5812,17 +5561,19 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110);
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/8cbf2dcbdbd8eda3fb37cd1556221dab.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`red`);
+    triangle(width / 2, 30, (1 / 4) * width, 160, (3 / 4) * width, 110); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5886,21 +5637,20 @@ trunc(-4.2); // -4
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function draw() {
-  clear(`white`);
-  setStroke(`black`);
-  setFill(`red`);
-  start();
-  vertex(width / 2, 30);
-  vertex((1 / 4) * width, 160);
-  vertex((3 / 4) * width, 110);
-  end();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/d5efaa1358614e867e86f20ff7bb87f8.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function draw() { clear(`white`); setStroke(`black`); setFill(`red`);
+    start(); vertex(width / 2, 30); vertex((1 / 4) * width, 160); vertex((3 / 4)
+    * width, 110); end(); }
+  </graphics-source>
+</graphics-element>
 
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function draw() {
   clear(`white`);
   setStroke(`black`);
@@ -5954,31 +5704,22 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  play();
-}
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./fallback/7432688251a6dffa0744475fccb5c8cf.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+  <graphics-source>
+    function setup() { setSize(200, 200); play(); } function draw() { clear();
+    translate(width / 2, height / 2); rotate(millis() / 2000); setFontSize(25);
+    const p = new Point(30, 0); point(p); text(`${p.x},${p.y}`, p.x + 10, p.y +
+    10); const { x, y } = worldToScreen(p); resetTransform(); setFontSize(16);
+    text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15); }
+  </graphics-source>
+</graphics-element>
 
-function draw() {
-  clear();
-  translate(width / 2, height / 2);
-
-  rotate(millis() / 2000);
-  setFontSize(25);
-  const p = new Point(30, 0);
-  point(p);
-  text(`${p.x},${p.y}`, p.x + 10, p.y + 10);
-
-  const { x, y } = worldToScreen(p);
-  resetTransform();
-  setFontSize(16);
-  text(`${x.toFixed()},${y.toFixed()}`, x - 25, y - 15);
-}
-
-</graphics-source>
-            </graphics-element>
       <pre><code class="language-js">function setup() {
   setSize(200, 200);
   play();

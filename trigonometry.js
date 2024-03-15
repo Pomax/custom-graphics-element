@@ -32,6 +32,7 @@ function getDescription() {
  * The main setup function
  */
 function setup() {
+  setSize(500, 200);
   addSlider(`radius`, { min: 1, max: 200, step: 1, value: 130 });
   addSlider(`angle`, {
     max: ((1 / 2) * PI - 0.001).toFixed(3),

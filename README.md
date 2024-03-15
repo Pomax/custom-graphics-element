@@ -24,7 +24,7 @@ The latter two should be coordinated over on [the issue tracker](issues): if you
 
 ## Working on the code
 
-If you want to work on the graphics-element code itself, you will need to have Node.js installed.
+If you want to work on the graphics-element code itself, you will need to have the latest version of Node.js installed.
 
 ### First-time setup
 

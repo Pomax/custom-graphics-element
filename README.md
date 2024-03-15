@@ -57,5 +57,7 @@ The "playground" editor lives in `edit` and is currently based on the Monaco ("V
 In short:
 
 1. the graphics-element takes a program written in "graphics element JS" and turns that into a plain JS "ES module" file that will build a canvas element and will run graphics instructions on that.
-1. This ES module is then encoded as a data-url, which gets imported into page context, and its exports are captured by the graphics-element.
-1. The exports include a method that starts the program, as well as a reference to the canvas element used, so that the graphics-element can add that to its shadow DOM.
+1. This ES module is then encoded as a data-url, which then gets dynamically imported by the graphics-element, with its exports captured.
+1. The exports include a method for starting the program, as well as a reference to the canvas element that will be used, so that the graphics-element can add that canvas element to its shadow DOM, making it show up on the page.
+
+User interaction with the graphics-element is based on normal DOM interaction with the canvas, or any elements that were added by the graphics element itself (such as sliders, buttons, and generated guide text).

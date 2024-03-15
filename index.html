@@ -18,6 +18,18 @@
         margin-bottom: 0.25em;
       }
     </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css"
+      async
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/lioshi.min.css"
+      media="(prefers-color-scheme: dark)"
+      async
+    />
   </head>
   <body>
     <header>
@@ -300,10 +312,37 @@
     <h2>How do I use this?</h2>
 
     <p>
-      &lt;graphics-element&gt; is conveniently available from CDN,
+      &lt;graphics-element&gt; is conveniently available from cdn: simply
       <a href="https://cdnjs.com/libraries/graphics-element"
-        >just visit the graphics-element page on <code>cdnjs</code></a
-      >, and copy the JS and CSS links into your own webpage.
+        >visit the graphics-element page on <code>cdnjs</code></a
+      >, and copy the JS and CSS links into your own webpage:
+    </p>
+
+    <pre><code class="language-js">&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    ...
+    &lt;script
+      type="module"
+      src="https://cdnjs.cloudflare.com/.../graphics-element.js"
+      integrity="..."
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"&gt;&lt;/script&gt;
+    &lt;link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/.../graphics-element.css"
+      integrity="..."
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" /&gt;
+    ...
+  &lt;/head&gt;
+  &lt;body&gt;
+    ...</code></pre>
+
+    <p>
+      But note that you <strong>need</strong> the
+      <code>type="module"</code> attribute, as the graphics-element is a modern
+      ES module, and heavily relies on the functionality that comes with.
     </p>
 
     <p>
@@ -327,6 +366,15 @@
       as well as a blank project that you can use to experiment with!
     </p>
 
+    <h2>How can I contribute?</h2>
+
+    <p>
+      Head on over to the
+      <a href="https://github.com/pomax.custom-graphics-element"
+        >code repository</a
+      >, which has all the information necessary to start contributing!
+    </p>
+
     <h2>How do I contact you?</h2>
 
     <p>
@@ -341,5 +389,12 @@
         >@TheRealPomax on mastodon.social</a
       >.
     </p>
+
+    <!-- ===================code syntax highlighting====================== -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll({ language: "javascript" });
+    </script>
   </body>
 </html>

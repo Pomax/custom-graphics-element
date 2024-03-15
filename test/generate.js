@@ -3,7 +3,13 @@ import fs from "node:fs";
 import http from "node:http";
 import { sep, posix } from "node:path";
 import { firefox } from "@playwright/test";
-import { decode64 } from "../graphics-element/api/util/utils.js";
+
+// Unicode-aware base64 decoder:
+function decode64(base64) {
+  const binString = atob(base64);
+  const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
+  return new TextDecoder().decode(bytes);
+}
 
 /**
  *  Get our HTML source, either directly *from* source using an
@@ -21,6 +27,13 @@ let argPos;
 let htmlCode = false;
 let imageFile = `screenshot.png`;
 
+if (!process.argv.includes(`--html`) && !process.argv.includes(`--file`)) {
+  console.error(
+    `Error: missing --html <base64> --out <filename> or --file <filename> [...additional]`
+  );
+  process.exit(6);
+}
+
 // Are we dealing with a block of source code?
 argPos = process.argv.indexOf(`--html`);
 if (argPos > -1) {
@@ -30,7 +43,7 @@ if (argPos > -1) {
   argPos = process.argv.indexOf(`--out`);
   imageFile = process.argv[argPos + 1];
   if (!imageFile) {
-    console.log(`The --html flag also requires an --out flag`);
+    console.error(`Error: --html input requires --out <filename>, as well`);
     process.exit(4);
   }
 }
@@ -40,7 +53,7 @@ argPos = process.argv.indexOf(`--file`);
 if (argPos > -1) {
   const src = process.argv[argPos + 1];
   if (!src || !fs.existsSync(src)) {
-    console.error(`Invalid file indicated by --file`);
+    console.error(`Error: invalid file indicated by --file`);
     process.exit(2);
   }
   imageFile = src.split(sep).join(posix.sep);
@@ -55,7 +68,7 @@ if (argPos > -1) {
     const src = process.argv[argPos + next++];
     if (src.startsWith(`--`)) break;
     if (!src || !fs.existsSync(src)) {
-      console.error(`Invalid additional file indicated by --file`);
+      console.error(`Error: invalid additional file indicated by --file`);
       process.exit(5);
     }
     additionalSources.push(src);
@@ -67,23 +80,14 @@ if (argPos > -1) {
 const canvasOnly = process.argv.includes(`--canvas-only`);
 
 // Alright, let's create a temporary HTML file that the sever can load...
-const htmlPage = `<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Generator temp page</title>
-    <script type="module" src="../dist/graphics-element.js" async></script>
-    <link rel="stylesheet" href="../dist/graphics-element.css" async />
-  </head>
-  <body>
-    ${htmlCode}
-  </body>
-</html>`;
+const htmlPage = `<!doctype html><html><head><meta charset="utf-8" />
+<script type="module" src="../dist/graphics-element.js" async></script>
+<link rel="stylesheet" href="../dist/graphics-element.css" async />
+</head><body>${htmlCode}</body></html>`;
 const tempFile = Math.random().toFixed(10).substring(2) + `.html`;
 fs.writeFileSync(tempFile, htmlPage);
 
-// ...and then load that file in a headless Firefox and take a screenshot.
-
+// ...Which does require we have a server running...
 const server = http.createServer((req, res) => {
   const file = import.meta.dirname + `/..` + req.url;
   if (fs.existsSync(file)) {
@@ -98,19 +102,27 @@ const server = http.createServer((req, res) => {
   res.end();
 });
 server.listen(0);
+
+// ...So that we can load that file in a headless Firefox and take a screenshot.
 const browser = await firefox.launch();
 const page = await browser.newPage();
 await page.goto(`http://localhost:${server.address().port}/test/${tempFile}`);
+
+// But we want the focus to be the canvas, so if we're also shooting the rest
+// of the graphics-element, grayscale and fade everything that isn't the canvas:
 for (let l of await page.locator("graphics-element *:not(canvas)").all()) {
   l.evaluate((e) => {
     e.style.opacity = 0.5;
     e.style.filter = `grayscale(1)`;
   });
 }
+
+// Click!
 await page
   .locator(`graphics-element ${canvasOnly ? `canvas` : ``}`)
   .screenshot({ path: imageFile });
-// Then shut down the browser, and clean up the temp file.
+
+// And then we shut down the browser, shut down the server, and clean up the temp file.
 await browser.close();
-fs.unlinkSync(tempFile);
 server.close();
+fs.unlinkSync(tempFile);

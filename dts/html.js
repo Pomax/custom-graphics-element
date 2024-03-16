@@ -248,7 +248,7 @@ export async function formAPIPage(declarations, metadata) {
       <li>Try the <a href="edit/">editor playground</a></li>
       <li>
         View the project
-        <a href="https://github.com/pomax/custom-graphics-element">on GitHub</a>
+        <a href="https://github.com/Pomax/custom-graphics-element">on GitHub</a>
       </li>
     </ul>
 

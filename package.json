@@ -4,9 +4,9 @@
   "type": "module",
   "description": "A custom HTML <graphics-element>",
   "main": "dist/graphics-element.js",
-  "homepage": "https://github.com/pomax/custom-graphics-element#readme",
+  "homepage": "https://github.com/Pomax/custom-graphics-element#readme",
   "bugs": {
-    "url": "https://github.com/pomax/custom-graphics-element/issues"
+    "url": "https://github.com/Pomax/custom-graphics-element/issues"
   },
   "scripts": {
     "build": "rm -rf dist && run-s esbuild css types && node link-source.js",

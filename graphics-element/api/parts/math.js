@@ -568,6 +568,8 @@ function radians(v, constrain = false) {
  * @param {number} a The lower bound for the random number
  * @param {number} b The upper bound for the random number
  * @returns {number} A random number in the interval [a, b)
+ *
+ * @see {@link randomSeed}
  */
 function random(a = 1, b) {
   const r = __prng.next();
@@ -584,6 +586,8 @@ function random(a = 1, b) {
  * ```
  *
  * @param {number} seed? The random seed value.
+ *
+ * @see {@link random}
  */
 function randomSeed(seed = Date.now() * Math.random()) {
   __prng.reseed(seed);

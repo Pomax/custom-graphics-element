@@ -3,36 +3,36 @@
  * first, and does not get added to the d.ts file.
  */
 class CabinetProjector {
-  α = 0;
-  β = 0;
-  γ = 0;
+  A = 0;
+  B = 0;
+  C = 0;
 
   constructor(ox, oy, scale, phi) {
     this.update(ox, oy, scale, phi);
   }
 
   setRotation(x = 0, y = 0, z = 0) {
-    this.α = x;
-    this.β = z;
-    this.γ = y;
+    this.A = x;
+    this.B = z;
+    this.C = y;
   }
 
   rotate(x, y, z) {
-    let { α, β, γ } = this;
+    let { A, B, C } = this;
     let a = x;
-    let b = y * cos(α) - z * sin(α);
-    let c = y * sin(α) + z * cos(α);
+    let b = y * cos(A) - z * sin(A);
+    let c = y * sin(A) + z * cos(A);
     x = a;
     y = b;
     z = c;
-    a = x * cos(β) + z * sin(β);
+    a = x * cos(B) + z * sin(B);
     b = y;
-    c = x * -sin(β) + z * cos(β);
+    c = x * -sin(B) + z * cos(B);
     x = a;
     y = b;
     z = c;
-    a = x * cos(γ) - y * sin(γ);
-    b = x * sin(γ) + y * cos(γ);
+    a = x * cos(C) - y * sin(C);
+    b = x * sin(C) + y * cos(C);
     c = z;
 
     return [a, b, c];

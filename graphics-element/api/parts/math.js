@@ -538,7 +538,27 @@ function radians(v, constrain = false) {
 }
 
 /**
- * Generate a random number.
+ * Generate a pseudo-random number.
+ *
+ * This is based on the SplitMix32 algorithm, covered
+ * over on https://stackoverflow.com/a/47593316/740553
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(20);
+ *       range(0, height + 20, 20, (v) => {
+ *         text(random(), 5, v);
+ *       })
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
  *
  * @returns {number} A random number in the interval [0,1)
  *
@@ -550,8 +570,23 @@ function radians(v, constrain = false) {
  * @returns {number} A random number in the interval [a, b)
  */
 function random(a = 1, b) {
-  if (b === undefined) return a * Math.random();
-  return a + Math.random() * (b - a);
+  const r = __prng.next();
+  if (b === undefined) return a * r;
+  return a + r * (b - a);
+}
+
+/**
+ * Set the pseudo-random number generator seed. If no seed
+ * value is provided, this is equivalent to calling:
+ *
+ * ```
+ * randomSeed(Date.now() * Math.random())
+ * ```
+ *
+ * @param {number} seed? The random seed value.
+ */
+function randomSeed(seed = Date.now() * Math.random()) {
+  __prng.reseed(seed);
 }
 
 /**

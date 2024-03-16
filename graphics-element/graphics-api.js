@@ -45,6 +45,27 @@ let __style_stack;
 let __textStroke;
 let __last_frame;
 
+const __prng = new (class {
+  constructor(seed = Date.now()) {
+    this.a = seed;
+  }
+  reseed(seed) {
+    this.a = seed;
+  }
+  next() {
+    // SplitMix32, https://stackoverflow.com/a/47593316/740553
+    let { a } = this;
+    a |= 0;
+    a = (a + 0x9e3779b9) | 0;
+    let t = a ^ (a >>> 16);
+    t = Math.imul(t, 0x21f0aaad);
+    t = t ^ (t >>> 15);
+    t = Math.imul(t, 0x735a2d97);
+    this.a = a;
+    return ((t = t ^ (t >>> 15)) >>> 0) / 4294967296;
+  }
+})();
+
 async function reset(element = __element) {
   __element = element;
 

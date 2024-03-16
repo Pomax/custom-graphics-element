@@ -1976,12 +1976,42 @@ declare function map(
  */
 declare function radians(value: number, constrain?: boolean): number;
 /**
- * Generate a random number.
+ * Generate a pseudo-random number.
+ *
+ * This is based on the SplitMix32 algorithm, covered
+ * over on https://stackoverflow.com/a/47593316/740553
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       setColor(`black`);
+ *       setFontSize(20);
+ *       range(0, height + 20, 20, (v) => {
+ *         text(random(), 5, v);
+ *       })
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
  *
  */
 declare function random(): number;
 declare function random(a: number): number;
 declare function random(a: number, b: number): number;
+/**
+ * Set the pseudo-random number generator seed. If no seed
+ * value is provided, this is equivalent to calling:
+ *
+ * ```
+ * randomSeed(Date.now() * Math.random())
+ * ```
+ *
+ */
+declare function randomSeed(seed?: number): void;
 /**
  * The secant function, which is:
  *

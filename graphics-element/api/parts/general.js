@@ -394,7 +394,7 @@ function play() {
  * @see {@link color}
  */
 function randomColor(a = 1.0, cycle = true) {
-  if (cycle) __current_hue = (__current_hue + 73) % 360;
+  if (cycle) __current_hue = random(0, 360);
   return `hsla(${__current_hue},50%,50%,${a})`;
 }
 

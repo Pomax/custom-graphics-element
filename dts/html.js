@@ -6,15 +6,23 @@ import { marked } from "marked";
 /**
  * Convert "code from the comment block" into proper source code.
  */
-async function cleanUpCode(code) {
-  return await format(
-    code
-      .replace(/\<\/?graphics-[^>]+\>/g, ``)
-      .split(`\n`)
-      .map((l) => l.replace(/^(\s*\*)/, ``).replace(/\*+$/, ``))
-      .join(`\n`),
-    { semi: true, parser: "babel" }
-  );
+async function blockHTMLToCode(key, code) {
+  // strip HTML wrapper
+  code = code
+    .replace(`<graphics-element>`, ``)
+    .replace(`<graphics-source>`, ``)
+    .replace(`</graphics-source>`, ``)
+    .replace(`</graphics-element>`, ``);
+
+  // remove comment notation
+  code = code
+    .replace(/\<\/?graphics-[^>]+\>/g, ``)
+    .split(`\n`)
+    .map((l) => l.replace(/^(\s*\*)/, ``).replace(/\*+$/, ``))
+    .join(`\n`);
+
+  // then format using Prettier
+  return await format(code, { semi: true, parser: "babel" });
 }
 
 /**
@@ -107,7 +115,7 @@ async function formPageCode(declarations, metadata) {
           const gfxAndCode = (
             await Promise.all(
               value.examples.map(async (block) => {
-                const code = await cleanUpCode(block);
+                const code = await blockHTMLToCode(key, block);
                 return `<!-- prettier-ignore -->
             <graphics-element width="200px" height="200px">
               <graphics-source>\n${code}\n</graphics-source>
@@ -116,7 +124,6 @@ async function formPageCode(declarations, metadata) {
               })
             )
           ).join(`\n\n`);
-
           let seeAlso = ``;
           let { see } = declarations[key];
           if (see && see.length) {

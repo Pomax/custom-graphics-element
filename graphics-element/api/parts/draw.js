@@ -486,9 +486,9 @@ function line(x1, y1, x2, y2) {
  *       clear(`white`);
  *       noFill();
  *       setStroke(`black`);
- *       translate(0, height/2);
- *       const fn = (x) => cos(x) ** 2 / sin(x);
- *       plot(fn, 0, TAU, undefined, width/TAU, height/2)
+ *       translate(0, height / 2);
+ *       const fn = (x) => cos(x) ** 6 / sin(x) - sin(x)/2;
+ *       plot(fn, 0, 2*TAU, 120, width / TAU, height / 2);
  *     }
  *   </graphics-source>
  * </graphics-element>

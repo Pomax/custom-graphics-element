@@ -48,11 +48,11 @@ When working on the code, the following `npm` tasks are available:
 
 the main graphics-element code lives in the `graphics-element` directory, with the custom element code in `graphics-element.js` and the actual graphics API found in the master `graphics-api.js` file, with the API components found in its `api` directory.
 
-The `dst` directory contains the converter code for turning the public api into `graphics-element.d.ts`.
+The `tools/dst` directory contains `dts.js`, which is the script for turning the public api into `graphics-element.d.ts`.
 
-The `fallback` directory contains the converter code for generating fallback images, given an .html file location as input.
+The `tools/fallback` directory contains `generate-placeholders.js`, which is the script for generating fallback images, given a file containing one or more &lt;graphics-element&gt; blocks.
 
-The "playground" editor lives in `edit` and is currently based on the Monaco ("VS Code") code editor.
+The "playground editor" lives in `edit` and is currently based on the [Monaco ("VS Code") code editor](https://microsoft.github.io/monaco-editor).
 
 ### How does the graphics-element work
 

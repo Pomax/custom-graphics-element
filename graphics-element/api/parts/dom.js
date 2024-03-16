@@ -216,7 +216,7 @@ function clearSliders() {
  * </graphics-element>
  *
  * @param {string} label The text label for your button
- * @param {function} onClick The click handling function, see description.
+ * @param {Function} onClick The click handling function, see description.
  * @returns {HTMLButtonElement} The button element this added to the page
  *
  * @see {@link clearButtons}

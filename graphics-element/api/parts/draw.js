@@ -493,7 +493,7 @@ function line(x1, y1, x2, y2) {
  *   </graphics-source>
  * </graphics-element>
  *
- * @param {function} f the `y = f(x)` function to plot
+ * @param {Function} f the `y = f(x)` function to plot
  * @param {number} a? The lower bound for the input value (default = 0)
  * @param {number} b? The upper bound for the input value (default = 1)
  * @param {number} steps? The number of plot points to plot over the interval [a,b] (default = 100)

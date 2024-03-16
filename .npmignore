@@ -1,21 +1,13 @@
 .github
 node_modules
-dts
 edit
-fallback
+graphics
 graphics-element
-test
+tools
 .gitingore
 .nojekyll
-add-points.js
-animated-example.js
 api.html
-cabinet.js
 docs.html
 index.css
 index.html
-link-source.js
-pid-example.js
-point-example.js
-trigonometry.js
 

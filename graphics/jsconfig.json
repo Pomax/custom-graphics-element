@@ -1,0 +1,4 @@
+{
+  "files": ["../dist/graphics-element.d.ts"],
+  "include": ["./*.js"]
+}

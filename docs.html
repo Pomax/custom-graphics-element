@@ -81,6 +81,11 @@
       <li>
         <a href="#writing-graphics-source-code">Writing graphics source code</a>
       </li>
+      <li>
+        <a href="#graphics-element-d-ts"
+          >Using the graphics-element.d.ts type declarations file</a
+        >
+      </li>
       <li><a href="#global-variables">Global variables</a></li>
       <li><a href="#slider-based-variables">Slider-based variables</a></li>
       <li><a href="#adding-buttons">Adding buttons</a></li>
@@ -297,6 +302,54 @@ function sourceCode() {
 customElements.whenDefined(`graphics-element`).then(() =&gt; {
   myGraphicsElement.loadFromFunction(sourceCode);
 });</code></pre>
+
+      <h2 id="graphics-element-d-ts">
+        <a href="#graphics-element-d-ts"
+          >Using the graphics-element.d.ts type declarations file</a
+        >
+        <a href="#top">top</a>
+      </h2>
+
+      <p>
+        While not available from CDN, the graphics-element project comes with a
+        <a
+          href="https://raw.githubusercontent.com/Pomax/custom-graphics-element/main/dist/graphics-element.d.ts"
+          >graphics-element.d.ts</a
+        >
+        file that you can use to enable type hinting, autocomplete, and docs
+        lookups in your code editor, provided it has a way to add typing
+        support.
+      </p>
+
+      <p>
+        As an example, if you use
+        <a href="https://code.visualstudio.com">Visual Studio Code</a>, you can
+        quickly and easily add the <code>graphics-element.d.ts</code> to your
+        project, which allows VS Code to show type hints and documentation, as
+        well as perform call autocompletion, by adding a
+        <code>jsconfig.json</code> to your project.
+      </p>
+
+      <p>
+        Say you've put all your graphics-element source files in their own
+        directory (which is generally a good idea to keep it from cluttering up
+        other kinds of client-side JS), then you can create a new file called
+        <code>jsconfig.json</code> in the same directory, with the following
+        content:
+      </p>
+
+      <pre><code class="language-js">{
+  "files": ["graphics-element.d.ts"],
+  "include": ["./*.js"]
+}</code></pre>
+
+      <p>
+        The "files" property tells VS Code where it can find the .d.ts file, and
+        allows you to put in relative directories (so you don't need to have the
+        .d.ts file in the same directory), and the "include" property tells VS
+        Code which files that .d.ts will apply to (in this case "." means
+        "everything in this directory").
+      </p>
     </section>
 
     <!-- =================== next section ====================== -->

@@ -6,7 +6,16 @@ As of `v2.0.2` this library _strictly_ adheres to [semver](https://semver.org)'s
 - minor version changes indicate new functionality that does not break backward compatibility,
 - major version changes indicate backward-incompatible external API changes, no matter how small.
 
+Note that there may be gaps in the version history, which may happen if a release is pushed to npm but a problem is discovered fast enough to warrant an unpublish.
+
 # Version history
+
+## v2.0.4
+
+- moved the build tools into their own `tools` directory
+- tightened up the comments that were generated into the `graphics-element.d.ts` file
+- updated `docs.html` to cover how to use `graphics-element.d.ts` with VS Code
+- added documentation to the `generate-placeholders.js` script
 
 ## v2.0.3
 

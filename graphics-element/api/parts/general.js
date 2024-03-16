@@ -17,7 +17,7 @@
  * </graphics-element>
  *
  * @param {number} length The size of the array you want
- * @param {function} fillFunction? The optional function that gets used to fill the array
+ * @param {Function} fillFunction? The optional function that gets used to fill the array
  */
 function array(len, fillFunction) {
   const arr = new Array(len).fill();
@@ -418,7 +418,7 @@ function randomColor(a = 1.0, cycle = true) {
  * @param {number} start The equivalent of a for loop's initial `let i = ...`
  * @param {number} end The equivalent of a for loop's `i < end`
  * @param {number} step? The step size by which to increment at each iteration (defaults = `(start-end)/10`)
- * @param {function} runFunction The function to run at each iteration
+ * @param {Function} runFunction The function to run at each iteration
  */
 function range(start, end, step, runFunction) {
   if (typeof step === `function`) {

@@ -60,7 +60,7 @@ while (start !== -1) {
 }
 if (blocks.length === 0) {
   console.log(`Done: there was nothing to replace in your file`);
-  process.exit(3);
+  process.exit();
 }
 
 console.log(`Found ${blocks.length} graphics elements.`);

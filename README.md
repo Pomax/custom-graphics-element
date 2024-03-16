@@ -18,11 +18,13 @@ This project is more than happy to accept three forms of contributions:
 - Documentation help, because writing and maintaining documentation is hard, and
 - Development help, because extra dev help is always appreciated.
 
-The first can be either [a sponsortship on Patreon](https://www.patreon.com/Bezierinfo), or a one-time donation [using PayPal](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW). Both are highly appreciated, and no amount is too small.
+The first can be either [a sponsorship on Patreon](https://www.patreon.com/Bezierinfo), or a one-time donation [using PayPal](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=QPRDLNGDANJSW). Both are highly appreciated, and no amount is too small.
 
 The latter two should be coordinated over on [the issue tracker](issues): if you want to help improve the docs or you want to get your hands dirty with some dev work, head on over to the issues and either comment on an existing issue (which is work I hope to eventually get done), or file a new issue if your idea isn't captured in any existing issue yet!
 
 ## Working on the code
+
+If you'd like to help out, have a look at the list of ["good first issues"](https://github.com/Pomax/custom-graphics-element/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22), or if you're feeling more adventurous, have a look at the additional ["help-wanted issues"](https://github.com/Pomax/custom-graphics-element/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+-label%3A%22good+first+issue%22) and if any of those look like something you might want to tackle, post a comment to the one(s) that interest you!
 
 If you want to work on the graphics-element code itself, you will need to have the latest version of Node.js installed.
 
@@ -44,7 +46,7 @@ When working on the code, the following `npm` tasks are available:
 
 ### What lives where
 
-the main graphics-element code lives in the `graphics-element` directory, with the custom element code in `graphics-element.js` and the actual graphics API spread out over the master `graphics-api.js` as all files in the `api` directory. All public api functions and constants can be found in the `api/parts` directory.
+the main graphics-element code lives in the `graphics-element` directory, with the custom element code in `graphics-element.js` and the actual graphics API found in the master `graphics-api.js` file, with the API components found in its `api` directory.
 
 The `dst` directory contains the converter code for turning the public api into `graphics-element.d.ts`.
 

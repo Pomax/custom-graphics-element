@@ -35,7 +35,7 @@ As of `v2.0.2` this library _strictly_ adheres to [semver](https://semver.org)'s
 - [bugfix] default addSlider value is now (max+min)/2
 - [bugfix] buttons no longer allow a missing onClick handler
 - [bugfix] highlight colour works properly now
-- [bugfix] crosslinked color markup in the description resets properly
+- [bugfix] crosslinked colour markup in the description resets properly
 
 ## v1.11.0
 

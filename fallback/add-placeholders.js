@@ -113,14 +113,14 @@ async function processBlock(block, blockNum) {
   console.log(`\nProcessing block ${blockNum}.`);
 
   // Strip the pre-existing fallback <img> (if there is one)
-  let newBlock = await format(block.replace(/<img[^>]+>/, ``), {
-    parser: `html`,
-  });
+  let newBlock = block.replace(/<img[^>]+>/, ``);
 
   // First, create a hash for this block, ignoring any preexisting
   // fallback image, and reformatted using prettier to make sure the
   // hash is the same even if the formatting (but not content) changed.
-  const hash = createHash(`md5`).update(newBlock).digest(`hex`);
+  const hash = createHash(`md5`)
+    .update(await format(newBlock, { parser: `html` }))
+    .digest(`hex`);
 
   // Then, create a temporary html file...
   const htmlPage = `<!doctype html><html><head><meta charset="utf-8" />
@@ -134,7 +134,7 @@ async function processBlock(block, blockNum) {
   // ...load that in the browser...
   const page = await browser.newPage();
   await page.goto(`http://localhost:${server.address().port}/${tempFile}`);
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(100);
   const title = await page.locator("graphics-element").getAttribute(`title`);
   if (!title) {
     console.warn(`- ***warning*** missing "title" attribute!`);

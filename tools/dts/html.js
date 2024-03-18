@@ -79,17 +79,22 @@ async function formPageCode(declarations, metadata) {
                 if (declarations[key].params[pos]) {
                   const { returnType, see, ...rest } =
                     declarations[key].params[pos];
-                  params =
-                    `<ul class="params">` +
-                    Object.entries(rest)
-                      .map(([key, { type, desc }]) => {
-                        return `<li><code>${key}</code> - ${desc}</li>`;
-                      })
-                      .join(``) +
-                    `</ul>` +
-                    (returnType.type !== `void`
-                      ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
-                      : ``);
+                  try {
+                    params =
+                      `<ul class="params">` +
+                      Object.entries(rest)
+                        .map(([key, { type, desc }]) => {
+                          return `<li><code>${key}</code> - ${desc}</li>`;
+                        })
+                        .join(``) +
+                      `</ul>` +
+                      (returnType.type !== `void`
+                        ? `<p>returns ${returnType.desc?.[0].toLowerCase() + returnType.desc?.substring(1)} (<code>${returnType.type}</code>)</p>`
+                        : ``);
+                  } catch (err) {
+                    console.error(`problem with ${key}`);
+                    throw err;
+                  }
                 }
 
                 return `<li><code>${signature}</code>${params}</li>`;

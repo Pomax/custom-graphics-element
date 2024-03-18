@@ -168,9 +168,9 @@ declare const pointer: object;
  *  that movable point, or `false` if the pointer is not near
  *  any movable point (or, of course, there are no movable points)
  *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#currentPoint
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#currentMovable
  */
-declare const currentPoint: PointLike | false;
+declare const currentMovable: PointLike | false;
 /**
  * The `keyboard` object is a truth table that can be checked to
  *  see if any key is currently pressed, and if so, when that
@@ -442,6 +442,12 @@ declare function clear(color?: color): void;
  */
 declare function end(close?: boolean): void;
 /**
+ * Clear the current shape, optionally closing it.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#endShape
+ */
+declare function endShape(close?: boolean): Shape;
+/**
  * Draw an image in a given location with an optional
  *  width and height. If omitted, the width and height
  *  will be the image's own dimensions. Note that the
@@ -473,6 +479,12 @@ declare function image(
  */
 declare function line(x1: number, y1: number, x2: number, y2: number): void;
 declare function line(p1: PointLike, p2: PointLike): void;
+/**
+ * Start a new sub path in a shape.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#newPath
+ */
+declare function newPath(close?: boolean): void;
 /**
  * Plot a y=f(x) function. The input to the function
  *  will span the interval [a,b] using the indicated
@@ -552,6 +564,12 @@ declare function spline(
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#start
  */
 declare function start(): void;
+/**
+ * Start a new shape.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
+ */
+declare function startShape(): Shape;
 /**
  * Draw some text to the screen. Its placement is
  *  determined by both the coordinate provided, and
@@ -1075,6 +1093,34 @@ declare function degrees(value: number, constrain?: boolean): number;
  */
 declare function dist(x1: number, y1: number, x2: number, y2: number): number;
 declare function dist(p1: PointLike, p2: PointLike): number;
+/**
+ * Performs a line/line intersection test give either four points
+ *  defining the lines (p1--p2) and (p3--p4), or eight coordinates
+ *  spanning lines (x1,y1)--(x2,y2) and (x3,y3)--(x4,y4).
+ *
+ *  This function covers both "line/line" and "segment"/"segment"
+ *  testing by setting a boolean value `inBounds` on the result:
+ *  when false, there is only a line/line intersection, but when
+ *  true, the actual line segments intersect.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#lli
+ */
+declare function lli(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  x3: number,
+  y3: number,
+  x4: number,
+  y4: number,
+): PointLike | false;
+declare function lli(
+  p1: PointLine,
+  p2: PointLine,
+  p3: PointLine,
+  p4: PointLine,
+): PointLike | false;
 /**
  * Map a value from one interval to another, optionally
  *  constrained to the target interval.

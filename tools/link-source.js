@@ -2,7 +2,10 @@ import fs from "node:fs";
 
 function base64(data) {
   const bytes = new TextEncoder().encode(data);
-  const binString = String.fromCodePoint(...bytes);
+  let binString = ``;
+  for (let i = 0; i < bytes.length; i += 500) {
+    binString += String.fromCodePoint(...bytes.slice(i, i + 500));
+  }
   return btoa(binString);
 }
 

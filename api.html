@@ -62,12 +62,12 @@
     </p>
 
     <section id="toc">
-      <h4 class="sep">functions</h4>
+      <h4 class="sep">constants</h4>
       <ul>
         <li><a href="#E" class="const">E</a></li>
         <li><a href="#PI" class="const">PI</a></li>
         <li><a href="#TAU" class="const">TAU</a></li>
-        <li><a href="#currentPoint" class="const">currentPoint</a></li>
+        <li><a href="#currentMovable" class="const">currentMovable</a></li>
         <li><a href="#epsilon" class="const">epsilon</a></li>
         <li><a href="#frame" class="const">frame</a></li>
         <li><a href="#frameDelta" class="const">frameDelta</a></li>
@@ -105,14 +105,17 @@
         <li><a href="#circle" class="fn">circle</a></li>
         <li><a href="#clear" class="fn">clear</a></li>
         <li><a href="#end" class="fn">end</a></li>
+        <li><a href="#endShape" class="fn">endShape</a></li>
         <li><a href="#image" class="fn">image</a></li>
         <li><a href="#line" class="fn">line</a></li>
+        <li><a href="#newPath" class="fn">newPath</a></li>
         <li><a href="#plot" class="fn">plot</a></li>
         <li><a href="#plotData" class="fn">plotData</a></li>
         <li><a href="#point" class="fn">point</a></li>
         <li><a href="#rect" class="fn">rect</a></li>
         <li><a href="#spline" class="fn">spline</a></li>
         <li><a href="#start" class="fn">start</a></li>
+        <li><a href="#startShape" class="fn">startShape</a></li>
         <li><a href="#text" class="fn">text</a></li>
         <li><a href="#triangle" class="fn">triangle</a></li>
         <li><a href="#vertex" class="fn">vertex</a></li>
@@ -165,6 +168,7 @@
         <li><a href="#fround" class="fn">fround</a></li>
         <li><a href="#hypot" class="fn">hypot</a></li>
         <li><a href="#imul" class="fn">imul</a></li>
+        <li><a href="#lli" class="fn">lli</a></li>
         <li><a href="#ln" class="fn">ln</a></li>
         <li><a href="#log" class="fn">log</a></li>
         <li><a href="#log2" class="fn">log2</a></li>
@@ -1334,7 +1338,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -1362,7 +1366,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -1673,8 +1677,10 @@ function pointerDown(x, y) {
       </ul>
     </section>
 
-    <section id="currentPoint">
-      <h1><a href="#currentPoint">currentPoint</a> <a href="#top">top</a></h1>
+    <section id="currentMovable">
+      <h1>
+        <a href="#currentMovable">currentMovable</a> <a href="#top">top</a>
+      </h1>
       <code class="const">constant</code>
       <h3>Description</h3>
       <p>
@@ -1827,6 +1833,30 @@ function draw() {
       <ul>
         <li><a href="#start">start</a></li>
         <li><a href="#vertex">vertex</a></li>
+        <li><a href="#endShape">endShape</a></li>
+      </ul>
+    </section>
+
+    <section id="endShape">
+      <h1><a href="#endShape">endShape</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>endShape(close?: boolean): Shape</code>
+          <ul class="params">
+            <li>
+              <code>close?</code> - When used, closes the shape's current
+              subpath.
+            </li>
+          </ul>
+          <p>returns the shape that got closed (<code>Shape</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Clear the current shape, optionally closing it.</p>
+
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#end">end</a></li>
       </ul>
     </section>
 
@@ -2209,7 +2239,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -2237,7 +2267,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -2309,6 +2339,80 @@ function draw() {
   clear(`white`);
   setStroke(`black`);
   range(0, height, 20, (i) =&gt; line(0, 0, width, i));
+}
+</code></pre>
+    </section>
+
+    <section id="lli">
+      <h1><a href="#lli">lli</a> <a href="#top">top</a></h1>
+      <ol class="signatures">
+        <li>
+          <code
+            >lli(x1: number, y1: number, x2: number, y2: number, x3: number, y3:
+            number, x4: number, y4: number): PointLike|false</code
+          >
+          <ul class="params">
+            <li><code>x1</code> - The first point's x coordinate</li>
+            <li><code>y1</code> - The first point's y coordinate</li>
+            <li><code>x2</code> - The second point's x coordinate</li>
+            <li><code>y2</code> - The second point's y coordinate</li>
+            <li><code>x3</code> - The third point's x coordinate</li>
+            <li><code>y3</code> - The third point's y coordinate</li>
+            <li><code>x4</code> - The fourth point's x coordinate</li>
+            <li><code>y4</code> - The fourth point's y coordinate</li>
+          </ul>
+          <p>
+            returns either the intersection point, or false if there is no
+            intersection (<code>PointLike|false</code>)
+          </p>
+        </li>
+        <li>
+          <code
+            >lli(p1: PointLine, p2: PointLine, p3: PointLine, p4: PointLine):
+            PointLike|false</code
+          >
+          <ul class="params">
+            <li><code>p1</code> - The first coordinate</li>
+            <li><code>p2</code> - The second coordinate</li>
+            <li><code>p3</code> - The third coordinate</li>
+            <li><code>p4</code> - The fourth coordinate</li>
+          </ul>
+          <p>
+            returns either the intersection point, or false if there is no
+            intersection (<code>PointLike|false</code>)
+          </p>
+        </li>
+      </ol>
+      <h3>Description</h3>
+      <p>
+        Performs a line/line intersection test give either four points defining
+        the lines (p1--p2) and (p3--p4), or eight coordinates spanning lines
+        (x1,y1)--(x2,y2) and (x3,y3)--(x4,y4).
+      </p>
+      <p>
+        This function covers both &quot;line/line&quot; and
+        &quot;segment&quot;/&quot;segment&quot; testing by setting a boolean
+        value <code>inBounds</code> on the result: when false, there is only a
+        line/line intersection, but when true, the actual line segments
+        intersect.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+function draw() {
+  clear();
+  center();
+  // ...code goes here...
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">function draw() {
+  clear();
+  center();
+  // ...code goes here...
 }
 </code></pre>
     </section>
@@ -2531,6 +2635,29 @@ function draw() {
       <h3>See also:</h3>
       <ul>
         <li><a href="#max">max</a></li>
+      </ul>
+    </section>
+
+    <section id="newPath">
+      <h1><a href="#newPath">newPath</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>newPath(close?: boolean)</code>
+          <ul class="params">
+            <li>
+              <code>close?</code> - Closes the current subpath before opening a
+              new one (default = true)
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Start a new sub path in a shape.</p>
+
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#startShape">startShape</a></li>
+        <li><a href="#endShape">endShape</a></li>
       </ul>
     </section>
 
@@ -5482,6 +5609,25 @@ function draw() {
       <ul>
         <li><a href="#end">end</a></li>
         <li><a href="#vertex">vertex</a></li>
+        <li><a href="#startShape">startShape</a></li>
+      </ul>
+    </section>
+
+    <section id="startShape">
+      <h1><a href="#startShape">startShape</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>startShape(): Shape</code>
+          <ul class="params"></ul>
+          <p>returns the newly created shape object (<code>Shape</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Start a new shape.</p>
+
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#start">start</a></li>
       </ul>
     </section>
 

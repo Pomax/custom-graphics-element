@@ -176,7 +176,7 @@ function pointerDown(x, y) {
  * the first point as our current target.
  */
 function addPoint(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   setMovable(p);
   points.push(p);

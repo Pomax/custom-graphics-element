@@ -386,7 +386,7 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
           being pressed (see below).
         </li>
         <li>
-          <code>currentPoint</code> - when using movable points, this will
+          <code>currentMovable</code> - when using movable points, this will
           represent the movable point under the pointer, if there is one.
         </li>
       </ul>
@@ -481,7 +481,7 @@ function draw() {
         This can either be <code>Point</code> instances or an array of
         <code>Point</code> instances. After marking them as movable, the API
         does the rest. When the pointer is over movable points it will update
-        the global <code>currentPoint</code> value and change to the typically
+        the global <code>currentMovable</code> value and change to the typically
         pointing finger icon, with click-dragging (or touch-dragging)
         automatically updating your point&#39;s coordinates.
       </p>

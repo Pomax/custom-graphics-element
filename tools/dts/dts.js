@@ -94,7 +94,7 @@ function getMetaData(fname, comment) {
   const description = comment
     .substring(0, lastIndex)
     .split(`\n`)
-    .map((l) => l.trim().replace(/^(\/\*)?\*/, ""))
+    .map((l) => l.trim().replace(/^(\/\*)?\*/, ``))
     .join(`\n`)
     .trim();
 
@@ -103,7 +103,7 @@ function getMetaData(fname, comment) {
     ?.map((block) =>
       block
         .split(`\n`)
-        .map((l) => l.trim().replace(/^\* /, ""))
+        .map((l) => l.trim().replace(/^\* /, ``))
         .join(`\n`)
         .trim()
     );

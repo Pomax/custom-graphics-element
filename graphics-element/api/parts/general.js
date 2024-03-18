@@ -53,7 +53,7 @@ function array(len, fillFunction) {
  *     }
  *
  *     function pointerDown(x,y) {
- *       if (currentPoint) return;
+ *       if (currentMovable) return;
  *       const p = new Point(x,y);
  *       points.push(p);
  *       setMovable(p);
@@ -234,7 +234,7 @@ function highlight(color) {
  *     }
  *
  *     function pointerDown(x,y) {
- *       if (currentPoint) return;
+ *       if (currentMovable) return;
  *       const p = new Point(x,y);
  *       points.push(p);
  *       setMovable(p);

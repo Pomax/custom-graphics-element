@@ -488,6 +488,99 @@ function dist(x1, y1, x2, y2) {
 }
 
 /**
+ * Performs a line/line intersection test give either four points
+ * defining the lines (p1--p2) and (p3--p4), or eight coordinates
+ * spanning lines (x1,y1)--(x2,y2) and (x3,y3)--(x4,y4).
+ *
+ * This function covers both "line/line" and "segment"/"segment"
+ * testing by setting a boolean value `inBounds` on the result:
+ * when false, there is only a line/line intersection, but when
+ * true, the actual line segments intersect.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear();
+ *       center();
+ *       // ...code goes here...
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {number} x1 The first point's x coordinate
+ * @param {number} y1 The first point's y coordinate
+ * @param {number} x2 The second point's x coordinate
+ * @param {number} y2 The second point's y coordinate
+ * @param {number} x3 The third point's x coordinate
+ * @param {number} y3 The third point's y coordinate
+ * @param {number} x4 The fourth point's x coordinate
+ * @param {number} y4 The fourth point's y coordinate
+ * @returns {PointLike|false} Either the intersection point, or false if there is no intersection
+ *
+ * @param {PointLine} p1 The first coordinate
+ * @param {PointLine} p2 The second coordinate
+ * @param {PointLine} p3 The third coordinate
+ * @param {PointLine} p4 The fourth coordinate
+ * @returns {PointLike|false} Either the intersection point, or false if there is no intersection
+ */
+function lli(x1, y1, x2, y2, x3, y3, x4, y4) {
+  if (x1.x !== undefined && x1.y !== undefined) {
+    y4 = y2.y;
+    x4 = y2.x;
+    y3 = x2.y;
+    x3 = x2.x;
+    y2 = y1.y;
+    x2 = y1.x;
+    y1 = x1.y;
+    x1 = x1.x;
+  }
+  const nx = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4);
+  const ny = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4);
+  const d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+  if (d === 0) return false;
+
+  const r = { x: nx / d, y: ny / d, inBounds: true };
+  let a = x1;
+  let b = x2;
+  if (x1 > x2) {
+    a = x2;
+    b = x1;
+  }
+  if (r.x < a || r.x > b) r.inBounds = false;
+  else {
+    a = y1;
+    b = y2;
+    if (y1 > y2) {
+      a = y2;
+      b = y1;
+    }
+    if (r.y < a || r.y > b) r.inBounds = false;
+    else {
+      a = x3;
+      b = x4;
+      if (x3 > x4) {
+        a = x4;
+        b = x3;
+      }
+      if (r.x < a || r.x > b) r.inBounds = false;
+      else {
+        a = y3;
+        b = y4;
+        if (y3 > y4) {
+          a = y4;
+          b = y3;
+        }
+        if (r.y < a || r.y > b) r.inBounds = false;
+      }
+    }
+  }
+  return r;
+}
+
+/**
  * Map a value from one interval to another, optionally
  * constrained to the target interval.
  *

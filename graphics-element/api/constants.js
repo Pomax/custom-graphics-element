@@ -57,7 +57,7 @@ const pointer = { x: 0, y: 0 };
  *
  * @constant {PointLike|false}
  */
-let currentPoint = false;
+let currentMovable = false;
 
 /**
  * The `keyboard` object is a truth table that can be checked to

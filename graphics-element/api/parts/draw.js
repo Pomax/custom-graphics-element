@@ -364,14 +364,32 @@ function clear(color = `white`) {
  *
  * @see {@link start}
  * @see {@link vertex}
+ * @see {@link endShape}
  */
 function end(close = false) {
+  if (__shape) {
+    return endShape(close);
+  }
   if (close) __ctx.closePath();
   __ctx.fill();
   __ctx.stroke();
   if (__ctx.lineWidth % 2 === 1) {
     __ctx.translate(-0.5, -0.5);
   }
+}
+
+/**
+ * Clear the current shape, optionally closing it.
+ *
+ * @param {boolean} close? When used, closes the shape's current subpath.
+ * @returns {Shape} The shape that got closed
+ *
+ * @see {@link end}
+ */
+function endShape(close = false) {
+  if (__shape && close) __shape.close();
+  return __shape;
+  __shape = false;
 }
 
 /**
@@ -459,10 +477,28 @@ function line(x1, y1, x2, y2) {
     x1 = x1.x;
   }
 
+  if (__shape) {
+    __shape.add(x1, y1);
+    __shape.add(x2, y2);
+    return;
+  }
+
   start();
   vertex(x1, y1);
   vertex(x2, y2);
   end();
+}
+
+/**
+ * Start a new sub path in a shape.
+ *
+ * @param {boolean} close? Closes the current subpath before opening a new one (default = true)
+ *
+ * @see {@link startShape}
+ * @see {@link endShape}
+ */
+function newPath(close = true) {
+  __shape.newPath(close);
 }
 
 /**
@@ -799,6 +835,7 @@ function spline(...args) {
  *
  * @see {@link end}
  * @see {@link vertex}
+ * @see {@link startShape}
  */
 function start() {
   if (__ctx.lineWidth % 2 === 1) {
@@ -806,6 +843,17 @@ function start() {
   }
   __ctx.beginPath();
   __first = false;
+}
+
+/**
+ * Start a new shape.
+ *
+ * @returns {Shape} the newly created shape object
+ *
+ * @see {@link start}
+ */
+function startShape() {
+  return (__shape = new Shape());
 }
 
 /**

@@ -5409,7 +5409,7 @@ function draw() {
         </li>
       </ul>
       <h3>Description</h3>
-      <p>The cosine function</p>
+      <p>The sine function</p>
 
       <h3>See also:</h3>
       <ul>
@@ -5625,6 +5625,48 @@ function draw() {
       <h3>Description</h3>
       <p>Start a new shape.</p>
 
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+let shape;
+function setup() {
+  setSize(200, 200);
+  shape = startShape();
+  setMovable(shape);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">let shape;
+function setup() {
+  setSize(200, 200);
+  shape = startShape();
+  setMovable(shape);
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  start();
+  vertex(0, height / 2);
+  vertex(width / 2, 0);
+  vertex(width, height / 2);
+  vertex(width / 2, height);
+  end(true);
+}
+</code></pre>
       <h3>See also:</h3>
       <ul>
         <li><a href="#start">start</a></li>

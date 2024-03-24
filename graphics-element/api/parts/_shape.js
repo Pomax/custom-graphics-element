@@ -1,3 +1,6 @@
+/**
+ * ...docs go here...
+ */
 class Path {
   closed = false;
   ox = 0;
@@ -7,7 +10,9 @@ class Path {
   add(x, y) {
     const { closed, points } = this;
     if (closed) return;
-    points.push({ x, y });
+    const p = { x, y };
+    points.push(p);
+    return p;
   }
 
   close() {
@@ -44,24 +49,44 @@ class Path {
   inside(x, y) {
     // let's do some ray casting, treating the path closed.
     let crossing = 0;
-    const { points } = this;
+    const { ox, oy, points } = this;
     const { length: n } = points;
     if (n < 3) return 0;
     for (let i = 0, p1, p2; i < n; i++) {
       p1 = points[i];
       p2 = points[(i + 1) % n];
-      const r = lli(p1, p2, { x, y }, { x, y: y - huge });
-      if (r?.inside) crossing++;
+      const r = lli(
+        {
+          x: p1.x + ox,
+          y: p1.y + oy,
+        },
+        {
+          x: p2.x + ox,
+          y: p2.y + oy,
+        },
+        { x, y },
+        { x, y: y - huge }
+      );
+      if (r?.inBounds) crossing++;
     }
     return crossing % 2 === 1;
   }
 }
 
+/**
+ * ...code goes here...
+ */
 class Shape {
   paths = [];
   dragging = false;
+  resizable = false;
+
   constructor() {
     this.newPath();
+  }
+
+  allowResizing(allowed = true) {
+    this.resizable = allowed;
   }
 
   newPath(close = false) {
@@ -77,7 +102,8 @@ class Shape {
   }
 
   add(x, y) {
-    this.paths.at(-1).add(x, y);
+    const p = this.paths.at(-1).add(x, y);
+    if (this.resizable) setMovable(p);
   }
 
   offset(x, y, subpath = undefined) {

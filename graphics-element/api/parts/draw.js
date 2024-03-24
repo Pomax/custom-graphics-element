@@ -367,9 +367,6 @@ function clear(color = `white`) {
  * @see {@link endShape}
  */
 function end(close = false) {
-  if (__shape) {
-    return endShape(close);
-  }
   if (close) __ctx.closePath();
   __ctx.fill();
   __ctx.stroke();
@@ -475,12 +472,6 @@ function line(x1, y1, x2, y2) {
     x2 = y1.x;
     y1 = x1.y;
     x1 = x1.x;
-  }
-
-  if (__shape) {
-    __shape.add(x1, y1);
-    __shape.add(x2, y2);
-    return;
   }
 
   start();
@@ -847,6 +838,31 @@ function start() {
 
 /**
  * Start a new shape.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     let shape;
+ *     function setup() {
+ *       setSize(200, 200);
+ *       shape = startShape();
+ *       setMovable(shape);
+ *     }
+ *     function draw() {
+ *       clear(`white`);
+ *       setStroke(`black`);
+ *       setFill(`gold`);
+ *       start();
+ *       vertex(0,height/2);
+ *       vertex(width/2, 0);
+ *       vertex(width, height/2);
+ *       vertex(width/2, height);
+ *       end(true);
+ *     }
+ *
+ *   </graphics-source>
+ * </graphics-element>
  *
  * @returns {Shape} the newly created shape object
  *

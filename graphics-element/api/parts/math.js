@@ -304,7 +304,7 @@ const {
   sign,
 
   /**
-   * The cosine function
+   * The sine function
    *
    * @param {number} input Any number
    * @returns {number} output The sine

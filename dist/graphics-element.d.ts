@@ -982,7 +982,7 @@ declare function round(input: number): number;
  */
 declare function sign(input: number): number;
 /**
- * The cosine function
+ * The sine function
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#sin
  */

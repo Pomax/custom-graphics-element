@@ -24,7 +24,7 @@ function pointerDown(x, y) {
   const subpaths = shape.inside(x, y);
   if (subpaths.length) {
     shape.dragging = true;
-    subpath = subpaths[0].pathId;
+    subpath = subpaths[0].id;
   }
 }
 

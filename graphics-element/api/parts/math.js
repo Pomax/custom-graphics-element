@@ -385,6 +385,28 @@ const {
 } = Math;
 
 /**
+ * Get the binomial coefficient (n choose k).
+ *
+ * @param {number} n A positive integer
+ * @param {number} k A positive integer less than or equal to `n`
+ * @returns {number} The value (n choose k)
+ */
+function binomial(n, k) {
+  if (n === 0) return 1;
+  var lut = __binomialCoefficients;
+  while (n >= lut.length) {
+    var s = lut.length;
+    var nextRow = [1];
+    for (var i = 1, prev = s - 1; i < s; i++) {
+      nextRow[i] = lut[prev][i - 1] + lut[prev][i];
+    }
+    nextRow[s] = 1;
+    lut.push(nextRow);
+  }
+  return lut[n][k];
+}
+
+/**
  * Constrain a number to within a given range.
  * This is really nothing more than a convenient
  * function wrapper around the statement:

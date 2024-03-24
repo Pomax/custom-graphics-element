@@ -1,4 +1,10 @@
-function invert(M) {
+/**
+ * Invert a matrix, or undefined if the matrix is not invertible.
+ *
+ * @param {Matrix} M The matrix to invert
+ * @returns {number[][]} The matrix inverse as 2D number array
+ */
+function invertMatrix(M) {
   // Copied from http://blog.acipo.com/matrix-inversion-in-javascript/
   // With permission, http://blog.acipo.com/matrix-inversion-in-javascript/#comment-5057289889
 
@@ -68,7 +74,7 @@ function invert(M) {
       }
       //get the new diagonal
       e = C[i][i];
-      //if it's still 0, not invertable (error)
+      //if it's still 0, not invertible (error)
       if (e == 0) {
         return;
       }
@@ -108,9 +114,16 @@ function invert(M) {
   return I;
 }
 
-function multiply(m1, m2) {
+/**
+ * Multiply two matrices
+ *
+ * @param {Matrix} m1
+ * @param {Matrix} m2
+ * @returns {number[][]} The result of m1 * m2  as 2D number array
+ */
+function multiplyMatrix(m1, m2) {
   var M = [];
-  var m2t = transpose(m2);
+  var m2t = transposeMatrix(m2);
   m1.forEach((row, r) => {
     M[r] = [];
     m2t.forEach((col, c) => {
@@ -120,47 +133,12 @@ function multiply(m1, m2) {
   return M;
 }
 
-function transpose(M) {
+/**
+ * Transpose a matrix
+ *
+ * @param {Matrix} M The matrix to transpose
+ * @returns {number[][]} The matrix transpose as 2D number array
+ */
+function transposeMatrix(M) {
   return M[0].map((col, i) => M.map((row) => row[i]));
 }
-
-class Matrix {
-  constructor(n, m, data) {
-    data = n instanceof Array ? n : data;
-    this.data =
-      data ?? [...new Array(n)].map((v) => [...new Array(m)].map((v) => 0));
-    this.rows = this.data.length;
-    this.cols = this.data[0].length;
-  }
-  setData(data) {
-    this.data = data;
-  }
-  get(i, j) {
-    return this.data[i][j];
-  }
-  set(i, j, value) {
-    this.data[i][j] = value;
-  }
-  row(i) {
-    return this.data[i];
-  }
-  col(j) {
-    var d = this.data,
-      col = [];
-    for (let r = 0, l = d.length; r < l; r++) {
-      col.push(d[r][j]);
-    }
-    return col;
-  }
-  multiply(other) {
-    return new Matrix(multiply(this.data, other.data));
-  }
-  invert() {
-    return new Matrix(invert(this.data));
-  }
-  transpose() {
-    return new Matrix(transpose(this.data));
-  }
-}
-
-export { Matrix };

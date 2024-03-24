@@ -2,7 +2,7 @@
  * Turn a reasonably well JSDoc'd JavaScript file into a typescript declarations.
  */
 import fs from "node:fs";
-import { sep } from "node:path";
+import { sep, posix } from "node:path";
 import { glob } from "glob";
 import { parse } from "./parser.js";
 import { formAPIPage } from "./html.js";
@@ -17,8 +17,9 @@ function fileToDTS(filename) {
   const blocks = [];
   parse(stream, blocks);
 
+  filename = filename.split(sep).join(posix.sep);
   const namespace = filename
-    .substring(filename.lastIndexOf(sep) + 1)
+    .substring(filename.lastIndexOf(posix.sep) + 1)
     .split(`.`)[0];
 
   blocks.forEach((block) => {

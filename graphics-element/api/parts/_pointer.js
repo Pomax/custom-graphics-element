@@ -1,4 +1,4 @@
-function __checkForcurrentMovable(x, y, type) {
+function __checkForCurrentMovable(x, y, type) {
   currentMovable = false;
 
   if (!__movable_points.length) return;
@@ -8,9 +8,8 @@ function __checkForcurrentMovable(x, y, type) {
 
   __movable_points.forEach((p, pos) => {
     if (p instanceof Shape) {
-      const r = p.inside(x, y);
-      if (r.inBounds) {
-        matches.push({ p, d: dist(x, y, r.x, r.y) });
+      if (p.inside(x, y).length > 0) {
+        matches.push({ p, d: 0 });
       }
     } else {
       let x2 = p[0] === undefined ? p.x : p[0];
@@ -46,7 +45,9 @@ function __toPointerEvent(evt) {
 }
 
 function __pointerDown(x, y) {
-  if (currentMovable) {
+  if (currentMovable instanceof Shape) {
+    // don't do anything special.
+  } else {
     currentMovable._dx = currentMovable.x - x;
     currentMovable._dy = currentMovable.y - y;
   }
@@ -61,7 +62,7 @@ function __pointerDown(x, y) {
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
-      __checkForcurrentMovable(x, y, type);
+      __checkForCurrentMovable(x, y, type);
       __pointerDown(x, y);
     }
   });
@@ -71,6 +72,9 @@ function __pointerUp(x, y) {
   if (typeof pointerUp !== `undefined`) pointerUp(x, y);
   if (pointer.mark?.x === x && pointer.mark?.y === y) {
     if (typeof pointerClick !== `undefined`) pointerClick(x, y);
+  }
+  if (currentMovable && currentMovable instanceof Shape) {
+    currentMovable.commit();
   }
 }
 
@@ -88,16 +92,18 @@ function __pointerUp(x, y) {
 });
 
 function __pointerMove(x, y) {
-  let pointMoved = false;
+  let hadMovable = false;
   if (pointer.down && currentMovable) {
-    if (currentMovable[0]) {
+    if (currentMovable instanceof Shape) {
+      currentMovable.offset(x - pointer.mark.x, y - pointer.mark.y);
+    } else if (currentMovable[0]) {
       currentMovable[0] = x + currentMovable._dx;
       currentMovable[1] = y + currentMovable._dy;
     } else {
       currentMovable.x = x + currentMovable._dx;
       currentMovable.y = y + currentMovable._dy;
     }
-    pointMoved = true;
+    hadMovable = true;
   }
 
   if (typeof pointerMove !== `undefined`) {
@@ -108,7 +114,7 @@ function __pointerMove(x, y) {
       pointerDrag(x, y);
     }
   }
-  if (pointMoved && !playing) redraw();
+  if (hadMovable && !playing) redraw();
 }
 
 [`touchmove`, `mousemove`].forEach((type) => {
@@ -119,7 +125,7 @@ function __pointerMove(x, y) {
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type });
-      if (!pointer.down) __checkForcurrentMovable(x, y, type);
+      if (!pointer.down) __checkForCurrentMovable(x, y, type);
       __pointerMove(x, y);
     }
   });

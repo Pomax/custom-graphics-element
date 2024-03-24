@@ -9,11 +9,14 @@ console.log(`
 
 const dirname = `graphics-element/api/parts`;
 const files = readdirSync(dirname);
+let recompiling = false;
 files.forEach((filename) => {
   console.log(`watching ${filename}`);
   watch(`${dirname}/${filename}`, () => {
-    // console.log(`change to ${filename}`);
+    if (recompiling) return;
+    recompiling = true;
+    console.log(`Recompiling... (change to ${filename})`);
     execSync(`npm run build`);
-    // console.log(`[Watch] ${new Date().toISOString()} Recompile finished`);
+    setTimeout(() => (recompiling = false), 1000);
   });
 });

@@ -1,7 +1,7 @@
 /**
  * ...docs go here...
  */
-class Path {
+class Segment {
   closed = false;
   ox = 0;
   oy = 0;
@@ -77,60 +77,69 @@ class Path {
  * ...code goes here...
  */
 class Shape {
-  paths = [];
-  dragging = false;
+  segments = [];
   resizable = false;
 
   constructor() {
-    this.newPath();
+    this.newSegment();
+  }
+
+  makeMovable(movable = true) {
+    if (movable) {
+      setMovable(this);
+    } else {
+      unsetMovable(this);
+    }
   }
 
   allowResizing(allowed = true) {
     this.resizable = allowed;
   }
 
-  newPath(close = false) {
-    const { paths } = this;
-    if (paths.length === 0) {
-      return paths.push(new Path());
+  close() {
+    this.segments.at(-1).close();
+  }
+
+  newSegment(close = false) {
+    const { segments } = this;
+    if (segments.length === 0) {
+      return segments.push(new Segment());
     }
-    const current = paths.at(-1);
+    const current = segments.at(-1);
     if (current?.points.length) {
       if (close) current.close();
-      paths.push(new Path());
+      segments.push(new Segment());
     }
   }
 
   add(x, y) {
-    const p = this.paths.at(-1).add(x, y);
+    const p = this.segments.at(-1).add(x, y);
     if (this.resizable) setMovable(p);
   }
 
-  offset(x, y, subpath = undefined) {
-    const { dragging, paths } = this;
-    if (!dragging) return;
-    if (subpath !== undefined) {
-      paths[subpath].offset(x, y);
+  offset(x, y, segmentId = undefined) {
+    const { segments } = this;
+    if (segmentId !== undefined) {
+      segments[segmentId].offset(x, y);
     } else {
-      paths.forEach((p) => p.offset(x, y));
+      segments.forEach((p) => p.offset(x, y));
     }
   }
 
   commit() {
-    this.paths.forEach((p) => p.commit());
-    this.dragging = false;
+    this.segments.forEach((p) => p.commit());
   }
 
   draw(showPoints = false) {
-    this.paths.forEach((p) => p.draw(showPoints));
+    this.segments.forEach((p) => p.draw(showPoints));
   }
 
   inside(x, y) {
-    return this.paths
-      .map((p, pathId) => {
-        p.pathId = pathId;
-        return p;
+    return this.segments
+      .map((s, id) => {
+        s.id = id;
+        return s;
       })
-      .filter((p) => p.inside(x, y));
+      .filter((s) => s.inside(x, y));
   }
 }

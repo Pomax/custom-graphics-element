@@ -442,12 +442,6 @@ declare function clear(color?: color): void;
  */
 declare function end(close?: boolean): void;
 /**
- * Clear the current shape, optionally closing it.
- *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#endShape
- */
-declare function endShape(close?: boolean): Shape;
-/**
  * Draw an image in a given location with an optional
  *  width and height. If omitted, the width and height
  *  will be the image's own dimensions. Note that the
@@ -479,12 +473,6 @@ declare function image(
  */
 declare function line(x1: number, y1: number, x2: number, y2: number): void;
 declare function line(p1: PointLike, p2: PointLike): void;
-/**
- * Start a new sub path in a shape.
- *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#newPath
- */
-declare function newPath(close?: boolean): void;
 /**
  * Plot a y=f(x) function. The input to the function
  *  will span the interval [a,b] using the indicated
@@ -564,12 +552,6 @@ declare function spline(
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#start
  */
 declare function start(): void;
-/**
- * Start a new shape.
- *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
- */
-declare function startShape(): Shape;
 /**
  * Draw some text to the screen. Its placement is
  *  determined by both the coordinate provided, and
@@ -1036,6 +1018,12 @@ declare function tanh(input: number): number;
  */
 declare function trunc(input: number): number;
 /**
+ * Get the binomial coefficient (n choose k).
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#binomial
+ */
+declare function binomial(n: number, k: number): number;
+/**
  * Constrain a number to within a given range.
  *  This is really nothing more than a convenient
  *  function wrapper around the statement:
@@ -1183,6 +1171,24 @@ declare function randomSeed(seed?: number): void;
  */
 declare function sec(value: number): number;
 /**
+ * Invert a matrix, or undefined if the matrix is not invertible.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#invertMatrix
+ */
+declare function invertMatrix(M: Matrix): number[][];
+/**
+ * Multiply two matrices
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#multiplyMatrix
+ */
+declare function multiplyMatrix(m1: Matrix, m2: Matrix): number[][];
+/**
+ * Transpose a matrix
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#transposeMatrix
+ */
+declare function transposeMatrix(M: Matrix): number[][];
+/**
  * Project a 3D coordinate to 2D.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#project
@@ -1327,6 +1333,24 @@ declare function setTextAlign(xAlign: string, yAlign: string): void;
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#setTextStroke
  */
 declare function setTextStroke(color: string, width?: number): void;
+/**
+ * Start a new shape.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
+ */
+declare function startShape(): Shape;
+/**
+ * Clear the current shape, optionally closing it.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#endShape
+ */
+declare function endShape(close?: boolean): Shape;
+/**
+ * Start a new sub path in a shape.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#newSegment
+ */
+declare function newSegment(close?: boolean): void;
 /**
  * Centers the coordinate system on your graphic.
  *  This is equivalent to calling:

@@ -376,20 +376,6 @@ function end(close = false) {
 }
 
 /**
- * Clear the current shape, optionally closing it.
- *
- * @param {boolean} close? When used, closes the shape's current subpath.
- * @returns {Shape} The shape that got closed
- *
- * @see {@link end}
- */
-function endShape(close = false) {
-  if (__shape && close) __shape.close();
-  return __shape;
-  __shape = false;
-}
-
-/**
  * Draw an image in a given location with an optional
  * width and height. If omitted, the width and height
  * will be the image's own dimensions. Note that the
@@ -478,18 +464,6 @@ function line(x1, y1, x2, y2) {
   vertex(x1, y1);
   vertex(x2, y2);
   end();
-}
-
-/**
- * Start a new sub path in a shape.
- *
- * @param {boolean} close? Closes the current subpath before opening a new one (default = true)
- *
- * @see {@link startShape}
- * @see {@link endShape}
- */
-function newPath(close = true) {
-  __shape.newPath(close);
 }
 
 /**
@@ -834,42 +808,6 @@ function start() {
   }
   __ctx.beginPath();
   __first = false;
-}
-
-/**
- * Start a new shape.
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     let shape;
- *     function setup() {
- *       setSize(200, 200);
- *       shape = startShape();
- *       setMovable(shape);
- *     }
- *     function draw() {
- *       clear(`white`);
- *       setStroke(`black`);
- *       setFill(`gold`);
- *       start();
- *       vertex(0,height/2);
- *       vertex(width/2, 0);
- *       vertex(width, height/2);
- *       vertex(width/2, height);
- *       end(true);
- *     }
- *
- *   </graphics-source>
- * </graphics-element>
- *
- * @returns {Shape} the newly created shape object
- *
- * @see {@link start}
- */
-function startShape() {
-  return (__shape = new Shape());
 }
 
 /**

@@ -43,6 +43,7 @@ When working on the code, the following `npm` tasks are available:
 - `npm test` runs everything.
 - `npm run types` generates the `dist/graphics-element.d.ts` file, as well as the `api.html` file.
 - `npm build` compiles the `dist/graphics-element.js` and `dist/graphics-element.css` files
+- `npm run fallback` generates all the fallback images for every `<graphics-element>` on the website.
 
 ### What lives where
 

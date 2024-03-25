@@ -208,9 +208,11 @@ function screenToWorld(x, y) {
 /**
  * Set the current transform matrix, based on applying:
  *
+ * ```
  *       | a b c |
  *   m = | d e f |
  *       | 0 0 1 |
+ * ```
  *
  * With the parameters defaulting to the identity matrix.
  *

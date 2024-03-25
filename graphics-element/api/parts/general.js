@@ -1,6 +1,6 @@
 /**
  * Create an array of specified length, optionally filled using a
- * that takes an index as single input argument function.
+ * function that takes the element index as single input argument.
  *
  * Example:
  *
@@ -53,7 +53,7 @@ function array(len, fillFunction) {
  *     }
  *
  *     function pointerDown(x,y) {
- *       if (currentPoint) return;
+ *       if (currentMovable) return;
  *       const p = new Point(x,y);
  *       points.push(p);
  *       setMovable(p);
@@ -149,11 +149,8 @@ function find(qs) {
  * that match a given query selector. This is equivalent to:
  *
  * ```
- * yourElement.querySelectorAll(qs)
+ * Array.from(yourElement.querySelectorAll(qs))
  * ```
- *
- * Note that this function does _not_ return a NodeList
- * and instead returns a plain array.
  *
  * @param {string} querySelector A query selector
  * @returns {HTMLElement[]} An array with all matching elements, [] if there were no matches.
@@ -234,7 +231,7 @@ function highlight(color) {
  *     }
  *
  *     function pointerDown(x,y) {
- *       if (currentPoint) return;
+ *       if (currentMovable) return;
  *       const p = new Point(x,y);
  *       points.push(p);
  *       setMovable(p);

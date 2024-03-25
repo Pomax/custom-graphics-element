@@ -1,5 +1,5 @@
-function __checkForCurrentPoint(x, y, type) {
-  currentPoint = false;
+function __checkForCurrentMovable(x, y, type) {
+  currentMovable = false;
 
   if (!__movable_points.length) return;
 
@@ -7,11 +7,17 @@ function __checkForCurrentPoint(x, y, type) {
   const matchPadding = type.includes(`mouse`) ? 10 : 30;
 
   __movable_points.forEach((p, pos) => {
-    let x2 = p[0] === undefined ? p.x : p[0];
-    let y2 = p[1] === undefined ? p.y : p[1];
-    const d = dist(x, y, x2, y2);
-    if (d < (p.r ? p.r : 0) + matchPadding) {
-      matches.push({ p, d });
+    if (p instanceof Shape) {
+      if (p.inside(x, y).length > 0) {
+        matches.push({ p, d: 0 });
+      }
+    } else {
+      let x2 = p[0] === undefined ? p.x : p[0];
+      let y2 = p[1] === undefined ? p.y : p[1];
+      const d = dist(x, y, x2, y2);
+      if (d < (p.r ? p.r : 0) + matchPadding) {
+        matches.push({ p, d });
+      }
     }
   });
 
@@ -19,7 +25,7 @@ function __checkForCurrentPoint(x, y, type) {
 
   if (matches.length) {
     matches.sort((a, b) => a.d - b.d);
-    currentPoint = matches[0].p;
+    currentMovable = matches[0].p;
     __canvas.style.cursor = `pointer`;
   }
 }
@@ -39,9 +45,11 @@ function __toPointerEvent(evt) {
 }
 
 function __pointerDown(x, y) {
-  if (currentPoint) {
-    currentPoint._dx = currentPoint.x - x;
-    currentPoint._dy = currentPoint.y - y;
+  if (currentMovable instanceof Shape) {
+    // don't do anything special.
+  } else {
+    currentMovable._dx = currentMovable.x - x;
+    currentMovable._dy = currentMovable.y - y;
   }
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 }
@@ -54,7 +62,7 @@ function __pointerDown(x, y) {
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type, down: true, mark: { x, y } });
-      __checkForCurrentPoint(x, y, type);
+      __checkForCurrentMovable(x, y, type);
       __pointerDown(x, y);
     }
   });
@@ -64,6 +72,9 @@ function __pointerUp(x, y) {
   if (typeof pointerUp !== `undefined`) pointerUp(x, y);
   if (pointer.mark?.x === x && pointer.mark?.y === y) {
     if (typeof pointerClick !== `undefined`) pointerClick(x, y);
+  }
+  if (currentMovable && currentMovable instanceof Shape) {
+    currentMovable.commit();
   }
 }
 
@@ -81,16 +92,18 @@ function __pointerUp(x, y) {
 });
 
 function __pointerMove(x, y) {
-  let pointMoved = false;
-  if (pointer.down && currentPoint) {
-    if (currentPoint[0]) {
-      currentPoint[0] = x + currentPoint._dx;
-      currentPoint[1] = y + currentPoint._dy;
+  let hadMovable = false;
+  if (pointer.down && currentMovable) {
+    if (currentMovable instanceof Shape) {
+      currentMovable.offset(x - pointer.mark.x, y - pointer.mark.y);
+    } else if (currentMovable[0]) {
+      currentMovable[0] = x + currentMovable._dx;
+      currentMovable[1] = y + currentMovable._dy;
     } else {
-      currentPoint.x = x + currentPoint._dx;
-      currentPoint.y = y + currentPoint._dy;
+      currentMovable.x = x + currentMovable._dx;
+      currentMovable.y = y + currentMovable._dy;
     }
-    pointMoved = true;
+    hadMovable = true;
   }
 
   if (typeof pointerMove !== `undefined`) {
@@ -101,7 +114,7 @@ function __pointerMove(x, y) {
       pointerDrag(x, y);
     }
   }
-  if (pointMoved && !playing) redraw();
+  if (hadMovable && !playing) redraw();
 }
 
 [`touchmove`, `mousemove`].forEach((type) => {
@@ -112,7 +125,7 @@ function __pointerMove(x, y) {
       const { offsetX, offsetY } = __toPointerEvent(evt);
       const { x, y } = screenToWorld(offsetX, offsetY);
       Object.assign(pointer, { x, y, type });
-      if (!pointer.down) __checkForCurrentPoint(x, y, type);
+      if (!pointer.down) __checkForCurrentMovable(x, y, type);
       __pointerMove(x, y);
     }
   });

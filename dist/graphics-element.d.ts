@@ -168,9 +168,9 @@ declare const pointer: object;
  *  that movable point, or `false` if the pointer is not near
  *  any movable point (or, of course, there are no movable points)
  *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#currentPoint
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#currentMovable
  */
-declare const currentPoint: PointLike | false;
+declare const currentMovable: PointLike | false;
 /**
  * The `keyboard` object is a truth table that can be checked to
  *  see if any key is currently pressed, and if so, when that
@@ -220,7 +220,7 @@ declare const epsilon: number;
  */
 declare const huge: number;
 /**
- * The ratio of a circle's circumference to its radius.
+ * The ratio of a circle's circumference to its radius, i.e. 2*PI
  *
  *  See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
  *
@@ -289,8 +289,8 @@ declare function noTextStroke(): void;
  *
  *  The options object accepts the following properties and values:
  *
- *  - min:number - the slider's minimum value, defaults to 0
- *  - max:number - the slider's maximum value, defaults to 1
+ *  - min - the slider's minimum value, defaults to 0
+ *  - max - the slider's maximum value, defaults to 1
  *  - step - the step size, defaults to (max - min)/10
  *  - value - the initial value, defaults to (max + min)/2
  *  - classes - the CSS classes that will be used, defaults to `"slider"`
@@ -615,7 +615,7 @@ declare function vertex(x: number, y: number): void;
 declare function vertex(p: PointLike): void;
 /**
  * Create an array of specified length, optionally filled using a
- *  that takes an index as single input argument function.
+ *  function that takes the element index as single input argument.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#array
  */
@@ -660,11 +660,8 @@ declare function find(querySelector: string): HTMLElement | null;
  *  that match a given query selector. This is equivalent to:
  *
  *  ```
- *  yourElement.querySelectorAll(qs)
+ *  Array.from(yourElement.querySelectorAll(qs))
  *  ```
- *
- *  Note that this function does _not_ return a NodeList
- *  and instead returns a plain array.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#findAll
  */
@@ -964,7 +961,7 @@ declare function round(input: number): number;
  */
 declare function sign(input: number): number;
 /**
- * The cosine function
+ * The sine function
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#sin
  */
@@ -1017,6 +1014,12 @@ declare function tanh(input: number): number;
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#trunc
  */
 declare function trunc(input: number): number;
+/**
+ * Get the binomial coefficient (n choose k).
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#binomial
+ */
+declare function binomial(n: number, k: number): number;
 /**
  * Constrain a number to within a given range.
  *  This is really nothing more than a convenient
@@ -1075,6 +1078,34 @@ declare function degrees(value: number, constrain?: boolean): number;
  */
 declare function dist(x1: number, y1: number, x2: number, y2: number): number;
 declare function dist(p1: PointLike, p2: PointLike): number;
+/**
+ * Performs a line/line intersection test give either four points
+ *  defining the lines (p1--p2) and (p3--p4), or eight coordinates
+ *  spanning lines (x1,y1)--(x2,y2) and (x3,y3)--(x4,y4).
+ *
+ *  This function covers both "line/line" and "segment"/"segment"
+ *  testing by setting a boolean value `inBounds` on the result:
+ *  when false, there is only a line/line intersection, but when
+ *  true, the actual line segments intersect.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#lli
+ */
+declare function lli(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  x3: number,
+  y3: number,
+  x4: number,
+  y4: number,
+): PointLike | false;
+declare function lli(
+  p1: PointLine,
+  p2: PointLine,
+  p3: PointLine,
+  p4: PointLine,
+): PointLike | false;
 /**
  * Map a value from one interval to another, optionally
  *  constrained to the target interval.
@@ -1136,6 +1167,24 @@ declare function randomSeed(seed?: number): void;
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#sec
  */
 declare function sec(value: number): number;
+/**
+ * Invert a matrix, or undefined if the matrix is not invertible.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#invertMatrix
+ */
+declare function invertMatrix(M: Matrix): number[][];
+/**
+ * Multiply two matrices
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#multiplyMatrix
+ */
+declare function multiplyMatrix(m1: Matrix, m2: Matrix): number[][];
+/**
+ * Transpose a matrix
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#transposeMatrix
+ */
+declare function transposeMatrix(M: Matrix): number[][];
 /**
  * Project a 3D coordinate to 2D.
  *
@@ -1282,6 +1331,44 @@ declare function setTextAlign(xAlign: string, yAlign: string): void;
  */
 declare function setTextStroke(color: string, width?: number): void;
 /**
+ * Start a new shape. This yields a `Shape` object with the following API
+ *
+ *  - `makeMovable(movable?: boolean)` - allow this shape to be moved around with the pointer (`movable` is true if omitted)
+ *  - `allowResizing(allowed?: boolean)` - allow the points that make up this shape to be moved around (`allowed` is true if omitted)
+ *
+ *  - `add(x, y)` - add a point to the shape's current segment.
+ *  - `close()` - close the current segment so no new points can be added.
+ *  - `newSegment(closeExisting?: boolean)` - start a new segment in this shape, w
+ *
+ *  - `offset(x, y)` - (temporarily) move this shape by (x,y)
+ *  - `commit()` - commit the offset as real coordinates.
+ *  - `reset()` - reset the shape to having no offset.
+ *
+ *  - `draw(showPoints?)` - draws the shape using the current stroke and fill settings.
+ *  - `inside(x, y): segment[]` - returns the list of all segments that (x,y) is inside of.
+ *
+ *  Note that shapes do not perform any sort of boolean operations, and
+ *  defining a shape with a cutout is not possible. You'll want to use
+ *  SVG images for that, instead. E.g. create an SVG data uri, then use
+ *  that as `src` for an Image and draw that image using the `image()`
+ *  function.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
+ */
+declare function startShape(): Shape;
+/**
+ * Clear the current shape, optionally closing it.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#endShape
+ */
+declare function endShape(close?: boolean): Shape;
+/**
+ * Start a new segment in a shape.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#newSegment
+ */
+declare function newSegment(close?: boolean): void;
+/**
  * Centers the coordinate system on your graphic.
  *  This is equivalent to calling:
  *
@@ -1321,9 +1408,11 @@ declare function screenToWorld(p: PointLike): PointLike;
 /**
  * Set the current transform matrix, based on applying:
  *
+ *  ```
  *        | a b c |
  *    m = | d e f |
  *        | 0 0 1 |
+ *  ```
  *
  *  With the parameters defaulting to the identity matrix.
  *

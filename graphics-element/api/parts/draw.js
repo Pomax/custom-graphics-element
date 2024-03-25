@@ -364,6 +364,7 @@ function clear(color = `white`) {
  *
  * @see {@link start}
  * @see {@link vertex}
+ * @see {@link endShape}
  */
 function end(close = false) {
   if (close) __ctx.closePath();
@@ -799,6 +800,7 @@ function spline(...args) {
  *
  * @see {@link end}
  * @see {@link vertex}
+ * @see {@link startShape}
  */
 function start() {
   if (__ctx.lineWidth % 2 === 1) {

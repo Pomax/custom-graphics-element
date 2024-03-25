@@ -3,8 +3,7 @@ import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
 import { Point, Circle } from "./api/types/point.js";
 import { Vector } from "./api/types/vector.js";
-import { Matrix } from "./api/types/matrix.js";
-export { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP };
+export { BSpline, Point, Circle, Vector, CSS_COLOR_MAP };
 
 import {
   base64,
@@ -176,7 +175,7 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     const module = base64(
       [
         `"use strict";`,
-        `import { BSpline, Point, Circle, Vector, Matrix, CSS_COLOR_MAP } from "${thisURL}";`,
+        `import { BSpline, Point, Circle, Vector, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         sourceCode,

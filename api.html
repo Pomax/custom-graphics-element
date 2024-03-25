@@ -62,12 +62,12 @@
     </p>
 
     <section id="toc">
-      <h4 class="sep">functions</h4>
+      <h4 class="sep">constants</h4>
       <ul>
         <li><a href="#E" class="const">E</a></li>
         <li><a href="#PI" class="const">PI</a></li>
         <li><a href="#TAU" class="const">TAU</a></li>
-        <li><a href="#currentPoint" class="const">currentPoint</a></li>
+        <li><a href="#currentMovable" class="const">currentMovable</a></li>
         <li><a href="#epsilon" class="const">epsilon</a></li>
         <li><a href="#frame" class="const">frame</a></li>
         <li><a href="#frameDelta" class="const">frameDelta</a></li>
@@ -150,6 +150,7 @@
         <li><a href="#atan" class="fn">atan</a></li>
         <li><a href="#atan2" class="fn">atan2</a></li>
         <li><a href="#atanh" class="fn">atanh</a></li>
+        <li><a href="#binomial" class="fn">binomial</a></li>
         <li><a href="#cbrt" class="fn">cbrt</a></li>
         <li><a href="#ceil" class="fn">ceil</a></li>
         <li><a href="#clz32" class="fn">clz32</a></li>
@@ -165,6 +166,7 @@
         <li><a href="#fround" class="fn">fround</a></li>
         <li><a href="#hypot" class="fn">hypot</a></li>
         <li><a href="#imul" class="fn">imul</a></li>
+        <li><a href="#lli" class="fn">lli</a></li>
         <li><a href="#ln" class="fn">ln</a></li>
         <li><a href="#log" class="fn">log</a></li>
         <li><a href="#log2" class="fn">log2</a></li>
@@ -184,6 +186,12 @@
         <li><a href="#tan" class="fn">tan</a></li>
         <li><a href="#tanh" class="fn">tanh</a></li>
         <li><a href="#trunc" class="fn">trunc</a></li>
+      </ul>
+      <h4 class="sep">matrix functions</h4>
+      <ul>
+        <li><a href="#invertMatrix" class="fn">invertMatrix</a></li>
+        <li><a href="#multiplyMatrix" class="fn">multiplyMatrix</a></li>
+        <li><a href="#transposeMatrix" class="fn">transposeMatrix</a></li>
       </ul>
       <h4 class="sep">projection functions</h4>
       <ul>
@@ -208,6 +216,12 @@
         <li><a href="#setStroke" class="fn">setStroke</a></li>
         <li><a href="#setTextAlign" class="fn">setTextAlign</a></li>
         <li><a href="#setTextStroke" class="fn">setTextStroke</a></li>
+      </ul>
+      <h4 class="sep">shape functions</h4>
+      <ul>
+        <li><a href="#endShape" class="fn">endShape</a></li>
+        <li><a href="#newSegment" class="fn">newSegment</a></li>
+        <li><a href="#startShape" class="fn">startShape</a></li>
       </ul>
       <h4 class="sep">transform functions</h4>
       <ul>
@@ -241,7 +255,13 @@
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/88babac218b2c43d75ef58503298ac94.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -310,9 +330,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse cosine (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -366,7 +384,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/68f02f7c097c976020c47c2d98620087.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const colors = [`white`, `black`];
 let bgColor = 0;
@@ -441,8 +465,8 @@ function draw() {
       </p>
       <p>The options object accepts the following properties and values:</p>
       <ul>
-        <li>min:number - the slider&#39;s minimum value, defaults to 0</li>
-        <li>max:number - the slider&#39;s maximum value, defaults to 1</li>
+        <li>min - the slider&#39;s minimum value, defaults to 0</li>
+        <li>max - the slider&#39;s maximum value, defaults to 1</li>
         <li>step - the step size, defaults to (max - min)/10</li>
         <li>value - the initial value, defaults to (max + min)/2</li>
         <li>
@@ -461,7 +485,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/9a9d8c8a6eee6d2b73baefe06c0b18a6.png"
+      width="420px"
+      height="267px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(400, 200);
@@ -566,7 +596,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/b4c0d2ba9010aa950ba9dfb982a68e8f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -608,13 +644,19 @@ function draw() {
       </ul>
       <h3>Description</h3>
       <p>
-        Create an array of specified length, optionally filled using a that
-        takes an index as single input argument function.
+        Create an array of specified length, optionally filled using a function
+        that takes the element index as single input argument.
       </p>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/9f2a92d0df9a0ffe0bac19d23a339116.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -644,7 +686,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The inverse sine (<code>number</code>)</p>
+          <p>returns the inverse sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -665,9 +707,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse sine (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -695,7 +735,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The inverse tangent (<code>number</code>)</p>
+          <p>returns the inverse tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -716,8 +756,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The atan2 angle for this number pair
-            (<code>number</code>)
+            returns the atan2 angle for this number pair (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -739,9 +778,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse tangent (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -814,7 +851,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/35e7ef771ef109d08d54b2b5a1ddb59b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -913,7 +956,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/e29b75e2e1ae17524dc906259ea23267.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -962,6 +1011,24 @@ function draw() {
       </ul>
     </section>
 
+    <section id="binomial">
+      <h1><a href="#binomial">binomial</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>binomial(n: number, k: number): number</code>
+          <ul class="params">
+            <li><code>n</code> - A positive integer</li>
+            <li>
+              <code>k</code> - A positive integer less than or equal to `n`
+            </li>
+          </ul>
+          <p>returns the value (n choose k) (<code>number</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Get the binomial coefficient (n choose k).</p>
+    </section>
+
     <section id="bspline">
       <h1><a href="#bspline">bspline</a> <a href="#top">top</a></h1>
       <ol class="signatures">
@@ -1003,7 +1070,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/75395681c6f899131f09ad59448e3bb3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -1063,8 +1136,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The (real) cube root of that number
-            (<code>number</code>)
+            returns the (real) cube root of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -1086,8 +1158,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding up.
-            (<code>number</code>)
+            returns the integer result after rounding up. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -1119,7 +1190,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/f8e832561ddc1a719fd2d01ecedf3b63.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -1183,7 +1260,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/43ff991b37e7be92135339f95da5fff4.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -1229,7 +1312,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/7ba5012430a95a6d2af0d3bdc46b3316.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`pink`);
@@ -1256,7 +1345,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/c6a17ec5dcc4e389781acce14af30577.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -1313,7 +1408,13 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/98c8cadc651b8688854faf871eb8fd1d.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -1334,7 +1435,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -1362,7 +1463,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -1389,7 +1490,13 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/3ac5f8c2d09b4f2bbef199664a22a887.png"
+      width="250px"
+      height="267px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -1442,7 +1549,7 @@ function pointerDown() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The number of leading zero bits in the 32-bit binary
+            returns the number of leading zero bits in the 32-bit binary
             representation of that number. (<code>number</code>)
           </p>
         </li>
@@ -1476,7 +1583,13 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/0dc82000cd4fa88bb16344511e96e070.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(color(45, 80, 90));
@@ -1547,7 +1660,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/abba7b3cfa4b8500f1e2706aa6fbb8a2.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`pink`);
@@ -1589,7 +1708,7 @@ function pointerDown(x, y) {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The cosine (<code>number</code>)</p>
+          <p>returns the cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -1609,7 +1728,7 @@ function pointerDown(x, y) {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic cosine (<code>number</code>)</p>
+          <p>returns the hyperbolic cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -1673,8 +1792,10 @@ function pointerDown(x, y) {
       </ul>
     </section>
 
-    <section id="currentPoint">
-      <h1><a href="#currentPoint">currentPoint</a> <a href="#top">top</a></h1>
+    <section id="currentMovable">
+      <h1>
+        <a href="#currentMovable">currentMovable</a> <a href="#top">top</a>
+      </h1>
       <code class="const">constant</code>
       <h3>Description</h3>
       <p>
@@ -1795,7 +1916,13 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a14a80d1240251c74ffa8a96c3f96f1c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -1827,6 +1954,30 @@ function draw() {
       <ul>
         <li><a href="#start">start</a></li>
         <li><a href="#vertex">vertex</a></li>
+        <li><a href="#endShape">endShape</a></li>
+      </ul>
+    </section>
+
+    <section id="endShape">
+      <h1><a href="#endShape">endShape</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>endShape(close?: boolean): Shape</code>
+          <ul class="params">
+            <li>
+              <code>close?</code> - When used, closes the shape's current
+              segment.
+            </li>
+          </ul>
+          <p>returns the shape that got closed (<code>Shape</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Clear the current shape, optionally closing it.</p>
+
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#startShape">startShape</a></li>
       </ul>
     </section>
 
@@ -1849,7 +2000,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The value of E raised to that number's power
+            returns the value of E raised to that number's power
             (<code>number</code>)
           </p>
         </li>
@@ -1905,12 +2056,8 @@ function draw() {
         Find all HTML elements inside your graphics-element that match a given
         query selector. This is equivalent to:
       </p>
-      <pre><code>yourElement.querySelectorAll(qs)
+      <pre><code>Array.from(yourElement.querySelectorAll(qs))
 </code></pre>
-      <p>
-        Note that this function does <em>not</em> return a NodeList and instead
-        returns a plain array.
-      </p>
     </section>
 
     <section id="floor">
@@ -1922,7 +2069,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding down.
+            returns the integer result after rounding down.
             (<code>number</code>)
           </p>
         </li>
@@ -1960,8 +2107,8 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The number after rounding to the nearest 32 bit
-            floating point representation. (<code>number</code>)
+            returns the number after rounding to the nearest 32 bit floating
+            point representation. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2007,7 +2154,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/b720ba4b9ec8aa67c695b78e371ac49e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -2072,8 +2225,7 @@ function pointerActive(state) {
             <li><code>...input</code> - Two or more numbers</li>
           </ul>
           <p>
-            returns output The hypotenuse given those numbers.
-            (<code>number</code>)
+            returns the hypotenuse given those numbers. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2132,7 +2284,13 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a74b5076b04ef017482bb60ee9b487f1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 async function draw() {
   clear(`white`);
@@ -2158,13 +2316,30 @@ async function draw() {
             <li><code>b</code> - Any 32 bit integer</li>
           </ul>
           <p>
-            returns output The 32 bit integer result of a * b
-            (<code>number</code>)
+            returns the 32 bit integer result of a * b (<code>number</code>)
           </p>
         </li>
       </ul>
       <h3>Description</h3>
       <p>The 32 bit integer multiplication function.</p>
+    </section>
+
+    <section id="invertMatrix">
+      <h1><a href="#invertMatrix">invertMatrix</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>invertMatrix(M: Matrix): number[][]</code>
+          <ul class="params">
+            <li><code>M</code> - The matrix to invert</li>
+          </ul>
+          <p>
+            returns the matrix inverse as 2D number array
+            (<code>number[][]</code>)
+          </p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Invert a matrix, or undefined if the matrix is not invertible.</p>
     </section>
 
     <section id="isMovable">
@@ -2188,7 +2363,13 @@ async function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/98c8cadc651b8688854faf871eb8fd1d.png"
+      width="220px"
+      height="260px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -2209,7 +2390,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -2237,7 +2418,7 @@ function draw() {
 }
 
 function pointerDown(x, y) {
-  if (currentPoint) return;
+  if (currentMovable) return;
   const p = new Point(x, y);
   points.push(p);
   setMovable(p);
@@ -2295,7 +2476,13 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/5b5f9cec48a4c1af2324216b26fafe74.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2313,6 +2500,86 @@ function draw() {
 </code></pre>
     </section>
 
+    <section id="lli">
+      <h1><a href="#lli">lli</a> <a href="#top">top</a></h1>
+      <ol class="signatures">
+        <li>
+          <code
+            >lli(x1: number, y1: number, x2: number, y2: number, x3: number, y3:
+            number, x4: number, y4: number): PointLike|false</code
+          >
+          <ul class="params">
+            <li><code>x1</code> - The first point's x coordinate</li>
+            <li><code>y1</code> - The first point's y coordinate</li>
+            <li><code>x2</code> - The second point's x coordinate</li>
+            <li><code>y2</code> - The second point's y coordinate</li>
+            <li><code>x3</code> - The third point's x coordinate</li>
+            <li><code>y3</code> - The third point's y coordinate</li>
+            <li><code>x4</code> - The fourth point's x coordinate</li>
+            <li><code>y4</code> - The fourth point's y coordinate</li>
+          </ul>
+          <p>
+            returns either the intersection point, or false if there is no
+            intersection (<code>PointLike|false</code>)
+          </p>
+        </li>
+        <li>
+          <code
+            >lli(p1: PointLine, p2: PointLine, p3: PointLine, p4: PointLine):
+            PointLike|false</code
+          >
+          <ul class="params">
+            <li><code>p1</code> - The first coordinate</li>
+            <li><code>p2</code> - The second coordinate</li>
+            <li><code>p3</code> - The third coordinate</li>
+            <li><code>p4</code> - The fourth coordinate</li>
+          </ul>
+          <p>
+            returns either the intersection point, or false if there is no
+            intersection (<code>PointLike|false</code>)
+          </p>
+        </li>
+      </ol>
+      <h3>Description</h3>
+      <p>
+        Performs a line/line intersection test give either four points defining
+        the lines (p1--p2) and (p3--p4), or eight coordinates spanning lines
+        (x1,y1)--(x2,y2) and (x3,y3)--(x4,y4).
+      </p>
+      <p>
+        This function covers both &quot;line/line&quot; and
+        &quot;segment&quot;/&quot;segment&quot; testing by setting a boolean
+        value <code>inBounds</code> on the result: when false, there is only a
+        line/line intersection, but when true, the actual line segments
+        intersect.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/d788813a5a74c8b6edbd11e130ce51dd.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+              <graphics-source>
+function draw() {
+  clear();
+  center();
+  // ...code goes here...
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">function draw() {
+  clear();
+  center();
+  // ...code goes here...
+}
+</code></pre>
+    </section>
+
     <section id="ln">
       <h1><a href="#ln">ln</a> <a href="#top">top</a></h1>
       <ul class="signatures">
@@ -2322,8 +2589,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The natural logarithm of that number
-            (<code>number</code>)
+            returns the natural logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2350,8 +2616,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The common logarithm of that number
-            (<code>number</code>)
+            returns the common logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2379,8 +2644,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The base 2 logarithm of that number
-            (<code>number</code>)
+            returns the base 2 logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2414,7 +2678,8 @@ function draw() {
             </li>
             <li>
               <code>constrain?</code> - A boolean that determines whether or not
-              to constrain the resultant value to [0,360] (default = false)
+              to constrain the resultant value to [newStart,newEnd] (default =
+              false)
             </li>
           </ul>
           <p>
@@ -2446,7 +2711,7 @@ function draw() {
             <li><code>...input</code> - Any two or more numbers</li>
           </ul>
           <p>
-            returns output The highest valued number from among the input.
+            returns the highest valued number from among the input.
             (<code>number</code>)
           </p>
         </li>
@@ -2477,7 +2742,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/16d655a2239489b4701a51abc5c0cd02.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -2520,7 +2791,7 @@ function draw() {
             <li><code>...input</code> - Any two or more numbers</li>
           </ul>
           <p>
-            returns output The lowest valued number from among the input.
+            returns the lowest valued number from among the input.
             (<code>number</code>)
           </p>
         </li>
@@ -2531,6 +2802,50 @@ function draw() {
       <h3>See also:</h3>
       <ul>
         <li><a href="#max">max</a></li>
+      </ul>
+    </section>
+
+    <section id="multiplyMatrix">
+      <h1>
+        <a href="#multiplyMatrix">multiplyMatrix</a> <a href="#top">top</a>
+      </h1>
+      <ul class="signatures">
+        <li>
+          <code>multiplyMatrix(m1: Matrix, m2: Matrix): number[][]</code>
+          <ul class="params">
+            <li><code>m1</code> -</li>
+            <li><code>m2</code> -</li>
+          </ul>
+          <p>
+            returns the result of m1 * m2 as 2D number array
+            (<code>number[][]</code>)
+          </p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Multiply two matrices</p>
+    </section>
+
+    <section id="newSegment">
+      <h1><a href="#newSegment">newSegment</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>newSegment(close?: boolean)</code>
+          <ul class="params">
+            <li>
+              <code>close?</code> - Closes the current segment before opening a
+              new one (default = true)
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Start a new segment in a shape.</p>
+
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#startShape">startShape</a></li>
+        <li><a href="#endShape">endShape</a></li>
       </ul>
     </section>
 
@@ -2547,7 +2862,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/408f4fc8face1bca2bdef859a5aa92b3.png"
+      width="228px"
+      height="246px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -2616,7 +2937,13 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/6ce7790aee5afd5c21b0746693a03c0b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2661,7 +2988,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/802e23623831cc813c6b602f6301cd82.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2716,7 +3049,13 @@ function pointerMove(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/52b32a905ca4108342311f261d947df1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2765,7 +3104,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/d0257fa1925990ec24c7cfa1a61adc5e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2824,7 +3169,13 @@ function pointerDown(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a1c94714bc6b2efc9383ab15d5db7ae0.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2873,7 +3224,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/51f006f4876446f95c5736ea398526c3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2924,7 +3281,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/58613e13db33ba34618bfec4224b0515.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -2975,7 +3338,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/7068edd01222514fe11706b26c4c9aeb.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -3064,7 +3433,13 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/81fb6d07f5e9a578934ebfea9fdcd9d5.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 let fps = 0;
 let checked = false;
@@ -3189,7 +3564,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/596b64418e3cff5873afd84604e0793e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3253,7 +3634,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/55255868bc74e4080692ed84524a5f09.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3319,7 +3706,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/9a51c7c1d3d1d3239915eeffe1280b25.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3433,7 +3826,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/dc94ade94b820906fda209ef230ed177.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -3569,7 +3968,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/d92ca9c00b8a5744b0af06611c841662.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3621,7 +4026,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/4852ad37c2d849c6fe35114981ff616b.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(randomColor());
@@ -3703,7 +4114,13 @@ function pointerDown() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/b12fc3ac9e7ea4165f40f732d6e0e88f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3750,7 +4167,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a9e0ec91e4f7810fc0c428c01d19e78f.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -3787,7 +4210,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/d78d1ebd0358ec87a43cfa217dfd6312.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   const h = map(pointer.x, 0, width, 0, 360);
@@ -3828,7 +4257,13 @@ function pointerMove() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/88d16bedfe59de32f7cce303ce06d9ca.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -3914,7 +4349,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/7bf02ab7ecaffff75e957265829c5344.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -3976,7 +4417,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/bf6995b0812962ea8329d35c30572cec.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4051,7 +4498,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a41ce8b04c400bc39ef10f28d5580245.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4124,8 +4577,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding.
-            (<code>number</code>)
+            returns the integer result after rounding. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -4158,7 +4610,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/7bf02ab7ecaffff75e957265829c5344.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -4223,7 +4681,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/2d987c927bd47779adf6956eaee02d62.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4299,7 +4763,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/8dc7398a2cb41cfbc90b3e4b16f24348.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4398,7 +4868,13 @@ function pointerMove() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/522858d25d7c0dcdb8ca71ef94040ad4.png"
+      width="238px"
+      height="256px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4433,7 +4909,13 @@ function setup() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/3be4b53a60f113093a3ba5299384a1b3.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear();
@@ -4484,7 +4966,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/802e23623831cc813c6b602f6301cd82.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -4544,7 +5032,13 @@ function pointerMove(x, y) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/eabc9f2698fd5a1b7cf6ed0a3c1e43b1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear();
@@ -4641,7 +5135,7 @@ function draw() {
           <code>setFontWeight(val: number|string)</code>
           <ul class="params">
             <li>
-              <code>val</code> - The CSS weight number or either of the special
+              <code>val</code> - The CSS weight number or one of the special
               strings "normal", "bold", "bolder", or "lighter".
             </li>
           </ul>
@@ -4679,7 +5173,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/2395f1d2c7d8b00c3ac9f1c6b6372011.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4728,7 +5228,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/b720ba4b9ec8aa67c695b78e371ac49e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -4819,7 +5325,13 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/c72db2a20f06c1b7045f8d17b45fb1cf.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -4867,7 +5379,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/3863cd5f37bd1608a78b29776068728a.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -4944,7 +5462,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/dc94ade94b820906fda209ef230ed177.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -5026,7 +5550,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/f0f16836feedfced966128f07c53b412.png"
+      width="420px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(400, 200);
@@ -5084,7 +5614,13 @@ function pointerUp() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/eabc9f2698fd5a1b7cf6ed0a3c1e43b1.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear();
@@ -5160,7 +5696,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/f07a6cd70ddeab9e44d96bea0f81879d.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -5217,7 +5759,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/3e4a43e2b943a3046aa7f85af250a63e.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -5261,8 +5809,8 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output +1 if the number was positive, -1 if it was negative,
-            or 0 if the input was zero. (<code>number</code>)
+            returns +1 if the number was positive, -1 if it was negative, or 0
+            if the input was zero. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -5278,11 +5826,11 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The sine (<code>number</code>)</p>
+          <p>returns the sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
-      <p>The cosine function</p>
+      <p>The sine function</p>
 
       <h3>See also:</h3>
       <ul>
@@ -5298,7 +5846,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic sine (<code>number</code>)</p>
+          <p>returns the hyperbolic sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5360,7 +5908,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/32be62994921893ddbb4c659495475ea.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 const points = [];
 
@@ -5417,9 +5971,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The square root of that number (<code>number</code>)
-          </p>
+          <p>returns the square root of that number (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5450,7 +6002,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/a14a80d1240251c74ffa8a96c3f96f1c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -5482,6 +6040,142 @@ function draw() {
       <ul>
         <li><a href="#end">end</a></li>
         <li><a href="#vertex">vertex</a></li>
+        <li><a href="#startShape">startShape</a></li>
+      </ul>
+    </section>
+
+    <section id="startShape">
+      <h1><a href="#startShape">startShape</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>startShape(): Shape</code>
+          <ul class="params"></ul>
+          <p>returns the newly created shape object (<code>Shape</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Start a new shape. This yields a <code>Shape</code> object with the
+        following API
+      </p>
+      <ul>
+        <li>
+          <p>
+            <code>makeMovable(movable?: boolean)</code> - allow this shape to be
+            moved around with the pointer (<code>movable</code> is true if
+            omitted)
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>allowResizing(allowed?: boolean)</code> - allow the points
+            that make up this shape to be moved around (<code>allowed</code> is
+            true if omitted)
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>add(x, y)</code> - add a point to the shape&#39;s current
+            segment.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>close()</code> - close the current segment so no new points
+            can be added.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>newSegment(closeExisting?: boolean)</code> - start a new
+            segment in this shape, w
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>offset(x, y)</code> - (temporarily) move this shape by (x,y)
+          </p>
+        </li>
+        <li>
+          <p><code>commit()</code> - commit the offset as real coordinates.</p>
+        </li>
+        <li>
+          <p><code>reset()</code> - reset the shape to having no offset.</p>
+        </li>
+        <li>
+          <p>
+            <code>draw(showPoints?)</code> - draws the shape using the current
+            stroke and fill settings.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>inside(x, y): segment[]</code> - returns the list of all
+            segments that (x,y) is inside of.
+          </p>
+        </li>
+      </ul>
+      <p>
+        Note that shapes do not perform any sort of boolean operations, and
+        defining a shape with a cutout is not possible. You&#39;ll want to use
+        SVG images for that, instead. E.g. create an SVG data uri, then use that
+        as <code>src</code> for an Image and draw that image using the
+        <code>image()</code> function.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/04f142dc650ee8f866d6a01cb2a10ada.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
+              <graphics-source>
+let shape;
+function setup() {
+  setSize(200, 200);
+  shape = startShape();
+  shape.allowResizing();
+  shape.makeMovable();
+  shape.add(0, height / 2);
+  shape.add(width / 2, 0);
+  shape.add(width, height / 2);
+  shape.add(width / 2, height);
+  shape.close();
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  shape.draw(true);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">let shape;
+function setup() {
+  setSize(200, 200);
+  shape = startShape();
+  shape.allowResizing();
+  shape.makeMovable();
+  shape.add(0, height / 2);
+  shape.add(width / 2, 0);
+  shape.add(width, height / 2);
+  shape.add(width / 2, height);
+  shape.close();
+}
+function draw() {
+  clear(`white`);
+  setStroke(`black`);
+  setFill(`gold`);
+  shape.draw(true);
+}
+</code></pre>
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#endShape">endShape</a></li>
       </ul>
     </section>
 
@@ -5493,7 +6187,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The tangent (<code>number</code>)</p>
+          <p>returns the tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5508,7 +6202,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic tangent (<code>number</code>)</p>
+          <p>returns the hyperbolic tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5533,7 +6227,7 @@ function draw() {
       <h1><a href="#TAU">TAU</a> <a href="#top">top</a></h1>
       <code class="const">constant</code>
       <h3>Description</h3>
-      <p>The ratio of a circle&#39;s circumference to its radius.</p>
+      <p>The ratio of a circle&#39;s circumference to its radius, i.e. 2*PI</p>
       <p>
         See
         <a href="https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals"
@@ -5632,7 +6326,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/8e52dbd5444c166d56a70b4dd551a549.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -5702,7 +6402,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/51db1bf5c50f7b44cb52db631245b45c.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);
@@ -5769,9 +6475,10 @@ function pointerActive(state) {
       </ul>
       <h3>Description</h3>
       <p>Set the current transform matrix, based on applying:</p>
-      <pre><code>   | a b c |
+      <pre><code>      | a b c |
+  m = | d e f |
+      | 0 0 1 |
 </code></pre>
-      <p>m = | d e f | | 0 0 1 |</p>
       <p>With the parameters defaulting to the identity matrix.</p>
       <p>
         See the following MDN article for more details about this function:
@@ -5818,7 +6525,13 @@ function pointerActive(state) {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/739e96c2234477e7bff21df8deb03d25.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear();
@@ -5839,6 +6552,26 @@ function draw() {
         <li><a href="#transform">transform</a></li>
         <li><a href="#resetTransform">resetTransform</a></li>
       </ul>
+    </section>
+
+    <section id="transposeMatrix">
+      <h1>
+        <a href="#transposeMatrix">transposeMatrix</a> <a href="#top">top</a>
+      </h1>
+      <ul class="signatures">
+        <li>
+          <code>transposeMatrix(M: Matrix): number[][]</code>
+          <ul class="params">
+            <li><code>M</code> - The matrix to transpose</li>
+          </ul>
+          <p>
+            returns the matrix transpose as 2D number array
+            (<code>number[][]</code>)
+          </p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>Transpose a matrix</p>
     </section>
 
     <section id="triangle">
@@ -5872,7 +6605,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/8cbf2dcbdbd8eda3fb37cd1556221dab.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -5901,8 +6640,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer part only of that number
-            (<code>number</code>)
+            returns the integer part only of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -5946,7 +6684,13 @@ trunc(-4.2); // -4
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/d5efaa1358614e867e86f20ff7bb87f8.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function draw() {
   clear(`white`);
@@ -6014,7 +6758,13 @@ function draw() {
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
+      <graphics-element width="200px" height="200px"><img
+      class="fallback"
+      src="./graphics/fallback/7432688251a6dffa0744475fccb5c8cf.png"
+      width="220px"
+      height="238px"
+      title="This is a placeholder image because JavaScript is disabled"
+    >
               <graphics-source>
 function setup() {
   setSize(200, 200);

@@ -12,8 +12,8 @@
  *
  * The options object accepts the following properties and values:
  *
- * - min:number - the slider's minimum value, defaults to 0
- * - max:number - the slider's maximum value, defaults to 1
+ * - min - the slider's minimum value, defaults to 0
+ * - max - the slider's maximum value, defaults to 1
  * - step - the step size, defaults to (max - min)/10
  * - value - the initial value, defaults to (max + min)/2
  * - classes - the CSS classes that will be used, defaults to `"slider"`

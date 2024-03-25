@@ -119,7 +119,7 @@ const {
   huge,
 
   /**
-   * The ratio of a circle's circumference to its radius.
+   * The ratio of a circle's circumference to its radius, i.e. 2*PI
    *
    * See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
    *

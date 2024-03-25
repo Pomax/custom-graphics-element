@@ -47,7 +47,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic inverse cosine
+   * @returns {number} The hyperbolic inverse cosine
    *
    * @see {@link asinh}
    * @see {@link acos}
@@ -58,7 +58,7 @@ const {
    * The inverse sine function
    *
    * @param {number} input Any number
-   * @returns {number} output The inverse sine
+   * @returns {number} The inverse sine
    *
    * @see {@link acos}
    * @see {@link asinh}
@@ -71,7 +71,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic inverse sine
+   * @returns {number} The hyperbolic inverse sine
    *
    * @see {@link acosh}
    * @see {@link asin}
@@ -82,7 +82,7 @@ const {
    * The inverse tangent function
    *
    * @param {number} input Any number
-   * @returns {number} output The inverse tangent
+   * @returns {number} The inverse tangent
    *
    * @see {@link tan}
    */
@@ -95,7 +95,7 @@ const {
    *
    * @param {y} input Any number
    * @param {x} input Any number
-   * @returns {number} output The atan2 angle for this number pair
+   * @returns {number} The atan2 angle for this number pair
    */
   atan2,
 
@@ -105,7 +105,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic inverse tangent
+   * @returns {number} The hyperbolic inverse tangent
    *
    * @see {@link tan}
    * @see {@link acosh}
@@ -117,7 +117,7 @@ const {
    * The cube root function
    *
    * @param {number} input Any number
-   * @returns {number} output The (real) cube root of that number
+   * @returns {number} The (real) cube root of that number
    *
    * @see {@link sqrt}
    */
@@ -127,7 +127,7 @@ const {
    * The "round up to the nearest integer" function.
    *
    * @param {number} input Any number
-   * @returns {number} output The integer result after rounding up.
+   * @returns {number} The integer result after rounding up.
    *
    * @see {@link floor}
    * @see {@link round}
@@ -138,7 +138,7 @@ const {
    * Get the number of leading zero bits in the 32-bit binary representation of a number
    *
    * @param {number} input Any number
-   * @returns {number} output The number of leading zero bits in the 32-bit binary representation of that number.
+   * @returns {number} The number of leading zero bits in the 32-bit binary representation of that number.
    */
   clz32,
 
@@ -146,7 +146,7 @@ const {
    * The cosine function
    *
    * @param {number} input Any number
-   * @returns {number} output The cosine
+   * @returns {number} The cosine
    *
    * @see {@link sin}
    */
@@ -158,7 +158,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic cosine
+   * @returns {number} The hyperbolic cosine
    *
    * @see {@link cos}
    * @see {@link acosh}
@@ -169,7 +169,7 @@ const {
    * The exponent function, that is: e^x
    *
    * @param {number} input Any number
-   * @returns {number} output The value of E raised to that number's power
+   * @returns {number} The value of E raised to that number's power
    *
    * @see {@link E}
    */
@@ -179,7 +179,7 @@ const {
    * The "round down to the nearest integer" function.
    *
    * @param {number} input Any number
-   * @returns {number} output The integer result after rounding down.
+   * @returns {number} The integer result after rounding down.
    *
    * @see {@link ceil}
    * @see {@link round}
@@ -191,7 +191,7 @@ const {
    * standard JS 64 bit, floating point representation.
    *
    * @param {number} input Any number
-   * @returns {number} output The number after rounding to the nearest 32 bit floating point representation.
+   * @returns {number} The number after rounding to the nearest 32 bit floating point representation.
    *
    * @see {@link round}
    */
@@ -201,7 +201,7 @@ const {
    * The Euclidean hypotenuse function
    *
    * @param {number[]} ...input Two or more numbers
-   * @returns {number} output The hypotenuse given those numbers.
+   * @returns {number} The hypotenuse given those numbers.
    */
   hypot,
 
@@ -210,7 +210,7 @@ const {
    *
    * @param {number} a Any 32 bit integer
    * @param {number} b Any 32 bit integer
-   * @returns {number} output The 32 bit integer result of a * b
+   * @returns {number} The 32 bit integer result of a * b
    */
   imul,
 
@@ -220,7 +220,7 @@ const {
    * (Note that in JS this function is called "log" rather than "ln")
    *
    * @param {number} input Any number
-   * @returns {number} output The natural logarithm of that number
+   * @returns {number} The natural logarithm of that number
    *
    * @see {@link E}
    * @see {@link log}
@@ -233,7 +233,7 @@ const {
    * (Note that in JS this function is called "log10" rather than "log")
    *
    * @param {number} input Any number
-   * @returns {number} output The common logarithm of that number
+   * @returns {number} The common logarithm of that number
    *
    * @see {@link ln}
    */
@@ -243,7 +243,7 @@ const {
    * The binary logarithm function, i.e. the base-2 logarithm.
    *
    * @param {number} input Any number
-   * @returns {number} output The base 2 logarithm of that number
+   * @returns {number} The base 2 logarithm of that number
    *
    * @see {@link ln}
    * @see {@link log}
@@ -254,7 +254,7 @@ const {
    * Find the maximum value in a set of numbers
    *
    * @param {number} ...input Any two or  more numbers
-   * @returns {number} output The highest valued number from among the input.
+   * @returns {number} The highest valued number from among the input.
    *
    * @see {@link min}
    */
@@ -264,7 +264,7 @@ const {
    * Find the minimum value in a set of numbers
    *
    * @param {number} ...input Any two or  more numbers
-   * @returns {number} output The lowest valued number from among the input.
+   * @returns {number} The lowest valued number from among the input.
    *
    * @see {@link max}
    */
@@ -288,7 +288,7 @@ const {
    * to x + 1.
    *
    * @param {number} input Any number
-   * @returns {number} output The integer result after rounding.
+   * @returns {number} The integer result after rounding.
    *
    * @see {@link ceil}
    * @see {@link floor}
@@ -299,7 +299,7 @@ const {
    * Get the sign of a number
    *
    * @param {number} input Any number
-   * @returns {number} output +1 if the number was positive, -1 if it was negative, or 0 if the input was zero.
+   * @returns {number} +1 if the number was positive, -1 if it was negative, or 0 if the input was zero.
    */
   sign,
 
@@ -307,7 +307,7 @@ const {
    * The sine function
    *
    * @param {number} input Any number
-   * @returns {number} output The sine
+   * @returns {number} The sine
    *
    * @see {@link cos}
    */
@@ -319,7 +319,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic sine
+   * @returns {number} The hyperbolic sine
    *
    * @see {@link sin}
    * @see {@link acosh}
@@ -335,7 +335,7 @@ const {
    * by using `x ** 0.5`.
    *
    * @param {number} input Any number
-   * @returns {number} output The square root of that number
+   * @returns {number} The square root of that number
    *
    * @see {@link cbrt}
    * @see {@link pow}
@@ -346,7 +346,7 @@ const {
    * The tangent function
    *
    * @param {number} input Any number
-   * @returns {number} output The tangent
+   * @returns {number} The tangent
    */
   tan,
 
@@ -356,7 +356,7 @@ const {
    * See https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions#Definitions_in_terms_of_logarithms
    *
    * @param {number} input Any number
-   * @returns {number} output The hyperbolic tangent
+   * @returns {number} The hyperbolic tangent
    *
    * @see {@link tan}
    * @see {@link asinh}
@@ -377,7 +377,7 @@ const {
    * ```
    *
    * @param {number} input Any number
-   * @returns {number} output The integer part only of that number
+   * @returns {number} The integer part only of that number
    *
    * @see {@link floor}
    */
@@ -611,7 +611,7 @@ function lli(x1, y1, x2, y2, x3, y3, x4, y4) {
  * @param {number} originalEnd The upper bound of our domain
  * @param {number} newStart The lower bound of our target interval
  * @param {number} newEnd The upper bound on our target interval
- * @param {boolean} constrain?  A boolean that determines whether or not to constrain the resultant value to [0,360] (default = false)
+ * @param {boolean} constrain?  A boolean that determines whether or not to constrain the resultant value to [newStart,newEnd] (default = false)
  * @returns {number} The result of mapping our value from our domain interval to our target interval, optionally constrained to the target interval.
  *
  * @see {@link constrain}

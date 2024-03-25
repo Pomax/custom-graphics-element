@@ -10,6 +10,10 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Version history
 
+## v2.1.0
+
+- added `startShape`, `endShape`, and `newSegment` for working with shapes. At present shapes can only be used to model polygonal edges, but these will be extended in a future version to allow for curved edges.
+
 ## v2.0.4
 
 - moved the build tools into their own `tools` directory

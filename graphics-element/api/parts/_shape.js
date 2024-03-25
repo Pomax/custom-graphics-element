@@ -100,14 +100,14 @@ class Shape {
     this.segments.at(-1).close();
   }
 
-  newSegment(close = false) {
+  newSegment(closeCurrent = false) {
     const { segments } = this;
     if (segments.length === 0) {
       return segments.push(new Segment());
     }
     const current = segments.at(-1);
     if (current?.points.length) {
-      if (close) current.close();
+      if (closeCurrent) current.close();
       segments.push(new Segment());
     }
   }
@@ -128,6 +128,10 @@ class Shape {
 
   commit() {
     this.segments.forEach((p) => p.commit());
+  }
+
+  reset() {
+    segments.forEach((p) => p.offset(0, 0));
   }
 
   draw(showPoints = false) {

@@ -330,9 +330,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse cosine (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -467,8 +465,8 @@ function draw() {
       </p>
       <p>The options object accepts the following properties and values:</p>
       <ul>
-        <li>min:number - the slider&#39;s minimum value, defaults to 0</li>
-        <li>max:number - the slider&#39;s maximum value, defaults to 1</li>
+        <li>min - the slider&#39;s minimum value, defaults to 0</li>
+        <li>max - the slider&#39;s maximum value, defaults to 1</li>
         <li>step - the step size, defaults to (max - min)/10</li>
         <li>value - the initial value, defaults to (max + min)/2</li>
         <li>
@@ -646,8 +644,8 @@ function draw() {
       </ul>
       <h3>Description</h3>
       <p>
-        Create an array of specified length, optionally filled using a that
-        takes an index as single input argument function.
+        Create an array of specified length, optionally filled using a function
+        that takes the element index as single input argument.
       </p>
 
       <h3>Examples</h3>
@@ -688,7 +686,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The inverse sine (<code>number</code>)</p>
+          <p>returns the inverse sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -709,9 +707,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse sine (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -739,7 +735,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The inverse tangent (<code>number</code>)</p>
+          <p>returns the inverse tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -760,8 +756,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The atan2 angle for this number pair
-            (<code>number</code>)
+            returns the atan2 angle for this number pair (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -783,9 +778,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The hyperbolic inverse tangent (<code>number</code>)
-          </p>
+          <p>returns the hyperbolic inverse tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -1143,8 +1136,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The (real) cube root of that number
-            (<code>number</code>)
+            returns the (real) cube root of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -1166,8 +1158,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding up.
-            (<code>number</code>)
+            returns the integer result after rounding up. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -1558,7 +1549,7 @@ function pointerDown() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The number of leading zero bits in the 32-bit binary
+            returns the number of leading zero bits in the 32-bit binary
             representation of that number. (<code>number</code>)
           </p>
         </li>
@@ -1717,7 +1708,7 @@ function pointerDown(x, y) {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The cosine (<code>number</code>)</p>
+          <p>returns the cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -1737,7 +1728,7 @@ function pointerDown(x, y) {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic cosine (<code>number</code>)</p>
+          <p>returns the hyperbolic cosine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -1975,7 +1966,7 @@ function draw() {
           <ul class="params">
             <li>
               <code>close?</code> - When used, closes the shape's current
-              subpath.
+              segment.
             </li>
           </ul>
           <p>returns the shape that got closed (<code>Shape</code>)</p>
@@ -1986,7 +1977,7 @@ function draw() {
 
       <h3>See also:</h3>
       <ul>
-        <li><a href="#end">end</a></li>
+        <li><a href="#startShape">startShape</a></li>
       </ul>
     </section>
 
@@ -2009,7 +2000,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The value of E raised to that number's power
+            returns the value of E raised to that number's power
             (<code>number</code>)
           </p>
         </li>
@@ -2065,12 +2056,8 @@ function draw() {
         Find all HTML elements inside your graphics-element that match a given
         query selector. This is equivalent to:
       </p>
-      <pre><code>yourElement.querySelectorAll(qs)
+      <pre><code>Array.from(yourElement.querySelectorAll(qs))
 </code></pre>
-      <p>
-        Note that this function does <em>not</em> return a NodeList and instead
-        returns a plain array.
-      </p>
     </section>
 
     <section id="floor">
@@ -2082,7 +2069,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding down.
+            returns the integer result after rounding down.
             (<code>number</code>)
           </p>
         </li>
@@ -2120,8 +2107,8 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The number after rounding to the nearest 32 bit
-            floating point representation. (<code>number</code>)
+            returns the number after rounding to the nearest 32 bit floating
+            point representation. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2238,8 +2225,7 @@ function pointerActive(state) {
             <li><code>...input</code> - Two or more numbers</li>
           </ul>
           <p>
-            returns output The hypotenuse given those numbers.
-            (<code>number</code>)
+            returns the hypotenuse given those numbers. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2330,8 +2316,7 @@ async function draw() {
             <li><code>b</code> - Any 32 bit integer</li>
           </ul>
           <p>
-            returns output The 32 bit integer result of a * b
-            (<code>number</code>)
+            returns the 32 bit integer result of a * b (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2604,8 +2589,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The natural logarithm of that number
-            (<code>number</code>)
+            returns the natural logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2632,8 +2616,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The common logarithm of that number
-            (<code>number</code>)
+            returns the common logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2661,8 +2644,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The base 2 logarithm of that number
-            (<code>number</code>)
+            returns the base 2 logarithm of that number (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -2696,7 +2678,8 @@ function draw() {
             </li>
             <li>
               <code>constrain?</code> - A boolean that determines whether or not
-              to constrain the resultant value to [0,360] (default = false)
+              to constrain the resultant value to [newStart,newEnd] (default =
+              false)
             </li>
           </ul>
           <p>
@@ -2728,7 +2711,7 @@ function draw() {
             <li><code>...input</code> - Any two or more numbers</li>
           </ul>
           <p>
-            returns output The highest valued number from among the input.
+            returns the highest valued number from among the input.
             (<code>number</code>)
           </p>
         </li>
@@ -2808,7 +2791,7 @@ function draw() {
             <li><code>...input</code> - Any two or more numbers</li>
           </ul>
           <p>
-            returns output The lowest valued number from among the input.
+            returns the lowest valued number from among the input.
             (<code>number</code>)
           </p>
         </li>
@@ -2857,7 +2840,7 @@ function draw() {
         </li>
       </ul>
       <h3>Description</h3>
-      <p>Start a new sub path in a shape.</p>
+      <p>Start a new segment in a shape.</p>
 
       <h3>See also:</h3>
       <ul>
@@ -4594,8 +4577,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer result after rounding.
-            (<code>number</code>)
+            returns the integer result after rounding. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -5153,7 +5135,7 @@ function draw() {
           <code>setFontWeight(val: number|string)</code>
           <ul class="params">
             <li>
-              <code>val</code> - The CSS weight number or either of the special
+              <code>val</code> - The CSS weight number or one of the special
               strings "normal", "bold", "bolder", or "lighter".
             </li>
           </ul>
@@ -5827,8 +5809,8 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output +1 if the number was positive, -1 if it was negative,
-            or 0 if the input was zero. (<code>number</code>)
+            returns +1 if the number was positive, -1 if it was negative, or 0
+            if the input was zero. (<code>number</code>)
           </p>
         </li>
       </ul>
@@ -5844,7 +5826,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The sine (<code>number</code>)</p>
+          <p>returns the sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5864,7 +5846,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic sine (<code>number</code>)</p>
+          <p>returns the hyperbolic sine (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -5989,9 +5971,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>
-            returns output The square root of that number (<code>number</code>)
-          </p>
+          <p>returns the square root of that number (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -6074,7 +6054,74 @@ function draw() {
         </li>
       </ul>
       <h3>Description</h3>
-      <p>Start a new shape.</p>
+      <p>
+        Start a new shape. This yields a <code>Shape</code> object with the
+        following API
+      </p>
+      <ul>
+        <li>
+          <p>
+            <code>makeMovable(movable?: boolean)</code> - allow this shape to be
+            moved around with the pointer (<code>movable</code> is true if
+            omitted)
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>allowResizing(allowed?: boolean)</code> - allow the points
+            that make up this shape to be moved around (<code>allowed</code> is
+            true if omitted)
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>add(x, y)</code> - add a point to the shape&#39;s current
+            segment.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>close()</code> - close the current segment so no new points
+            can be added.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>newSegment(closeExisting?: boolean)</code> - start a new
+            segment in this shape, w
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>offset(x, y)</code> - (temporarily) move this shape by (x,y)
+          </p>
+        </li>
+        <li>
+          <p><code>commit()</code> - commit the offset as real coordinates.</p>
+        </li>
+        <li>
+          <p><code>reset()</code> - reset the shape to having no offset.</p>
+        </li>
+        <li>
+          <p>
+            <code>draw(showPoints?)</code> - draws the shape using the current
+            stroke and fill settings.
+          </p>
+        </li>
+        <li>
+          <p>
+            <code>inside(x, y): segment[]</code> - returns the list of all
+            segments that (x,y) is inside of.
+          </p>
+        </li>
+      </ul>
+      <p>
+        Note that shapes do not perform any sort of boolean operations, and
+        defining a shape with a cutout is not possible. You&#39;ll want to use
+        SVG images for that, instead. E.g. create an SVG data uri, then use that
+        as <code>src</code> for an Image and draw that image using the
+        <code>image()</code> function.
+      </p>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
@@ -6128,7 +6175,7 @@ function draw() {
 </code></pre>
       <h3>See also:</h3>
       <ul>
-        <li><a href="#start">start</a></li>
+        <li><a href="#endShape">endShape</a></li>
       </ul>
     </section>
 
@@ -6140,7 +6187,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The tangent (<code>number</code>)</p>
+          <p>returns the tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -6155,7 +6202,7 @@ function draw() {
           <ul class="params">
             <li><code>input</code> - Any number</li>
           </ul>
-          <p>returns output The hyperbolic tangent (<code>number</code>)</p>
+          <p>returns the hyperbolic tangent (<code>number</code>)</p>
         </li>
       </ul>
       <h3>Description</h3>
@@ -6180,7 +6227,7 @@ function draw() {
       <h1><a href="#TAU">TAU</a> <a href="#top">top</a></h1>
       <code class="const">constant</code>
       <h3>Description</h3>
-      <p>The ratio of a circle&#39;s circumference to its radius.</p>
+      <p>The ratio of a circle&#39;s circumference to its radius, i.e. 2*PI</p>
       <p>
         See
         <a href="https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals"
@@ -6428,9 +6475,10 @@ function pointerActive(state) {
       </ul>
       <h3>Description</h3>
       <p>Set the current transform matrix, based on applying:</p>
-      <pre><code>   | a b c |
+      <pre><code>      | a b c |
+  m = | d e f |
+      | 0 0 1 |
 </code></pre>
-      <p>m = | d e f | | 0 0 1 |</p>
       <p>With the parameters defaulting to the identity matrix.</p>
       <p>
         See the following MDN article for more details about this function:
@@ -6592,8 +6640,7 @@ function draw() {
             <li><code>input</code> - Any number</li>
           </ul>
           <p>
-            returns output The integer part only of that number
-            (<code>number</code>)
+            returns the integer part only of that number (<code>number</code>)
           </p>
         </li>
       </ul>

@@ -162,7 +162,7 @@ function setFontSize(px) {
 /**
  * Set the current font weight
  *
- * @param {number|string} val The CSS weight number or either of the special strings "normal", "bold", "bolder", or "lighter".
+ * @param {number|string} val The CSS weight number or one of the special strings "normal", "bold", "bolder", or "lighter".
  *
  * @see {@link setFontFamily}
  * @see {@link setFontSize}

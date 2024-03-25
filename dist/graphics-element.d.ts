@@ -220,7 +220,7 @@ declare const epsilon: number;
  */
 declare const huge: number;
 /**
- * The ratio of a circle's circumference to its radius.
+ * The ratio of a circle's circumference to its radius, i.e. 2*PI
  *
  *  See https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals
  *
@@ -289,8 +289,8 @@ declare function noTextStroke(): void;
  *
  *  The options object accepts the following properties and values:
  *
- *  - min:number - the slider's minimum value, defaults to 0
- *  - max:number - the slider's maximum value, defaults to 1
+ *  - min - the slider's minimum value, defaults to 0
+ *  - max - the slider's maximum value, defaults to 1
  *  - step - the step size, defaults to (max - min)/10
  *  - value - the initial value, defaults to (max + min)/2
  *  - classes - the CSS classes that will be used, defaults to `"slider"`
@@ -615,7 +615,7 @@ declare function vertex(x: number, y: number): void;
 declare function vertex(p: PointLike): void;
 /**
  * Create an array of specified length, optionally filled using a
- *  that takes an index as single input argument function.
+ *  function that takes the element index as single input argument.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#array
  */
@@ -660,11 +660,8 @@ declare function find(querySelector: string): HTMLElement | null;
  *  that match a given query selector. This is equivalent to:
  *
  *  ```
- *  yourElement.querySelectorAll(qs)
+ *  Array.from(yourElement.querySelectorAll(qs))
  *  ```
- *
- *  Note that this function does _not_ return a NodeList
- *  and instead returns a plain array.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#findAll
  */
@@ -1334,7 +1331,27 @@ declare function setTextAlign(xAlign: string, yAlign: string): void;
  */
 declare function setTextStroke(color: string, width?: number): void;
 /**
- * Start a new shape.
+ * Start a new shape. This yields a `Shape` object with the following API
+ *
+ *  - `makeMovable(movable?: boolean)` - allow this shape to be moved around with the pointer (`movable` is true if omitted)
+ *  - `allowResizing(allowed?: boolean)` - allow the points that make up this shape to be moved around (`allowed` is true if omitted)
+ *
+ *  - `add(x, y)` - add a point to the shape's current segment.
+ *  - `close()` - close the current segment so no new points can be added.
+ *  - `newSegment(closeExisting?: boolean)` - start a new segment in this shape, w
+ *
+ *  - `offset(x, y)` - (temporarily) move this shape by (x,y)
+ *  - `commit()` - commit the offset as real coordinates.
+ *  - `reset()` - reset the shape to having no offset.
+ *
+ *  - `draw(showPoints?)` - draws the shape using the current stroke and fill settings.
+ *  - `inside(x, y): segment[]` - returns the list of all segments that (x,y) is inside of.
+ *
+ *  Note that shapes do not perform any sort of boolean operations, and
+ *  defining a shape with a cutout is not possible. You'll want to use
+ *  SVG images for that, instead. E.g. create an SVG data uri, then use
+ *  that as `src` for an Image and draw that image using the `image()`
+ *  function.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
  */
@@ -1346,7 +1363,7 @@ declare function startShape(): Shape;
  */
 declare function endShape(close?: boolean): Shape;
 /**
- * Start a new sub path in a shape.
+ * Start a new segment in a shape.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#newSegment
  */
@@ -1391,9 +1408,11 @@ declare function screenToWorld(p: PointLike): PointLike;
 /**
  * Set the current transform matrix, based on applying:
  *
+ *  ```
  *        | a b c |
  *    m = | d e f |
  *        | 0 0 1 |
+ *  ```
  *
  *  With the parameters defaulting to the identity matrix.
  *

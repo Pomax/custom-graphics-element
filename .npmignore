@@ -1,8 +1,8 @@
 .github
-node_modules
 edit
 graphics
 graphics-element
+node_modules
 tools
 .gitingore
 .nojekyll
@@ -10,4 +10,3 @@ api.html
 docs.html
 index.css
 index.html
-

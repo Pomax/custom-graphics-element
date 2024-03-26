@@ -20,3 +20,18 @@ files.forEach((filename) => {
     setTimeout(() => (recompiling = false), 1000);
   });
 });
+
+// And then the other important files:
+[
+  `graphics-element/graphics-api.js`,
+  `graphics-element/custom-element.js`,
+  `graphics-element/graphics-element.js`,
+].forEach((filename) =>
+  watch(filename, () => {
+    if (recompiling) return;
+    recompiling = true;
+    console.log(`Recompiling... (change to ${filename})`);
+    execSync(`npm run build`);
+    setTimeout(() => (recompiling = false), 1000);
+  })
+);

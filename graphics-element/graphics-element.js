@@ -1,9 +1,7 @@
 import { CustomElement } from "./custom-element.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
-import { Point, Circle } from "./api/types/point.js";
-import { Vector } from "./api/types/vector.js";
-export { BSpline, Point, Circle, Vector, CSS_COLOR_MAP };
+export { BSpline, CSS_COLOR_MAP };
 
 import {
   base64,
@@ -15,6 +13,14 @@ const thisURL = String(import.meta.url);
 const libraryCode = decode64(`GRAPHICS_API_PLACEHOLDER`);
 
 class GraphicsElement extends CustomElement {
+  set onload(fn) {
+    this._onload = fn;
+  }
+
+  set onerror(fn) {
+    this._onerror = fn;
+  }
+
   handleAttributeChange(...args) {
     // console.log(...args);
   }
@@ -172,10 +178,26 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       );
     }
 
+    // Inject data attributes as part of the setup() call
+    const presets = Object.entries(this.dataset);
+    if (presets.length) {
+      presets.forEach(([key, value]) => {
+        const float = parseFloat(value);
+        if (float != value && value !== `true` && value !== `false`) {
+          value = `"${value}"`;
+        }
+        sourceCode = sourceCode.replace(
+          `function setup() {`,
+          `function setup() {\n  ${key} = ${value};`
+        );
+      });
+    }
+
+    // Then, finally: build the program's JS module!
     const module = base64(
       [
         `"use strict";`,
-        `import { BSpline, Point, Circle, Vector, CSS_COLOR_MAP } from "${thisURL}";`,
+        `import { BSpline, CSS_COLOR_MAP } from "${thisURL}";`,
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         sourceCode,
@@ -183,32 +205,48 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       ].join(`\n`)
     );
 
-    import(`data:text/javascript;base64,${module}`).then(async (lib) => {
-      const { start, canvas, halt, highlight, getDescription } = lib;
-      this.canvas = canvas;
-      this.halt = () => halt();
-      this.highlight = (color) => highlight(color);
-      this.render();
-      const { width, height } = await start(this);
+    // And then to run our program, we import that module...
+    import(`data:text/javascript;base64,${module}`)
+      .then(async (lib) => {
+        const { start, canvas, halt, highlight, getDescription } = lib;
+        this.canvas = canvas;
+        this.halt = () => halt();
+        this.highlight = (color) => highlight(color);
+        this.render();
 
-      const descClass = `graphics-element-description`;
-      this.querySelector(`.${descClass}`)?.remove();
-      if (!this.querySelector(`p`)) {
-        this.handleGraphicsDescription(descClass, getDescription);
-      }
+        // And then run the program.
+        const { width, height } = await start(this);
 
-      if (width && height) {
-        this.style.width = ``;
-        this.style.height = ``;
-        this.width = width;
-        this.height = height;
-        this.setAttribute(`width`, width);
-        this.setAttribute(`height`, height);
-      }
-      // Once we've rendered, and the sketch is running, we can send the "we're loaded" event
-      this.dispatchEvent(new CustomEvent(`load`));
-      if (this.onload) this.onload();
-    });
+        // Once it's up and running, we can update our element.
+        // First, is there a code-specified description?
+        const descClass = `graphics-element-description`;
+        this.querySelector(`.${descClass}`)?.remove();
+        if (!this.querySelector(`p`)) {
+          this.handleGraphicsDescription(descClass, getDescription);
+        }
+
+        // Then, (re)size our <graphics-element> based on our program's dimensions.
+        if (width && height) {
+          this.style.width = ``;
+          this.style.height = ``;
+          this.width = width;
+          this.height = height;
+          this.setAttribute(`width`, width);
+          this.setAttribute(`height`, height);
+        }
+
+        // And then as very last thing, once everything's comfortably up and
+        // running, we can trigger an event (both oldschool and modern) that
+        // signals to whatever might be listening that our element's loaded now.
+        const evt = new CustomEvent(`load`);
+        this.dispatchEvent(evt);
+        if (this._onload) this._onload(evt);
+      })
+      .catch((err) => {
+        const evt = new CustomEvent(`error`, { detail: err });
+        this.dispatchEvent(evt);
+        if (this._onerror) this._onerror(evt);
+      });
   }
 
   handleGraphicsDescription(descClass, getDescription = () => {}) {
@@ -424,3 +462,6 @@ class GraphicsSource extends CustomElement {
 // Register our custom elements
 await CustomElement.register(GraphicsElement);
 await CustomElement.register(GraphicsSource);
+
+// And expose it globally, in the same way HTMLElement is globally available.
+globalThis.GraphicsElement = GraphicsElement;

@@ -10,9 +10,22 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Version history
 
+## v2.2.0
+
+- added support for variable presets using `data-*` attributes, (see the
+  "[Using data-\* attributes](./docs.html#using-data-attributes)" section on
+  the documentation page for more information.
+- added documentation for handling load/error events, see the
+  "[Load and error events](#load-and-error-events)" section on the documentation
+  page for more information.
+- added code that ensures that the `GraphicsElement` class exists globally as part
+  of loading the custom element.
+
 ## v2.1.0
 
-- added `startShape`, `endShape`, and `newSegment` for working with shapes. At present shapes can only be used to model polygonal edges, but these will be extended in a future version to allow for curved edges.
+- added `startShape`, `endShape`, and `newSegment` for working with shapes. At present
+  shapes can only be used to model polygonal edges, but these will be extended in a
+  future version to allow for curved edges.
 
 ## v2.0.4
 

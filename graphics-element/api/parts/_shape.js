@@ -1,3 +1,7 @@
+const POLYGON = `polygon`;
+const SPLINE = `spline`;
+const BEZIER = `bezier`;
+
 /**
  * ...docs go here...
  */
@@ -7,10 +11,10 @@ class Segment {
   oy = 0;
   points = [];
 
-  add(x, y) {
+  add(x, y, type = POLYGON) {
     const { closed, points } = this;
     if (closed) return;
-    const p = { x, y };
+    const p = { x, y, type };
     points.push(p);
     return p;
   }
@@ -112,7 +116,12 @@ class Shape {
     }
   }
 
-  add(x, y) {
+  add(x, y, type = POLYGON) {
+    const p = this.segments.at(-1).add(x, y, type);
+    if (this.resizable) setMovable(p);
+  }
+
+  addPoint(x, y) {
     const p = this.segments.at(-1).add(x, y);
     if (this.resizable) setMovable(p);
   }

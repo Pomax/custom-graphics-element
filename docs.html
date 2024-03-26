@@ -77,6 +77,14 @@
         <a href="#using-the-graphics-element-tag"
           >Using the &lt;graphics-element&gt; tag</a
         >
+        <ul>
+          <li>
+            <a href="#using-data-attributes">Using data-* attributes</a>
+          </li>
+          <li>
+            <a href="#load-and-error-events">Load and error events</a>
+          </li>
+        </ul>
       </li>
       <li>
         <a href="#writing-graphics-source-code">Writing graphics source code</a>
@@ -104,7 +112,7 @@
         <ul>
           <li>
             <a href="#overloading-parent-functions"
-              >Overloading &quot;parent&quot; functions</a
+              >Overloading "parent" functions</a
             >
           </li>
           <li>
@@ -161,8 +169,8 @@
           <a href="api.html#setSize">setSize</a> if omitted.
         </li>
         <li>
-          <code>centered</code> - an optional &quot;valueless&quot; attribute
-          that will center your graphic on the page.
+          <code>centered</code> - an optional "valueless" attribute that will
+          center your graphic on the page.
         </li>
         <li>
           <code>float</code> - an optional attribute that takes values
@@ -177,9 +185,104 @@
         that&#39;s as easy as just adding a paragraph:
       </p>
 
-      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; src=&quot;...&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
-  &lt;p&gt;This guide text will render inside the graphics-element &quot;box&quot;.&lt;/p&gt;
+      <pre><code class="language-html">&lt;graphics-element title="an example" src="..." width="400" height="200"&gt;
+  &lt;p&gt;This guide text will render inside the graphics-element "box".&lt;/p&gt;
 &lt;/graphics-element&gt;</code></pre>
+
+      <h3 id="using-data-attributes">
+        <a href="#using-data-attributes">Using data-* attributes</a>
+        <a href="#top">top</a>
+      </h3>
+
+      <p>
+        As a &lt;graphics-element&gt; is just an HTML element, we can also use
+        <code>data-*</code> attributes to inject value presets:
+      </p>
+
+      <pre><code class="language-html">&lt;graphics-element title="an example" src="..." width="400" height="200" data-radius="1.5"&gt;
+&lt;/graphics-element&gt;</code></pre>
+
+      <p>
+        Note that this will set the corresponding variable in your graphics code
+        to the value you specified, with some caveats:
+      </p>
+
+      <ol>
+        <li>
+          Your graphics code <em>must</em> have a (mutable) variable available
+          to assign.
+        </li>
+        <li>
+          Preset assignment happens as "the first thing" that happens when your
+          graphics program runs.
+        </li>
+        <li>
+          The same naming HTML vs. JS naming rules apply: a variable using the
+          standard JS naming convention, e.g. <code>let myPerfectVar;</code>,
+          must use the standard HTML data attribute naming convention on the
+          HTML side, e.g. <code>data-my-perfect-var="..."</code>.
+        </li>
+      </ol>
+
+      <p>
+        And because HTML attributes only support strings, data-* attribute
+        values get automatically converted to "the type they look like they
+        should be":
+      </p>
+
+      <p></p>
+
+      <ul>
+        <li>
+          The strings <code>"true"</code> and <code>"false"</code> get
+          automatically converted to their boolean equivalents.
+        </li>
+        <li>
+          Any value that counts as a number (based on a coercive
+          <code>parseFloat(v) == v</code> check) gets automatically converted to
+          a number.
+        </li>
+        <li>Anything else is treated as a string.</li>
+      </ul>
+
+      <h3 id="load-and-error-events">
+        <a href="#load-and-error-events">Load and error events</a>
+        <a href="#top">top</a>
+      </h3>
+
+      <p>
+        Also note that as a &lt;graphics-element&gt; is just an HTML element, we
+        can listener for load and error events using either the legacy
+        <code>onload</code> and <code>onerror</code> event handling properties
+        (and emphatically <em>not</em> as HTML attributes, it's not 1998
+        anymore: JS event listening is something you add
+        <em>on the JS side</em>, not on the HTML side), or by adding an event
+        listener for the <code>"load"</code> or <code>"error"</code> events.
+      </p>
+
+      <pre><code class="language-js">// wait for the graphics-element tag to be available:
+customElements.whenDefined(`graphics-element`).then(() => {
+  // Then get our graphics element
+  const e = document.querySelector(`graphics-element`);
+
+  // Set up a load handler:
+  const loaded = (evt) => console.log(`graphics element loaded`, evt.target);
+
+  // And then either bind that the legacy way:
+  e.onload = loaded;
+
+  // Or the (really not even) modern way:
+  e.addEventListener(`load`, loaded);
+
+  // Also set up an error handler:
+  const failed = (evt) => console.log(`graphics element failed!`, evt.detail);
+
+  // And again, either bind that legacy style:
+  e.onerror = failed;
+
+  // Or using normal JS:
+  e.addEventListener(`error`, failed);
+});</code></pre>
     </section>
 
     <!-- =================== next section ====================== -->
@@ -206,7 +309,7 @@
         will take up:
       </p>
 
-      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; src=&quot;...&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
+      <pre><code class="language-html">&lt;graphics-element title="an example" src="..." width="400" height="200"&gt;
   &lt;img
     class="fallback"
     src="..."
@@ -269,7 +372,7 @@ function draw() {
         <code>&lt;graphics-source&gt;</code> element:
       </p>
 
-      <pre><code class="language-html">&lt;graphics-element title=&quot;an example&quot; width=&quot;400&quot; height=&quot;200&quot;&gt;
+      <pre><code class="language-html">&lt;graphics-element title="an example" width="400" height="200"&gt;
   &lt;graphics-source&gt;
     function setup() {
       // ...
@@ -379,7 +482,7 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
         </li>
         <li>
           <code>pointer</code> - an object representing the mouse/stylus/touch
-          input &quot;cursor&quot; (see below).
+          input "cursor" (see below).
         </li>
         <li>
           <code>keyboard</code> - an object that tracks which keys are currently
@@ -420,7 +523,7 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
 
       <p>
         After this, the <code>radius</code> variable will be globally available,
-        so that this code will &quot;just work&quot;:
+        so that this code will "just work":
       </p>
 
       <pre><code class="language-js">function draw() {
@@ -430,12 +533,11 @@ customElements.whenDefined(`graphics-element`).then(() =&gt; {
       <p>
         For convenience, any variable that ends in a number will have that
         number shown using subscript styling, so a slider for
-        <code>t1</code> will show &quot;t<sub>1</sub>&quot; rather than
-        &quot;t1&quot; as its slider label, and any variable with
-        <code>_</code> in it will subscript the part after the underscore, so
-        that <code>k_p</code> becomes &quot;k<sub>p</sub>&quot; rather than
-        &quot;kp&quot;. Because your code doesn&#39;t care, but your users do,
-        and subscripted variables are much nicer to look at.
+        <code>t1</code> will show "t<sub>1</sub>" rather than "t1" as its slider
+        label, and any variable with <code>_</code> in it will subscript the
+        part after the underscore, so that <code>k_p</code> becomes
+        "k<sub>p</sub>" rather than "kp". Because your code doesn&#39;t care,
+        but your users do, and subscripted variables are much nicer to look at.
       </p>
     </section>
 
@@ -477,8 +579,8 @@ function draw() {
 
       <p>
         Rather than having to write your own click-drag logic, you can mark
-        things as &quot;movable&quot; by calling <code>setMovable(...)</code>.
-        This can either be <code>Point</code> instances or an array of
+        things as "movable" by calling <code>setMovable(...)</code>. This can
+        either be <code>Point</code> instances or an array of
         <code>Point</code> instances. After marking them as movable, the API
         does the rest. When the pointer is over movable points it will update
         the global <code>currentMovable</code> value and change to the typically
@@ -514,10 +616,10 @@ function draw() {
       </h2>
 
       <p>
-        Graphics interaction is based on &quot;the pointer&quot;, which is a
-        unified handler for mouse, stylus, and touch handling, so you don&#39;t
-        have to care whether your code runs on a desktop computer, a laptop, a
-        tablet, a phone, or anything else. Event handling uses five functions:
+        Graphics interaction is based on "the pointer", which is a unified
+        handler for mouse, stylus, and touch handling, so you don&#39;t have to
+        care whether your code runs on a desktop computer, a laptop, a tablet, a
+        phone, or anything else. Event handling uses five functions:
       </p>
       <pre><code class="language-js">function pointerActive(trueOrFalse) {
   // the pointer either entered or left the canvas region.
@@ -594,7 +696,7 @@ function pointerDrag(x, y) {
       </p>
 
       <pre><code class="language-js">function keyDown(key, shift, alt, ctrl, meta) {
-  // the &quot;key&quot; value is the key name being pressed,
+  // the "key" value is the key name being pressed,
   // shift, alt, ctrl, and meta are boolean flags
 }
 
@@ -603,8 +705,8 @@ function keyUp(key, shift, alt, ctrl, meta) {
 }</code></pre>
 
       <p>
-        Note that there is no &quot;key typed&quot; handler, you get to decide
-        whether down or up counts as &quot;typing&quot;. There is a global
+        Note that there is no "key typed" handler, you get to decide whether
+        down or up counts as "typing". There is a global
         <code>keyboard</code> object that tracks which keys are down: if a key
         is down, it will have a corresponding
         <code>keyboard[keyName]</code> entry, with its value being the
@@ -640,7 +742,7 @@ function keyUp(key, shift, alt, ctrl, meta) {
         corresponding color:
       </p>
 
-      <pre><code class="language-html">&lt;graphics-element title=&quot;...&quot; src=&quot;...&quot;&gt;
+      <pre><code class="language-html">&lt;graphics-element title="..." src="..."&gt;
   &lt;p&gt;Let&#39;s highlight &lt;red&gt;the universe&lt;/red&gt;!&lt;/p&gt;
 &lt;/graphics-element&gt;</code></pre>
 
@@ -667,9 +769,9 @@ function keyUp(key, shift, alt, ctrl, meta) {
 
       <p>
         The &lt;graphics-element&gt; element allows you to specify
-        <em>multiple</em> source files, with one &quot;main &quot;file indicated
-        using the <code>src=&quot;...&quot;</code> attribute, and additional
-        sources through the use of the <code>&lt;source&gt;</code> element:
+        <em>multiple</em> source files, with one "main "file indicated using the
+        <code>src="..."</code> attribute, and additional sources through the use
+        of the <code>&lt;source&gt;</code> element:
       </p>
 
       <pre><code class="language-html">...
@@ -677,20 +779,20 @@ function keyUp(key, shift, alt, ctrl, meta) {
 &lt;p&gt;Let&#39;s look at the base case:&lt;/p&gt;
 
 &lt;graphics-element
-  title=&quot;multiple sources&quot;
-  src=&quot;./base-code.js&quot;
+  title="multiple sources"
+  src="./base-code.js"
 &gt;&lt;/graphics-element&gt;
 
 &lt;p&gt;We can extend this by using the standard approach:&lt;/p&gt;
 
-&lt;graphics-element title=&quot;established convention&quot; src=&quot;./base-code.js&quot;&gt;
-  &lt;source src=&quot;variation-01.js&quot; /&gt;
+&lt;graphics-element title="established convention" src="./base-code.js"&gt;
+  &lt;source src="variation-01.js" /&gt;
 &lt;/graphics-element&gt;
 
 &lt;p&gt;But there&#39;s a more interesting way to tackle this:&lt;/p&gt;
 
-&lt;graphics-element title=&quot;a creative variation&quot; src=&quot;./base-code.js&quot;&gt;
-  &lt;source src=&quot;variation-02.js&quot; /&gt;
+&lt;graphics-element title="a creative variation" src="./base-code.js"&gt;
+  &lt;source src="variation-02.js" /&gt;
 &lt;/graphics-element&gt;
 
 ...</code></pre>
@@ -701,7 +803,7 @@ function keyUp(key, shift, alt, ctrl, meta) {
         elements with only the differences stored in each extra source file.
       </p>
 
-      <h3>Overloading &quot;parent&quot; functions</h3>
+      <h3>Overloading "parent" functions</h3>
 
       <p>
         Your additional sources
@@ -712,12 +814,11 @@ function keyUp(key, shift, alt, ctrl, meta) {
       </p>
 
       <p>
-        You cannot use this to &quot;redeclare&quot; any other function, though:
-        if the main source file contains
+        You cannot use this to "redeclare" any other function, though: if the
+        main source file contains
         <code>function test() { ... }</code> and your additional source file
         also specifies <code>function test() { ... }</code>, then you&#39;ll see
-        an error in your Developer Tools &quot;console&quot; tab along the lines
-        of:
+        an error in your Developer Tools "console" tab along the lines of:
       </p>
 
       <pre><code>Uncaught (in promise) SyntaxError: redeclaration of function test
@@ -731,9 +832,9 @@ note: Previously declared at line 123, column 45</code></pre>
         their own, isolated, scope and <em><strong>will not</strong></em> have
         access to any of the graphics functions and constants, whereas code
         loaded through a <code>&lt;source&gt;</code> element effectively gets
-        packed up as a single bundle with the &quot;main&quot; graphics source
-        code and so <em><strong>will</strong></em> have access to all the
-        graphics API functions.
+        packed up as a single bundle with the "main" graphics source code and so
+        <em><strong>will</strong></em> have access to all the graphics API
+        functions.
       </p>
 
       <p>
@@ -771,7 +872,7 @@ note: Previously declared at line 123, column 45</code></pre>
         pure JS utility code. As such, we can simply import it directly:
       </p>
 
-      <pre><code class="language-js">import { PID } from &quot;./pid.js&quot;;
+      <pre><code class="language-js">import { PID } from "./pid.js";
 
 let pid;
 

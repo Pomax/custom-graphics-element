@@ -11,6 +11,7 @@ class Vector {
       this.z = z;
     }
   }
+
   dist(other, y, z = 0) {
     if (y !== undefined) other = { x: other, y, z };
     let sum = 0;
@@ -21,6 +22,7 @@ class Vector {
     sum += (z1 - z2) ** 2;
     return sum ** 0.5;
   }
+
   normalize(f) {
     let mag = this.dist(0, 0, 0);
     return new Vector(
@@ -29,9 +31,11 @@ class Vector {
       (f * this.z) / mag
     );
   }
+
   getAngle() {
     return -Math.atan2(this.y, this.x);
   }
+
   reflect(other) {
     let p = new Vector(other.x - this.x, other.y - this.y);
     if (other.z !== undefined) {
@@ -42,6 +46,7 @@ class Vector {
     }
     return this.subtract(p);
   }
+
   add(other) {
     let p = new Vector(this.x + other.x, this.y + other.y);
     if (this.z !== undefined) {
@@ -52,6 +57,7 @@ class Vector {
     }
     return p;
   }
+
   subtract(other) {
     let p = new Vector(this.x - other.x, this.y - other.y);
     if (this.z !== undefined) {
@@ -62,6 +68,7 @@ class Vector {
     }
     return p;
   }
+
   scale(f = 1) {
     if (f === 0) {
       return new Vector(0, 0, this.z === undefined ? undefined : 0);
@@ -73,5 +80,3 @@ class Vector {
     return p;
   }
 }
-
-export { Vector };

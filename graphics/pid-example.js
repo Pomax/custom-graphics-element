@@ -32,7 +32,7 @@ function draw() {
 
   // Move the coordinate system over a bit, so we can
   // draw, and see, our axes:
-  translate(30, height/2 - 50);
+  translate(30, height / 2 - 50);
   setColor(`black`);
   axes(`x`, 0, width, `y`, 0, height);
 

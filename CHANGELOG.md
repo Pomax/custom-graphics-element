@@ -10,6 +10,11 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Version history
 
+## v3.0.0
+
+- major version update, as `currentPoint` was renamed to `currentMovable` in v2.1.0
+- fixed a bug in the code responsible for tracking the `currentMovable` delta
+
 ## v2.2.0
 
 - added support for variable presets using `data-*` attributes, (see the
@@ -21,11 +26,17 @@ Note that there may be gaps in the version history, which may happen if a releas
 - added code that ensures that the `GraphicsElement` class exists globally as part
   of loading the custom element.
 
+**NOTE**: This release was given the wrong version number, as it includes the
+breaking change that renamed `currentPoint` to `currentMovable`.
+
 ## v2.1.0
 
 - added `startShape`, `endShape`, and `newSegment` for working with shapes. At present
   shapes can only be used to model polygonal edges, but these will be extended in a
   future version to allow for curved edges.
+
+**NOTE**: This release was given the wrong version number, as it introduced a
+breaking change that renamed `currentPoint` to `currentMovable`.
 
 ## v2.0.4
 

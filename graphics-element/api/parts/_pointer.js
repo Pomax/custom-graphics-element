@@ -45,11 +45,13 @@ function __toPointerEvent(evt) {
 }
 
 function __pointerDown(x, y) {
-  if (currentMovable instanceof Shape) {
-    // don't do anything special.
-  } else {
-    currentMovable._dx = currentMovable.x - x;
-    currentMovable._dy = currentMovable.y - y;
+  if (currentMovable) {
+    if (currentMovable instanceof Shape) {
+      // don't do anything special.
+    } else {
+      currentMovable._dx = currentMovable.x - x;
+      currentMovable._dy = currentMovable.y - y;
+    }
   }
   if (typeof pointerDown !== `undefined`) pointerDown(x, y);
 }

@@ -245,7 +245,8 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
       .catch((err) => {
         const evt = new CustomEvent(`error`, { detail: err });
         this.dispatchEvent(evt);
-        if (this._onerror) this._onerror(evt);
+        if (this._onerror) this._onerror(err);
+        else throw err;
       });
   }
 
@@ -460,8 +461,15 @@ class GraphicsSource extends CustomElement {
 }
 
 // Register our custom elements
-await CustomElement.register(GraphicsElement);
-await CustomElement.register(GraphicsSource);
+CustomElement.register(GraphicsElement);
+CustomElement.register(GraphicsSource);
 
 // And expose it globally, in the same way HTMLElement is globally available.
 globalThis.GraphicsElement = GraphicsElement;
+
+// Then wait for them to be available.
+await customElements.whenDefined(`graphics-element`);
+await customElements.whenDefined(`graphics-source`);
+
+// After which we can export our classes
+export { GraphicsElement, GraphicsSource };

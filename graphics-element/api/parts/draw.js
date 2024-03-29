@@ -725,14 +725,19 @@ function spline(...args) {
   let virtual = true;
   let T = 1;
 
+  // if the last or single-to-last is a bool, that's `virtual`:
   if (typeof args[args.length - 1] === `boolean`) {
     [virtual] = args.splice(args.length - 1, 1);
+  } else if (typeof args[args.length - 2] === `boolean`) {
+    [virtual] = args.splice(args.length - 2, 1);
   }
 
-  if (typeof args[args.length - 2] === `boolean`) {
-    [virtual, T] = args.splice(args.length - 2, 2);
+  // If this makes the number of args odd, the last arg is T
+  if (args.length % 2 === 1) {
+    [T] = args.splice(args.length - 1, 1);
   }
 
+  // then, we can convert
   if (typeof args[0] === `number`) {
     points = [];
     for (let i = 0; i < args.length; i += 2) {

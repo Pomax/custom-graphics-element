@@ -10,6 +10,12 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Version history
 
+## v3.1.0
+
+- bugfix: pointer.drag did not set/unset correctly
+- bugfix: spline(..., virtual, T) did not correctly destructure virtual and T
+- added an export for `GraphicsElement` and `GraphicsSource` so you construct instances without having to use `document.createElement`.
+
 ## v3.0.0
 
 - major version update, as `currentPoint` was renamed to `currentMovable` in v2.1.0

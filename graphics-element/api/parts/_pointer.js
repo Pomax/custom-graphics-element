@@ -128,6 +128,7 @@ function __pointerMove(x, y) {
       currentMovable.x = x + currentMovable._dx;
       currentMovable.y = y + currentMovable._dy;
     }
+    currentMovable.__on_move?.();
     hadMovable = true;
   }
 

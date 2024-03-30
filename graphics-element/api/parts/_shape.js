@@ -42,12 +42,14 @@ class Segment {
     }
 
     points.forEach((p) => {
-      const op = { [typeName]: true, x: p.x, y: p.y };
-      if (typeName === `spline`) Object.assign(op, { T });
-      this.instructions.push(op);
+      p[typeName] = true;
+      if (typeName === `spline`) p.T = T;
+      this.instructions.push(p);
     });
 
-    this.updateSVG();
+    this.invalidate();
+
+    return points;
   }
 
   moveTo(x, y) {
@@ -55,23 +57,55 @@ class Segment {
       y = x.y;
       x = x.x;
     }
-    // TODO: continue here, make points real points
-    this._instruction(`move`, x, y);
+    return this._instruction(`move`, x, y);
   }
 
   lineTo(...args) {
-    // TODO: continue here, make points real points
-    this._instruction(`line`, ...args);
+    return this._instruction(`line`, ...args);
   }
 
   curveTo(...args) {
-    // TODO: continue here, make points real points
-    this._instruction(`bezier`, ...args);
+    return this._instruction(`bezier`, ...args);
+  }
+
+  quadTo(...args) {
+    return this._instruction(`quad`, ...args);
   }
 
   splineTo(...args) {
-    // TODO: continue here, make points real points
-    this._instruction(`spline`, ...args);
+    return this._instruction(`spline`, ...args);
+  }
+
+  close() {
+    this.closed = true;
+    this.invalidate();
+  }
+
+  offset(x, y) {
+    this.ox = x;
+    this.oy = y;
+    this.invalidate();
+  }
+
+  commit(x, y) {
+    const { ox, oy, instructions } = this;
+    instructions.forEach((p) => {
+      p.x += x;
+      p.y += y;
+    });
+    this.ox = 0;
+    this.oy = 0;
+    this.invalidate();
+  }
+
+  inside(x, y) {
+    const { path } = this;
+    path.setAttribute(`d`, this.svg_d);
+    return path.isPointInFill(new DOMPoint(x, y));
+  }
+
+  invalidate() {
+    this.updateSVG();
   }
 
   updateSVG() {
@@ -79,13 +113,17 @@ class Segment {
     const ops = this.instructions.slice();
     this.replaceSplineWithBeziers(ops);
     while (ops.length) {
-      const op = ops.shift();
-      if (op.move) d = `M ${op.x} ${op.y}`;
-      if (op.line) d = `${d} L ${op.x} ${op.y}`;
-      if (op.bezier) {
+      const p = ops.shift();
+      if (p.move) d = `M ${p.x} ${p.y}`;
+      if (p.line) d = `${d} L ${p.x} ${p.y}`;
+      if (p.quad) {
+        const op = ops.shift();
+        d = `${d} Q ${p.x} ${p.y} ${op.x} ${op.y}`;
+      }
+      if (p.bezier) {
         const op2 = ops.shift();
         const op3 = ops.shift();
-        d = `${d} C ${op.x} ${op.y} ${op2.x} ${op2.y} ${op3.x} ${op3.y}`;
+        d = `${d} C ${p.x} ${p.y} ${op2.x} ${op2.y} ${op3.x} ${op3.y}`;
       }
     }
     if (this.closed) d += ` Z`;
@@ -93,34 +131,15 @@ class Segment {
     this.path.setAttribute(`d`, d);
   }
 
-  getSVG() {
-    return `<path fill="${__ctx.fillStyle}" stroke="${__ctx.strokeStyle}" d="${this.svg_d}"/>`;
-  }
-
-  close() {
-    this.closed = true;
-    this.updateSVG();
-  }
-
-  offset(x, y) {
-    this.ox = x;
-    this.oy = y;
-  }
-
-  commit() {
-    const { ox, oy, points } = this;
-    points.forEach((p) => {
-      p.x += ox;
-      p.y += oy;
-    });
-    this.ox = 0;
-    this.oy = 0;
-  }
-
-  inside(x, y) {
-    const { path } = this;
-    path.setAttribute(`d`, this.svg_d);
-    return path.isPointInFill(new DOMPoint(x, y));
+  getSVG(showPoints, fill, stroke) {
+    let svg = `<path fill="${fill}" stroke="${stroke}" d="${this.svg_d}"/>`;
+    if (showPoints) {
+      this.instructions.forEach(
+        (p) =>
+          (svg = `${svg}\n<circle fill="${fill}" stroke="${stroke}" cx="${p.x}" cy="${p.y}" r="3"/>`)
+      );
+    }
+    return svg;
   }
 
   // =============================================================
@@ -225,6 +244,8 @@ class Segment {
 class Shape {
   segments = [];
   resizable = false;
+  ox = 0;
+  oy = 0;
 
   constructor() {
     this.newSegment();
@@ -259,84 +280,136 @@ class Shape {
   }
 
   add(x, y) {
-    if (x.x !== undefined && x.y !== undefined) {
-      y = x.y;
-      x = x.x;
+    const segment = this.segments.at(-1);
+    let pts;
+    if (segment.instructions.length) {
+      pts = segment.lineTo(x, y);
+    } else {
+      pts = segment.moveTo(x, y);
     }
-    const p = this.segments.at(-1).add(x, y);
-    if (this.resizable) setMovable(p);
-    this._svg = false;
+    this.recordPoints(pts);
+  }
+
+  recordPoints(pts) {
+    const segment = this.segments.at(-1);
+    if (this.resizable) {
+      pts.forEach((p) => {
+        p.__on_move = () => {
+          segment.invalidate();
+          this.invalidate();
+        };
+        setMovable(p);
+      });
+    }
+    this.buildImage();
   }
 
   moveTo(x, y) {
     this.newSegment();
-    const pts = this.segments.at(-1).moveTo(x, y);
-    if (this.resizable) pts.forEach((p) => setMovable(p));
-    this._svg = false;
+    this.recordPoints(this.segments.at(-1).moveTo(x, y));
   }
 
   lineTo(...args) {
-    const pts = this.segments.at(-1)?.lineTo(...args);
-    if (this.resizable) pts.forEach((p) => setMovable(p));
-    this._svg = false;
+    this.recordPoints(this.segments.at(-1)?.lineTo(...args));
   }
 
   curveTo(...args) {
-    const pts = this.segments.at(-1)?.curveTo(...args);
-    if (this.resizable) pts.forEach((p) => setMovable(p));
-    this._svg = false;
+    this.recordPoints(this.segments.at(-1)?.curveTo(...args));
+  }
+
+  quadTo(...args) {
+    this.recordPoints(this.segments.at(-1)?.quadTo(...args));
   }
 
   splineTo(...args) {
-    const pts = this.segments.at(-1)?.splineTo(...args);
-    if (this.resizable) pts.forEach((p) => setMovable(p));
-    this._svg = false;
+    this.recordPoints(this.segments.at(-1)?.splineTo(...args));
   }
 
-  offset(x, y, segmentId = undefined) {
-    const { segments } = this;
-    if (segmentId !== undefined) {
-      segments[segmentId].offset(x, y);
-    } else {
-      segments.forEach((p) => p.offset(x, y));
-    }
+  offset(x, y) {
+    this.ox = x;
+    this.oy = y;
+  }
+
+  offsetSegment(segmentId, x, y) {
+    const segment = this.segments[segmentId];
+    segment.offset(x, y);
   }
 
   commit() {
-    this.segments.forEach((p) => p.commit());
+    const { segments, ox, oy } = this;
+    segments.forEach((p) => p.commit(ox, oy));
+    this.ox = this.oy = 0;
+    // rebuild so it's ready by the next redraw
+    this.buildImage();
   }
 
   reset() {
-    segments.forEach((p) => p.offset(0, 0));
+    this.ox = 0;
+    this.oy = 0;
+    // rebuild so it's ready by the next redraw
+    this.buildImage();
   }
 
-  buildImage(showPoints) {
+  noFill() {
+    this.setFill(`none`);
+  }
+
+  setFill(fill) {
+    if (this.fillStyle !== fill) {
+      this.fillStyle = fill;
+      this.buildImage();
+    }
+  }
+
+  noStroke() {
+    this.setStroke(`none`);
+  }
+
+  setStroke(stroke) {
+    if (this.strokeStyle !== stroke) {
+      this.strokeStyle = stroke;
+      this.buildImage();
+    }
+  }
+
+  invalidate() {
+    this._cached_image = false;
+  }
+
+  buildImage() {
+    const { showPoints, fillStyle, strokeStyle } = this;
     const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" version="1.0">
-  ${this.segments.map((s) => s.getSVG(showPoints))}
+<svg width="${width}px" height="${height}px" viewBox="-${width} -${height} ${3 * width} ${3 * height}" xmlns="http://www.w3.org/2000/svg" version="1.0">
+  ${this.segments.map((s) => s.getSVG(showPoints, fillStyle, strokeStyle))}
 </svg>`;
-    const img = (this._img = new Image());
-    img.showPoints = showPoints;
+    const img = (this._cached_image = new Image());
     img.loaded = new Promise((resolve) => {
       img.onload = () => resolve(true);
     });
     img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
   }
 
-  async draw(showPoints = false) {
-    if (!this._img || this._img.showPoints !== showPoints) {
-      this.buildImage(showPoints);
+  showPoints(showPoints = true) {
+    if (this.showPoints !== showPoints) {
+      this.showPoints = showPoints;
+      this.buildImage();
     }
-    await this._img.loaded;
-    image(this._img);
+  }
+
+  async draw() {
+    if (!this._cached_image) this.buildImage();
+    const { ox, oy, _cached_image } = this;
+    await _cached_image.loaded;
+    image(_cached_image, ox - width, oy - height, 3 * width, 3 * height);
   }
 
   inside(x, y) {
-    return this.segments
+    const { segments, ox, oy } = this;
+    return segments
       .map((s, id) => {
         s.id = id;
         return s;
       })
-      .filter((s) => s.inside(x, y));
+      .filter((s) => s.inside(x - ox, y - oy));
   }
 }

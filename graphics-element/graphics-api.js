@@ -67,7 +67,7 @@ const __prng = new (class {
   }
 })();
 
-async function reset(element = __element) {
+async function __reset(element = __element) {
   __element = element;
 
   // default variable values
@@ -110,7 +110,7 @@ async function reset(element = __element) {
   return { width, height };
 }
 
-function halt() {
+function __halt() {
   playing = false;
   __canvas = undefined;
   __ctx = undefined;

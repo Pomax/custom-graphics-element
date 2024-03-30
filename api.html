@@ -5672,71 +5672,89 @@ function draw() {
       <h3>Description</h3>
       <p>
         Start a new shape. This yields a <code>Shape</code> object with the
-        following API
+        following API:
       </p>
       <ul>
         <li>
-          <p>
-            <code>makeMovable(movable?: boolean)</code> - allow this shape to be
-            moved around with the pointer (<code>movable</code> is true if
-            omitted)
-          </p>
+          <code>makeMovable(movable?: boolean)</code> - allow this shape to be
+          moved around with the pointer (<code>movable</code> is true if
+          omitted)
         </li>
         <li>
-          <p>
-            <code>allowResizing(allowed?: boolean)</code> - allow the points
-            that make up this shape to be moved around (<code>allowed</code> is
-            true if omitted)
-          </p>
+          <code>allowResizing(allowed?: boolean)</code> - allow the points that
+          make up this shape to be moved around (<code>allowed</code> is true if
+          omitted)
         </li>
         <li>
-          <p>
-            <code>add(x, y)</code> - add a point to the shape&#39;s current
-            segment.
-          </p>
+          <code>showPoints(showPoints?: boolean)</code> - determines whether or
+          not to draw the pathing points on top of the shape during draw().
         </li>
         <li>
-          <p>
-            <code>close()</code> - close the current segment so no new points
-            can be added.
-          </p>
+          <code>close()</code> - close the current segment so no new points can
+          be added.
         </li>
         <li>
-          <p>
-            <code>newSegment(closeExisting?: boolean)</code> - start a new
-            segment in this shape, w
-          </p>
+          <code>newSegment(closeExisting?: boolean)</code> - start a new segment
+          in this shape, w
+        </li>
+      </ul>
+      <p>A Shape also supports the following utility functions:</p>
+      <ul>
+        <li>
+          <code>offset(x, y)</code> - (temporarily) move this shape by (x,y)
         </li>
         <li>
-          <p>
-            <code>offset(x, y)</code> - (temporarily) move this shape by (x,y)
-          </p>
+          <code>commit()</code> - commit the temporary offset by rewriting all
+          coordiantes.
+        </li>
+        <li><code>reset()</code> - reset the shape to having no offset.</li>
+        <li>
+          <code>draw()</code> - draws the shape using its current stroke, fill,
+          and &quot;show points&quot; settings.
         </li>
         <li>
-          <p><code>commit()</code> - commit the offset as real coordinates.</p>
-        </li>
-        <li>
-          <p><code>reset()</code> - reset the shape to having no offset.</p>
-        </li>
-        <li>
-          <p>
-            <code>draw(showPoints?)</code> - draws the shape using the current
-            stroke and fill settings.
-          </p>
-        </li>
-        <li>
-          <p>
-            <code>inside(x, y): segment[]</code> - returns the list of all
-            segments that (x,y) is inside of.
-          </p>
+          <code>inside(x, y): segment[]</code> - returns the list of all
+          segments that (x,y) is inside of.
         </li>
       </ul>
       <p>
-        Note that shapes do not perform any sort of boolean operations, and
-        defining a shape with a cutout is not possible. You&#39;ll want to use
-        SVG images for that, instead. E.g. create an SVG data uri, then use that
-        as <code>src</code> for an Image and draw that image using the
-        <code>image()</code> function.
+        And it supports the following pathing functions, with arguments that can
+        either consist of (the necessary number of) pairs of coordinate values,
+        or (the necessary number of) pointlikes, being objects with an
+        <code>x</code> and <code>y</code> property.
+      </p>
+      <ul>
+        <li>
+          <code>moveTo(x,y OR p:pointLike)</code> - start a new segment and mark
+          its path as starting at (x,y).
+        </li>
+        <li>
+          <code>lineTo(x,y,... OR p,...)</code> - add one or more points that
+          connect to the previous point with a straight line.
+        </li>
+        <li>
+          <code>quadTo(cx,cy,x,y,... OR cp,p,...)</code> - add one or more
+          quadratic bezier curves, where (cx,cy)/cp is the control point, and
+          (x,y)/p the end point.
+        </li>
+        <li>
+          <code>curveTo(cx1,cy1,cx2,cy2,x,y,... OR c1p,c2p,p,...)</code> - add
+          one or more cubic bezier curves, which have two control points.
+        </li>
+        <li>
+          <code>splineTo(x1,y1,... OR p1,...)</code> - add one or more cardinal
+          spline pathing coordinates.
+        </li>
+      </ul>
+      <p>
+        Cardinal spline coordinates are rendered by treating the path as closed
+        (even if it is not), performing wrap-around lookups as needed in order
+        to draw &quot;something sensible&quot;.
+      </p>
+      <p>
+        Note that shape cutouts are not (currently) possible. You&#39;ll want to
+        roll your own SVG builder and then turn that SVG into a data-uri that
+        you just render with image() instead if you need cutouts.
       </p>
 
       <h3>Examples</h3>

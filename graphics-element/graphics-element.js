@@ -201,7 +201,13 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
         `const __randomId = "${Date.now()}";`, // ensures reloads work
         libraryCode,
         sourceCode,
-        `export { reset as start, __canvas as canvas, halt, highlight, __getDescription as getDescription }`,
+        `export {
+  __reset as start,
+  __canvas as canvas,
+  __halt as halt,
+  highlight,
+  __getDescription as getDescription
+}`,
       ].join(`\n`)
     );
 

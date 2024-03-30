@@ -1331,27 +1331,39 @@ declare function setTextAlign(xAlign: string, yAlign: string): void;
  */
 declare function setTextStroke(color: string, width?: number): void;
 /**
- * Start a new shape. This yields a `Shape` object with the following API
+ * Start a new shape. This yields a `Shape` object with the following API:
  *
  *  - `makeMovable(movable?: boolean)` - allow this shape to be moved around with the pointer (`movable` is true if omitted)
  *  - `allowResizing(allowed?: boolean)` - allow the points that make up this shape to be moved around (`allowed` is true if omitted)
- *
- *  - `add(x, y)` - add a point to the shape's current segment.
+ *  - `showPoints(showPoints?: boolean)` - determines whether or not to draw the pathing points on top of the shape during draw().
  *  - `close()` - close the current segment so no new points can be added.
  *  - `newSegment(closeExisting?: boolean)` - start a new segment in this shape, w
  *
- *  - `offset(x, y)` - (temporarily) move this shape by (x,y)
- *  - `commit()` - commit the offset as real coordinates.
- *  - `reset()` - reset the shape to having no offset.
+ *  A Shape also supports the following utility functions:
  *
- *  - `draw(showPoints?)` - draws the shape using the current stroke and fill settings.
+ *  - `offset(x, y)` - (temporarily) move this shape by (x,y)
+ *  - `commit()` - commit the temporary offset by rewriting all coordiantes.
+ *  - `reset()` - reset the shape to having no offset.
+ *  - `draw()` - draws the shape using its current stroke, fill, and "show points" settings.
  *  - `inside(x, y): segment[]` - returns the list of all segments that (x,y) is inside of.
  *
- *  Note that shapes do not perform any sort of boolean operations, and
- *  defining a shape with a cutout is not possible. You'll want to use
- *  SVG images for that, instead. E.g. create an SVG data uri, then use
- *  that as `src` for an Image and draw that image using the `image()`
- *  function.
+ *  And it supports the following pathing functions, with arguments that can either consist of
+ *  (the necessary number of) pairs of coordinate values, or (the necessary number of) pointlikes,
+ *  being objects with an `x` and `y` property.
+ *
+ *  - `moveTo(x,y OR p:pointLike)` - start a new segment and mark its path as starting at (x,y).
+ *  - `lineTo(x,y,... OR p,...)` - add one or more points that connect to the previous point with a straight line.
+ *  - `quadTo(cx,cy,x,y,... OR cp,p,...)` - add one or more quadratic bezier curves, where (cx,cy)/cp is the control point, and (x,y)/p the end point.
+ *  - `curveTo(cx1,cy1,cx2,cy2,x,y,... OR c1p,c2p,p,...)` - add one or more cubic bezier curves, which have two control points.
+ *  - `splineTo(x1,y1,... OR p1,...)` - add one or more cardinal spline pathing coordinates.
+ *
+ *  Cardinal spline coordinates are rendered by treating the path as closed
+ *  (even if it is not), performing wrap-around lookups as needed in order
+ *  to draw "something sensible".
+ *
+ *  Note that shape cutouts are not (currently) possible. You'll want to
+ *  roll your own SVG builder and then turn that SVG into a data-uri that
+ *  you just render with image() instead if you need cutouts.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
  */

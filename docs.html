@@ -355,6 +355,22 @@ function draw() {
 }</code></pre>
 
       <p>
+        And because modern JS may require <code>await</code>ing asynchronous
+        returns, both of those can be marked async, too:
+      <p>
+
+        <pre><code class="language-js">async function setup() {
+  setSize(123, 456);
+  await fetch(`http://example.com/ping`);
+}
+
+async function draw() {
+  clear(`white`);
+  const img = await downloadImage(...);
+  image(img);
+}</code></pre>
+
+      <p>
         Both of these functions are technically optional, but omitting them
         doesn&#39;t make a lot of sense: by default the &lt;graphics-element&gt;
         will first run <code>setup</code>, and will then run <code>draw</code>,

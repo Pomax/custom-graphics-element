@@ -1,7 +1,3 @@
-const POLYGON = `polygon`;
-const SPLINE = `spline`;
-const BEZIER = `bezier`;
-
 /**
  * ...docs go here...
  */
@@ -14,10 +10,14 @@ class Segment {
   closed = false;
   svg_d = ``;
 
-  add(x, y, type = POLYGON) {
+  constructor() {
+    this.path = document.createElementNS(`http://www.w3.org/2000/svg`, `path`);
+  }
+
+  add(x, y) {
     const { closed, points } = this;
     if (closed) return;
-    const p = { x, y, type };
+    const p = { x, y };
     points.push(p);
     return p;
   }
@@ -37,7 +37,6 @@ class Segment {
     if (typeName === `spline`) {
       if (args.length % 2 === 1) {
         [T] = args.splice(args.length - 1, 1);
-        console.log(`splitting off T=${T}`);
         points.pop();
       }
     }
@@ -56,174 +55,29 @@ class Segment {
       y = x.y;
       x = x.x;
     }
+    // TODO: continue here, make points real points
     this._instruction(`move`, x, y);
   }
 
   lineTo(...args) {
+    // TODO: continue here, make points real points
     this._instruction(`line`, ...args);
   }
 
   curveTo(...args) {
+    // TODO: continue here, make points real points
     this._instruction(`bezier`, ...args);
   }
 
   splineTo(...args) {
+    // TODO: continue here, make points real points
     this._instruction(`spline`, ...args);
   }
 
   updateSVG() {
-    const ops = this.instructions.slice();
-
-    // As a pre-process, we're going to convert all splines to poly-Beziers.
-    // Until there are no consecutive spline points left:
-    // 1. find the next stretch of spline points.
-    // 2. determine whether we need virtual points when virtual=true
-    // 3. form equivalent Bezier segments and replace the spline sequence
-
-    const replace = (i) => {
-      let pre = i > 0 ? ops[i - 1] : false;
-      const spline = [];
-
-      console.log(`replace starting at`, ops[i]);
-      while (ops[i] && ops[i].spline) {
-        spline.push(ops.splice(i, 1)[0]);
-      }
-      console.log(`spline:`, spline.slice());
-      console.log(`ops:`, ops.slice());
-      let post = ops[i];
-
-      const getBezierOpsGiven = (p1, p2, p3, p4, T) => {
-        const tension = 6 * T;
-        if (p2.line && p1.line) {
-          // since neither p2 or p1 are spline points,
-          // but we want the curve to have a tangent
-          // parallel to p2--p1, we need to move p1
-          const dx12 = p1.x - p2.x;
-          const dy12 = p1.y - p2.y;
-          p1 = {
-            x: p3.x + dx12,
-            y: p3.y + dy12,
-          };
-        }
-
-        if (p4 && p4.line && p3.line) {
-          // since neither p3 or p4 are spline points,
-          // but we want the curve to have a tangent
-          // parallel to p3--p4, we need to move p4
-          const dx43 = p4.x - p3.x;
-          const dy43 = p4.y - p3.y;
-          p4 = {
-            x: p2.x + dx43,
-            y: p2.y + dy43,
-          };
-        } else {
-          p4 = {
-            x: p3.x + (p3.x - p2.x),
-            y: p3.y + (p3.y - p2.y),
-          };
-        }
-
-        return [
-          {
-            bezier: true,
-            x: p2.x + (p3.x - p1.x) / tension,
-            y: p2.y + (p3.y - p1.y) / tension,
-          },
-          {
-            bezier: true,
-            x: p3.x - (p4.x - p2.x) / tension,
-            y: p3.y - (p4.y - p2.y) / tension,
-          },
-          { bezier: true, x: p3.x, y: p3.y },
-        ];
-      };
-
-      const beziers = [];
-      let p1, p2, p3, p4;
-
-      // special case handling for a single spline point
-      if (spline.length === 1) {
-        p1 = ops[i - 2]; // may be wrong point!
-        p2 = ops[i - 1];
-        p3 = spline[0];
-        p4 = ops[i];
-
-        if (!p4 && this.closed) {
-          p4 = ops[0];
-        }
-
-        // FIXME: only allow as intermediate
-        if (!p4) return 0;
-
-        beziers.push(...getBezierOpsGiven(p1, p2, p3, p4, p3.T));
-
-        p1 = p2;
-        p2 = p3;
-        p3 = p4;
-        p4 = ops[i + 1];
-
-        if (!p4 && this.closed) {
-          p4 = ops[1];
-        }
-
-        beziers.push(...getBezierOpsGiven(p1, p2, p3, p4, p3.T ?? p2.T));
-
-        ops.splice(i, 1, ...beziers);
-        return beziers.length - 1;
-      }
-
-      spline.forEach((p3, j) => {
-        // Determine our p1 and p2
-        if (p3 === spline[0]) {
-          p2 = ops[i - 1];
-          if (i - 2 >= 0) {
-            p1 = ops[i - 2];
-          } else if (this.closed) {
-            p1 = ops.at(-1);
-          } else {
-            p1 = {
-              x: p2.x + (p2.x - p3.x),
-              y: p2.y + (p2.y - p3.y),
-            };
-          }
-        } else if (p3 === spline[1]) {
-          p2 = spline[0];
-          p1 = ops[i - 1];
-        } else {
-          p2 = spline[j - 1];
-          p1 = spline[j - 2];
-        }
-        // Determine our p4
-        if (p3 === spline.at(-1)) {
-          p4 = ops[i + j + 1];
-        } else {
-          p4 = spline[j + 1];
-        }
-        if (!p4 && this.closed) {
-          p4 = ops[0];
-        }
-        // FIXME: intermediary only
-        if (!p4) return 0;
-
-        console.log(`multi spline replace`, p1, p2, p3, p4);
-        beziers.push(...getBezierOpsGiven(p1, p2, p3, p4));
-      });
-
-      ops.splice(i, spline.length, ...beziers);
-      return beziers.length - spline.length;
-    };
-
-    console.log(`start:`, ops.slice());
-    for (let i = 0; i < ops.length; i++) {
-      console.log(ops[i]);
-      if (ops[i].spline) {
-        i += replace(i);
-      }
-    }
-
-    console.log(`after:`, ops.slice());
-
     let d = ``;
+    const ops = this.instructions.slice();
+    this.replaceSplineWithBeziers(ops);
     while (ops.length) {
       const op = ops.shift();
       if (op.move) d = `M ${op.x} ${op.y}`;
@@ -236,7 +90,7 @@ class Segment {
     }
     if (this.closed) d += ` Z`;
     this.svg_d = d;
-    console.log(this.svg_d);
+    this.path.setAttribute(`d`, d);
   }
 
   getSVG() {
@@ -263,49 +117,110 @@ class Segment {
     this.oy = 0;
   }
 
-  draw(showPoints = false) {
-    this.formSVG();
+  inside(x, y) {
+    const { path } = this;
+    path.setAttribute(`d`, this.svg_d);
+    return path.isPointInFill(new DOMPoint(x, y));
+  }
 
-    const { closed, ox, oy, points } = this;
-    start();
-    const s = points.slice();
-    if (closed) s.push(s[0]);
-    s.forEach(({ x, y }) => vertex(x + ox, y + oy));
-    end();
-    if (showPoints) {
-      points.forEach((p) => point(p.x + ox, p.y + oy));
+  // =============================================================
+  // Code *just* for converting cardinal splines into poly-Beziers
+  // =============================================================
+
+  replaceSplineWithBeziers(ops) {
+    for (let i = 0; i < ops.length; i++) {
+      if (ops[i].spline) {
+        this.convertSpline(ops, i);
+      }
     }
   }
 
-  inside(x, y) {
-    // let's do some ray casting, treating the path closed.
-    let crossing = 0;
-    const { ox, oy, points } = this;
-    const { length: n } = points;
-    if (n < 3) return 0;
-    for (let i = 0, p1, p2; i < n; i++) {
-      p1 = points[i];
-      p2 = points[(i + 1) % n];
-      const r = lli(
-        {
-          x: p1.x + ox,
-          y: p1.y + oy,
-        },
-        {
-          x: p2.x + ox,
-          y: p2.y + oy,
-        },
-        { x, y },
-        { x, y: y - huge }
-      );
-      if (r?.inBounds) crossing++;
+  convertSpline(ops, i) {
+    const splines = [];
+    // remove the sequence of spline points starting at ops[i]
+    while (ops[i] && ops[i].spline) splines.push(ops.splice(i, 1)[0]);
+    // inject the equivalent bezier sequence
+    ops.splice(i, 0, ...this.splinePointsToBezierPoints(splines, ops, i));
+  }
+
+  splinePointsToBezierPoints(splines, ops, i) {
+    let beziers = [];
+    let q1 = ops.at(i - 2);
+    let q2 = ops.at(i - 1);
+    let q3, q4;
+    let p = splines[0];
+
+    // The first  segment needs special handling to
+    // ensure the departure tangent is correct.
+    q3 = splines[1] ?? ops[0];
+    beziers.push(...this.firstSplineToBezier(q1, q2, p, q3, ops, i));
+
+    // Intermediate segments are "normal conversion math".
+    for (let j = 1; j < splines.length; j++) {
+      q1 = q2;
+      q2 = p;
+      p = splines[j];
+      q3 = splines[j + 1] ?? ops[i] ?? ops[0];
+      beziers.push(...this.fullSplineToBezier(q1, q2, p, q3, ops, i));
     }
-    return crossing % 2 === 1;
+
+    // The last segment needs special handling to
+    // ensure the arrival tangent is correct.
+    q3 = ops[i] ?? ops[0];
+    q4 = ops[i + 1] ?? ops[1];
+    beziers.push(...this.lastSplineToBezier(q2, p, q3, q4, ops, i));
+
+    return beziers;
+  }
+
+  // p3 is our principal point
+  firstSplineToBezier(p1, p2, p3, p4, ops, i) {
+    // Reposition p1 so that the tangent at
+    // p2 will match the actual tangent at p2.
+    p1 = this.updateFromTangent(p1, p2, p3);
+    return this.fullSplineToBezier(p1, p2, p3, p4, ops, i);
+  }
+
+  // p2 is our principal point
+  lastSplineToBezier(p1, p2, p3, p4, ops, i) {
+    // Reposition p4 so that the tangent at
+    // p3 will match the actual tangent at p3.
+    p4 = this.updateFromTangent(p4, p3, p2);
+    return this.fullSplineToBezier(p1, p2, p3, p4, ops, i);
+  }
+
+  // create the Bezier equivalent of p2--p3
+  fullSplineToBezier(p1, p2, p3, p4, ops, i) {
+    const T = p3.T ?? p2.T ?? 1;
+    const tension = 6 * T;
+    return [
+      {
+        bezier: true,
+        x: p2.x + (p3.x - p1.x) / tension,
+        y: p2.y + (p3.y - p1.y) / tension,
+      },
+      {
+        bezier: true,
+        x: p3.x - (p4.x - p2.x) / tension,
+        y: p3.y - (p4.y - p2.y) / tension,
+      },
+      { bezier: true, x: p3.x, y: p3.y },
+    ];
+  }
+
+  updateFromTangent(q1, q2, p3) {
+    // No matter whether q1 and q2 are line or
+    // bezier coordinates, the logic is the same.
+    return {
+      tangentCorrection: true,
+      x: p3.x + (q1.x - q2.x),
+      y: p3.y + (q1.y - q2.y),
+    };
   }
 }
 
 /**
- * ...code goes here...
+ * ...docs go here...
  */
 class Shape {
   segments = [];
@@ -350,23 +265,32 @@ class Shape {
     }
     const p = this.segments.at(-1).add(x, y);
     if (this.resizable) setMovable(p);
+    this._svg = false;
   }
 
   moveTo(x, y) {
     this.newSegment();
-    this.segments.at(-1).moveTo(x, y);
+    const pts = this.segments.at(-1).moveTo(x, y);
+    if (this.resizable) pts.forEach((p) => setMovable(p));
+    this._svg = false;
   }
 
   lineTo(...args) {
-    this.segments.at(-1)?.lineTo(...args);
+    const pts = this.segments.at(-1)?.lineTo(...args);
+    if (this.resizable) pts.forEach((p) => setMovable(p));
+    this._svg = false;
   }
 
   curveTo(...args) {
-    this.segments.at(-1)?.curveTo(...args);
+    const pts = this.segments.at(-1)?.curveTo(...args);
+    if (this.resizable) pts.forEach((p) => setMovable(p));
+    this._svg = false;
   }
 
   splineTo(...args) {
-    this.segments.at(-1)?.splineTo(...args);
+    const pts = this.segments.at(-1)?.splineTo(...args);
+    if (this.resizable) pts.forEach((p) => setMovable(p));
+    this._svg = false;
   }
 
   offset(x, y, segmentId = undefined) {
@@ -386,13 +310,25 @@ class Shape {
     segments.forEach((p) => p.offset(0, 0));
   }
 
-  draw(showPoints = false) {
+  buildImage(showPoints) {
     const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}px" height="${height}px" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" version="1.0">
   ${this.segments.map((s) => s.getSVG(showPoints))}
 </svg>`;
-    console.log(svg);
-    image(`data:image/svg+xml;base64,${btoa(svg)}`);
+    const img = (this._img = new Image());
+    img.showPoints = showPoints;
+    img.loaded = new Promise((resolve) => {
+      img.onload = () => resolve(true);
+    });
+    img.src = `data:image/svg+xml;base64,${btoa(svg)}`;
+  }
+
+  async draw(showPoints = false) {
+    if (!this._img || this._img.showPoints !== showPoints) {
+      this.buildImage(showPoints);
+    }
+    await this._img.loaded;
+    image(this._img);
   }
 
   inside(x, y) {

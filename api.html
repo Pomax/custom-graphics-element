@@ -5766,17 +5766,18 @@ function setup() {
   setSize(200, 200);
   shape = startShape();
   shape.allowResizing();
+  shape.showPoints();
   shape.makeMovable();
   shape.add(0, height / 2);
   shape.add(width / 2, 0);
   shape.add(width, height / 2);
   shape.add(width / 2, height);
   shape.close();
+  shape.setStroke(`black`);
+  shape.setFill(`gold`);
 }
 function draw() {
   clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
   shape.draw(true);
 }
 
@@ -5787,17 +5788,18 @@ function setup() {
   setSize(200, 200);
   shape = startShape();
   shape.allowResizing();
+  shape.showPoints();
   shape.makeMovable();
   shape.add(0, height / 2);
   shape.add(width / 2, 0);
   shape.add(width, height / 2);
   shape.add(width / 2, height);
   shape.close();
+  shape.setStroke(`black`);
+  shape.setFill(`gold`);
 }
 function draw() {
   clear(`white`);
-  setStroke(`black`);
-  setFill(`gold`);
   shape.draw(true);
 }
 </code></pre>

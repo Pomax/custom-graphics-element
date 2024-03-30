@@ -26,7 +26,6 @@ const additionalSources = stored.additionalSources;
 await customElements.whenDefined(`graphics-element`);
 const graphics = document.querySelector(`graphics-element`);
 await waitFor(() => typeof graphics.loadSource === `function`);
-
 await waitFor(() => typeof monaco !== `undefined`);
 const editorParent = document.getElementById(`editor`);
 

@@ -11,28 +11,19 @@ const changeStack = [];
 let recompiling = false;
 
 function addToStack(filename) {
+  if (recompiling) return;
   if (changeStack.includes(filename)) return;
   changeStack.push(filename);
 }
 
-function recompile(changeDuringCompile = false) {
+function recompile() {
   if (!changeStack.length) return;
   if (recompiling) return;
   recompiling = true;
-  if (changeDuringCompile) {
-    console.log(
-      `File changes found during compile, re-recompiling (${changeStack.join(`,`)})`
-    );
-  } else {
-    console.log(`Recompiling (changes found in ${changeStack.join(`,`)})`);
-  }
-  console.log(changeStack);
+  console.log(`Recompiling (changes found in ${changeStack.join(`,`)})`);
   changeStack.splice(0, changeStack.length);
   execSync(`npm run build`);
-  setTimeout(() => {
-    recompiling = false;
-    if (!changeDuringCompile && changeStack.length > 0) recompile(true);
-  }, 500);
+  setTimeout(() => (recompiling = false), 250);
 }
 
 const dirname = `graphics-element/api/parts`;

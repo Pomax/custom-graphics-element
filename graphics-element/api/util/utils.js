@@ -1,6 +1,10 @@
-export function base64(data) {
+export function base64(data, chunkSize = 512) {
   const bytes = new TextEncoder().encode(data);
-  const binString = String.fromCodePoint(...bytes);
+  let binString = ``;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.slice(i, i + chunkSize);
+    binString += String.fromCodePoint(...chunk);
+  }
   return btoa(binString);
 }
 

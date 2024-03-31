@@ -1337,19 +1337,20 @@ declare function setTextStroke(color: string, width?: number): void;
  *  - `allowResizing(allowed?: boolean)` - allow the points that make up this shape to be moved around (`allowed` is true if omitted)
  *  - `showPoints(showPoints?: boolean)` - determines whether or not to draw the pathing points on top of the shape during draw().
  *  - `close()` - close the current segment so no new points can be added.
- *  - `newSegment(closeExisting?: boolean)` - start a new segment in this shape, w
+ *  - `newSegment(closeExisting?: boolean)` - start a new segment in this shape, closing the previous segment if `closeExisting` is true (default=false)
  *
  *  A Shape also supports the following utility functions:
  *
  *  - `offset(x, y)` - (temporarily) move this shape by (x,y)
- *  - `commit()` - commit the temporary offset by rewriting all coordiantes.
+ *  - `commit()` - commit the temporary offset by rewriting all coordinates.
  *  - `reset()` - reset the shape to having no offset.
  *  - `draw()` - draws the shape using its current stroke, fill, and "show points" settings.
- *  - `inside(x, y): segment[]` - returns the list of all segments that (x,y) is inside of.
+ *  - `inside(x, y): boolean` - returns whether or not a point lies inside this (implicitly closed) shape.
  *
- *  And it supports the following pathing functions, with arguments that can either consist of
- *  (the necessary number of) pairs of coordinate values, or (the necessary number of) pointlikes,
- *  being objects with an `x` and `y` property.
+ *  And it supports the following pathing functions, with arguments that
+ *  can either consist of (the necessary number of) pairs of coordinate
+ *  values, or (the necessary number of) point-likes, being objects with
+ *  an `x` and `y` property.
  *
  *  - `moveTo(x,y OR p:pointLike)` - start a new segment and mark its path as starting at (x,y).
  *  - `lineTo(x,y,... OR p,...)` - add one or more points that connect to the previous point with a straight line.
@@ -1360,10 +1361,6 @@ declare function setTextStroke(color: string, width?: number): void;
  *  Cardinal spline coordinates are rendered by treating the path as closed
  *  (even if it is not), performing wrap-around lookups as needed in order
  *  to draw "something sensible".
- *
- *  Note that shape cutouts are not (currently) possible. You'll want to
- *  roll your own SVG builder and then turn that SVG into a data-uri that
- *  you just render with image() instead if you need cutouts.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#startShape
  */

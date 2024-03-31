@@ -40,6 +40,11 @@ let debounce = -1;
   );
 })();
 
+// and the clear button
+document.querySelector(`button.clear`).addEventListener(`click`, () => {
+  localStorage.clear();
+});
+
 // And then build our editor(s) and fill the graphics element
 buildPage(editorParent, userCode, additionalSources);
 

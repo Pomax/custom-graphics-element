@@ -43,6 +43,15 @@
       button {
         border-radius: 5px;
         margin: 2px 5px;
+        &.clear {
+          background: none;
+          border: 1px solid #444;
+          color: #999;
+          position: absolute;
+          right: 1em;
+          top: 1em;
+          cursor: pointer;
+        }
       }
       button.active {
         color: white;
@@ -115,6 +124,7 @@
 
       <button data-src="./new-project.js">blank project</button>
     </span>
+    <button class="clear">clear cached code</button>
     <main>
       <div id="editor"></div>
       <div id="graphics">

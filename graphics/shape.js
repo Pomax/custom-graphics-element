@@ -1,12 +1,19 @@
-let shape, mode = 0;
+let shape,
+  mode = 0;
 
 const caps = [
   () => shape.splineTo(50, 150, 0.55),
   () => shape.splineTo(55, 175, 55, 125, 0.9),
   () => shape.quadTo(50, 200, 50, 150, 50, 100, 100, 100),
-  () => shape.curveTo(33, 200, 33, 100, 100, 100)
+  () => shape.curveTo(33, 200, 33, 100, 100, 100),
 ];
 
+function getDescription() {
+  return `<p>
+    Press "n" to cycle through the four different cap solutions,
+    "s" to 
+  </p>`;
+}
 
 function setup() {
   setSize(600, 400);
@@ -17,11 +24,11 @@ function reset() {
   shape = startShape();
   shape.allowResizing(true);
   shape.showPoints(true);
-  setMovable(shape);
   shape.moveTo(100, 100);
   shape.lineTo(200, 100, 200, 200, 100, 200);
   caps[mode]();
   shape.close();
+  setMovable(shape);
 }
 
 async function draw() {

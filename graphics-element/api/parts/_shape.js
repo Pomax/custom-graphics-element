@@ -87,25 +87,85 @@ class Segment {
     this.invalidate();
   }
 
-  commit(x, y) {
+  commit() {
     const { ox, oy, instructions } = this;
     instructions.forEach((p) => {
-      p.x += x;
-      p.y += y;
+      p.x += ox;
+      p.y += oy;
     });
     this.ox = 0;
     this.oy = 0;
     this.invalidate();
   }
 
+  invalidate() {
+    // this.updateSVG();
+    this.dirty = true;
+  }
+
   inside(x, y) {
     const { path } = this;
-    path.setAttribute(`d`, this.svg_d);
+    if (this.dirty) {
+      this.updateSVG();
+      path.setAttribute(`d`, this.svg_d);
+      this.dirty = false;
+    }
     return path.isPointInFill(new DOMPoint(x, y));
   }
 
-  invalidate() {
-    this.updateSVG();
+  draw(showPoints) {
+    const { ox, oy } = this;
+    const ops = this.instructions.slice();
+    this.replaceSplineWithBeziers(ops);
+
+    const b2 = (t, a, b, c) => {
+      const mt = 1 - t;
+      return a * mt ** 2 + 2 * b * mt * t + c * t ** 2;
+    };
+
+    const b3 = (t, a, b, c, d) => {
+      const mt = 1 - t;
+      return (
+        a * mt ** 3 + 3 * b * mt ** 2 * t + 3 * c * mt * t ** 2 + d * t ** 3
+      );
+    };
+
+    const vtx = (p) => vertex(p.x + ox, p.y + oy);
+
+    start();
+    let last;
+    while (ops.length) {
+      const p = ops.shift();
+      if (p.move || p.line) {
+        vtx(p);
+        last = p;
+      }
+      if (p.quad) {
+        const n = ops.shift();
+        for (let t = 0; t < 1; t += 0.05) {
+          vtx({ x: b2(t, last.x, p.x, n.x), y: b2(t, last.y, p.y, n.y) });
+        }
+        vtx(n.x, n.y);
+        last = n;
+      }
+      if (p.bezier) {
+        const n = ops.shift();
+        const n2 = ops.shift();
+        for (let t = 0; t < 1; t += 0.03) {
+          vtx({
+            x: b3(t, last.x, p.x, n.x, n2.x),
+            y: b3(t, last.y, p.y, n.y, n2.y),
+          });
+        }
+        vtx(n2.x, n2.y);
+        last = n2;
+      }
+    }
+    end(this.closed);
+
+    if (showPoints) {
+      this.instructions.forEach((p) => point(p.x + ox, p.y + oy));
+    }
   }
 
   updateSVG() {
@@ -326,8 +386,9 @@ class Shape {
   }
 
   offset(x, y) {
-    this.ox = x;
-    this.oy = y;
+    // this.ox = x;
+    // this.oy = y;
+    this.segments.forEach((s) => s.offset(x, y));
   }
 
   offsetSegment(segmentId, x, y) {
@@ -336,18 +397,20 @@ class Shape {
   }
 
   commit() {
-    const { segments, ox, oy } = this;
-    segments.forEach((p) => p.commit(ox, oy));
-    this.ox = this.oy = 0;
-    // rebuild so it's ready by the next redraw
-    this.buildImage();
+    // const { segments, ox, oy } = this;
+    // segments.forEach((p) => p.commit(ox, oy));
+    // this.ox = this.oy = 0;
+    // // rebuild so it's ready by the next redraw
+    // this.buildImage();
+    this.segments.forEach((s) => s.commit());
   }
 
   reset() {
-    this.ox = 0;
-    this.oy = 0;
-    // rebuild so it's ready by the next redraw
-    this.buildImage();
+    // this.ox = 0;
+    // this.oy = 0;
+    // // rebuild so it's ready by the next redraw
+    // this.buildImage();
+    this.segments.forEach((s) => s.offset(0, 0));
   }
 
   noFill() {
@@ -397,10 +460,15 @@ class Shape {
   }
 
   async draw() {
-    if (!this._cached_image) this.buildImage();
-    const { ox, oy, _cached_image } = this;
-    await _cached_image.loaded;
-    image(_cached_image, ox - width, oy - height, 3 * width, 3 * height);
+    // if (!this._cached_image) this.buildImage();
+    // const { ox, oy, _cached_image } = this;
+    // await _cached_image.loaded;
+    // image(_cached_image, ox - width, oy - height, 3 * width, 3 * height);
+    save();
+    setStroke(this.strokeStyle);
+    setFill(this.fillStyle);
+    this.segments.forEach((s) => s.draw(this.showPoints));
+    restore();
   }
 
   inside(x, y) {

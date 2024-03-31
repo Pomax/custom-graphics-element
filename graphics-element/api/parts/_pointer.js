@@ -3,19 +3,23 @@ function __checkForCurrentMovable(x, y, type) {
 
   if (!__movable_points.length) return;
 
-  const matches = [];
+  let foundPoint = false;
+  let foundShape = false;
+  let matches = [];
   const matchPadding = type.includes(`mouse`) ? 10 : 30;
 
-  __movable_points.forEach((p, pos) => {
+  __movable_points.forEach((p) => {
     if (p instanceof Shape) {
-      if (p.inside(x, y).length > 0) {
-        matches.push({ p, d: 0 });
+      if (p.inside(x, y)) {
+        foundShape = true;
+        matches.push({ p, d: p.__showPoints ? -1 : 0 });
       }
     } else {
       let x2 = p[0] === undefined ? p.x : p[0];
       let y2 = p[1] === undefined ? p.y : p[1];
       const d = dist(x, y, x2, y2);
       if (d < (p.r ? p.r : 0) + matchPadding) {
+        foundPoint = true;
         matches.push({ p, d });
       }
     }
@@ -23,8 +27,15 @@ function __checkForCurrentMovable(x, y, type) {
 
   __canvas.style.cursor = `auto`;
 
-  if (matches.length) {
-    matches.sort((a, b) => a.d - b.d);
+  if (foundPoint && foundShape) {
+    // if we have a mix of matched points and shapes
+    // prioritize activating points instead.
+    matches = matches.filter((v) => v.d >= 0);
+  }
+
+  const mlen = matches.length;
+  if (mlen > 0) {
+    if (mlen > 1) matches.sort((a, b) => a.d - b.d);
     currentMovable = matches[0].p;
     __canvas.style.cursor = `pointer`;
   }

@@ -1,12 +1,37 @@
-let shape, mode = 0;
+let shape,
+  mode = 0;
 
 const caps = [
-  () => shape.splineTo(50, 150, 0.55),
-  () => shape.splineTo(55, 175, 55, 125, 0.9),
-  () => shape.quadTo(50, 200, 50, 150, 50, 100, 100, 100),
-  () => shape.curveTo(33, 200, 33, 100, 100, 100)
+  (s) => shape.splineTo(150 - s * 100, 150, 0.55),
+  (s) =>
+    shape.splineTo(
+      150 - s * 95,
+      150 + s * 125,
+      150 - s * 95,
+      150 - s * 25,
+      0.9
+    ),
+  (s) =>
+    shape.quadTo(
+      150 - s * 95,
+      150 + s * 50,
+      150 - s * 100,
+      150,
+      150 - s * 100,
+      150 - s * 50,
+      150 - s * 50,
+      150 - s * 50
+    ),
+  (s) =>
+    shape.curveTo(
+      150 - s * 117,
+      150 + s * 50,
+      150 - s * 117,
+      150 - s * 50,
+      150 - s * 50,
+      150 - s * 50
+    ),
 ];
-
 
 function setup() {
   setSize(600, 400);
@@ -16,20 +41,38 @@ function setup() {
 function reset() {
   shape = startShape();
   shape.allowResizing(true);
-  shape.showPoints(true);
+  shape.showPoints();
   setMovable(shape);
-  shape.moveTo(100, 100);
-  shape.lineTo(200, 100, 200, 200, 100, 200);
-  caps[mode]();
+  addPoints(2.0);
+  addPoints(1.5, true);
+  addPoints(1.0);
+  addPoints(0.75, true);
+  addPoints(0.5);
+  addPoints(0.25, true);
   shape.close();
+}
+
+function addPoints(scale, clockwise) {
+  const s = scale;
+  shape.newSegment(true);
+  shape.moveTo(150 - s * 50, 150 - s * 50);
+  shape.lineTo(
+    150 + s * 50,
+    150 - s * 50,
+    150 + s * 50,
+    150 + s * 50,
+    150 - s * 50,
+    150 + s * 50
+  );
+  caps[mode](scale);
+  if (clockwise) shape.flipSegment();
 }
 
 async function draw() {
   clear(`white`);
   noFill();
   translate(100, 0);
-  const result = shape.inside(pointer.x, pointer.y);
-  if (result.length) {
+  if (shape.inside(pointer.x, pointer.y)) {
     shape.setStroke(pointer.drag ? `blue` : `green`);
     shape.setFill(pointer.drag ? `#00F2` : `#0F02`);
   } else {

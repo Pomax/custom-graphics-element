@@ -10,47 +10,55 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
-## v4.0.0 (March 30, 2024)
+## v5.0.0 (March 31, 2024)
 
-- backdated the change log.
-- freed up `halt` as available variable/function name in your code.
-- freed up `reset` as available variable/function name in your code.
-- `Shape` got a rewrite to be a "real" shape, with path construction commands similar to SVG. See
-  the documentation for [startShape](https://pomax.github.io/custom-graphics-element/api.html#startShape)
-  for more information.
-- [docs] added mention of <code>async</code> setup and draw functions to the "writing graphics source code" section.
-- [dev] added a jsconfig.json to the `graphics-element/api` dir, so api code comes with type-hinting.
+- `Shape` now supports cut-outs. See the "Shapes" example in the [editor](https://pomax.github.io/custom-graphcs-element/edit.html).
+- [bugfix] Movable points could get covered by a shape.
+
+**BREAKING CHANGES** As a consequence of adding cutout support, the `inside()` check function no longer returns a list of segments, but a boolean.
 
 # Previous Versions
 
+## v4.0.0 (March 30, 2024)
+
+- Backdated the change log.
+- Freed up `halt` as available variable/function name in your code.
+- Freed up `reset` as available variable/function name in your code.
+- [docs] Added mention of <code>async</code> setup and draw functions to the "writing graphics source code" section.
+- [dev-only] Added a jsconfig.json to the `graphics-element/api` dir, so api code comes with type-hinting.
+
+**BREAKING CHANGES** `Shape` got a rewrite to be a "real" shape, with path construction commands similar to SVG. See
+the documentation for [startShape](https://pomax.github.io/custom-graphics-element/api.html#startShape)
+for more information.
+
 ## v3.0.1 (March 29, 2024)
 
-- bugfix: pointer.drag did not set/unset correctly
-- bugfix: spline(..., virtual, T) did not correctly destructure virtual and T
-- added an export for `GraphicsElement` and `GraphicsSource` so you construct instances without having to use `document.createElement`.
+- Added an export for `GraphicsElement` and `GraphicsSource` so you construct instances without having to use `document.createElement`.
+- [bugfix] Pointer.drag did not set/unset correctly
+- [bugfix] Spline(..., virtual, T) did not correctly destructure virtual and T
 
-## v3.0.0  (March 26, 2024)
+## v3.0.0 (March 26, 2024)
 
-- major version update, as `currentPoint` was renamed to `currentMovable` in v2.1.0
-- fixed a bug in the code responsible for tracking the `currentMovable` delta.
+- [bugfix] Fixed a bug in the code responsible for tracking the `currentMovable` delta.
+
+**BREAKING CHANGES** Major version update, as `currentPoint` was renamed to `currentMovable` in v2.1.0
 
 ## v2.2.0 (March 25, 2024)
 
-- added support for variable presets using `data-*` attributes, (see the
+- Added support for variable presets using `data-*` attributes, (see the
   "[Using data-\* attributes](https://pomax.github.io/custom-graphics-element/docs.html#using-data-attributes)" section on
   the documentation page for more information.
-- added documentation for handling load/error events, see the
+- Added code that ensures that the `GraphicsElement` class exists globally as part of loading the custom element.
+- [docs] Added documentation for handling load/error events, see the
   "[Load and error events](https://pomax.github.io/custom-graphics-element/docs.html#load-and-error-events)" section on the documentation
   page for more information.
-- added code that ensures that the `GraphicsElement` class exists globally as part
-  of loading the custom element.
 
 **NOTE**: This release was given the wrong version number, as it includes the
 breaking change that renamed `currentPoint` to `currentMovable`.
 
 ## v2.1.0 (March 25, 2024)
 
-- added `startShape`, `endShape`, and `newSegment` for working with shapes. At present
+- Added `startShape`, `endShape`, and `newSegment` for working with shapes. At present
   shapes can only be used to model polygonal edges, but these will be extended in a
   future version to allow for curved edges.
 
@@ -59,10 +67,10 @@ breaking change that renamed `currentPoint` to `currentMovable`.
 
 ## v2.0.4 (March 16, 2024)
 
-- Moved the build tools into their own `tools` directory.
 - Tightened up the comments that were generated into the `graphics-element.d.ts` file.
-- Updated `docs.html` to cover how to use `graphics-element.d.ts` with VS Code.
-- Added documentation to the `generate-placeholders.js` script.
+- [docs] Updated `docs.html` to cover how to use `graphics-element.d.ts` with VS Code.
+- [docs] Added documentation to the `generate-placeholders.js` script.
+- [dev-only] Moved the build tools into their own `tools` directory.
 
 ## v2.0.3 (March 15, 2024)
 
@@ -93,6 +101,8 @@ breaking change that renamed `currentPoint` to `currentMovable`.
 - [bugfix] Highlight colour works properly now.
 - [bugfix] Crosslinked colour markup in the description resets properly.
 
+**BREAKING CHANGES** pretty much everything.
+
 ## v1.11.0 (March 8, 2024)
 
 - [bugfix] Prevent double-reset when calling `reset()`.
@@ -100,10 +110,10 @@ breaking change that renamed `currentPoint` to `currentMovable`.
 
 ## v1.10.0 (March 7, 2024)
 
-- Parted up the base files for easier build maintenance.
 - Added `project()` based on Cabinet projection.
 - Added `rotateProjector()` based on Cabinet projection.
 - Added `setProjector` based on Cabinet projection.
+- [dev-only] Parted up the base files for easier build maintenance.
 
 ## v1.9.0 (March 2, 2024)
 
@@ -164,7 +174,7 @@ breaking change that renamed `currentPoint` to `currentMovable`.
 
 - Added `addButton()` to add off-canvas buttons.
 
-## v1.3.3  (December 30, 2023)
+## v1.3.3 (December 30, 2023)
 
 - Switched from fixed number of "additional sources" to "however many your markup has".
 

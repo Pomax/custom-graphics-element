@@ -50,6 +50,21 @@ function project(x, y, z) {
   return __projector.project(x, y, z);
 }
 
+// TEST
+function getProjector() {
+  return __hProjector;
+}
+
+// TEST
+function hproject(x, y, z ) {
+  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
+  return __hProjector.project(x, y, z);
+}
+
 /**
  * Set the projector's x, y, and z axis rotation
  * in radians. Note that these are applied in order.

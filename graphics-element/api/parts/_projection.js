@@ -1,24 +1,74 @@
+const CABINET = Symbol(`cabinet projection`);
+const HOMOGENEOUS = Symbol(`homogeneous projection`);
+const __ABSTRACT_PROJECTOR = Symbol(`abstract projector superclass`);
+
+let __projection = false;
+let __projector = undefined;
+
+// Generic projector superclass
+class Projector {
+  X = 0;
+  Y = 0;
+  Z = 0;
+  type = __ABSTRACT_PROJECTOR;
+
+  setRotation(x = 0, y = 0, z = 0) {
+    this.X = x;
+    this.Z = z;
+    this.Y = y;
+  }
+
+  Tx = 0;
+  Ty = 0;
+  Tz = 0;
+
+  setTranslation(x = 0, y = 0, z = 0) {
+    this.Tx = x;
+    this.Tz = z;
+    this.Ty = y;
+  }
+
+  Sx = 1;
+  Sy = 1;
+  Sz = 1;
+
+  setScale(x = 1, y, z) {
+    if (x && !y && !z) {
+      z = y = x;
+    }
+    this.Sx = x;
+    this.Sz = z;
+    this.Sy = y;
+  }
+
+  project(x, y, z) {
+    throw new Error(`Missing implementation for project(x,y,z)!`);
+  }
+}
+
 /**
  * code used by project.js, but named so that it loads
  * first, and does not get added to the d.ts file.
  */
-class CabinetProjector {
-  A = 0;
-  B = 0;
-  C = 0;
+class CabinetProjector extends Projector {
+  type = CABINET;
+  phi = PI / 6;
 
-  constructor(ox, oy, scale, phi) {
-    this.update(ox, oy, scale, phi);
+  setPhi(phi) {
+    this.phi = phi;
   }
 
-  setRotation(x = 0, y = 0, z = 0) {
-    this.A = x;
-    this.B = z;
-    this.C = y;
+  project(x, y, z) {
+    const { X, Y, Z, Tx, Ty, Sx, Sy, Sz, phi } = this;
+    [x, y, z] = this.rotate(X, Y, Z, x * Sx, y * Sy, z * Sz);
+    const a = y;
+    const b = -z;
+    const c = -x / 2;
+    return new Point(Tx + a + c * cos(phi), Ty + b + c * sin(phi));
   }
 
-  rotate(x, y, z) {
-    let { A, B, C } = this;
+  rotate(X, Y, Z, x, y, z) {
+    let [A, B, C] = [-X, -Y, Z];
     let a = x;
     let b = y * cos(A) - z * sin(A);
     let c = y * sin(A) + z * cos(A);
@@ -37,77 +87,33 @@ class CabinetProjector {
 
     return [a, b, c];
   }
-
-  update(ox = 0, oy = 0, scale = 1, phi = -PI / 6) {
-    this.offset = new Point(ox, oy);
-    this.scale = scale;
-    this.phi = phi;
-  }
-
-  project(x, y, z) {
-    const { offset, scale, phi } = this;
-    x *= scale;
-    y *= scale;
-    z *= scale;
-    [x, y, z] = this.rotate(x, y, z);
-    const a = y,
-      b = -z,
-      c = -x / 2;
-
-    return new Point(offset.x + a + c * cos(phi), offset.y + b + c * sin(phi));
-  }
 }
 
 /**
- * TEST
+ * code used by project.js, but named so that it loads
+ * first, and does not get added to the d.ts file.
  */
-class HomogeneousProjector {
-  Z = 0; // yaw
-  Y = 0; // pitch
-  X = 0; // roll
-  d = Infinity; // "infinity lies at distance: ..."
-  Tx = 0;
-  Ty = 0;
-  Tz = 0;
-  Sx = 1;
-  Sy = 1;
-  Sz = 1;
+class HomogeneousProjector extends Projector {
+  type = HOMOGENEOUS;
 
-  constructor(d = Infinity) {
-    this.setInfinity(d);
-  }
+  // "infinity lies at distance: ..."
+  d = Infinity;
 
   setInfinity(d) {
     this.d = d;
   }
 
-  setRotation(x, y, z) {
-    this.X = x;
-    this.Y = y;
-    this.Z = z;
-  }
-
-  setTranslation(x = 0, y = 0, z = 0) {
-    this.Tx = x;
-    this.Ty = y;
-    this.Tz = z;
-  }
-
-  setScale(x = 1, y = 1, z = 1) {
-    this.Sx = x;
-    this.Sy = y;
-    this.Sz = z;
-  }
-
   project(x, y, z) {
-    const [Vx, Vy, Vz] = [x, y, z];
+    const [Vx, Vy, Vz] = [y, -z, x];
     const { X, Y, Z, d, Tx, Ty, Tz, Sx, Sy, Sz } = this;
-    const cy = cos(Z);
-    const sy = sin(Z);
-    const cp = cos(Y);
-    const sp = sin(Y);
-    const cr = cos(X);
-    const sr = sin(X);
+    const [A, B, C] = [X, Z, Y];
+
+    const cy = cos(A);
+    const sy = sin(A);
+    const cp = cos(B);
+    const sp = sin(B);
+    const cr = cos(C);
+    const sr = sin(C);
 
     // prettier-ignore
     // homogenous affine transform matrix
@@ -131,6 +137,3 @@ class HomogeneousProjector {
     return new Point(px / w, py / w);
   }
 }
-
-let __projector = new CabinetProjector();
-let __hProjector = new HomogeneousProjector(250);

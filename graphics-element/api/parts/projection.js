@@ -1,32 +1,60 @@
 /**
- * Project a 3D coordinate to 2D.
+ * Project a 3D "world" coordinate to a 2D "screen" coordinate.
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
+ *     const cabinet = setProjector(CABINET);
+ *     const homogeneous = setProjector(HOMOGENEOUS);
+ *
  *     function setup() {
- *       setSize(200, 200);
- *       setProjector(width / 2, height / 2, 50, -0.4);
+ *       setSize(400, 200);
+ *       setupProjectors();
+ *     }
+ *
+ *     function setupProjectors() {
+ *       cabinet.setPhi(-0.4);
+ *       cabinet.setScale(50);
+ *       cabinet.setRotation(0, 0, 0);
+ *
+ *       homogeneous.setInfinity(4);
+ *       homogeneous.setScale(50);
+ *       homogeneous.setRotation(0, 0, -0.4);
  *     }
  *
  *     function draw() {
  *       clear(`white`);
- *       setColor(`red`);
- *       line(project(-1, -1, -1), project(1, -1, -1));
- *       line(project(-1, -1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(1, 1, -1));
- *       line(project(-1, 1, 1), project(1, 1, 1));
- *       setColor(`blue`);
- *       line(project(-1, -1, -1), project(-1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, 1, 1));
- *       line(project(1, -1, -1), project(1, -1, 1));
- *       line(project(1, 1, -1), project(1, 1, 1));
- *       setColor(`green`);
- *       line(project(1, 1, -1), project(1, -1, -1));
- *       line(project(1, 1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, -1, -1));
- *       line(project(-1, 1, 1), project(-1, -1, 1));
+ *       translate(-width/4, height/2);
+ *       [cabinet, homogeneous].forEach(projector => {
+ *         setProjector(projector);
+ *         translate(width/2, 0);
+ *
+ *         setColor(`black`);
+ *         point(project(-1, -1, -1));
+ *         setColor(`red`);
+ *         point(project(1, -1, -1));
+ *         setColor(`green`);
+ *         point(project(-1, 1, -1));
+ *         setColor(`blue`);
+ *         point(project(-1, -1, 1));
+ *
+ *         setColor(`red`);
+ *         line(project(-1, -1, -1), project(1, -1, -1));
+ *         line(project(-1, -1, 1), project(1, -1, 1));
+ *         line(project(-1, 1, -1), project(1, 1, -1));
+ *         line(project(-1, 1, 1), project(1, 1, 1));
+ *         setColor(`blue`);
+ *         line(project(-1, -1, -1), project(-1, -1, 1));
+ *         line(project(-1, 1, -1), project(-1, 1, 1));
+ *         line(project(1, -1, -1), project(1, -1, 1));
+ *         line(project(1, 1, -1), project(1, 1, 1));
+ *         setColor(`green`);
+ *         line(project(1, 1, -1), project(1, -1, -1));
+ *         line(project(1, 1, 1), project(1, -1, 1));
+ *         line(project(-1, 1, -1), project(-1, -1, -1));
+ *         line(project(-1, 1, 1), project(-1, -1, 1));
+ *       });
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -50,19 +78,38 @@ function project(x, y, z) {
   return __projector.project(x, y, z);
 }
 
-// TEST
-function getProjector() {
-  return __hProjector;
+// TEST: Set up a 3D projector.
+function setProjector(typeOrProjector) {
+  if (typeOrProjector instanceof Projector) {
+    __projector = typeOrProjector;
+  }
+  if (typeOrProjector === CABINET) {
+    __projector = new CabinetProjector();
+  }
+  if (typeOrProjector === HOMOGENEOUS) {
+    __projector = new HomogeneousProjector(250);
+  }
+  return __projector;
 }
 
-// TEST
-function hproject(x, y, z ) {
-  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
-    z = x.z;
-    y = x.y;
-    x = x.x;
-  }
-  return __hProjector.project(x, y, z);
+// TEST: Get the current projector, for reasons. Not sure I want
+//       to keep this, it feels like you should only be able to
+//       get a reference to the projector when you set it...?
+function getProjector() {
+  return __projector;
+}
+
+// TEST: when true, this should change all draw instructions
+//       to project 3D to 2D automatically. Which would make
+//       things super duper much nicer.
+function useProjection() {
+  __projection = true;
+}
+
+// TEST: this should "revert" all draw instructions to (no longer)
+//       treat vertices as 3D-that-need-projecting.
+function noProjection() {
+  __projection = false;
 }
 
 /**
@@ -73,31 +120,57 @@ function hproject(x, y, z ) {
  *
  * <graphics-element>
  *   <graphics-source>
+ *     const cabinet = setProjector(CABINET);
+ *     const homogeneous = setProjector(HOMOGENEOUS);
+ *
  *     function setup() {
- *       setSize(200, 200);
- *       setProjector(width / 2, height / 2, 50, -0.4);
+ *       setSize(400, 200);
+ *       setupProjectors();
  *       play();
+ *     }
+ *
+ *     function setupProjectors() {
+ *       cabinet.setPhi(-0.4);
+ *       cabinet.setScale(50);
+ *       homogeneous.setInfinity(4);
+ *       homogeneous.setRotation(0, 0, -0.4);
+ *       homogeneous.setScale(50);
  *     }
  *
  *     function draw() {
  *       clear(`white`);
+ *       translate(-width/4, height/2);
  *       const m = millis() / 5000;
- *       rotateProjector(m, 2 * m, 3 * m);
- *       setColor(`red`);
- *       line(project(-1, -1, -1), project(1, -1, -1));
- *       line(project(-1, -1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(1, 1, -1));
- *       line(project(-1, 1, 1), project(1, 1, 1));
- *       setColor(`blue`);
- *       line(project(-1, -1, -1), project(-1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, 1, 1));
- *       line(project(1, -1, -1), project(1, -1, 1));
- *       line(project(1, 1, -1), project(1, 1, 1));
- *       setColor(`green`);
- *       line(project(1, 1, -1), project(1, -1, -1));
- *       line(project(1, 1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, -1, -1));
- *       line(project(-1, 1, 1), project(-1, -1, 1));
+ *       [cabinet, homogeneous].forEach(projector => {
+ *         setProjector(projector);
+ *         projector.setRotation(m, 2 * m, 3 * m);
+ *         translate(width/2, 0);
+ *
+ *         setColor(`black`);
+ *         point(project(-1, -1, -1));
+ *         setColor(`red`);
+ *         point(project(1, -1, -1));
+ *         setColor(`green`);
+ *         point(project(-1, 1, -1));
+ *         setColor(`blue`);
+ *         point(project(-1, -1, 1));
+ *
+ *         setColor(`red`);
+ *         line(project(-1, -1, -1), project(1, -1, -1));
+ *         line(project(-1, -1, 1), project(1, -1, 1));
+ *         line(project(-1, 1, -1), project(1, 1, -1));
+ *         line(project(-1, 1, 1), project(1, 1, 1));
+ *         setColor(`blue`);
+ *         line(project(-1, -1, -1), project(-1, -1, 1));
+ *         line(project(-1, 1, -1), project(-1, 1, 1));
+ *         line(project(1, -1, -1), project(1, -1, 1));
+ *         line(project(1, 1, -1), project(1, 1, 1));
+ *         setColor(`green`);
+ *         line(project(1, 1, -1), project(1, -1, -1));
+ *         line(project(1, 1, 1), project(1, -1, 1));
+ *         line(project(-1, 1, -1), project(-1, -1, -1));
+ *         line(project(-1, 1, 1), project(-1, -1, 1));
+ *       });
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -115,50 +188,4 @@ function rotateProjector(x, y, z) {
     x = x.x;
   }
   __projector.setRotation(x, y, z);
-}
-
-/**
- * Set the project parameters. Currently, only
- * cabinet project is supported, which accepts
- * the following parameters:
- *
- * Example:
- *
- * <graphics-element>
- *   <graphics-source>
- *     function setup() {
- *       setSize(200, 200);
- *       setProjector(width / 2, height / 2, 50, -0.4);
- *     }
- *
- *     function draw() {
- *       clear(`white`);
- *       setColor(`red`);
- *       line(project(-1, -1, -1), project(1, -1, -1));
- *       line(project(-1, -1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(1, 1, -1));
- *       line(project(-1, 1, 1), project(1, 1, 1));
- *       setColor(`blue`);
- *       line(project(-1, -1, -1), project(-1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, 1, 1));
- *       line(project(1, -1, -1), project(1, -1, 1));
- *       line(project(1, 1, -1), project(1, 1, 1));
- *       setColor(`green`);
- *       line(project(1, 1, -1), project(1, -1, -1));
- *       line(project(1, 1, 1), project(1, -1, 1));
- *       line(project(-1, 1, -1), project(-1, -1, -1));
- *       line(project(-1, 1, 1), project(-1, -1, 1));
- *     }
- *   </graphics-source>
- * </graphics-element>
- *
- * @param  {number} xOffset of the projection wrt the canvas (default = 0)
- * @param  {number} yOffset of the projection wrt the canvas (default = 0)
- * @param  {number} scale factor for the 3D input (default = 1)
- * @param  {number} cabinet angle in radians (default = -pi/6)
- *
- * @see {@link project}
- */
-function setProjector(...args) {
-  __projector.update(...args);
 }

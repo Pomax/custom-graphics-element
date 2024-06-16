@@ -197,7 +197,6 @@
       <ul>
         <li><a href="#project" class="fn">project</a></li>
         <li><a href="#rotateProjector" class="fn">rotateProjector</a></li>
-        <li><a href="#setProjector" class="fn">setProjector</a></li>
       </ul>
       <h4 class="sep">setter functions</h4>
       <ul>
@@ -3606,60 +3605,119 @@ function draw() {
         </li>
       </ol>
       <h3>Description</h3>
-      <p>Project a 3D coordinate to 2D.</p>
+      <p>
+        Project a 3D &quot;world&quot; coordinate to a 2D &quot;screen&quot;
+        coordinate.
+      </p>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
+const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+
 function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setSize(400, 200);
+  setupProjectors();
+}
+
+function setupProjectors() {
+  cabinet.setPhi(-0.4);
+  cabinet.setScale(50);
+  cabinet.setRotation(0, 0, 0);
+
+  homogeneous.setInfinity(4);
+  homogeneous.setScale(50);
+  homogeneous.setRotation(0, 0, -0.4);
 }
 
 function draw() {
   clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) => {
+    setProjector(projector);
+    translate(width / 2, 0);
+
+    setColor(`black`);
+    point(project(-1, -1, -1));
+    setColor(`red`);
+    point(project(1, -1, -1));
+    setColor(`green`);
+    point(project(-1, 1, -1));
+    setColor(`blue`);
+    point(project(-1, -1, 1));
+
+    setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1));
+    line(project(-1, -1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1));
+    setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1));
+    line(project(-1, 1, -1), project(-1, 1, 1));
+    line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1));
+    setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1));
+    line(project(1, 1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1));
+  });
 }
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+      <pre><code class="language-js">const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+
+function setup() {
+  setSize(400, 200);
+  setupProjectors();
+}
+
+function setupProjectors() {
+  cabinet.setPhi(-0.4);
+  cabinet.setScale(50);
+  cabinet.setRotation(0, 0, 0);
+
+  homogeneous.setInfinity(4);
+  homogeneous.setScale(50);
+  homogeneous.setRotation(0, 0, -0.4);
 }
 
 function draw() {
   clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) =&gt; {
+    setProjector(projector);
+    translate(width / 2, 0);
+
+    setColor(`black`);
+    point(project(-1, -1, -1));
+    setColor(`red`);
+    point(project(1, -1, -1));
+    setColor(`green`);
+    point(project(-1, 1, -1));
+    setColor(`blue`);
+    point(project(-1, -1, 1));
+
+    setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1));
+    line(project(-1, -1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1));
+    setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1));
+    line(project(-1, 1, -1), project(-1, 1, 1));
+    line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1));
+    setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1));
+    line(project(1, 1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1));
+  });
 }
 </code></pre>
       <h3>See also:</h3>
@@ -4230,60 +4288,112 @@ function draw() {
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
+const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+
 function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setSize(400, 200);
+  setupProjectors();
   play();
+}
+
+function setupProjectors() {
+  cabinet.setPhi(-0.4);
+  cabinet.setScale(50);
+  homogeneous.setInfinity(4);
+  homogeneous.setRotation(0, 0, -0.4);
+  homogeneous.setScale(50);
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
   const m = millis() / 5000;
-  rotateProjector(m, 2 * m, 3 * m);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  [cabinet, homogeneous].forEach((projector) => {
+    setProjector(projector);
+    projector.setRotation(m, 2 * m, 3 * m);
+    translate(width / 2, 0);
+
+    setColor(`black`);
+    point(project(-1, -1, -1));
+    setColor(`red`);
+    point(project(1, -1, -1));
+    setColor(`green`);
+    point(project(-1, 1, -1));
+    setColor(`blue`);
+    point(project(-1, -1, 1));
+
+    setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1));
+    line(project(-1, -1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1));
+    setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1));
+    line(project(-1, 1, -1), project(-1, 1, 1));
+    line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1));
+    setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1));
+    line(project(1, 1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1));
+  });
 }
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+      <pre><code class="language-js">const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+
+function setup() {
+  setSize(400, 200);
+  setupProjectors();
   play();
+}
+
+function setupProjectors() {
+  cabinet.setPhi(-0.4);
+  cabinet.setScale(50);
+  homogeneous.setInfinity(4);
+  homogeneous.setRotation(0, 0, -0.4);
+  homogeneous.setScale(50);
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
   const m = millis() / 5000;
-  rotateProjector(m, 2 * m, 3 * m);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  [cabinet, homogeneous].forEach((projector) =&gt; {
+    setProjector(projector);
+    projector.setRotation(m, 2 * m, 3 * m);
+    translate(width / 2, 0);
+
+    setColor(`black`);
+    point(project(-1, -1, -1));
+    setColor(`red`);
+    point(project(1, -1, -1));
+    setColor(`green`);
+    point(project(-1, 1, -1));
+    setColor(`blue`);
+    point(project(-1, -1, 1));
+
+    setColor(`red`);
+    line(project(-1, -1, -1), project(1, -1, -1));
+    line(project(-1, -1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(1, 1, -1));
+    line(project(-1, 1, 1), project(1, 1, 1));
+    setColor(`blue`);
+    line(project(-1, -1, -1), project(-1, -1, 1));
+    line(project(-1, 1, -1), project(-1, 1, 1));
+    line(project(1, -1, -1), project(1, -1, 1));
+    line(project(1, 1, -1), project(1, 1, 1));
+    setColor(`green`);
+    line(project(1, 1, -1), project(1, -1, -1));
+    line(project(1, 1, 1), project(1, -1, 1));
+    line(project(-1, 1, -1), project(-1, -1, -1));
+    line(project(-1, 1, 1), project(-1, -1, 1));
+  });
 }
 </code></pre>
       <h3>See also:</h3>
@@ -5087,94 +5197,6 @@ function draw() {
       <ul>
         <li><a href="#isMovable">isMovable</a></li>
         <li><a href="#clearMovable">clearMovable</a></li>
-      </ul>
-    </section>
-
-    <section id="setProjector">
-      <h1><a href="#setProjector">setProjector</a> <a href="#top">top</a></h1>
-      <ul class="signatures">
-        <li>
-          <code
-            >setProjector(xOffset: number, yOffset: number, scale: number,
-            cabinet: number)</code
-          >
-          <ul class="params">
-            <li>
-              <code>xOffset</code> - of the projection wrt the canvas (default =
-              0)
-            </li>
-            <li>
-              <code>yOffset</code> - of the projection wrt the canvas (default =
-              0)
-            </li>
-            <li><code>scale</code> - factor for the 3D input (default = 1)</li>
-            <li><code>cabinet</code> - angle in radians (default = -pi/6)</li>
-          </ul>
-        </li>
-      </ul>
-      <h3>Description</h3>
-      <p>
-        Set the project parameters. Currently, only cabinet project is
-        supported, which accepts the following parameters:
-      </p>
-
-      <h3>Examples</h3>
-      <!-- prettier-ignore -->
-      <graphics-element width="200px" height="200px">
-              <graphics-source>
-function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
-
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-
-</graphics-source>
-            </graphics-element>
-      <pre><code class="language-js">function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
-}
-
-function draw() {
-  clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
-}
-</code></pre>
-      <h3>See also:</h3>
-      <ul>
-        <li><a href="#project">project</a></li>
       </ul>
     </section>
 

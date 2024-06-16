@@ -1186,7 +1186,7 @@ declare function multiplyMatrix(m1: Matrix, m2: Matrix): number[][];
  */
 declare function transposeMatrix(M: Matrix): number[][];
 /**
- * Project a 3D coordinate to 2D.
+ * Project a 3D "world" coordinate to a 2D "screen" coordinate.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#project
  */
@@ -1199,19 +1199,6 @@ declare function project(p: PointLike): PointLike;
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#rotateProjector
  */
 declare function rotateProjector(x: number, y: number, z: number): void;
-/**
- * Set the project parameters. Currently, only
- *  cabinet project is supported, which accepts
- *  the following parameters:
- *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#setProjector
- */
-declare function setProjector(
-  xOffset: number,
-  yOffset: number,
-  scale: number,
-  cabinet: number,
-): void;
 /**
  * Set a border around the canvas.
  *

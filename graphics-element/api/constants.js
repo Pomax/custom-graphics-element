@@ -129,3 +129,23 @@ const {
    */
   TAU,
 } = { epsilon: 1e-10, huge: 1_000_000, TAU: PI * 2 };
+
+
+/**
+ * The constant for indicating a projector should be a "cabinet" projector,
+ * i.e. a projector without perspective, where coordinates further away
+ * are draw progressively more up and right, similar to the kind of pictures
+ * one might find in an instruction leaflet for building a cabinet.
+ *
+ * @constant {Symbol}
+ */
+const CABINET = Symbol(`cabinet projection`);
+
+/**
+ * The constant for indicating a projector should be a "normal" homogeneous
+ * projector, i.e. projection with a "point at infinity" and normal perspective
+ * applied.
+ *
+ * @constant {Symbol}
+ */
+const HOMOGENEOUS = Symbol(`homogeneous projection`);

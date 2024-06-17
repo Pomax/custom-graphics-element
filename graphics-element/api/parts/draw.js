@@ -38,6 +38,7 @@
  * @see {@link circle}
  */
 function arc(x, y, r, s = 0, e = TAU, wedge = false) {
+  // FIXME: TODO: needs __arc3d and __arc2d
   if (x.x !== undefined && x.y !== undefined) {
     wedge = e;
     e = s;
@@ -175,6 +176,7 @@ function axes(
  * @see {@link spline}
  */
 function bezier(...args) {
+  // FIXME: TODO: needs __bezier3d and __bezier2d
   let points = args;
 
   if (typeof args[0] === `number`) {
@@ -255,6 +257,8 @@ function bezier(...args) {
  */
 
 function bspline(...args) {
+  // FIXME: TODO: needs __spline3d and __spline2d
+
   let open = true;
   if (typeof args[args.length - 1] === `boolean`) {
     open = args.splice(args.length - 1, 1)[0];
@@ -299,7 +303,26 @@ function bspline(...args) {
  *
  * @see {@link arc}
  */
-function circle(x, y, r) {
+function circle(...args) {
+  if (__use_projection) {
+    __circle3d(...args);
+  } else {
+    __circle2d(...args);
+  }
+}
+
+function __circle3d(x, y, z, r) {
+  if (x.x !== undefined && x.y !== undefined) {
+    r = y;
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
+  ({ x, y } = project(x, y, z));
+  __circle2d(x, y, r);
+}
+
+function __circle2d(x, y, r) {
   if (x.x !== undefined && x.y !== undefined) {
     r = y;
     y = x.y;
@@ -452,14 +475,35 @@ async function image(img, x = 0, y = 0, w, h) {
  * @param {PointLike} p1 The first point's {x,y} coordinate
  * @param {PointLike} p2 The second point's {x,y} coordinate
  */
-function line(x1, y1, x2, y2) {
+function line(...args) {
+  if (__use_projection) {
+    __line3d(...args);
+  } else {
+    __line2d(...args);
+  }
+}
+
+function __line3d(x1, y1, z1, x2, y2, z2) {
+  if (x1.x !== undefined && x1.y !== undefined) {
+    z2 = y1.z;
+    y2 = y1.y;
+    x2 = y1.x;
+    z1 = x1.z;
+    y1 = x1.y;
+    x1 = x1.x;
+  }
+  ({ x: x1, y: y1 } = project(x1, y1, z1));
+  ({ x: x2, y: y2 } = project(x2, y2, z2));
+  __line2d(x1, y1, x2, y2);
+}
+
+function __line2d(x1, y1, x2, y2) {
   if (x1.x !== undefined && x1.y !== undefined) {
     y2 = y1.y;
     x2 = y1.x;
     y1 = x1.y;
     x1 = x1.x;
   }
-
   start();
   vertex(x1, y1);
   vertex(x2, y2);
@@ -621,12 +665,46 @@ function plotData(data, x, y) {
  *
  * @see {@link circle}
  */
-function point(x, y) {
-  if (x.x !== undefined && x.y !== undefined) {
-    y = x.y;
-    x = x.x;
+function point(...args) {
+  args.push(3);
+  if (__use_projection) {
+    __circle3d(...args);
+  } else {
+    __circle2d(...args);
   }
-  circle(x, y, 3);
+}
+
+/**
+ * Draw a closed polygon from an array of point likes or number arrays.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *       setStroke(`black`);
+ *       setFill(`orange`);
+ *       poly([
+ *         [-50, -50],
+ *         [-50, 50],
+ *         {x: 50, y: 50},
+ *         new Point(50, -50),
+ *       ]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {number[]} coordinates The array of polygon vertices as point-likes or number arrays.
+ */
+function poly(coords) {
+  start();
+  coords.concat([coords[0]]).forEach((v) => {
+    if (v instanceof Array) vertex(...v);
+    else vertex(v);
+  });
+  end();
 }
 
 /**
@@ -656,6 +734,7 @@ function point(x, y) {
  * @param {number} h The height over which to draw the image
  */
 function rect(x, y, w, h) {
+  // FIXME: TODO: do we need __rect3d and __rect2d?
   if (x.x !== undefined && x.y !== undefined) {
     h = w;
     w = y;
@@ -721,6 +800,8 @@ function rect(x, y, w, h) {
  * @see {@link bspline}
  */
 function spline(...args) {
+  // FIXME: TODO: needs __spline3d and __spline2d
+
   let points = args;
   let virtual = true;
   let T = 1;
@@ -920,6 +1001,8 @@ function text(str, x, y, xAlign, yAlign) {
  * @param {PointLike} p3 The third point's {x,y} coordinate
  */
 function triangle(x1, y1, x2, y2, x3, y3) {
+  // FIXME: TODO: do we need __triangle3d and __triangle2d?
+
   if (x1.x !== undefined && x1.y !== undefined) {
     y3 = x2.y;
     x3 = x2.x;
@@ -965,10 +1048,14 @@ function triangle(x1, y1, x2, y2, x3, y3) {
  * @see {@link end}
  * @see {@link start}
  */
-function vertex(x, y) {
+function vertex(x, y, z) {
   if (x.x !== undefined && x.y !== undefined) {
+    z = x.z;
     y = x.y;
     x = x.x;
+  }
+  if (__use_projection && z !== undefined) {
+    ({ x, y } = __projector.project(x, y, z));
   }
   if (__first) {
     __ctx.lineTo(x, y);

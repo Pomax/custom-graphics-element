@@ -10,14 +10,69 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.0.0 (June 16, 2024)
+
+- [bugfix] fixed the `inside` test for shapes on Chrome, because Google never bothered to update the way it handles `isPointInFill` and friends. Even though one of their own is an editor on the SVG2 spec.
+
+This version has completely rewritten 3D projection code so that you no longer need to manually project every single coordinate. Instead, you set up a projector (which can be either a cabinet or homogeneous projector), which then also automatically turns on 3D to 2D projection for various draw functions.
+
+- added `setProjector`,
+- added `noProjector` to disable projection
+- added `useProjection` and `noProjection` to toggle projection behaviour on/off during the draw loop
+- added `poly` function for drawing polygons from arrays of points.
+
+- updated the various draw commands so that they automatically perform projection mapping when projection is enabled: `line`, `point`, `poly`, `vertex`.
+- not yet updated: `arc`, `circle`: these need some way to indicate which plane they lie in.
+- net yet updated:`bezier`, `bspline`, `spline`; these need to understand 3d inputs before they can be made projective.
+
+**BREAKING CHANGES**
+
+The way projection works changed, so any graphics written for previous versions of `<graphics-element>` that use explicit calls to `project` should be updated to no longer use those.
+
+As example, if you had code like this:
+
+```js
+...
+function drawAxes() {
+  const axelen = huge / 10;
+  setColor(`darkred`);
+  line(project(-axelen, 0, 0), project(axelen, 0, 0));
+  setColor(`darkblue`);
+  line(project(0, 0, -axelen), project(0, 0, axelen));
+  setColor(`darkgreen`);
+  line(project(0, -axelen, 0), project(0, axelen, 0));
+}
+...
+```
+
+You now need to say which projector you want to use, after which you don't need explicit calls to `project`:
+
+```js
+function setup() {
+  ...
+  setProjector(CABINET);
+}
+...
+function drawAxes() {
+  const axelen = huge / 10;
+  setColor(`darkred`);
+  line(-axelen, 0, 0, axelen, 0, 0);
+  setColor(`darkblue`);
+  line(0, 0, -axelen, 0, 0, axelen);
+  setColor(`darkgreen`);
+  line(0, -axelen, 0, 0, axelen, 0);
+}
+...
+```
+
+# Previous Versions
+
 ## v5.0.0 (March 31, 2024)
 
 - `Shape` now supports cut-outs. See the "Shapes" example in the [editor](https://pomax.github.io/custom-graphcs-element/edit.html).
 - [bugfix] Movable points could get covered by a shape.
 
 **BREAKING CHANGES** As a consequence of adding cutout support, the `inside()` check function no longer returns a list of segments, but a boolean.
-
-# Previous Versions
 
 ## v4.0.0 (March 30, 2024)
 

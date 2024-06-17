@@ -64,7 +64,9 @@
     <section id="toc">
       <h4 class="sep">constants</h4>
       <ul>
+        <li><a href="#CABINET" class="const">CABINET</a></li>
         <li><a href="#E" class="const">E</a></li>
+        <li><a href="#HOMOGENEOUS" class="const">HOMOGENEOUS</a></li>
         <li><a href="#PI" class="const">PI</a></li>
         <li><a href="#TAU" class="const">TAU</a></li>
         <li><a href="#currentMovable" class="const">currentMovable</a></li>
@@ -110,6 +112,7 @@
         <li><a href="#plot" class="fn">plot</a></li>
         <li><a href="#plotData" class="fn">plotData</a></li>
         <li><a href="#point" class="fn">point</a></li>
+        <li><a href="#poly" class="fn">poly</a></li>
         <li><a href="#rect" class="fn">rect</a></li>
         <li><a href="#spline" class="fn">spline</a></li>
         <li><a href="#start" class="fn">start</a></li>
@@ -195,9 +198,14 @@
       </ul>
       <h4 class="sep">projection functions</h4>
       <ul>
+        <li><a href="#noProjection" class="fn">noProjection</a></li>
+        <li><a href="#noProjector" class="fn">noProjector</a></li>
         <li><a href="#project" class="fn">project</a></li>
         <li><a href="#rotateProjector" class="fn">rotateProjector</a></li>
+        <li><a href="#scaleProjector" class="fn">scaleProjector</a></li>
         <li><a href="#setProjector" class="fn">setProjector</a></li>
+        <li><a href="#translateProjector" class="fn">translateProjector</a></li>
+        <li><a href="#useProjection" class="fn">useProjection</a></li>
       </ul>
       <h4 class="sep">setter functions</h4>
       <ul>
@@ -1077,6 +1085,19 @@ function draw() {
         <li><a href="#bezier">bezier</a></li>
         <li><a href="#spline">spline</a></li>
       </ul>
+    </section>
+
+    <section id="CABINET">
+      <h1><a href="#CABINET">CABINET</a> <a href="#top">top</a></h1>
+      <code class="const">constant</code>
+      <h3>Description</h3>
+      <p>
+        The constant for indicating a projector should be a &quot;cabinet&quot;
+        projector, i.e. a projector without perspective, where coordinates
+        further away are draw progressively more up and right, similar to the
+        kind of pictures one might find in an instruction leaflet for building a
+        cabinet.
+      </p>
     </section>
 
     <section id="cbrt">
@@ -2098,6 +2119,17 @@ function pointerActive(state) {
       </ul>
     </section>
 
+    <section id="HOMOGENEOUS">
+      <h1><a href="#HOMOGENEOUS">HOMOGENEOUS</a> <a href="#top">top</a></h1>
+      <code class="const">constant</code>
+      <h3>Description</h3>
+      <p>
+        The constant for indicating a projector should be a &quot;normal&quot;
+        homogeneous projector, i.e. projection with a &quot;point at
+        infinity&quot; and normal perspective applied.
+      </p>
+    </section>
+
     <section id="huge">
       <h1><a href="#huge">huge</a> <a href="#top">top</a></h1>
       <code class="const">constant</code>
@@ -3037,6 +3069,164 @@ function draw() {
       </ul>
     </section>
 
+    <section id="noProjection">
+      <h1><a href="#noProjection">noProjection</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>noProjection()</code>
+          <ul class="params"></ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        (Temporarily) disable the 3D projector without unbinding it, allowing
+        you to mix projective 3D and regular 2D with relatively little effort.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+
+  noProjection();
+  setFill(`#F0F5`);
+  poly(plane.map((v) => [50 * v[0], 50 * v[1]]));
+
+  useProjection();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+
+  noProjection();
+  setFill(`#F0F5`);
+  poly(plane.map((v) =&gt; [50 * v[0], 50 * v[1]]));
+
+  useProjection();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+}
+</code></pre>
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#useProjection">useProjection</a></li>
+      </ul>
+    </section>
+
+    <section id="noProjector">
+      <h1><a href="#noProjector">noProjector</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>noProjector()</code>
+          <ul class="params"></ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Unset the 3D projector, if one is currently active. This is equivalent
+        to calling <code>setProjector(false)</code>, and will turn off
+        projection <strong>and</strong> unbind the current projector. This can
+        be useful, but most of the time you&#39;ll want to use the
+        <a href="#useProjection">useProjection</a> and
+        <a href="#noProjection">noProjection</a> functions instead.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+  noProjector();
+  setFill(`#F0F5`);
+  poly(plane.map((v) => [50 * v[0], 50 * v[1]]));
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+  noProjector();
+  setFill(`#F0F5`);
+  poly(plane.map((v) =&gt; [50 * v[0], 50 * v[1]]));
+}
+</code></pre>
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#setProjector">setProjector</a></li>
+      </ul>
+    </section>
+
     <section id="noStroke">
       <h1><a href="#noStroke">noStroke</a> <a href="#top">top</a></h1>
       <ul class="signatures">
@@ -3558,6 +3748,48 @@ function draw() {
       </ul>
     </section>
 
+    <section id="poly">
+      <h1><a href="#poly">poly</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>poly(coordinates: number[])</code>
+          <ul class="params">
+            <li>
+              <code>coordinates</code> - The array of polygon vertices as
+              point-likes or number arrays.
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Draw a closed polygon from an array of point likes or number arrays.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+function draw() {
+  clear(`white`);
+  center();
+  setStroke(`black`);
+  setFill(`orange`);
+  poly([[-50, -50], [-50, 50], { x: 50, y: 50 }, new Point(50, -50)]);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">function draw() {
+  clear(`white`);
+  center();
+  setStroke(`black`);
+  setFill(`orange`);
+  poly([[-50, -50], [-50, 50], { x: 50, y: 50 }, new Point(50, -50)]);
+}
+</code></pre>
+    </section>
+
     <section id="pow">
       <h1><a href="#pow">pow</a> <a href="#top">top</a></h1>
       <ul class="signatures">
@@ -3606,60 +3838,69 @@ function draw() {
         </li>
       </ol>
       <h3>Description</h3>
-      <p>Project a 3D coordinate to 2D.</p>
+      <p>
+        Project a 3D &quot;world&quot; coordinate to a 2D &quot;screen&quot;
+        coordinate.
+      </p>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
+const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
 function setup() {
   setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
 }
 
 function draw() {
   clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  translate(width / 2, height / 4);
+  setColor(`orange`);
+  setStroke(`black`);
+  // Note that this is not "useful" code, as you will
+  // rarely, if ever, need to manually project coordinate.
+  // In this case, you could just call `poly(plane)` instead.
+  start();
+  plane.forEach((p) => vertex(project(...p)));
+  vertex(project(...plane[0]));
+  end();
 }
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">function setup() {
+      <pre><code class="language-js">const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
   setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
 }
 
 function draw() {
   clear(`white`);
-  setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
-  setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  translate(width / 2, height / 4);
+  setColor(`orange`);
+  setStroke(`black`);
+  // Note that this is not &quot;useful&quot; code, as you will
+  // rarely, if ever, need to manually project coordinate.
+  // In this case, you could just call `poly(plane)` instead.
+  start();
+  plane.forEach((p) =&gt; vertex(project(...p)));
+  vertex(project(...plane[0]));
+  end();
 }
 </code></pre>
       <h3>See also:</h3>
@@ -4221,75 +4462,128 @@ function draw() {
         </li>
       </ul>
       <h3>Description</h3>
-      <p>
-        Set the projector&#39;s x, y, and z axis rotation in radians. Note that
-        these are applied in order.
-      </p>
+      <p>Set the projector&#39;s x, y, and z axes of rotation in radians.</p>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
+const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) => [v[0], v[1], 1]);
+
 function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
   play();
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
   const m = millis() / 5000;
-  rotateProjector(m, 2 * m, 3 * m);
+  [cabinet, homogeneous].forEach((projector) => {
+    setProjector(projector);
+    projector.setRotation(m, 2 * m, 3 * m);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
   setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
+  point(...bottom[1]);
   setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) => {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) => {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) => line(...bottom[i], ...top[i]));
 }
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+      <pre><code class="language-js">const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) =&gt; [v[0], v[1], 1]);
+
+function setup() {
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
   play();
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
   const m = millis() / 5000;
-  rotateProjector(m, 2 * m, 3 * m);
+  [cabinet, homogeneous].forEach((projector) =&gt; {
+    setProjector(projector);
+    projector.setRotation(m, 2 * m, 3 * m);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
   setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
+  point(...bottom[1]);
   setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) =&gt; line(...bottom[i], ...top[i]));
 }
 </code></pre>
-      <h3>See also:</h3>
-      <ul>
-        <li><a href="#project">project</a></li>
-      </ul>
     </section>
 
     <section id="round">
@@ -4446,6 +4740,107 @@ function draw() {
         <li><a href="#transform">transform</a></li>
         <li><a href="#resetTransform">resetTransform</a></li>
       </ul>
+    </section>
+
+    <section id="scaleProjector">
+      <h1>
+        <a href="#scaleProjector">scaleProjector</a> <a href="#top">top</a>
+      </h1>
+      <ol class="signatures">
+        <li>
+          <code>scaleProjector(s: number)</code>
+          <ul class="params">
+            <li><code>s</code> - The scale factor for all three axes</li>
+          </ul>
+        </li>
+        <li>
+          <code>scaleProjector(x: number, y: number, z: number)</code>
+          <ul class="params">
+            <li><code>x</code> - The scale factor for the x axis</li>
+            <li><code>y</code> - The scale factor for the y axis</li>
+            <li><code>z</code> - The scale factor for the z axis</li>
+          </ul>
+        </li>
+      </ol>
+      <h3>Description</h3>
+      <p>
+        Set the projector&#39;s x, y, and z coordinate offsets. Note that this
+        value does <em>not</em> reset across successive draw calls. To reset the
+        translation, you must issue <code>translateProjector(0,0,0)</code>.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const plane1 = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const plane2 = [
+  [-1, -1, 1],
+  [1, -1, 1],
+  [1, 1, 1],
+  [-1, 1, 1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  play();
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  scaleProjector(
+    25 + 20 * sin(frame / 500),
+    25 + 20 * sin(frame / 500),
+    50 * sin(frame / 200),
+  );
+  setColor(`orange`);
+  poly(plane1);
+  setColor(`purple`);
+  poly(plane2);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const plane1 = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const plane2 = [
+  [-1, -1, 1],
+  [1, -1, 1],
+  [1, 1, 1],
+  [-1, 1, 1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  play();
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  scaleProjector(
+    25 + 20 * sin(frame / 500),
+    25 + 20 * sin(frame / 500),
+    50 * sin(frame / 200),
+  );
+  setColor(`orange`);
+  poly(plane1);
+  setColor(`purple`);
+  poly(plane2);
+}
+</code></pre>
     </section>
 
     <section id="screenToWorld">
@@ -5092,88 +5487,183 @@ function draw() {
 
     <section id="setProjector">
       <h1><a href="#setProjector">setProjector</a> <a href="#top">top</a></h1>
-      <ul class="signatures">
+      <ol class="signatures">
+        <li>
+          <code>setProjector(falsey: implied): false</code>
+          <ul class="params">
+            <li>
+              <code>falsey</code> - when called with a falsey argument (or no
+              argument), disables projector related functionality.
+            </li>
+          </ul>
+          <p>returns false. (<code>false</code>)</p>
+        </li>
         <li>
           <code
-            >setProjector(xOffset: number, yOffset: number, scale: number,
-            cabinet: number)</code
+            >setProjector(projectorType: Symbol, projector: Projector):
+            Projector</code
           >
           <ul class="params">
             <li>
-              <code>xOffset</code> - of the projection wrt the canvas (default =
-              0)
+              <code>projectorType</code> - This sets up a new projector, of type
+              <a href="#CABINET">CABINET</a> or
+              <a href="#HOMOGENOUS">HOMOGENOUS</a>.
             </li>
             <li>
-              <code>yOffset</code> - of the projection wrt the canvas (default =
-              0)
+              <code>projector</code> - This sets the projector to the one passed
+              as argument.
             </li>
-            <li><code>scale</code> - factor for the 3D input (default = 1)</li>
-            <li><code>cabinet</code> - angle in radians (default = -pi/6)</li>
           </ul>
+          <p>returns the current projector. (<code>Projector</code>)</p>
         </li>
-      </ul>
+      </ol>
       <h3>Description</h3>
       <p>
-        Set the project parameters. Currently, only cabinet project is
-        supported, which accepts the following parameters:
+        Set up a 3D to 2D projector. This can be either a CABINET or HOMOGENEOUS
+        projector, supporting the following API:
       </p>
+      <ul>
+        <li><code>setRotation(x, y, z)</code></li>
+        <li><code>setTranslation(tx, ty, tz)</code></li>
+        <li><code>setScale(tx, ty, tz)</code></li>
+      </ul>
+      <p>
+        furthermore, the CABINET projector supports setting the default cabinet
+        angle using:
+      </p>
+      <ul>
+        <li><code>setPhi(phi)</code></li>
+      </ul>
+      <p>
+        and the HOMOGENEOUS projection supports setting the distance of the
+        point-at-infinity by using:
+      </p>
+      <ul>
+        <li>
+          <code>setInfinity(distance)</code> (note, <code>distance</code> can be
+          <code>Infinity</code>)
+        </li>
+      </ul>
 
       <h3>Examples</h3>
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
+const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) => [v[0], v[1], 1]);
+
 function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) => {
+    setProjector(projector);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
   setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
+  point(...bottom[1]);
   setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) => {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) => {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) => line(...bottom[i], ...top[i]));
 }
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">function setup() {
-  setSize(200, 200);
-  setProjector(width / 2, height / 2, 50, -0.4);
+      <pre><code class="language-js">const cabinet = setProjector(CABINET);
+const homogeneous = setProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) =&gt; [v[0], v[1], 1]);
+
+function setup() {
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
 }
 
 function draw() {
   clear(`white`);
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) =&gt; {
+    setProjector(projector);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
   setColor(`red`);
-  line(project(-1, -1, -1), project(1, -1, -1));
-  line(project(-1, -1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(1, 1, -1));
-  line(project(-1, 1, 1), project(1, 1, 1));
-  setColor(`blue`);
-  line(project(-1, -1, -1), project(-1, -1, 1));
-  line(project(-1, 1, -1), project(-1, 1, 1));
-  line(project(1, -1, -1), project(1, -1, 1));
-  line(project(1, 1, -1), project(1, 1, 1));
+  point(...bottom[1]);
   setColor(`green`);
-  line(project(1, 1, -1), project(1, -1, -1));
-  line(project(1, 1, 1), project(1, -1, 1));
-  line(project(-1, 1, -1), project(-1, -1, -1));
-  line(project(-1, 1, 1), project(-1, -1, 1));
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) =&gt; line(...bottom[i], ...top[i]));
 }
 </code></pre>
       <h3>See also:</h3>
       <ul>
+        <li><a href="#useProjection">useProjection</a></li>
+        <li><a href="#noProjection">noProjection</a></li>
+        <li><a href="#noProjector">noProjector</a></li>
         <li><a href="#project">project</a></li>
       </ul>
     </section>
@@ -6178,6 +6668,80 @@ function draw() {
       </ul>
     </section>
 
+    <section id="translateProjector">
+      <h1>
+        <a href="#translateProjector">translateProjector</a>
+        <a href="#top">top</a>
+      </h1>
+      <ul class="signatures">
+        <li>
+          <code>translateProjector(x: number, y: number, z: number)</code>
+          <ul class="params">
+            <li><code>x</code> - The offset along the x axis</li>
+            <li><code>y</code> - The offset along the y axis</li>
+            <li><code>z</code> - The offset along the z axis</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Set the projector&#39;s x, y, and z coordinate offsets. Note that this
+        value does <em>not</em> reset across successive draw calls. To reset the
+        translation, you must issue <code>translateProjector(0,0,0)</code>.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const plane = [
+  [-1, -1, 0],
+  [1, -1, 0],
+  [1, 1, 0],
+  [-1, 1, 0],
+];
+
+function setup() {
+  setSize(200, 200);
+  const p = setProjector(HOMOGENEOUS);
+  p.setScale(50);
+  play();
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  setColor(`orange`);
+  translateProjector(0, 0, sin(frame / 100));
+  poly(plane);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const plane = [
+  [-1, -1, 0],
+  [1, -1, 0],
+  [1, 1, 0],
+  [-1, 1, 0],
+];
+
+function setup() {
+  setSize(200, 200);
+  const p = setProjector(HOMOGENEOUS);
+  p.setScale(50);
+  play();
+}
+
+function draw() {
+  clear(`white`);
+  center();
+  setColor(`orange`);
+  translateProjector(0, 0, sin(frame / 100));
+  poly(plane);
+}
+</code></pre>
+    </section>
+
     <section id="transposeMatrix">
       <h1>
         <a href="#transposeMatrix">transposeMatrix</a> <a href="#top">top</a>
@@ -6277,6 +6841,86 @@ trunc(-4.2); // -4
       <h3>See also:</h3>
       <ul>
         <li><a href="#floor">floor</a></li>
+      </ul>
+    </section>
+
+    <section id="useProjection">
+      <h1><a href="#useProjection">useProjection</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>useProjection()</code>
+          <ul class="params"></ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Enable a currently disabled 3D projector, allowing you to mix projective
+        3D and regular 2D with relatively little effort.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+
+  noProjection();
+  setFill(`#F0F5`);
+  poly(plane.map((v) => [50 * v[0], 50 * v[1]]));
+
+  useProjection();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const plane = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+
+function setup() {
+  setSize(200, 200);
+  setProjector(HOMOGENEOUS);
+  scaleProjector(50);
+}
+
+function draw() {
+  clear(`white`);
+  center();
+
+  noProjection();
+  setFill(`#F0F5`);
+  poly(plane.map((v) =&gt; [50 * v[0], 50 * v[1]]));
+
+  useProjection();
+  setStroke(`#333`);
+  setFill(`#FF05`);
+  poly(plane);
+}
+</code></pre>
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#noProjection">noProjection</a></li>
       </ul>
     </section>
 

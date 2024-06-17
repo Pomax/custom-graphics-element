@@ -228,6 +228,23 @@ declare const huge: number;
  */
 declare const TAU: number;
 /**
+ * The constant for indicating a projector should be a "cabinet" projector,
+ *  i.e. a projector without perspective, where coordinates further away
+ *  are draw progressively more up and right, similar to the kind of pictures
+ *  one might find in an instruction leaflet for building a cabinet.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#CABINET
+ */
+declare const CABINET: Symbol;
+/**
+ * The constant for indicating a projector should be a "normal" homogeneous
+ *  projector, i.e. projection with a "point at infinity" and normal perspective
+ *  applied.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#HOMOGENEOUS
+ */
+declare const HOMOGENEOUS: Symbol;
+/**
  * Ensure that there is no border around the canvas element.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#noBorder
@@ -519,6 +536,12 @@ declare function plotData(
  */
 declare function point(x: number, y: number): void;
 declare function point(p: PointLike): void;
+/**
+ * Draw a closed polygon from an array of point likes or number arrays.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#poly
+ */
+declare function poly(coordinates: number[]): void;
 /**
  * Draw a rectangle at the specified coordinate, with
  *  the specific width and height.
@@ -1186,32 +1209,85 @@ declare function multiplyMatrix(m1: Matrix, m2: Matrix): number[][];
  */
 declare function transposeMatrix(M: Matrix): number[][];
 /**
- * Project a 3D coordinate to 2D.
+ * Set up a 3D to 2D projector. This can be either a CABINET
+ *  or HOMOGENEOUS projector, supporting the following API:
+ *
+ *  - `setRotation(x, y, z)`
+ *  - `setTranslation(tx, ty, tz)`
+ *  - `setScale(tx, ty, tz)`
+ *
+ *  furthermore, the CABINET projector supports setting the
+ *  default cabinet angle using:
+ *
+ *  - `setPhi(phi)`
+ *
+ *  and the HOMOGENEOUS projection supports setting the distance
+ *  of the point-at-infinity by using:
+ *
+ *  - `setInfinity(distance)` (note, `distance` can be `Infinity`)
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#setProjector
+ */
+declare function setProjector(falsey: implied): false;
+declare function setProjector(
+  projectorType: Symbol,
+  projector: Projector,
+): Projector;
+/**
+ * Unset the 3D projector, if one is currently active. This is
+ *  equivalent to calling `setProjector(false)`, and will turn
+ *  off projection **and** unbind the current projector. This
+ *  can be useful, but most of the time you'll want to use the
+ *  <a href="#useProjection">useProjection</a> and <a href="#noProjection">noProjection</a> functions instead.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#noProjector
+ */
+declare function noProjector(): void;
+/**
+ * Enable a currently disabled 3D projector, allowing  you to
+ *  mix projective 3D and regular 2D with relatively little effort.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#useProjection
+ */
+declare function useProjection(): void;
+/**
+ * (Temporarily) disable the 3D projector without unbinding it,
+ *  allowing  you to mix projective 3D and regular 2D with relatively
+ *  little effort.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#noProjection
+ */
+declare function noProjection(): void;
+/**
+ * Project a 3D "world" coordinate to a 2D "screen" coordinate.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#project
  */
 declare function project(x: number, y: number, z: number): PointLike;
 declare function project(p: PointLike): PointLike;
 /**
- * Set the projector's x, y, and z axis rotation
- *  in radians. Note that these are applied in order.
+ * Set the projector's x, y, and z axes of rotation in radians.
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#rotateProjector
  */
 declare function rotateProjector(x: number, y: number, z: number): void;
 /**
- * Set the project parameters. Currently, only
- *  cabinet project is supported, which accepts
- *  the following parameters:
+ * Set the projector's x, y, and z coordinate offsets. Note that
+ *  this value does *not* reset across successive draw calls. To
+ *  reset the translation, you must issue `translateProjector(0,0,0)`.
  *
- * API docs: https://pomax.github.io/custom-graphics-element/api.html#setProjector
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#scaleProjector
  */
-declare function setProjector(
-  xOffset: number,
-  yOffset: number,
-  scale: number,
-  cabinet: number,
-): void;
+declare function scaleProjector(s: number): void;
+declare function scaleProjector(x: number, y: number, z: number): void;
+/**
+ * Set the projector's x, y, and z coordinate offsets. Note that
+ *  this value does *not* reset across successive draw calls. To
+ *  reset the translation, you must issue `translateProjector(0,0,0)`.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#translateProjector
+ */
+declare function translateProjector(x: number, y: number, z: number): void;
 /**
  * Set a border around the canvas.
  *

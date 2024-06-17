@@ -112,6 +112,7 @@
         <li><a href="#plot" class="fn">plot</a></li>
         <li><a href="#plotData" class="fn">plotData</a></li>
         <li><a href="#point" class="fn">point</a></li>
+        <li><a href="#poly" class="fn">poly</a></li>
         <li><a href="#rect" class="fn">rect</a></li>
         <li><a href="#spline" class="fn">spline</a></li>
         <li><a href="#start" class="fn">start</a></li>
@@ -3745,6 +3746,48 @@ function draw() {
           coordinate of the pointer &quot;down&quot; event
         </li>
       </ul>
+    </section>
+
+    <section id="poly">
+      <h1><a href="#poly">poly</a> <a href="#top">top</a></h1>
+      <ul class="signatures">
+        <li>
+          <code>poly(coordinates: number[])</code>
+          <ul class="params">
+            <li>
+              <code>coordinates</code> - The array of polygon vertices as
+              point-likes or number arrays.
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Draw a closed polygon from an array of point likes or number arrays.
+      </p>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+function draw() {
+  clear(`white`);
+  center();
+  setStroke(`black`);
+  setFill(`orange`);
+  poly([[-50, -50], [-50, 50], { x: 50, y: 50 }, new Point(50, -50)]);
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">function draw() {
+  clear(`white`);
+  center();
+  setStroke(`black`);
+  setFill(`orange`);
+  poly([[-50, -50], [-50, 50], { x: 50, y: 50 }, new Point(50, -50)]);
+}
+</code></pre>
     </section>
 
     <section id="pow">

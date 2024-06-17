@@ -12,12 +12,18 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 ## v6.0.0 (June 16, 2024)
 
+- [bugfix] fixed the `inside` test for shapes on Chrome, because Google never bothered to update the way it handles `isPointInFill` and friends. Even though one of their own is an editor on the SVG2 spec.
+
 This version has completely rewritten 3D projection code so that you no longer need to manually project every single coordinate. Instead, you set up a projector (which can be either a cabinet or homogeneous projector), which then also automatically turns on 3D to 2D projection for various draw functions.
 
 - added `setProjector`,
 - added `noProjector` to disable projection
 - added `useProjection` and `noProjection` to toggle projection behaviour on/off during the draw loop
-- updated the various draw commands so that they automatically perform projection mapping when projection is enabled.
+- added `poly` function for drawing polygons from arrays of points.
+
+- updated the various draw commands so that they automatically perform projection mapping when projection is enabled: `line`, `point`, `poly`, `vertex`.
+- not yet updated: `arc`, `circle`: these need some way to indicate which plane they lie in.
+- net yet updated:`bezier`, `bspline`, `spline`; these need to understand 3d inputs before they can be made projective.
 
 **BREAKING CHANGES**
 
@@ -58,8 +64,6 @@ function drawAxes() {
 }
 ...
 ```
-
-Note that projectors c
 
 # Previous Versions
 

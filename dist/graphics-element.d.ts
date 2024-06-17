@@ -537,6 +537,12 @@ declare function plotData(
 declare function point(x: number, y: number): void;
 declare function point(p: PointLike): void;
 /**
+ * Draw a closed polygon from an array of point likes or number arrays.
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#poly
+ */
+declare function poly(coordinates: number[]): void;
+/**
  * Draw a rectangle at the specified coordinate, with
  *  the specific width and height.
  *

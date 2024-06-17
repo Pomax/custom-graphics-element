@@ -674,7 +674,30 @@ function point(...args) {
   }
 }
 
-// TEST: polygon
+/**
+ * Draw a closed polygon from an array of point likes or number arrays.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *       setStroke(`black`);
+ *       setFill(`orange`);
+ *       poly([
+ *         [-50, -50],
+ *         [-50, 50],
+ *         {x: 50, y: 50},
+ *         new Point(50, -50),
+ *       ]);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {number[]} coordinates The array of polygon vertices as point-likes or number arrays.
+ */
 function poly(coords) {
   start();
   coords.concat([coords[0]]).forEach((v) => {

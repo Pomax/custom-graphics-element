@@ -148,16 +148,14 @@ class Shape {
     const { ox, oy, path, segments } = this;
     const d = segments.map((s) => s.getPath()).join(` `);
     path.setAttribute(`d`, d);
-    try {
-      const p = new DOMPoint(x - ox, y - oy);
-      if (path.isPointInFill(p)) return true;
-      if (path.isPointInStroke(p)) return true;
-    } catch (e) {
-      // oh for fuck's sake, Chrome
-      const p = new Path2D(path);
-      if(__ctx.isPointInPath(p, x - ox, y - oy)) return true;
-      if(__ctx.isPointInStroke(p, x - ox, y - oy)) return true;
-    }
+    // Oh for fuck's sake, Chrome, how hard is it to keep up with a standard
+    // that you're an editor for? https://issues.chromium.org/issues/40572887
+    // const p = new DOMPoint(x - ox, y - oy);
+    // if (path.isPointInFill(p)) return true;
+    // if (path.isPointInStroke(p)) return true;
+    const p = new Path2D(path);
+    if (__ctx.isPointInPath(p, x - ox, y - oy)) return true;
+    if (__ctx.isPointInStroke(p, x - ox, y - oy)) return true;
     return false;
   }
 }

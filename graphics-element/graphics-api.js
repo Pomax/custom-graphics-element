@@ -40,11 +40,13 @@ let __grid_spacing;
 let __highlight_color;
 let __last_frame;
 let __movable_points;
+let __projector;
 let __redrawing;
 let __shape;
 let __start_time;
 let __style_stack;
 let __textStroke;
+let __use_projection;
 
 const __prng = new (class {
   constructor(seed = Date.now()) {
@@ -82,11 +84,13 @@ async function __reset(element = __element) {
   __grid_spacing = 20;
   __highlight_color = false;
   __movable_points = [];
+  __projector = false;
   __redrawing = false;
   __shape = undefined;
   __start_time = Date.now();
   __style_stack = [];
   __textStroke = `transparent`;
+  __use_projection = false;
 
   currentMovable = false;
   playing = false;

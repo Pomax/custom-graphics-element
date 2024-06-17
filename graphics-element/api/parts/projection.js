@@ -1,5 +1,20 @@
 /**
- * Project a 3D "world" coordinate to a 2D "screen" coordinate.
+ * Set up a 3D to 2D projector. This can be either a CABINET
+ * or HOMOGENEOUS projector, supporting the following API:
+ *
+ * - `setRotation(x, y, z)`
+ * - `setTranslation(tx, ty, tz)`
+ * - `setScale(tx, ty, tz)`
+ *
+ * furthermore, the CABINET projector supports setting the
+ * default cabinet angle using:
+ *
+ * - `setPhi(phi)`
+ *
+ * and the HOMOGENEOUS projection supports setting the distance
+ * of the point-at-infinity by using:
+ *
+ * - `setInfinity(distance)` (note, `distance` can be `Infinity`)
  *
  * Example:
  *
@@ -7,20 +22,18 @@
  *   <graphics-source>
  *     const cabinet = setProjector(CABINET);
  *     const homogeneous = setProjector(HOMOGENEOUS);
+ *     const bottom = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *     const top = bottom.map(v => [v[0], v[1], 1]);
  *
  *     function setup() {
  *       setSize(400, 200);
- *       setupProjectors();
- *     }
- *
- *     function setupProjectors() {
- *       cabinet.setPhi(-0.4);
  *       cabinet.setScale(50);
- *       cabinet.setRotation(0, 0, 0);
- *
- *       homogeneous.setInfinity(4);
  *       homogeneous.setScale(50);
- *       homogeneous.setRotation(0, 0, -0.4);
  *     }
  *
  *     function draw() {
@@ -29,32 +42,229 @@
  *       [cabinet, homogeneous].forEach(projector => {
  *         setProjector(projector);
  *         translate(width/2, 0);
- *
- *         setColor(`black`);
- *         point(project(-1, -1, -1));
- *         setColor(`red`);
- *         point(project(1, -1, -1));
- *         setColor(`green`);
- *         point(project(-1, 1, -1));
- *         setColor(`blue`);
- *         point(project(-1, -1, 1));
- *
- *         setColor(`red`);
- *         line(project(-1, -1, -1), project(1, -1, -1));
- *         line(project(-1, -1, 1), project(1, -1, 1));
- *         line(project(-1, 1, -1), project(1, 1, -1));
- *         line(project(-1, 1, 1), project(1, 1, 1));
- *         setColor(`blue`);
- *         line(project(-1, -1, -1), project(-1, -1, 1));
- *         line(project(-1, 1, -1), project(-1, 1, 1));
- *         line(project(1, -1, -1), project(1, -1, 1));
- *         line(project(1, 1, -1), project(1, 1, 1));
- *         setColor(`green`);
- *         line(project(1, 1, -1), project(1, -1, -1));
- *         line(project(1, 1, 1), project(1, -1, 1));
- *         line(project(-1, 1, -1), project(-1, -1, -1));
- *         line(project(-1, 1, 1), project(-1, -1, 1));
+ *         drawAxisPoints();
+ *         drawCube();
  *       });
+ *     }
+ *
+ *     function drawAxisPoints() {
+ *       setColor(`black`);
+ *       point(...bottom[0]);
+ *       setColor(`red`);
+ *       point(...bottom[1]);
+ *       setColor(`green`);
+ *       point(...bottom[3]);
+ *       setColor(`blue`);
+ *       point(...top[0]);
+ *     }
+ *
+ *     function drawCube() {
+ *       noFill();
+ *       setStroke(`red`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[0], ...r[1]);
+ *         line(...r[2], ...r[3]);
+ *       });
+ *       setStroke(`green`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[1], ...r[2]);
+ *         line(...r[3], ...r[0]);
+ *       });
+ *       setStroke(`blue`);
+ *       [0,1,2,3].forEach(i => line(...bottom[i], ...top[i]));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {implied} falsey when called with a falsey argument (or no argument), disables projector related functionality.
+ * @returns {false} false.
+ *
+ * @param {Symbol} projectorType This sets up a new projector, of type {@link CABINET} or {@link HOMOGENOUS}.
+ * @param {Projector} projector This sets the projector to the one passed as argument.
+ * @returns {Projector} The current projector.
+ *
+ * @see {@link useProjection}
+ * @see {@link noProjection}
+ * @see {@link noProjector}
+ * @see {@link project}
+ */
+function setProjector(typeOrProjector) {
+  if (!typeOrProjector) {
+    __projector = false;
+    noProjection();
+  } else if (typeOrProjector instanceof Projector) {
+    __projector = typeOrProjector;
+  } else if (typeOrProjector === CABINET) {
+    __projector = new CabinetProjector();
+  } else if (typeOrProjector === HOMOGENEOUS) {
+    __projector = new HomogeneousProjector(250);
+  }
+  useProjection();
+  return __projector;
+}
+
+/**
+ * Unset the 3D projector, if one is currently active. This is
+ * equivalent to calling `setProjector(false)`, and will turn
+ * off projection **and** unbind the current projector. This
+ * can be useful, but most of the time you'll want to use the
+ * {@link useProjection} and {@link noProjection} functions instead.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(HOMOGENEOUS);
+ *       scaleProjector(50);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *       setStroke(`#333`);
+ *       setFill(`#FF05`);
+ *       poly(plane);
+ *       noProjector();
+ *       setFill(`#F0F5`);
+ *       poly(plane.map(v => ([50 * v[0], 50 * v[1]])));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @see {@link setProjector}
+ */
+function noProjector() {
+  setProjector(false);
+}
+
+/**
+ * Enable a currently disabled 3D projector, allowing  you to
+ * mix projective 3D and regular 2D with relatively little effort.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(HOMOGENEOUS);
+ *       scaleProjector(50);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *
+ *       noProjection();
+ *       setFill(`#F0F5`);
+ *       poly(plane.map(v => ([50 * v[0], 50 * v[1]])));
+ *
+ *       useProjection();
+ *       setStroke(`#333`);
+ *       setFill(`#FF05`);
+ *       poly(plane);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @see {@link noProjection}
+ */
+function useProjection() {
+  __use_projection = true;
+}
+
+/**
+ * (Temporarily) disable the 3D projector without unbinding it,
+ * allowing  you to mix projective 3D and regular 2D with relatively
+ * little effort.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(HOMOGENEOUS);
+ *       scaleProjector(50);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *
+ *       noProjection();
+ *       setFill(`#F0F5`);
+ *       poly(plane.map(v => ([50 * v[0], 50 * v[1]])));
+ *
+ *       useProjection();
+ *       setStroke(`#333`);
+ *       setFill(`#FF05`);
+ *       poly(plane);
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @see {@link useProjection}
+ */
+function noProjection() {
+  __use_projection = false;
+}
+
+/**
+ * Project a 3D "world" coordinate to a 2D "screen" coordinate.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(HOMOGENEOUS)
+ *       scaleProjector(50);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(width/2, height/4);
+ *       setColor(`orange`);
+ *       setStroke(`black`);
+ *       // Note that this is not "useful" code, as you will
+ *       // rarely, if ever, need to manually project coordinate.
+ *       // In this case, you could just call `poly(plane)` instead.
+ *       start();
+ *       plane.forEach(p => vertex(project(...p)));
+ *       vertex(project(...plane[0]));
+ *       end();
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -78,43 +288,8 @@ function project(x, y, z) {
   return __projector.project(x, y, z);
 }
 
-// TEST: Set up a 3D projector.
-function setProjector(typeOrProjector) {
-  if (typeOrProjector instanceof Projector) {
-    __projector = typeOrProjector;
-  }
-  if (typeOrProjector === CABINET) {
-    __projector = new CabinetProjector();
-  }
-  if (typeOrProjector === HOMOGENEOUS) {
-    __projector = new HomogeneousProjector(250);
-  }
-  return __projector;
-}
-
-// TEST: Get the current projector, for reasons. Not sure I want
-//       to keep this, it feels like you should only be able to
-//       get a reference to the projector when you set it...?
-function getProjector() {
-  return __projector;
-}
-
-// TEST: when true, this should change all draw instructions
-//       to project 3D to 2D automatically. Which would make
-//       things super duper much nicer.
-function useProjection() {
-  __projection = true;
-}
-
-// TEST: this should "revert" all draw instructions to (no longer)
-//       treat vertices as 3D-that-need-projecting.
-function noProjection() {
-  __projection = false;
-}
-
 /**
- * Set the projector's x, y, and z axis rotation
- * in radians. Note that these are applied in order.
+ * Set the projector's x, y, and z axes of rotation in radians.
  *
  * Example:
  *
@@ -122,19 +297,19 @@ function noProjection() {
  *   <graphics-source>
  *     const cabinet = setProjector(CABINET);
  *     const homogeneous = setProjector(HOMOGENEOUS);
+ *     const bottom = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *     const top = bottom.map(v => [v[0], v[1], 1]);
  *
  *     function setup() {
  *       setSize(400, 200);
- *       setupProjectors();
- *       play();
- *     }
- *
- *     function setupProjectors() {
- *       cabinet.setPhi(-0.4);
  *       cabinet.setScale(50);
- *       homogeneous.setInfinity(4);
- *       homogeneous.setRotation(0, 0, -0.4);
  *       homogeneous.setScale(50);
+ *       play();
  *     }
  *
  *     function draw() {
@@ -145,32 +320,36 @@ function noProjection() {
  *         setProjector(projector);
  *         projector.setRotation(m, 2 * m, 3 * m);
  *         translate(width/2, 0);
- *
- *         setColor(`black`);
- *         point(project(-1, -1, -1));
- *         setColor(`red`);
- *         point(project(1, -1, -1));
- *         setColor(`green`);
- *         point(project(-1, 1, -1));
- *         setColor(`blue`);
- *         point(project(-1, -1, 1));
- *
- *         setColor(`red`);
- *         line(project(-1, -1, -1), project(1, -1, -1));
- *         line(project(-1, -1, 1), project(1, -1, 1));
- *         line(project(-1, 1, -1), project(1, 1, -1));
- *         line(project(-1, 1, 1), project(1, 1, 1));
- *         setColor(`blue`);
- *         line(project(-1, -1, -1), project(-1, -1, 1));
- *         line(project(-1, 1, -1), project(-1, 1, 1));
- *         line(project(1, -1, -1), project(1, -1, 1));
- *         line(project(1, 1, -1), project(1, 1, 1));
- *         setColor(`green`);
- *         line(project(1, 1, -1), project(1, -1, -1));
- *         line(project(1, 1, 1), project(1, -1, 1));
- *         line(project(-1, 1, -1), project(-1, -1, -1));
- *         line(project(-1, 1, 1), project(-1, -1, 1));
+ *         drawAxisPoints();
+ *         drawCube();
  *       });
+ *     }
+ *
+ *     function drawAxisPoints() {
+ *       setColor(`black`);
+ *       point(...bottom[0]);
+ *       setColor(`red`);
+ *       point(...bottom[1]);
+ *       setColor(`green`);
+ *       point(...bottom[3]);
+ *       setColor(`blue`);
+ *       point(...top[0]);
+ *     }
+ *
+ *     function drawCube() {
+ *       noFill();
+ *       setStroke(`red`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[0], ...r[1]);
+ *         line(...r[2], ...r[3]);
+ *       });
+ *       setStroke(`green`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[1], ...r[2]);
+ *         line(...r[3], ...r[0]);
+ *       });
+ *       setStroke(`blue`);
+ *       [0,1,2,3].forEach(i => line(...bottom[i], ...top[i]));
  *     }
  *   </graphics-source>
  * </graphics-element>
@@ -178,8 +357,6 @@ function noProjection() {
  * @param {number} x The angle of rotation over the x axis in radians
  * @param {number} y The angle of rotation over the y axis in radians
  * @param {number} z The angle of rotation over the z axis in radians
- *
- * @see {@link project}
  */
 function rotateProjector(x, y, z) {
   if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
@@ -187,5 +364,107 @@ function rotateProjector(x, y, z) {
     y = x.y;
     x = x.x;
   }
-  __projector.setRotation(x, y, z);
+  __projector?.setRotation(x, y, z);
+}
+
+/**
+ * Set the projector's x, y, and z coordinate offsets. Note that
+ * this value does *not* reset across successive draw calls. To
+ * reset the translation, you must issue `translateProjector(0,0,0)`.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane1 = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *     const plane2 = [
+ *       [-1, -1, 1],
+ *       [ 1, -1, 1],
+ *       [ 1,  1, 1],
+ *       [-1,  1, 1],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       setProjector(HOMOGENEOUS);
+ *       play();
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *       scaleProjector(25 + 20 * sin(frame/500), 25 + 20 * sin(frame/500), 50 * sin(frame/200));
+ *       setColor(`orange`);
+ *       poly(plane1)
+ *       setColor(`purple`);
+ *       poly(plane2)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ *
+ * @param {number} s The scale factor for all three axes
+ *
+ * @param {number} x The scale factor for the x axis
+ * @param {number} y The scale factor for the y axis
+ * @param {number} z The scale factor for the z axis
+ */
+function scaleProjector(x, y, z) {
+  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
+  __projector?.setScale(x, y, z);
+}
+
+/**
+ * Set the projector's x, y, and z coordinate offsets. Note that
+ * this value does *not* reset across successive draw calls. To
+ * reset the translation, you must issue `translateProjector(0,0,0)`.
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const plane = [
+ *       [-1, -1, 0],
+ *       [ 1, -1, 0],
+ *       [ 1,  1, 0],
+ *       [-1,  1, 0],
+ *     ];
+ *
+ *     function setup() {
+ *       setSize(200, 200);
+ *       const p = setProjector(HOMOGENEOUS);
+ *       p.setScale(50);
+ *       play();
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       center();
+ *       setColor(`orange`);
+ *       translateProjector(0, 0, sin(frame/100));
+ *       poly(plane)
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {number} x The offset along the x axis
+ * @param {number} y The offset along the y axis
+ * @param {number} z The offset along the z axis
+ */
+function translateProjector(x, y, z) {
+  if (x.x !== undefined && x.y !== undefined && x.z !== undefined) {
+    z = x.z;
+    y = x.y;
+    x = x.x;
+  }
+  __projector?.setTranslation(x, y, z);
 }

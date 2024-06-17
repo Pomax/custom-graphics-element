@@ -92,12 +92,20 @@ function getMetaData(fname, comment) {
   ];
   lastIndex = Math.min(...[v1, v2, v3, v4, v5].filter((v) => v > -1));
 
-  const description = comment
+  let description = comment
     .substring(0, lastIndex)
     .split(`\n`)
     .map((l) => l.trim().replace(/^(\/\*)?\*/, ``))
     .join(`\n`)
     .trim();
+
+  // fix up any @link elements
+  if (description && description.includes(`@link`)) {
+    description = description.replaceAll(
+      /\{@link\s+([^\s}]+)\s*\}/g,
+      `<a href="#$1">$1</a>`
+    );
+  }
 
   const blocks = comment
     .match(/<graphics-element>[\s\S]+?<\/graphics-element>/g)
@@ -156,9 +164,15 @@ function getParamsAndReturn(fname, comment) {
 
       // parameter?
       if (op === `@param`) {
-        const [_, type, name, __, desc] = line.match(
+        let [_, type, name, __, desc] = line.match(
           /@param\s+{([^}]+)}\s+(\S+)(\s+([^\n]+))?/
         );
+        if (desc && desc.includes(`@link`)) {
+          desc = desc.replaceAll(
+            /\{@link\s+([^\s}]+)\s*\}/g,
+            `<a href="#$1">$1</a>`
+          );
+        }
         set[name] = { type, desc: desc ?? `` };
         set.__updated = true;
       }

@@ -1,16 +1,20 @@
-const CABINET = Symbol(`cabinet projection`);
-const HOMOGENEOUS = Symbol(`homogeneous projection`);
 const __ABSTRACT_PROJECTOR = Symbol(`abstract projector superclass`);
-
-let __projection = false;
-let __projector = undefined;
 
 // Generic projector superclass
 class Projector {
+  // axial angles of rotation
   X = 0;
   Y = 0;
   Z = 0;
+
+  // "infinity lies at distance: ..."
+  infinity = Infinity;
+
   type = __ABSTRACT_PROJECTOR;
+
+  setInfinity() {
+    // does nothing by default
+  }
 
   setRotation(x = 0, y = 0, z = 0) {
     this.X = x;
@@ -52,7 +56,7 @@ class Projector {
  */
 class CabinetProjector extends Projector {
   type = CABINET;
-  phi = PI / 6;
+  phi = -PI / 6;
 
   setPhi(phi) {
     this.phi = phi;
@@ -96,16 +100,21 @@ class CabinetProjector extends Projector {
 class HomogeneousProjector extends Projector {
   type = HOMOGENEOUS;
 
-  // "infinity lies at distance: ..."
-  d = Infinity;
+  // effect a default projection similar (enough) to
+  // the default cabinet projection
+  constructor() {
+    super();
+    this.setInfinity(200);
+    this.setRotation(0, 0, -0.35);
+  }
 
   setInfinity(d) {
-    this.d = d;
+    this.infinity = d;
   }
 
   project(x, y, z) {
-    const [Vx, Vy, Vz] = [y, -z, x];
-    const { X, Y, Z, d, Tx, Ty, Tz, Sx, Sy, Sz } = this;
+    const { X, Y, Z, infinity: d, Tx, Ty, Tz, Sx, Sy, Sz } = this;
+    const [Vx, Vy, Vz] = [(y - Ty) * Sy, (-z - Tz) * Sz, (x - Tx) * Sx];
     const [A, B, C] = [X, Z, Y];
 
     const cy = cos(A);
@@ -118,10 +127,10 @@ class HomogeneousProjector extends Projector {
     // prettier-ignore
     // homogenous affine transform matrix
     const M = [
-       Sx * cp * cy, Sx * (cy * sp * sr - cr * sy), Sx * (cr * cy * sp + sr * sy), Tx,
-       Sy * cp * sy, Sy * (cr * cy + sp * sr * sy), Sy * (cr * sp * sy - cy * sr), Ty,
-      -Sz * sp,      Sz * cp * sr,                  Sz * cp * cr,                  Tz,
-       sp / d,      -cp * sr / d,                  -cp * cr / d,                    1,
+       cp * cy, (cy * sp * sr - cr * sy), (cr * cy * sp + sr * sy), 0,
+       cp * sy, (cr * cy + sp * sr * sy), (cr * sp * sy - cy * sr), 0,
+      -sp,      cp * sr,                  cp * cr,                  0,
+       sp / d, -cp * sr / d,             -cp * cr / d,              1,
     ];
 
     // prettier-ignore

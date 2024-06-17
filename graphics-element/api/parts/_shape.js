@@ -97,7 +97,7 @@ class Shape {
   }
 
   reset() {
-    this.offset(0,0);
+    this.offset(0, 0);
   }
 
   flipSegment() {
@@ -148,9 +148,16 @@ class Shape {
     const { ox, oy, path, segments } = this;
     const d = segments.map((s) => s.getPath()).join(` `);
     path.setAttribute(`d`, d);
-    const p = new DOMPoint(x - ox, y - oy);
-    if (path.isPointInFill(p)) return true;
-    if (path.isPointInStroke(p)) return true;
+    try {
+      const p = new DOMPoint(x - ox, y - oy);
+      if (path.isPointInFill(p)) return true;
+      if (path.isPointInStroke(p)) return true;
+    } catch (e) {
+      // oh for fuck's sake, Chrome
+      const p = new Path2D(path);
+      if(__ctx.isPointInPath(p, x - ox, y - oy)) return true;
+      if(__ctx.isPointInStroke(p, x - ox, y - oy)) return true;
+    }
     return false;
   }
 }

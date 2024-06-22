@@ -10,6 +10,12 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.1.0 (June 22, 2024)
+
+- added the `safemode` attribute, which will run graphics code with all loops wrapped such that "probable infinite loops" throw an error. This is particularly useful when dealing with user-generated graphics code (<em>especially</em> in collaborative code editing context) where someone might write <code>while(true)</code> and lock up the JS thread with a spin loop, or something like <code>for(let i=100; i>=0; i++)</cod> where an honest mistake (a ++ that should have been --) leads to a locked page. If you're dealing with any sort of user-generated content, you'll want to make sure to use this attribute!
+
+# Previous Versions
+
 ## v6.0.0 (June 16, 2024)
 
 - [bugfix] fixed the `inside` test for shapes on Chrome, because Google never bothered to update the way it handles `isPointInFill` and friends. Even though one of their own is an editor on the SVG2 spec.
@@ -64,8 +70,6 @@ function drawAxes() {
 }
 ...
 ```
-
-# Previous Versions
 
 ## v5.0.0 (March 31, 2024)
 

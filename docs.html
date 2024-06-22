@@ -79,6 +79,9 @@
         >
         <ul>
           <li>
+            <a href="#supported-attributes">Supported attributes</a>
+          </li>
+          <li>
             <a href="#using-data-attributes">Using data-* attributes</a>
           </li>
           <li>
@@ -138,10 +141,15 @@
 
       <pre><code class="language-html">&lt;graphics-element attr1="val1" attr2="val2" ...&gt;&lt;/graphics-element&gt;</code></pre>
 
+      <h3 id="supported attributes">
+        <a href="#supported-attributes">Supported attributes</a>
+        <a href="#top">top</a>
+      </h3>
+
       <p>
-        With the same universal attributes like <code>id</code> or
-        <code>class</code>
-        as well as the following tag-specific attributes:
+        In addition to the standard HTML element attributes like
+        <code>id</code> or <code>class</code>, the following tag-relevant
+        attributes are supported:
       </p>
 
       <ul>
@@ -176,6 +184,15 @@
           <code>float</code> - an optional attribute that takes values
           <code>"left"</code> or <code>"right"</code>, to float your graphic
           inside your other page content.
+        </li>
+        <li>
+          <code>safemode</code> - an attribute that tells the graphics element
+          to run its code in "safe mode", where all loops are wrapped with
+          "infinite loop detection" that will throw an Error once a loop runs
+          for too long. This attribute can either be given a number to specify
+          the number of iterations at which a loop is probably running
+          indefinitely, or can be left empty in which case that number is set to
+          1000 iterations.
         </li>
       </ul>
 
@@ -357,9 +374,11 @@ function draw() {
       <p>
         And because modern JS may require <code>await</code>ing asynchronous
         returns, both of those can be marked async, too:
-      <p>
+      </p>
 
-        <pre><code class="language-js">async function setup() {
+      <p></p>
+
+      <pre><code class="language-js">async function setup() {
   setSize(123, 456);
   await fetch(`http://example.com/ping`);
 }

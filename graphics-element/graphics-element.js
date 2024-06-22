@@ -1,3 +1,4 @@
+import { loopGuard } from "./loop-guard.js";
 import { CustomElement } from "./custom-element.js";
 import { CSS_COLOR_NAMES, CSS_COLOR_MAP } from "./api/util/colors.js";
 import { BSpline } from "./api/types/bspline.js";
@@ -191,6 +192,13 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
           `function setup() {\n  ${key} = ${value};`
         );
       });
+    }
+
+    // Do we need to be safe?
+    if (this.getAttribute(`safemode`) !== null) {
+      let threshold = parseFloat(this.getAttribute(`safemode`));
+      if (isNaN(threshold)) threshold = 1000;
+      sourceCode = loopGuard(sourceCode, threshold);
     }
 
     // Then, finally: build the program's JS module!

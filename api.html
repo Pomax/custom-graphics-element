@@ -198,6 +198,7 @@
       </ul>
       <h4 class="sep">projection functions</h4>
       <ul>
+        <li><a href="#createProjector" class="fn">createProjector</a></li>
         <li><a href="#noProjection" class="fn">noProjection</a></li>
         <li><a href="#noProjector" class="fn">noProjector</a></li>
         <li><a href="#project" class="fn">project</a></li>
@@ -1670,6 +1671,176 @@ function pointerDown(x, y) {
       <ul>
         <li><a href="#cos">cos</a></li>
         <li><a href="#acosh">acosh</a></li>
+      </ul>
+    </section>
+
+    <section id="createProjector">
+      <h1>
+        <a href="#createProjector">createProjector</a> <a href="#top">top</a>
+      </h1>
+      <ul class="signatures">
+        <li>
+          <code>createProjector(projectorType: Symbol): Projector</code>
+          <ul class="params">
+            <li>
+              <code>projectorType</code> - This sets up a new projector, of type
+              <a href="#CABINET">CABINET</a> or
+              <a href="#HOMOGENOUS">HOMOGENOUS</a>.
+            </li>
+          </ul>
+          <p>returns a new projector instance. (<code>Projector</code>)</p>
+        </li>
+      </ul>
+      <h3>Description</h3>
+      <p>
+        Create a 3D to 2D projector. This can be either a
+        <code>CABINET</code> or <code>HOMOGENEOUS</code> projector, supporting
+        the following API:
+      </p>
+      <ul>
+        <li><code>projector.setRotation(x, y, z)</code></li>
+        <li><code>projector.setTranslation(tx, ty, tz)</code></li>
+        <li><code>projector.setScale(tx, ty, tz)</code></li>
+      </ul>
+      <p>
+        furthermore, the <code>CABINET</code> projector supports setting the
+        default cabinet angle using:
+      </p>
+      <ul>
+        <li><code>projector.setPhi(phi)</code></li>
+      </ul>
+      <p>
+        and the <code>HOMOGENEOUS</code> projection supports setting the
+        distance of the point-at-infinity by using:
+      </p>
+      <ul>
+        <li>
+          <code>projector.setInfinity(distance)</code> (note,
+          <code>distance</code> can be <code>Infinity</code>)
+        </li>
+      </ul>
+
+      <h3>Examples</h3>
+      <!-- prettier-ignore -->
+      <graphics-element width="200px" height="200px">
+              <graphics-source>
+const cabinet = createProjector(CABINET);
+const homogeneous = createProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) => [v[0], v[1], 1]);
+
+function setup() {
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
+}
+
+function draw() {
+  clear(`white`);
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) => {
+    setProjector(projector);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
+  setColor(`red`);
+  point(...bottom[1]);
+  setColor(`green`);
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) => {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) => {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) => line(...bottom[i], ...top[i]));
+}
+
+</graphics-source>
+            </graphics-element>
+      <pre><code class="language-js">const cabinet = createProjector(CABINET);
+const homogeneous = createProjector(HOMOGENEOUS);
+const bottom = [
+  [-1, -1, -1],
+  [1, -1, -1],
+  [1, 1, -1],
+  [-1, 1, -1],
+];
+const top = bottom.map((v) =&gt; [v[0], v[1], 1]);
+
+function setup() {
+  setSize(400, 200);
+  cabinet.setScale(50);
+  homogeneous.setScale(50);
+}
+
+function draw() {
+  clear(`white`);
+  translate(-width / 4, height / 2);
+  [cabinet, homogeneous].forEach((projector) =&gt; {
+    setProjector(projector);
+    translate(width / 2, 0);
+    drawAxisPoints();
+    drawCube();
+  });
+}
+
+function drawAxisPoints() {
+  setColor(`black`);
+  point(...bottom[0]);
+  setColor(`red`);
+  point(...bottom[1]);
+  setColor(`green`);
+  point(...bottom[3]);
+  setColor(`blue`);
+  point(...top[0]);
+}
+
+function drawCube() {
+  noFill();
+  setStroke(`red`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[0], ...r[1]);
+    line(...r[2], ...r[3]);
+  });
+  setStroke(`green`);
+  [bottom, top].forEach((r) =&gt; {
+    line(...r[1], ...r[2]);
+    line(...r[3], ...r[0]);
+  });
+  setStroke(`blue`);
+  [0, 1, 2, 3].forEach((i) =&gt; line(...bottom[i], ...top[i]));
+}
+</code></pre>
+      <h3>See also:</h3>
+      <ul>
+        <li><a href="#setProjector">setProjector</a></li>
+        <li><a href="#useProjection">useProjection</a></li>
+        <li><a href="#noProjection">noProjection</a></li>
+        <li><a href="#noProjector">noProjector</a></li>
+        <li><a href="#project">project</a></li>
       </ul>
     </section>
 
@@ -5500,7 +5671,7 @@ function draw() {
         </li>
         <li>
           <code
-            >setProjector(projectorType: Symbol, projector: Projector):
+            >setProjector(projectorType: Symbol, project: boolean):
             Projector</code
           >
           <ul class="params">
@@ -5510,8 +5681,25 @@ function draw() {
               <a href="#HOMOGENOUS">HOMOGENOUS</a>.
             </li>
             <li>
+              <code>project</code> - Optional. When true, immediately enable
+              coordinate projection. Default: true
+            </li>
+          </ul>
+          <p>returns the current projector. (<code>Projector</code>)</p>
+        </li>
+        <li>
+          <code
+            >setProjector(projector: Projector, project: boolean):
+            Projector</code
+          >
+          <ul class="params">
+            <li>
               <code>projector</code> - This sets the projector to the one passed
               as argument.
+            </li>
+            <li>
+              <code>project</code> - Optional. When true, immediately enable
+              coordinate projection. Default: true
             </li>
           </ul>
           <p>returns the current projector. (<code>Projector</code>)</p>
@@ -5519,29 +5707,30 @@ function draw() {
       </ol>
       <h3>Description</h3>
       <p>
-        Set up a 3D to 2D projector. This can be either a CABINET or HOMOGENEOUS
-        projector, supporting the following API:
+        Set up a 3D to 2D projector. This can be either a
+        <code>CABINET</code> or <code>HOMOGENEOUS</code> projector, supporting
+        the following API:
       </p>
       <ul>
-        <li><code>setRotation(x, y, z)</code></li>
-        <li><code>setTranslation(tx, ty, tz)</code></li>
-        <li><code>setScale(tx, ty, tz)</code></li>
+        <li><code>projector.setRotation(x, y, z)</code></li>
+        <li><code>projector.setTranslation(tx, ty, tz)</code></li>
+        <li><code>projector.setScale(tx, ty, tz)</code></li>
       </ul>
       <p>
-        furthermore, the CABINET projector supports setting the default cabinet
-        angle using:
+        furthermore, the <code>CABINET</code> projector supports setting the
+        default cabinet angle using:
       </p>
       <ul>
-        <li><code>setPhi(phi)</code></li>
+        <li><code>projector.setPhi(phi)</code></li>
       </ul>
       <p>
-        and the HOMOGENEOUS projection supports setting the distance of the
-        point-at-infinity by using:
+        and the <code>HOMOGENEOUS</code> projection supports setting the
+        distance of the point-at-infinity by using:
       </p>
       <ul>
         <li>
-          <code>setInfinity(distance)</code> (note, <code>distance</code> can be
-          <code>Infinity</code>)
+          <code>projector.setInfinity(distance)</code> (note,
+          <code>distance</code> can be <code>Infinity</code>)
         </li>
       </ul>
 
@@ -5549,8 +5738,8 @@ function draw() {
       <!-- prettier-ignore -->
       <graphics-element width="200px" height="200px">
               <graphics-source>
-const cabinet = setProjector(CABINET);
-const homogeneous = setProjector(HOMOGENEOUS);
+const cabinet = createProjector(CABINET);
+const homogeneous = createProjector(HOMOGENEOUS);
 const bottom = [
   [-1, -1, -1],
   [1, -1, -1],
@@ -5605,8 +5794,8 @@ function drawCube() {
 
 </graphics-source>
             </graphics-element>
-      <pre><code class="language-js">const cabinet = setProjector(CABINET);
-const homogeneous = setProjector(HOMOGENEOUS);
+      <pre><code class="language-js">const cabinet = createProjector(CABINET);
+const homogeneous = createProjector(HOMOGENEOUS);
 const bottom = [
   [-1, -1, -1],
   [1, -1, -1],
@@ -5661,6 +5850,7 @@ function drawCube() {
 </code></pre>
       <h3>See also:</h3>
       <ul>
+        <li><a href="#createProjector">createProjector</a></li>
         <li><a href="#useProjection">useProjection</a></li>
         <li><a href="#noProjection">noProjection</a></li>
         <li><a href="#noProjector">noProjector</a></li>

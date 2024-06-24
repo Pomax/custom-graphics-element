@@ -1209,30 +1209,55 @@ declare function multiplyMatrix(m1: Matrix, m2: Matrix): number[][];
  */
 declare function transposeMatrix(M: Matrix): number[][];
 /**
- * Set up a 3D to 2D projector. This can be either a CABINET
- *  or HOMOGENEOUS projector, supporting the following API:
+ * Set up a 3D to 2D projector. This can be either a `CABINET`
+ *  or `HOMOGENEOUS` projector, supporting the following API:
  *
- *  - `setRotation(x, y, z)`
- *  - `setTranslation(tx, ty, tz)`
- *  - `setScale(tx, ty, tz)`
+ *  - `projector.setRotation(x, y, z)`
+ *  - `projector.setTranslation(tx, ty, tz)`
+ *  - `projector.setScale(tx, ty, tz)`
  *
- *  furthermore, the CABINET projector supports setting the
+ *  furthermore, the `CABINET` projector supports setting the
  *  default cabinet angle using:
  *
- *  - `setPhi(phi)`
+ *  - `projector.setPhi(phi)`
  *
- *  and the HOMOGENEOUS projection supports setting the distance
+ *  and the `HOMOGENEOUS` projection supports setting the distance
  *  of the point-at-infinity by using:
  *
- *  - `setInfinity(distance)` (note, `distance` can be `Infinity`)
+ *  - `projector.setInfinity(distance)` (note, `distance` can be `Infinity`)
  *
  * API docs: https://pomax.github.io/custom-graphics-element/api.html#setProjector
  */
 declare function setProjector(falsey: implied): false;
 declare function setProjector(
   projectorType: Symbol,
-  projector: Projector,
+  project: boolean,
 ): Projector;
+declare function setProjector(
+  projector: Projector,
+  project: boolean,
+): Projector;
+/**
+ * Create a 3D to 2D projector. This can be either a `CABINET`
+ *  or `HOMOGENEOUS` projector, supporting the following API:
+ *
+ *  - `projector.setRotation(x, y, z)`
+ *  - `projector.setTranslation(tx, ty, tz)`
+ *  - `projector.setScale(tx, ty, tz)`
+ *
+ *  furthermore, the `CABINET` projector supports setting the
+ *  default cabinet angle using:
+ *
+ *  - `projector.setPhi(phi)`
+ *
+ *  and the `HOMOGENEOUS` projection supports setting the distance
+ *  of the point-at-infinity by using:
+ *
+ *  - `projector.setInfinity(distance)` (note, `distance` can be `Infinity`)
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#createProjector
+ */
+declare function createProjector(projectorType: Symbol): Projector;
 /**
  * Unset the 3D projector, if one is currently active. This is
  *  equivalent to calling `setProjector(false)`, and will turn

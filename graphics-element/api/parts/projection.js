@@ -1,27 +1,27 @@
 /**
- * Set up a 3D to 2D projector. This can be either a CABINET
- * or HOMOGENEOUS projector, supporting the following API:
+ * Set up a 3D to 2D projector. This can be either a `CABINET`
+ * or `HOMOGENEOUS` projector, supporting the following API:
  *
- * - `setRotation(x, y, z)`
- * - `setTranslation(tx, ty, tz)`
- * - `setScale(tx, ty, tz)`
+ * - `projector.setRotation(x, y, z)`
+ * - `projector.setTranslation(tx, ty, tz)`
+ * - `projector.setScale(tx, ty, tz)`
  *
- * furthermore, the CABINET projector supports setting the
+ * furthermore, the `CABINET` projector supports setting the
  * default cabinet angle using:
  *
- * - `setPhi(phi)`
+ * - `projector.setPhi(phi)`
  *
- * and the HOMOGENEOUS projection supports setting the distance
+ * and the `HOMOGENEOUS` projection supports setting the distance
  * of the point-at-infinity by using:
  *
- * - `setInfinity(distance)` (note, `distance` can be `Infinity`)
+ * - `projector.setInfinity(distance)` (note, `distance` can be `Infinity`)
  *
  * Example:
  *
  * <graphics-element>
  *   <graphics-source>
- *     const cabinet = setProjector(CABINET);
- *     const homogeneous = setProjector(HOMOGENEOUS);
+ *     const cabinet = createProjector(CABINET);
+ *     const homogeneous = createProjector(HOMOGENEOUS);
  *     const bottom = [
  *       [-1, -1, -1],
  *       [ 1, -1, -1],
@@ -80,18 +80,23 @@
  * @returns {false} false.
  *
  * @param {Symbol} projectorType This sets up a new projector, of type {@link CABINET} or {@link HOMOGENOUS}.
- * @param {Projector} projector This sets the projector to the one passed as argument.
+ * @param {boolean} project Optional. When true, immediately enable coordinate projection. Default: true
  * @returns {Projector} The current projector.
  *
+ * @param {Projector} projector This sets the projector to the one passed as argument.
+ * @param {boolean} project Optional. When true, immediately enable coordinate projection. Default: true
+ * @returns {Projector} The current projector.
+ *
+ * @see {@link createProjector}
  * @see {@link useProjection}
  * @see {@link noProjection}
  * @see {@link noProjector}
  * @see {@link project}
  */
-function setProjector(typeOrProjector) {
+function setProjector(typeOrProjector = false, project = true) {
   if (!typeOrProjector) {
-    __projector = false;
     noProjection();
+    return (__projector = false);
   } else if (typeOrProjector instanceof Projector) {
     __projector = typeOrProjector;
   } else if (typeOrProjector === CABINET) {
@@ -99,8 +104,105 @@ function setProjector(typeOrProjector) {
   } else if (typeOrProjector === HOMOGENEOUS) {
     __projector = new HomogeneousProjector(250);
   }
-  useProjection();
+  if (project) useProjection();
   return __projector;
+}
+
+/**
+ * Create a 3D to 2D projector. This can be either a `CABINET`
+ * or `HOMOGENEOUS` projector, supporting the following API:
+ *
+ * - `projector.setRotation(x, y, z)`
+ * - `projector.setTranslation(tx, ty, tz)`
+ * - `projector.setScale(tx, ty, tz)`
+ *
+ * furthermore, the `CABINET` projector supports setting the
+ * default cabinet angle using:
+ *
+ * - `projector.setPhi(phi)`
+ *
+ * and the `HOMOGENEOUS` projection supports setting the distance
+ * of the point-at-infinity by using:
+ *
+ * - `projector.setInfinity(distance)` (note, `distance` can be `Infinity`)
+ *
+ * Example:
+ *
+ * <graphics-element>
+ *   <graphics-source>
+ *     const cabinet = createProjector(CABINET);
+ *     const homogeneous = createProjector(HOMOGENEOUS);
+ *     const bottom = [
+ *       [-1, -1, -1],
+ *       [ 1, -1, -1],
+ *       [ 1,  1, -1],
+ *       [-1,  1, -1],
+ *     ];
+ *     const top = bottom.map(v => [v[0], v[1], 1]);
+ *
+ *     function setup() {
+ *       setSize(400, 200);
+ *       cabinet.setScale(50);
+ *       homogeneous.setScale(50);
+ *     }
+ *
+ *     function draw() {
+ *       clear(`white`);
+ *       translate(-width/4, height/2);
+ *       [cabinet, homogeneous].forEach(projector => {
+ *         setProjector(projector);
+ *         translate(width/2, 0);
+ *         drawAxisPoints();
+ *         drawCube();
+ *       });
+ *     }
+ *
+ *     function drawAxisPoints() {
+ *       setColor(`black`);
+ *       point(...bottom[0]);
+ *       setColor(`red`);
+ *       point(...bottom[1]);
+ *       setColor(`green`);
+ *       point(...bottom[3]);
+ *       setColor(`blue`);
+ *       point(...top[0]);
+ *     }
+ *
+ *     function drawCube() {
+ *       noFill();
+ *       setStroke(`red`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[0], ...r[1]);
+ *         line(...r[2], ...r[3]);
+ *       });
+ *       setStroke(`green`);
+ *       [bottom, top].forEach(r => {
+ *         line(...r[1], ...r[2]);
+ *         line(...r[3], ...r[0]);
+ *       });
+ *       setStroke(`blue`);
+ *       [0,1,2,3].forEach(i => line(...bottom[i], ...top[i]));
+ *     }
+ *   </graphics-source>
+ * </graphics-element>
+ *
+ * @param {Symbol} projectorType This sets up a new projector, of type {@link CABINET} or {@link HOMOGENOUS}.
+ * @returns {Projector} A new projector instance.
+ *
+ * @see {@link setProjector}
+ * @see {@link useProjection}
+ * @see {@link noProjection}
+ * @see {@link noProjector}
+ * @see {@link project}
+ */
+function createProjector(type) {
+  if (type === CABINET) {
+    return new CabinetProjector();
+  }
+  if (type === HOMOGENEOUS) {
+    return new HomogeneousProjector(250);
+  }
+  return null;
 }
 
 /**

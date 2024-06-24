@@ -10,11 +10,16 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.2.0 (June 24, 2024)
+
+- added `createProjector(Symbol)` for creating cabinet or homogeneous projectors without binding them as active projector.
+- added a second argument to `setProjector` that controls whether or not to automatically project 3D to 2D or not. By default this value is `true`. This differs from `createProjector` in that the projector _does_ get bound as the active projector.
+
+# Previous Versions
+
 ## v6.1.0 (June 22, 2024)
 
 - added the `safemode` attribute, which will run graphics code with all loops wrapped such that "probable infinite loops" throw an error. This is particularly useful when dealing with user-generated graphics code (<em>especially</em> in collaborative code editing context) where someone might write <code>while(true)</code> and lock up the JS thread with a spin loop, or something like <code>for(let i=100; i>=0; i++)</cod> where an honest mistake (a ++ that should have been --) leads to a locked page. If you're dealing with any sort of user-generated content, you'll want to make sure to use this attribute!
-
-# Previous Versions
 
 ## v6.0.0 (June 16, 2024)
 

@@ -10,12 +10,16 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.2.2 (August 8, 2024)
+
+- [bugfix] `dist()` with two Point-like inputs would yield the wrong result.
+
+# Previous Versions
+
 ## v6.2.1 (June 24, 2024)
 
 - added `createProjector(Symbol)` for creating cabinet or homogeneous projectors without binding them as active projector.
 - added a second argument to `setProjector` that controls whether or not to automatically project 3D to 2D or not. By default this value is `true`. This differs from `createProjector` in that the projector _does_ get bound as the active projector.
-
-# Previous Versions
 
 ## v6.1.0 (June 22, 2024)
 

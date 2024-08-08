@@ -502,7 +502,7 @@ function dist(x1, y1, x2, y2) {
     y2 = y1.y;
     x2 = y1.x;
     y1 = x1.y;
-    x1 = x1.y;
+    x1 = x1.x;
   }
   const dx = x2 - x1;
   const dy = y2 - y1;

@@ -1060,6 +1060,12 @@ declare function constrain(
   upperBound: number,
 ): number;
 /**
+ * The cotangent function
+ *
+ * API docs: https://pomax.github.io/custom-graphics-element/api.html#cot
+ */
+declare function cot(input: number): number;
+/**
  * The cosecant function, which is:
  *
  *  ```

@@ -427,6 +427,18 @@ function constrain(v, s, e) {
 }
 
 /**
+ * The cotangent function
+ *
+ * @param {number} input Any number
+ * @returns {number} The cotangent
+ *
+ * @see {@link tan}
+ */
+function cot(v) {
+  return 1 / tan(v);
+}
+
+/**
  * The cosecant function, which is:
  *
  * ```

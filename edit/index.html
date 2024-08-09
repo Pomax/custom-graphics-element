@@ -93,45 +93,54 @@
       A simple code editor for testing
       <a href="..">&lt;graphics-element&gt;</a> source code
     </h3>
-    <span id="demos">
-      demos:
 
+    <span id="gist">load a gist: <button>...</button> </span>
+
+    or load a demo:
+
+    <span id="demos">
       <button class="active" data-src="../graphics/pid-example.js">
         PID controller tuning
       </button>
-
       <button
         data-src="../graphics/point-example.js"
         data-extra-sources='["../graphics/add-points.js"]'
       >
         Curve plotting
       </button>
-
       <button data-src="../graphics/trigonometry.js">
         trigonometric identities
       </button>
-
       <button
         data-src="../graphics/flightpath.js"
         data-extra-sources='["../graphics/airplane.js"]'
       >
         flightpath navigation
       </button>
-
       <button data-src="../graphics/cabinet.js">projective 3D</button>
-
       <button data-src="../graphics/homogeneous.js">homogeneous 3D</button>
-
       <button data-src="../graphics/shape.js">Shapes</button>
-
       <button data-src="./new-project.js">blank project</button>
     </span>
+
     <button class="clear">clear cached code</button>
+
     <main>
       <div id="editor"></div>
       <div id="graphics">
         <graphics-element width="650" height="500"></graphics-element>
       </div>
     </main>
+
+    <dialog data-for="gist">
+      <p>Paste your gist identifier here<br>(Note: <b>not the URL</b>, only the id)</p>
+      <input type="text" placeholder="Gist identifier..." value="">
+      <button>load</button>
+    </dialog>
+
+    <dialog data-for="gist-warning">
+      <p>You can edit your gist code in this editor,<br>but remember that it can't save it for you!</p>
+      <button>Got it</button>
+    </dialog>
   </body>
 </html>

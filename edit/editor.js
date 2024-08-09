@@ -32,6 +32,23 @@ const editorParent = document.getElementById(`editor`);
 const editors = [];
 let debounce = -1;
 
+// Hook up the load-from-URL button
+(function setupURLLoader() {
+  const fromGist = document.querySelector(`#gist button`);
+  fromGist.addEventListener(`click`, () => loadFromGist());
+
+  const ok = document.querySelector(`[data-for="gist-warning"]`);
+  ok.querySelector(`button`).addEventListener(`click`, () => {
+    ok.close();
+  });
+
+  const loc = location.toString();
+  if (loc.includes(`?gist=`)) {
+    const [_, gistId] = loc.split(`?gist=`);
+    loadFromGist(gistId);
+  }
+})();
+
 // Hook up the demo buttons
 (function setupDemos() {
   const demos = document.querySelectorAll(`#demos button`);
@@ -50,6 +67,47 @@ buildPage(editorParent, userCode, additionalSources);
 
 // -------------
 
+async function loadFromGist(gistId) {
+  const loc = location.toString();
+  const d = document.querySelector(`[data-for="gist"]`);
+  const abort = new AbortController();
+  const gist = d.querySelector(`input`);
+  gist.value = ``;
+  const go = d.querySelector(`button`);
+
+  go.addEventListener(
+    `click`,
+    async () => {
+      d.close();
+      document
+        .querySelectorAll(`.active`)
+        .forEach((e) => e.classList.remove(`active`));
+      const gistId = gist.value.trim();
+      const URL = `https://api.github.com/gists/${gistId}`;
+      const data = await fetch(URL).then((r) => r.json());
+      const files = data.files;
+      const first = Object.entries(files)[0];
+      const userCode = first[1].content;
+      buildPage(editorParent, userCode);
+      if (!loc.includes(gistId)) {
+        history.replaceState(null, null, loc + `?gist=` + gistId);
+      }
+      document.querySelector(`[data-for="gist-warning"]`).showModal();
+    },
+    {
+      once: true,
+      signal: abort.signal,
+    }
+  );
+  d.addEventListener(`close`, () => abort.abort(), { once: true });
+  d.showModal();
+
+  if (gistId) {
+    gist.value = gistId;
+    go.click();
+  }
+}
+
 async function loadDemo(button) {
   document.querySelector(`#demos button.active`).classList.remove(`active`);
   button.classList.add(`active`);
@@ -64,7 +122,7 @@ async function loadDemo(button) {
   buildPage(editorParent, userCode, additionalSources);
 }
 
-function buildPage(editorParent, userCode, additionalSources) {
+function buildPage(editorParent, userCode, additionalSources = []) {
   clearEditors();
   editorParent.innerHTML = ``;
   graphics.innerHTML = ``;

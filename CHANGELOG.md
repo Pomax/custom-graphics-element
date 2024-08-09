@@ -10,11 +10,15 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.3.0 (August 9, 2024)
+
+- added the `cot()` cotangent function.
+
+# Previous Versions
+
 ## v6.2.2 (August 8, 2024)
 
 - [bugfix] `dist()` with two Point-like inputs would yield the wrong result.
-
-# Previous Versions
 
 ## v6.2.1 (June 24, 2024)
 

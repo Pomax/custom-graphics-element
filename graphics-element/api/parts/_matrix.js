@@ -35,4 +35,13 @@ class Matrix {
   transpose() {
     return new Matrix(transposeMatrix(this.data));
   }
+  transform(input) {
+    const { data } = this;
+    if (input.length !== data[0].length) {
+      throw new Error(
+        `cannot apply ${data.length}x${data[0].length} matrix to ${input.length}D vector`
+      );
+    }
+    return data.map((w) => w.reduce((t, e, i) => t + e * (input[i] ?? 0), 0));
+  }
 }

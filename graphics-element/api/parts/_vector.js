@@ -12,6 +12,33 @@ class Vector {
     }
   }
 
+  get 0() {
+    return this.x;
+  }
+  set 0(v) {
+    this.x = v;
+  }
+
+  get 1() {
+    return this.y;
+  }
+  set 1(v) {
+    this.y = v;
+  }
+
+  get 2() {
+    return this.z;
+  }
+  set 2(v) {
+    this.z = v;
+  }
+
+  *[Symbol.iterator]() {
+    for (const v of [this.x, this.y, this.z]) {
+      yield v;
+    }
+  }
+
   dist(other, y, z = 0) {
     if (y !== undefined) other = { x: other, y, z };
     let sum = 0;

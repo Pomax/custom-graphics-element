@@ -89,10 +89,15 @@ async function loadFromGist(gistId) {
       const first = Object.entries(files)[0];
       const userCode = first[1].content;
       buildPage(editorParent, userCode);
-      if (!loc.includes(gistId)) {
-        history.replaceState(null, null, loc + `?gist=` + gistId);
+      try {
+        if (!loc.includes(gistId)) {
+          history.replaceState(null, null, loc + `?gist=` + gistId);
+        }
+        document.querySelector(`[data-for="gist-warning"]`).showModal();
+      } catch (e) {
+        console.error(`what?`);
+        throw e;
       }
-      document.querySelector(`[data-for="gist-warning"]`).showModal();
     },
     {
       once: true,
@@ -109,7 +114,7 @@ async function loadFromGist(gistId) {
 }
 
 async function loadDemo(button) {
-  document.querySelector(`#demos button.active`).classList.remove(`active`);
+  document.querySelector(`#demos button.active`)?.classList.remove(`active`);
   button.classList.add(`active`);
   let userCode = await fetch(button.dataset.src).then((r) => r.text());
   let additionalSources = undefined;

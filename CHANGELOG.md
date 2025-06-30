@@ -10,6 +10,11 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.4.0 (August 9, 2024)
+
+- added `.transform(input)` to Matrix (taking either an array or a `Vector`)
+- added "array syntax" support to `Vector` so you can get/set [0], [1], and [2], as well as destructure it like an array.
+
 ## v6.3.0 (August 9, 2024)
 
 - added the `cot()` cotangent function.

@@ -10,6 +10,12 @@ Note that there may be gaps in the version history, which may happen if a releas
 
 # Current Version
 
+## v6.4.2 (Audust 5, 2025)
+
+- fixed a bug where clicking "reset" would not load additional sources for multi-source graphics.
+
+# Previous Versions
+
 ## v6.4.1 (June 30, 2025)
 
 - added `.transform(input)` to Matrix (taking either an array or a `Vector`)
@@ -18,8 +24,6 @@ Note that there may be gaps in the version history, which may happen if a releas
 ## v6.3.0 (August 9, 2024)
 
 - added the `cot()` cotangent function.
-
-# Previous Versions
 
 ## v6.2.2 (August 8, 2024)
 

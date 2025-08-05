@@ -317,14 +317,14 @@ label:not(:empty) { display: block; font-style: italic; font-size: 0.9em; text-a
     this.reset(code.substring(code.indexOf(`{`) + 1, code.lastIndexOf(`}`)));
   }
 
-  reset(newCode, additionalSources = []) {
+  reset(newCode, additionalSources) {
     if (this.halt) this.halt();
     this.querySelector(`button.remove-color`)?.remove();
     this.loadSource(
       newCode || this.userCode,
       this.width,
       this.height,
-      additionalSources || this.additionalSources
+      additionalSources || this.additionalSources || []
     );
   }
 
